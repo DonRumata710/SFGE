@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="AnimationDesc.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Animation.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AnimationDesc.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Button.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CheckBox.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Err.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GEDevice.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Label.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\File.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Field.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Frame.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GuiElement.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GridBox.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DistortionMesh.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Panel.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GuiManager.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LineEdit.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ParticleSystem.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\RenderRect.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Slider.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SpriteDesc.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ResourceManager.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StackedWidget.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StringTable.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\TextList.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Unicode.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Widget.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceParser.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="TextParser.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animation.cpp">
+      <Filter>GraphicManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Err.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="GEDevice.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiElement.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiManager.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="LineEdit.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>GraphicManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderRect.cpp">
+      <Filter>GraphicManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceParser.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="TextList.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="TextParser.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="StackedWidget.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="GridBox.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{87e522fb-601e-4014-8fc5-daaaf0aa8ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManagement">
+      <UniqueIdentifier>{059b7e4e-20e8-427a-853d-568b53270140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicManagement">
+      <UniqueIdentifier>{a75dcbb6-e832-4f75-b755-965943fabf79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiManagement">
+      <UniqueIdentifier>{e5fdc29b-e77a-458a-b6fd-c5d4ef99917f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
