@@ -37,6 +37,35 @@ namespace sfge
 
 
     /////////////////////////////////////////////////////////////////////
+    /// Exception - class for convenient throwing of exceptions
+    /////////////////////////////////////////////////////////////////////
+    class Exception : public std::exception
+    {
+    public:
+        /////////////////////////////////////////////////////////////////////
+        /// constructor
+        /// 
+        /// Create exception object with message.
+        /// 
+        /// @param msg - description of exception
+        /////////////////////////////////////////////////////////////////////
+        Exception (const std::string& msg);
+
+        /////////////////////////////////////////////////////////////////////
+        /// what - get description of exception
+        /// 
+        /// Overridden method of std::exception.
+        /// 
+        /// @return description of exception
+        /////////////////////////////////////////////////////////////////////
+        virtual char const* what () const noexcept override;
+
+    private:
+        char* m_message = nullptr;
+    };
+
+
+    /////////////////////////////////////////////////////////////////////
     /// critical_error inform about some error which crash application
     ///
     /// @param message - description of error

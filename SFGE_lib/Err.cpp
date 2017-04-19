@@ -31,15 +31,28 @@
 
 #include <SFML/System/Err.hpp>
 
+#include <exception>
+
 
 namespace sfge
 {
 
 
+    Exception::Exception (const std::string & msg)
+    {
+        msg.copy (m_message, msg.size (), 0);
+    }
+
+    char const* Exception::what () const noexcept
+    {
+        return m_message;
+    }
+
+
     void critical_error (const std::string& message)
     {
         sf::err () << message << '\n';
-        throw std::exception (message.c_str ());
+        throw Exception (message.c_str ());
     }
 
     void runtime_error (const std::string & message)
@@ -53,6 +66,5 @@ namespace sfge
         sf::err () << message << '\n';
     #endif
     }
-
 
 }
