@@ -31,6 +31,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 
 namespace sfge
@@ -54,7 +55,7 @@ namespace sfge
 
         m_size = str.size () + 1;
         m_data.reset (new char[m_size]);
-        memcpy (m_data.get (), str.c_str (), str.size ());
+        str.copy (m_data.get (), str.size (), 0);
         m_data.get ()[str.size ()] = '\0';
 
         return true;
