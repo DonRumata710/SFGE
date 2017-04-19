@@ -33,6 +33,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <iostream>
+#include <cstring>
 
 #include "Err.h"
 
@@ -116,7 +117,7 @@ namespace sfge
         }
 
         Event e;
-        memset (&e, 0, sizeof (Event));
+        std::memset (&e, 0, sizeof (Event));
 
         while (m_window->pollEvent (e))
         {
