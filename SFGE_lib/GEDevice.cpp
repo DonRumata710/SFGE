@@ -75,7 +75,8 @@ namespace sfge
         if (manager == m_managers.end ()) return false;
 
         m_active.insert ({ title, m_managers[gui_id].get () });
-        m_managers[gui_id]->enter (std::make_unique<RenderWindow> (mode, title, style));
+        auto window (std::make_unique<RenderWindow> (mode, title, style));
+        m_managers[gui_id]->enter (window);
         return true;
     }
 
@@ -104,7 +105,6 @@ namespace sfge
                         UString window (iter->first);
                         sfge::GUIManager* manager (iter->second);
                         m_active[window] = m_managers[id].get ();
-                        //m_active.insert ({ window, m_managers[id].get () });
                         m_managers[id]->enter (manager->getWindow ());
                         break;
                     }
