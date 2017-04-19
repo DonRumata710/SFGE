@@ -29,8 +29,8 @@
 
 #include "TextParser.h"
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 
 
@@ -255,7 +255,7 @@ namespace sfge
             if (!strtkcmp (keytable[i].word, script))
             {
                 tokentype = keytable[i].code;
-                strcpy (tokenvalue, keytable[i].word);
+                std::strcpy (tokenvalue, keytable[i].word);
                 script += strlen (keytable[i].word);
                 return tokentype;
             }
@@ -266,7 +266,8 @@ namespace sfge
         for (i = 0;
             *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r'
             && *script != ',' && *script != '=' && *script != '{' && *script != '}' && *script != ':';
-            i++)
+            i++
+        )
         {
             tokenvalue[i] = *script++;
         }
@@ -281,7 +282,7 @@ namespace sfge
 
     void TextParser::put_back ()
     {
-        script -= strlen (tokenvalue);
+        script -= std::strlen (tokenvalue);
     }
 
     int TextParser::get_line ()
@@ -296,12 +297,12 @@ namespace sfge
 
     int TextParser::tkn_int ()
     {
-        return atoi (tokenvalue);
+        return std::atoi (tokenvalue);
     }
 
     float TextParser::tkn_float ()
     {
-        return (float) atof (tokenvalue);
+        return (float) std::atof (tokenvalue);
     }
 
     bool TextParser::tkn_bool ()
@@ -338,7 +339,7 @@ namespace sfge
     bool TextParser::strtkcmp (const char * str, const char * mem)
     {
         int i;
-        size_t len (strlen (str));
+        size_t len (std::strlen (str));
         for (i = 0; i < len; i++)
         {
             if (!mem[i])

@@ -42,6 +42,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <cstring>
 
 #include "Err.h"
 
@@ -53,6 +54,12 @@ namespace sfge
 
     class RepeateException
     {};
+
+
+    void log_undefined_base_resource (const std::string& name)
+    {
+        debug_message ("Resource \"" + name + "\" wasn't defined");
+    }
 
 
     char* ResourceParser::load_script (const char* path, size_t* size)
@@ -68,7 +75,7 @@ namespace sfge
         data.close ();
 
         char* ptr (new char[str.size () + 1]);
-        memcpy (ptr, str.c_str (), str.size ());
+        std::memcpy (ptr, str.c_str (), str.size ());
         ptr[str.size ()] = '\0';
 
         return ptr;
@@ -105,7 +112,7 @@ namespace sfge
 
                     tp.get_token ();
                     char name[256] = { 0 };
-                    strcpy (name, tp.tkn_string ());
+                    std::strcpy (name, tp.tkn_string ());
 
                     tp.get_token ();
 
@@ -113,7 +120,7 @@ namespace sfge
                     if (tp.get_tokentype () == TextParser::TTBASED)
                     {
                         tp.get_token ();
-                        strcpy (basename, tp.tkn_string ());
+                        std::strcpy (basename, tp.tkn_string ());
                         tp.get_token ();
                     }
 
@@ -125,7 +132,7 @@ namespace sfge
                             if (rm->findFont (name)) throw RepeateException ();
                             if (!rm->findFont (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_font (rm, &tp, name, basename);
@@ -134,7 +141,7 @@ namespace sfge
                             if (rm->findImage (name)) throw RepeateException ();
                             if (!rm->findImage (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_image (rm, &tp, name, basename);
@@ -143,7 +150,7 @@ namespace sfge
                             if (rm->findTexture (name)) throw RepeateException ();
                             if (!rm->findTexture (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_texture (rm, &tp, name, basename);
@@ -152,7 +159,7 @@ namespace sfge
                             if (rm->findSprite (name).texture) throw RepeateException ();
                             if (!rm->findSprite (basename).texture)
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_sprite (rm, &tp, name, basename);
@@ -161,7 +168,7 @@ namespace sfge
                             if (rm->findSprite (name).texture) throw RepeateException ();
                             if (!rm->findSprite (basename).texture)
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_animation (rm, &tp, name, basename);
@@ -170,7 +177,7 @@ namespace sfge
                             if (rm->findFile (name)) throw RepeateException ();
                             if (!rm->findFile (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_file_resource (rm, &tp, name, basename);
@@ -179,7 +186,7 @@ namespace sfge
                             if (rm->findSound (name)) throw RepeateException ();
                             if (!rm->findSound (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_effect (rm, &tp, name, basename);
@@ -188,7 +195,7 @@ namespace sfge
                             if (rm->findMusic (name)) throw RepeateException ();
                             if (!rm->findMusic (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_music (rm, &tp, name, basename);
@@ -197,7 +204,7 @@ namespace sfge
                             if (rm->findParticle (name)) throw RepeateException ();
                             if (!rm->findParticle (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_particle (rm, &tp, name, basename);
@@ -206,7 +213,7 @@ namespace sfge
                             if (rm->findDistortion (name)) throw RepeateException ();
                             if (!rm->findDistortion (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_distort (rm, &tp, name, basename);
@@ -215,7 +222,7 @@ namespace sfge
                             if (rm->findStringTable (name)) throw RepeateException ();
                             if (!rm->findStringTable (basename))
                             {
-                                //tp.ScriptPostError ("Base resource ", " is not defined.");
+                                log_undefined_base_resource (basename);
                                 basename[0] = '\0';
                             }
                             parse_string_table (rm, &tp, name, basename);
@@ -224,7 +231,7 @@ namespace sfge
                     }
                     else
                     {
-                        //tp.ScriptPostError ("Illegal resource syntax, ", " found; '{' expected.");
+                        debug_message ("Illegal resource syntax in line " + std::to_string (tp.get_line ()) + ". '{' expected.");
                         while ((tp.get_tokentype () <= TextParser::TTRES__FIRST || tp.get_tokentype () >= TextParser::TTRES__LAST) && tp.get_tokentype () != TextParser::TTEND)
                         {
                             tp.get_token ();
@@ -244,7 +251,7 @@ namespace sfge
             }
             else
             {
-                //tp.ScriptPostError ("Unrecognized resource specificator ", ".");
+                debug_message ("Unrecognized resource specificator in line " + std::to_string (tp.get_line ()) + ".");
                 while ((tp.get_tokentype () <= TextParser::TTRES__FIRST || tp.get_tokentype () >= TextParser::TTRES__LAST) && tp.get_tokentype () != TextParser::TTEND)
                 {
                     tp.get_token ();
@@ -331,7 +338,7 @@ namespace sfge
             case TextParser::TTPAR_FILENAME:
                 tp->get_token ();
                 tp->get_token ();
-                strcpy (path, tp->tkn_string ());
+                std::strcpy (path, tp->tkn_string ());
                 break;
 
             default:
@@ -372,7 +379,7 @@ namespace sfge
             case TextParser::TTPAR_TEXTURE:
                 tp->get_token ();
                 tp->get_token ();
-                strcpy (path, tp->tkn_string ());
+                std::strcpy (path, tp->tkn_string ());
                 break;
             case TextParser::TTPAR_HOTSPOT:
                 tp->get_token ();
@@ -413,48 +420,6 @@ namespace sfge
         {
             switch (tp->get_tokentype ())
             {
-                /*
-                case TTPAR_RECT:
-                tp->get_token();
-                tp->get_token();
-                rc->tx=tp->tkn_float();
-                tp->get_token();
-                tp->get_token();
-                rc->ty=tp->tkn_float();
-                tp->get_token();
-                tp->get_token();
-                rc->w=tp->tkn_float();
-                tp->get_token();
-                tp->get_token();
-                rc->h=tp->tkn_float();
-                break;
-
-                case TextParser::TTPAR_BLENDMODE:
-                ScriptParseBlendMode (tp, arr_int);
-                break;
-
-                case TextParser::TTPAR_COLOR:
-                tp->get_token ();
-                tp->get_token ();
-                arr_int[1] = tp->tkn_hex ();
-                break;
-
-                case TextParser::TTPAR_ZORDER:
-                tp->get_token ();
-                tp->get_token ();
-                arr[2] = tp->tkn_float ();
-                break;
-
-                case TextParser::TTPAR_FLIP:
-                tp->get_token ();
-                tp->get_token ();
-                x_flip = tp->tkn_bool ();
-                tp->get_token ();
-                tp->get_token ();
-                y_flip = tp->tkn_bool ();
-                break;
-                */
-
             case TextParser::TTPAR_TEXTURE:
                 tp->get_token ();
                 tp->get_token ();
@@ -604,7 +569,7 @@ namespace sfge
             case TextParser::TTPAR_FILENAME:
                 tp->get_token ();
                 tp->get_token ();
-                strcpy (path, tp->tkn_string ());
+                std::strcpy (path, tp->tkn_string ());
                 break;
 
             default:
@@ -630,7 +595,7 @@ namespace sfge
             case TextParser::TTPAR_FILENAME:
                 tp->get_token ();
                 tp->get_token ();
-                strcpy (path, tp->tkn_string ());
+                std::strcpy (path, tp->tkn_string ());
                 break;
 
             default:
