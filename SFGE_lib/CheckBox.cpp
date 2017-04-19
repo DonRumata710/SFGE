@@ -36,15 +36,7 @@
 
 namespace sfge
 {
-
-
-
-    template<typename Tf, typename Ts> sf::Vector2<Tf> operator/ (sf::Vector2<Tf>& vec, Ts div)
-    {
-        return { vec.x / div, vec.y / div };
-    }
-
-
+    
 
     CheckBox::CheckBox ()
     {}
@@ -90,7 +82,7 @@ namespace sfge
 
         sf::Vector2u pos (desc.x, desc.y);
 
-        pos += m_background.getSize () / 2 - m_flag.getSize () / 2;
+        pos += m_background.getSize () / (unsigned) 2 - m_flag.getSize () / (unsigned) 2;
         m_flag.setPosition (pos);
 
         m_background.setSize (desc.width, desc.height);
