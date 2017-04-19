@@ -152,9 +152,9 @@ namespace sfge
 
         std::shared_ptr<const Texture> getTexture (const std::string& name, sf::IntRect area = sf::IntRect ());
 
-        std::unique_ptr<Sprite> getSprite (const std::string& name, SpriteDesc& = SpriteDesc ());
+        std::unique_ptr<Sprite> getSprite (const std::string& name, SpriteDesc = SpriteDesc ());
 
-        std::unique_ptr<Animation> getAnimation (const std::string& name, AnimationDesc& = AnimationDesc ());
+        std::unique_ptr<Animation> getAnimation (const std::string& name, AnimationDesc = AnimationDesc ());
 
         std::shared_ptr<File> getFile (const std::string& name);
 

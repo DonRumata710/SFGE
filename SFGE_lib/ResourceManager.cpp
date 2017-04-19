@@ -113,7 +113,6 @@ namespace sfge
         {
             std::unique_ptr<sf::Sprite> sprite (std::make_unique<sf::Sprite> (*sprite_iter->second.texture));
             sprite->setOrigin (sprite_iter->second.hotspot);
-            //sprite->setTexture (*sprite_iter->second.texture);
             sprite->setTextureRect (sprite_iter->second.rect);
             return sprite;
         }
@@ -141,7 +140,7 @@ namespace sfge
         return std::shared_ptr<File> ();
     }
 
-    std::shared_ptr<sf::Sound> ResourceManager::findSound (const std::string & name)
+    std::shared_ptr<sf::Sound> ResourceManager::findSound (const std::string& name)
     {
         auto iter = m_sounds.find (name);
 
@@ -155,7 +154,7 @@ namespace sfge
         return std::shared_ptr<sf::Sound> ();
     }
 
-    std::shared_ptr<sf::Music> ResourceManager::findMusic (const std::string & name)
+    std::shared_ptr<sf::Music> ResourceManager::findMusic (const std::string& name)
     {
         auto iter = m_musics.find (name);
 
@@ -165,7 +164,7 @@ namespace sfge
         return std::shared_ptr<sf::Music> ();
     }
 
-    std::shared_ptr<ParticleSystem> ResourceManager::findParticle (const std::string & name)
+    std::shared_ptr<ParticleSystem> ResourceManager::findParticle (const std::string& name)
     {
         auto iter = m_particles.find (name);
 
@@ -175,7 +174,7 @@ namespace sfge
         return std::shared_ptr<ParticleSystem> ();
     }
 
-    std::shared_ptr<DistortionMesh> ResourceManager::findDistortion (const std::string & name)
+    std::shared_ptr<DistortionMesh> ResourceManager::findDistortion (const std::string& name)
     {
         auto iter = m_distortions.find (name);
 
@@ -185,7 +184,7 @@ namespace sfge
         return std::shared_ptr<DistortionMesh> ();
     }
 
-    std::shared_ptr<StringTable> ResourceManager::findStringTable (const std::string & name)
+    std::shared_ptr<StringTable> ResourceManager::findStringTable (const std::string& name)
     {
         auto iter = m_string_tables.find (name);
 
@@ -267,7 +266,7 @@ namespace sfge
         return tex;
     }
 
-    std::unique_ptr<sf::Sprite> ResourceManager::getSprite (const std::string& name, SpriteDesc& desc)
+    std::unique_ptr<sf::Sprite> ResourceManager::getSprite (const std::string& name, SpriteDesc desc)
     {
         auto sprite_iter = m_sprites.find (name);
 
@@ -297,7 +296,7 @@ namespace sfge
         return sprite;
     }
 
-    std::unique_ptr<Animation> ResourceManager::getAnimation (const std::string& name, AnimationDesc& desc)
+    std::unique_ptr<Animation> ResourceManager::getAnimation (const std::string& name, AnimationDesc desc)
     {
         auto animation_iter = m_animations.find (name);
 
