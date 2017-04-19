@@ -74,6 +74,13 @@ namespace sfge
     class File;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// ResourceManager - class for control resources
+    ///
+    /// ResourceManager can contain all resources of game engine and
+    /// another resources. It delete them in destructor.
+    /// Some types of resources currently are not implemented.
+    /////////////////////////////////////////////////////////////////////
     class ResourceManager
     {
     public:
