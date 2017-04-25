@@ -30,6 +30,7 @@
 #include "Button.h"
 #include "Animation.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -74,18 +75,13 @@ namespace sfge
         if (m_view.getSize ().x == 0)
             m_view.setSize (view->getSize ());
     }
-
-    void Button::setRect (const PositionDesc& desc)
-    {
-        m_view.setPosition (desc.x, desc.y);
-        m_view.setSize (desc.width, desc.height);
-
-        sf::Vector2f size (m_text.getGlobalBounds ().width, m_text.getGlobalBounds ().height);
-
-        m_text.setPosition (desc.x + m_view.getSize ().x / 2 - size.x / 2, desc.y + m_view.getSize ().y / 2 - size.y / 2);
-    }
     
-    void Button::setText (UString string)
+    void Button::attachView (const std::string& tex, const EventType e)
+    {
+        attachView (ResourceManager::getInstance ()->findTexture (tex), e);
+    }
+
+    void Button::setText (const UString& string)
     {
         m_text.setString (string);
     }
@@ -93,6 +89,11 @@ namespace sfge
     void Button::setFont (std::shared_ptr<const Font> font)
     {
         m_text.setFont (*font);
+    }
+
+    void Button::setFont (const std::string& font)
+    {
+        setFont (ResourceManager::getInstance ()->findFont (font));
     }
 
     void Button::setCharacterSize (unsigned size)
@@ -103,6 +104,22 @@ namespace sfge
     void Button::setTextColor (Color color)
     {
         m_text.setFillColor (color);
+    }
+
+    void Button::setRect (const PositionDesc& desc)
+    {
+        m_view.setPosition (desc.x, desc.y);
+        m_view.setSize (desc.width, desc.height);
+
+        sf::Vector2f size (m_text.getGlobalBounds ().width, m_text.getGlobalBounds ().height);
+
+        m_text.setPosition (desc.x + m_view.getSize ().x / 2 - size.x / 2, desc.y + m_view.getSize ().y / 2 - size.y / 2);
+    }
+
+    void Button::draw (sf::RenderTarget& target) const
+    {
+        target.draw (m_view);
+        target.draw (m_text);
     }
 
     bool Button::check_key (const sf::Event::KeyEvent& e, const bool pressed)
@@ -141,12 +158,6 @@ namespace sfge
             set_view (RELEASED);
             return false;
         }
-    }
-
-    void Button::draw (sf::RenderTarget& target) const
-    {
-        target.draw (m_view);
-        target.draw (m_text);
     }
 
     void Button::set_view (const unsigned type)

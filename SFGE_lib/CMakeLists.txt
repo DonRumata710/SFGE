@@ -61,4 +61,4 @@ endforeach()
 include_directories(${PROJECT_SOURCE_DIR}/include ${SFML_ROOT}/include)
 add_definitions(-DSFML_STATIC)
 
-add_library(SFGE_lib STATIC ${SOURCES} ${HEADERS})
+add_library(SFGE STATIC ${SOURCES} ${HEADERS})

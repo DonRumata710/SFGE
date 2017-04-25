@@ -29,6 +29,7 @@
 
 #include "GridBox.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 #include "Err.h"
 
 #include <SFML/Graphics/Color.hpp>
@@ -82,9 +83,14 @@ void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column,
     add_frame (widget.get ());
 }
 
-void sfge::GridBox::setBackground (std::shared_ptr<sfge::Texture> texture)
+void sfge::GridBox::setBackground (std::shared_ptr<const sf::Texture> texture)
 {
     m_background.setTexture (texture);
+}
+
+void sfge::GridBox::setBackground (const std::string& texture)
+{
+    setBackground (ResourceManager::getInstance ()->findTexture (texture));
 }
 
 void sfge::GridBox::setBackground (sfge::Color color)

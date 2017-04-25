@@ -75,7 +75,7 @@ namespace sfge
         };
 
         /////////////////////////////////////////////////////////////////////
-        /// Default constructor
+        /// default constructor
         /////////////////////////////////////////////////////////////////////
         TextList ();
 
@@ -95,6 +95,13 @@ namespace sfge
         void attachView (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
+        /// attachView - attach texture to widget view
+        /// 
+        /// @param tex - name texture
+        /////////////////////////////////////////////////////////////////////
+        void attachView (const std::string& tex);
+
+        /////////////////////////////////////////////////////////////////////
         /// attachView - fill widget background by color
         /// 
         /// @param color - color of background
@@ -107,6 +114,13 @@ namespace sfge
         /// @param font - pointer to font
         /////////////////////////////////////////////////////////////////////
         void setFont (const std::shared_ptr<const Font> font);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setFont - set font of text in widget
+        /// 
+        /// @param font - font name
+        /////////////////////////////////////////////////////////////////////
+        void setFont (const std::string& font);
 
         /////////////////////////////////////////////////////////////////////
         /// setCharacterSize - set size of characters in widget

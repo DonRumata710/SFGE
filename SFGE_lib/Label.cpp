@@ -29,6 +29,7 @@
 
 #include "Label.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
 
@@ -50,6 +51,11 @@ void sfge::Label::setFont (std::shared_ptr<const Font> font)
 {
     m_text.setFont (*font);
     update_frame ();
+}
+
+void sfge::Label::setFont (const std::string & font)
+{
+    setFont (ResourceManager::getInstance ()->findFont (font));
 }
 
 void sfge::Label::setCharacterSize (unsigned size)

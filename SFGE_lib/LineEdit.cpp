@@ -29,6 +29,7 @@
 
 #include "LineEdit.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 #include "Err.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -66,6 +67,11 @@ namespace sfge
         m_background.setTexture (tex);
     }
 
+    void LineEdit::attachView (const std::string& tex)
+    {
+        attachView (ResourceManager::getInstance ()->findTexture (tex));
+    }
+
     void LineEdit::attachView (const sf::Color color)
     {
         m_background.setColor (color);
@@ -75,6 +81,11 @@ namespace sfge
     {
         m_text.setFont (*font);
         redraw ();
+    }
+
+    void LineEdit::setFont (const std::string& font)
+    {
+        setFont (ResourceManager::getInstance ()->findFont (font));
     }
 
     void LineEdit::setCharacterSize (const unsigned size)

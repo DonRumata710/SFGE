@@ -28,6 +28,7 @@
 
 
 #include "Slider.h"
+#include "ResourceManager.h"
 #include "Err.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -87,6 +88,11 @@ namespace sfge
             m_outward_view.setSize (tex->getSize ());
     }
 
+    void Slider::attachBackground (const std::string& tex)
+    {
+        attachBackground (ResourceManager::getInstance ()->findTexture (tex));
+    }
+
     void Slider::attachSlider (const std::shared_ptr<const sf::Texture> slider, const View view)
     {
         switch (view)
@@ -104,6 +110,11 @@ namespace sfge
         default:
             break;
         }
+    }
+
+    void Slider::attachSlider (const std::string& tex, const View view)
+    {
+        attachSlider (ResourceManager::getInstance ()->findTexture (tex), view);
     }
 
     void Slider::attachReaction (std::function<void ()> func, const EventType event_type)

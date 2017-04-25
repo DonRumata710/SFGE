@@ -76,6 +76,14 @@ namespace sfge
         void attachView (const std::shared_ptr<const Texture> tex, const ViewType view = ViewType::BACKGROUND);
 
         /////////////////////////////////////////////////////////////////////
+        /// attachView - attach texture to some view of widget
+        /// 
+        /// @param tex - name of texture loaded to resource manager
+        /// @param view - view which will use texture
+        /////////////////////////////////////////////////////////////////////
+        void attachView (const std::string& tex, const ViewType view = ViewType::BACKGROUND);
+
+        /////////////////////////////////////////////////////////////////////
         /// addCollision - add check box which can't be set on in same time 
         /// as this.
         /// 

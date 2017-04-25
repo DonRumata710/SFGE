@@ -37,6 +37,7 @@
 #include <SFML/Audio/SoundBuffer.hpp>
 #include "Animation.h"
 #include "File.h"
+#include "Err.h"
 
 #include <algorithm>
 
@@ -45,9 +46,25 @@ namespace sfge
 {
 
 
+    ResourceManager* ResourceManager::m_manager (nullptr);
+
+
+    ResourceManager * ResourceManager::getInstance ()
+    {
+        if (!m_manager)
+            runtime_error ("Attempt to obtain instance resource manager before creating");
+
+        return m_manager;
+    }
+
     ResourceManager::ResourceManager (bool use_default_font) :
         m_use_default_font (use_default_font)
-    {}
+    {
+        if (!m_manager)
+            m_manager = this;
+        else
+            debug_message("Few resource manager was created!");
+    }
 
 
     void ResourceManager::clear ()

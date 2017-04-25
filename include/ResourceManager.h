@@ -84,6 +84,15 @@ namespace sfge
     class ResourceManager
     {
     public:
+        /////////////////////////////////////////////////////////////////////
+        /// getInstance - get instance of created resource manager
+        /// 
+        /// Resource maanger should be created only once. Then you can use this
+        /// function to get pointer to it.
+        /// 
+        /// @return pointer to device or nullptr if device wasn't created
+        /////////////////////////////////////////////////////////////////////
+        static ResourceManager* getInstance ();
 
         /////////////////////////////////////////////////////////////////////
         /// constructor
@@ -225,6 +234,8 @@ namespace sfge
         std::unordered_map<std::string, std::shared_ptr<StringTable>> m_string_tables;
 
         bool m_use_default_font;
+
+        static ResourceManager* m_manager;
     };
 
 

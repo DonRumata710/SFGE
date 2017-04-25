@@ -113,7 +113,14 @@ namespace sfge
         /// 
         /// @param texture - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void setBackground (std::shared_ptr<Texture> texture);
+        void setBackground (std::shared_ptr<const Texture> texture);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setBackground - set texture of background
+        /// 
+        /// @param texture - name of texture loaded to resource manager
+        /////////////////////////////////////////////////////////////////////
+        void setBackground (const std::string& texture);
 
         /////////////////////////////////////////////////////////////////////
         /// setBackground - set color of background

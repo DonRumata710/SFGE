@@ -75,9 +75,9 @@ namespace sfge
         ///
         /// Widget will be shown on top of other widgets.
         ///
-        /// @param pWidget - pointer to widget
+        /// @param widget - pointer to widget
         /////////////////////////////////////////////////////////////////////
-        void addFrontWidget (pWidget);
+        void addFrontWidget (pWidget widget);
 
         /////////////////////////////////////////////////////////////////////
         /// addFrontWidget - add widget to the background of the screen which is
@@ -85,17 +85,25 @@ namespace sfge
         ///
         /// Widget will be shown under the other widgets.
         ///
-        /// @param pWidget - pointer to widget
+        /// @param widget - pointer to widget
         /////////////////////////////////////////////////////////////////////
-        void addBackWidget (pWidget);
+        void addBackWidget (pWidget widget);
 
         /////////////////////////////////////////////////////////////////////
         /// addWidget - add widget to the screen which is managed 
         /// by current object
         ///
-        /// @param pWidget - pointer to widget
+        /// @param texture - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void setBackground (std::shared_ptr<const Texture>);
+        void setBackground (std::shared_ptr<const Texture> texture);
+
+        /////////////////////////////////////////////////////////////////////
+        /// addWidget - add widget to the screen which is managed 
+        /// by current object
+        ///
+        /// @param pWidget - name of texture
+        /////////////////////////////////////////////////////////////////////
+        void setBackground (const std::string& texture);
 
         /////////////////////////////////////////////////////////////////////
         /// setFocusLocked - let focus move or not

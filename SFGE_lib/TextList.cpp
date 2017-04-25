@@ -29,6 +29,7 @@
 
 #include "TextList.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 #include "Err.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -63,6 +64,11 @@ namespace sfge
         m_background.setTexture (tex);
     }
 
+    void TextList::attachView (const std::string & tex)
+    {
+        attachView (ResourceManager::getInstance ()->findTexture (tex));
+    }
+
     void TextList::attachView (const sf::Color color)
     {
         m_background.setColor (color);
@@ -74,6 +80,11 @@ namespace sfge
 
         for (std::shared_ptr<sf::Text> text : m_string_list)
             text->setFont (*font);
+    }
+
+    void TextList::setFont (const std::string& font)
+    {
+        setFont (ResourceManager::getInstance ()->findFont (font));
     }
 
     void TextList::setCharacterSize (const unsigned size)

@@ -29,6 +29,7 @@
 
 #include "CheckBox.h"
 #include "GuiManager.h"
+#include "ResourceManager.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -52,6 +53,11 @@ namespace sfge
             m_background = tex;
         else
             m_flag = tex;
+    }
+
+    void CheckBox::attachView (const std::string & tex, const ViewType view)
+    {
+        attachView (ResourceManager::getInstance ()->findTexture (tex));
     }
 
     void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)

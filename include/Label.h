@@ -91,6 +91,13 @@ namespace sfge
         void setFont (std::shared_ptr<const Font> font);
 
         /////////////////////////////////////////////////////////////////////
+        /// setFont set font, which will be drawn text
+        ///
+        /// @parameter font - loaded font
+        /////////////////////////////////////////////////////////////////////
+        void setFont (const std::string& font);
+
+        /////////////////////////////////////////////////////////////////////
         /// setCharacterSize set size of text
         ///
         /// @parameter size - size of characters in pixels

@@ -86,9 +86,15 @@ namespace sfge
             PRESSED
         };
 
+        /////////////////////////////////////////////////////////////////////
+        /// default constructor - create slider
+        /////////////////////////////////////////////////////////////////////
         Slider ();
-        virtual	~Slider ();
 
+        /////////////////////////////////////////////////////////////////////
+        /// virtual destructor
+        /////////////////////////////////////////////////////////////////////
+        virtual	~Slider ();
 
         /////////////////////////////////////////////////////////////////////
         /// setInterval - set interval of values slider can return
@@ -98,7 +104,6 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         void setInterval (const float min, const float max);
 
-        
         /////////////////////////////////////////////////////////////////////
         /// setMode - set mode of slider
         /// 
@@ -121,12 +126,27 @@ namespace sfge
         void attachBackground (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
+        /// attachBackground - set background of slider
+        /// 
+        /// @param tex - texture name
+        /////////////////////////////////////////////////////////////////////
+        void attachBackground (const std::string& tex);
+
+        /////////////////////////////////////////////////////////////////////
         /// attachSlider - set texture to some of views of slider indicator
         /// 
         /// @param tex - new texture
         /// @param view - type of indicator view
         /////////////////////////////////////////////////////////////////////
         void attachSlider (const std::shared_ptr<const Texture> tex, const View view = View::RELEASED);
+
+        /////////////////////////////////////////////////////////////////////
+        /// attachSlider - set texture to some of views of slider indicator
+        /// 
+        /// @param tex - texture name
+        /// @param view - type of indicator view
+        /////////////////////////////////////////////////////////////////////
+        void attachSlider (const std::string& tex, const View view = View::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
         /// attachReaction - attach function to handle some event

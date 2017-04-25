@@ -29,6 +29,7 @@
 
 #include "GuiManager.h"
 #include "GEDevice.h"
+#include "ResourceManager.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
@@ -76,6 +77,11 @@ namespace sfge
     void GUIManager::setBackground (std::shared_ptr<const sf::Texture> tex)
     {
         m_background = tex;
+    }
+
+    void GUIManager::setBackground (const std::string & texture)
+    {
+        setBackground (ResourceManager::getInstance ()->findTexture (texture));
     }
 
     void GUIManager::setFocusLocked (bool flag)

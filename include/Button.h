@@ -87,11 +87,19 @@ namespace sfge
         void attachView (const std::shared_ptr<const Texture> tex, const EventType e = RELEASED);
 
         /////////////////////////////////////////////////////////////////////
+        /// attachView - attach texture to button view
+        /// 
+        /// @param tex - name of texture loaded to resource manager
+        /// @param e - event type after which texture will be used
+        /////////////////////////////////////////////////////////////////////
+        void attachView (const std::string& tex, const EventType e = RELEASED);
+
+        /////////////////////////////////////////////////////////////////////
         /// setText - set text to draw on the button
         /// 
         /// @param string - text on button
         /////////////////////////////////////////////////////////////////////
-        void setText (UString string);
+        void setText (const UString& string);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont set font, which will be drawn text
@@ -99,6 +107,13 @@ namespace sfge
         /// @parameter font - pointer to font
         /////////////////////////////////////////////////////////////////////
         void setFont (std::shared_ptr<const Font> font);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setFont set font, which will be drawn text
+        ///
+        /// @parameter font - name of font loaded to resource manager
+        /////////////////////////////////////////////////////////////////////
+        void setFont (const std::string& font);
 
         /////////////////////////////////////////////////////////////////////
         /// setCharacterSize set size of text

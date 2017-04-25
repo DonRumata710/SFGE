@@ -51,6 +51,7 @@ namespace sf
 namespace sfge
 {
 
+
     using sf::Color;
     using sf::Font;
     using sf::Texture;
@@ -71,6 +72,9 @@ namespace sfge
             INPUT_COMPLETED     // input was completed
         };
 
+        /////////////////////////////////////////////////////////////////////
+        /// default constructor - create empty label
+        /////////////////////////////////////////////////////////////////////
         LineEdit ();
 
 
@@ -90,12 +94,18 @@ namespace sfge
         void attachView (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
+        /// attachView - attach texture to background
+        /// 
+        /// @param tex - texture name
+        /////////////////////////////////////////////////////////////////////
+        void attachView (const std::string& tex);
+
+        /////////////////////////////////////////////////////////////////////
         /// attachView - fill bachground by color
         /// 
         /// @param color - new color
         /////////////////////////////////////////////////////////////////////
         void attachView (const Color color);
-
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font to text in widget
@@ -103,6 +113,13 @@ namespace sfge
         /// @param font - new font
         /////////////////////////////////////////////////////////////////////
         void setFont (const std::shared_ptr<const Font> font);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setFont - set font to text in widget
+        /// 
+        /// @param font - new font
+        /////////////////////////////////////////////////////////////////////
+        void setFont (const std::string& font);
 
         /////////////////////////////////////////////////////////////////////
         /// setCharacterSize - set size of character in widget
