@@ -1,10 +1,12 @@
 
-set(SOURCE_EXE ${PROJECT_SOURCE_DIR}/TestApplication/Source.cpp)
+set(APPLICATION_NAME TestApplication)
+
+set(SOURCE_EXE ${PROJECT_SOURCE_DIR}/${APPLICATION_NAME}/Source.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 link_directories(${SFML_ROOT}/lib)
 
-add_executable(TestApplication ${SOURCE_EXE})
+add_executable(${APPLICATION_NAME} ${SOURCE_EXE})
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules" ${CMAKE_MODULE_PATH})
 set(SFML_STATIC_LIBRARIES TRUE)
@@ -12,7 +14,12 @@ set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2 REQUIRED system window graphics audio)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
-  target_link_libraries(TestApplication SFGE ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+  target_link_libraries(${APPLICATION_NAME} SFGE ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
 endif()
 
-install(TARGETS TestApplication DESTINATION bin)
+if(WIN32)
+  configure_file(${CMAKE_SOURCE_DIR}/${APPLICATION_NAME}/OpenAL32.dll ${CMAKE_BINARY_DIR}/${APPLICATION_NAME}/OpenAL32.dll COPYONLY)
+endif()
+file(COPY ${CMAKE_SOURCE_DIR}/${APPLICATION_NAME}/media DESTINATION ${CMAKE_BINARY_DIR}/${APPLICATION_NAME}/)
+
+install(TARGETS ${APPLICATION_NAME} DESTINATION bin)
