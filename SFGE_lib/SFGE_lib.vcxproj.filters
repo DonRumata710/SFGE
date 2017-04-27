@@ -88,7 +88,7 @@
     <ClInclude Include="ResourceParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="TextParser.h">
+    <ClInclude Include="..\include\TextParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
   </ItemGroup>

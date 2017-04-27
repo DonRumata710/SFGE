@@ -28,157 +28,31 @@
 
 
 #include "TextParser.h"
+#include "Err.h"
 
 #include <cstring>
 #include <cstdlib>
-
 
 
 namespace sfge
 {
 
 
-    struct Keyword
-    {
-        char*	            word;
-        TextParser::Token	code;
-    };
-
-    Keyword keytable[] = {
-        { "=",			TextParser::TTEQUALS },
-        { ":",			TextParser::TTBASED },
-        { ",",			TextParser::TTSEPARATOR },
-        { "{",			TextParser::TTOPENBLOCK },
-        { "}",			TextParser::TTCLOSEBLOCK },
-        { "true",		TextParser::TTBOOL },
-        { "false",		TextParser::TTBOOL },
-
-        { "Include",	TextParser::TTRES_INCLUDE },
-        { "Resource",	TextParser::TTRES_FILE },
-        { "Texture",	TextParser::TTRES_TEXTURE },
-        { "Sound",		TextParser::TTRES_SOUND },
-        { "Music",		TextParser::TTRES_MUSIC },
-        { "Image",      TextParser::TTRES_IMAGE },
-        { "Sprite",		TextParser::TTRES_SPRITE },
-        { "Animation",	TextParser::TTRES_ANIMATION },
-        { "Font",		TextParser::TTRES_FONT },
-        { "Particle",	TextParser::TTRES_PARTICLE },
-        { "Distortion",	TextParser::TTRES_DISTORT },
-        { "StringTable",TextParser::TTRES_STRTABLE },
-
-        { "filename",	TextParser::TTPAR_FILENAME },
-        { "resgroup",	TextParser::TTPAR_RESGROUP },
-        { "mipmap",		TextParser::TTPAR_MIPMAP },
-        { "amplify",	TextParser::TTPAR_AMPLIFY },
-        { "size",		TextParser::TTPAR_SIZE },
-        { "zbuffer",	TextParser::TTPAR_ZBUFFER },
-        { "texture",	TextParser::TTPAR_TEXTURE },
-        { "rect",		TextParser::TTPAR_RECT },
-        { "hotspot",	TextParser::TTPAR_HOTSPOT },
-        { "blendmode",	TextParser::TTPAR_BLENDMODE },
-        { "color",		TextParser::TTPAR_COLOR },
-        { "zorder",		TextParser::TTPAR_ZORDER },
-        { "flip",		TextParser::TTPAR_FLIP },
-        { "scale",		TextParser::TTPAR_SCALE },
-        { "proportion",	TextParser::TTPAR_PROPORTION },
-        { "rotation",	TextParser::TTPAR_ROTATION },
-        { "frames",		TextParser::TTPAR_FRAMES },
-        { "fps",		TextParser::TTPAR_FPS },
-        { "mode",		TextParser::TTPAR_MODE },
-        { "tracking",	TextParser::TTPAR_TRACKING },
-        { "spacing",	TextParser::TTPAR_SPACING },
-        { "sprite",		TextParser::TTPAR_SPRITE },
-        { "mesh",		TextParser::TTPAR_MESH },
-        { "columns",    TextParser::TTPAR_COLUMNS },
-        { "rows",       TextParser::TTPAR_ROWS },
-        { "start",      TextParser::TTPAR_START },
-
-        { "COLORMUL",	TextParser::TTCON_COLORMUL },
-        { "COLORADD",	TextParser::TTCON_COLORADD },
-        { "ALPHABLEND",	TextParser::TTCON_ALPHABLND },
-        { "ALPHAADD",	TextParser::TTCON_ALPHAADD },
-        { "ZWRITE",		TextParser::TTCON_ZWRITE },
-        { "NOZWRITE",	TextParser::TTCON_NOZWRITE },
-        { "FORWARD",	TextParser::TTCON_FORWARD },
-        { "REVERSE",	TextParser::TTCON_REVERSE },
-        { "PINGPONG",	TextParser::TTCON_PINGPONG },
-        { "NOPINGPONG",	TextParser::TTCON_NOPINGPONG },
-        { "LOOP",		TextParser::TTCON_LOOP },
-        { "NOLOOP",		TextParser::TTCON_NOLOOP },
-        { "CIRCLE",		TextParser::TTCON_CIRCLE },
-        { "RECT",		TextParser::TTCON_RECT },
-        { "ALPHA",		TextParser::TTCON_ALPHA },
-
-        { NULL,			TextParser::TTNONE }
-    };
-
-
-
-    bool TextParser::scriptSkipToNextParameter (bool bIgnore)
-    {
-        bool bToBeIgnored = bIgnore;
-        if (bIgnore)
-        {
-            put_back ();
-        }
-
-        for (;;)
-        {
-            get_token ();
-            if (tokentype == TextParser::TTCLOSEBLOCK)
-            {
-                if (bIgnore)
-                {
-                    put_back ();
-                    return true;
-                }
-                return false;
-            }
-            if ((tokentype > TextParser::TTRES__FIRST &&
-                get_tokentype () < TextParser::TTRES__LAST) || tokentype == TextParser::TTEND)
-            {
-                put_back ();
-                if (bIgnore)
-                    return true;
-
-                //ScriptPostError ("'}' missed, ", " encountered.");
-                return false;
-            }
-            if ((tokentype <= TextParser::TTPAR__FIRST && tokentype >= TextParser::TTPAR__LAST) || bToBeIgnored)
-            {
-                bToBeIgnored = false;
-                //ScriptPostError ("Unsupported resource parameter ", ".");
-                do
-                {
-                    get_token ();
-                }
-                while ((tokentype <= TextParser::TTPAR__FIRST || tokentype >= TextParser::TTPAR__LAST) &&
-                    (tokentype <= TextParser::TTRES__FIRST || tokentype >= TextParser::TTRES__LAST) &&
-                    tokentype != TextParser::TTCLOSEBLOCK && tokentype != TextParser::TTEND);
-                put_back ();
-            }
-            else
-            {
-                if (bIgnore)
-                {
-                    put_back ();
-                }
-                return true;
-            }
-        }
-    }
-
-
-
-    TextParser::TextParser (const char* scr)
+    TextParser::TextParser (const char* scr, const SemanticsDescription& semantics) :
+        semantics (semantics)
     {
         script = scr;
         tokenvalue[0] = 0;
-        tokentype = TTNONE;
+        tokentype = SIZE_MAX;
         line = 1;
     }
 
-    unsigned TextParser::get_token ()
+    size_t TextParser::getTokentype () const
+    {
+        return tokentype;
+    }
+
+    size_t TextParser::getToken ()
     {
         int i;
 
@@ -205,8 +79,8 @@ namespace sfge
 
         if (!*script)
         {
-            tokentype = TTEND;
-            tokenvalue[0] = 0;
+            tokentype = semantics.end_of_file;
+            tokenvalue[0] = '\0';
             return tokentype;
         }
 
@@ -214,7 +88,7 @@ namespace sfge
 
         if ((*script >= '0' && *script <= '9') || *script == '.' || *script == '-')
         {
-            tokentype = TTNUMBER;
+            tokentype = semantics.number;
             for (i = 0; (*script >= '0' && *script <= '9') || *script == '.' || *script == '-'; i++)
                 tokenvalue[i] = *script++;
 
@@ -222,7 +96,7 @@ namespace sfge
 
             if ((*script >= 'A' && *script <= 'F') || (*script >= 'a' && *script <= 'f'))
             {
-                tokentype = TTSTRING;
+                tokentype = semantics.string;
                 for (; (*script >= 'A' && *script <= 'F') || (*script >= 'a' && *script <= 'f'); i++)
                     tokenvalue[i] = *script++;
             }
@@ -235,7 +109,7 @@ namespace sfge
 
         if (*script == '"')
         {
-            tokentype = TTSTRING;
+            tokentype = semantics.string;
             script++;
             for (i = 0; *script && *script != '"' && *script != '\n' && *script != '\r'; i++)
             {
@@ -251,21 +125,24 @@ namespace sfge
 
         // Keyword
 
-        for (i = 0; keytable[i].word; i++)
-            if (!strtkcmp (keytable[i].word, script))
+        for (auto keyword : semantics.keytable)
+        {
+            if (!strtkcmp (keyword.first, script))
             {
-                tokentype = keytable[i].code;
-                std::strcpy (tokenvalue, keytable[i].word);
-                script += strlen (keytable[i].word);
+                tokentype = keyword.second;
+                std::strcpy (tokenvalue, keyword.first.c_str ());
+                script += keyword.first.size ();
                 return tokentype;
             }
+        }
 
         // Unquoted string or hexadecimal number
 
-        tokentype = TTSTRING;
+        tokentype = semantics.string;
         for (i = 0;
-            *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r'
-            && *script != ',' && *script != '=' && *script != '{' && *script != '}' && *script != ':';
+            *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r' &&
+            *script != ',' && *script != '=' && *script != '{' && *script != '}' && *script != ':' &&
+            *script != '[' && *script != ']' && *script != '<' && *script != '>' && *script != ';';
             i++
         )
         {
@@ -275,42 +152,37 @@ namespace sfge
         return tokentype;
     }
 
-    TextParser::Token TextParser::get_tokentype () const
-    {
-        return tokentype;
-    }
-
-    void TextParser::put_back ()
+    void TextParser::putBack ()
     {
         script -= std::strlen (tokenvalue);
     }
 
-    int TextParser::get_line ()
+    int TextParser::getLine ()
     {
         return line;
     }
 
-    char* TextParser::tkn_string ()
+    char* TextParser::tknString ()
     {
         return tokenvalue;
     }
 
-    int TextParser::tkn_int ()
+    int TextParser::tknInt ()
     {
         return std::atoi (tokenvalue);
     }
 
-    float TextParser::tkn_float ()
+    float TextParser::tknFloat ()
     {
         return (float) std::atof (tokenvalue);
     }
 
-    bool TextParser::tkn_bool ()
+    bool TextParser::tknBool ()
     {
         return (tokenvalue[0] == 't' || tokenvalue[0] == 'T') ? true : false;
     }
 
-    unsigned TextParser::tkn_hex ()
+    unsigned TextParser::tknHex ()
     {
         int i;
         unsigned dw = 0;
@@ -336,11 +208,9 @@ namespace sfge
         return dw;
     }
 
-    bool TextParser::strtkcmp (const char * str, const char * mem)
+    bool TextParser::strtkcmp (const std::string& str, const char * mem)
     {
-        int i;
-        size_t len (std::strlen (str));
-        for (i = 0; i < len; i++)
+        for (int i = 0; i < str.size (); i++)
         {
             if (!mem[i])
             {

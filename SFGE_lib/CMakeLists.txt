@@ -24,13 +24,13 @@ set(CLASSES
     Slider
     StackedWidget
     TextList
+    TextParser
     Widget
 )
 
 set(PRIVATE_CLASSES
     ResourceLoader
     ResourceParser
-    TextParser
 )
 
 set(UTILITY_HEADERS

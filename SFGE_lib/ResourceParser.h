@@ -64,18 +64,20 @@ namespace sfge
     private:
         char* load_script (const char* path, size_t* size);
 
-        void parse_font (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_image (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_texture (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_sprite (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_animation (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        bool scriptSkipToNextParameter (TextParser *tp, bool ignore);
+
+        void parse_font          (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_image         (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_texture       (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_sprite        (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_animation     (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_file_resource (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_effect (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_music (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_target (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_particle (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_distort (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_string_table (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_effect        (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_music         (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_target        (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_particle      (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_distort       (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_string_table  (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
     };
 
 

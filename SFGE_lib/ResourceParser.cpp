@@ -51,6 +51,160 @@
 namespace sfge
 {
 
+    enum Token : size_t
+    {
+        TTNONE, TTEND, TTNUMBER, TTSTRING,
+
+        TTBOOL, TTEQUALS, TTBASED, TTSEPARATOR, TTOPENBLOCK, TTCLOSEBLOCK,
+
+        TTRES__FIRST,
+        TTRES_INCLUDE, TTRES_FONT, TTRES_IMAGE, TTRES_TEXTURE, TTRES_SPRITE,
+        TTRES_ANIMATION, TTRES_FILE, TTRES_SOUND, TTRES_MUSIC,
+        TTRES_PARTICLE, TTRES_DISTORT, TTRES_STRTABLE,
+        TTRES__LAST,
+
+        TTPAR__FIRST,
+        TTPAR_FILENAME, TTPAR_RESGROUP, TTPAR_MIPMAP, TTPAR_AMPLIFY, TTPAR_SIZE, TTPAR_ZBUFFER,
+        TTPAR_TEXTURE, TTPAR_RECT, TTPAR_HOTSPOT, TTPAR_BLENDMODE, TTPAR_COLOR,
+        TTPAR_ZORDER, TTPAR_FLIP, TTPAR_SCALE, TTPAR_PROPORTION, TTPAR_ROTATION, TTPAR_FRAMES,
+        TTPAR_FPS, TTPAR_MODE, TTPAR_TRACKING, TTPAR_SPACING, TTPAR_SPRITE, TTPAR_MESH, TTPAR_COLUMNS, TTPAR_ROWS, TTPAR_START,
+        TTPAR__LAST,
+
+        TTCON__FIRST,
+        TTCON_COLORMUL, TTCON_COLORADD, TTCON_ALPHABLND, TTCON_ALPHAADD, TTCON_ZWRITE,
+        TTCON_NOZWRITE, TTCON_FORWARD, TTCON_REVERSE, TTCON_PINGPONG, TTCON_NOPINGPONG,
+        TTCON_LOOP, TTCON_NOLOOP, TTCON_CIRCLE, TTCON_RECT, TTCON_ALPHA,
+        TTCON__LAST
+    };
+
+
+    std::unordered_map<std::string, const size_t> keytable = {
+        { "=",			Token::TTEQUALS },
+        { ":",			Token::TTBASED },
+        { ",",			Token::TTSEPARATOR },
+        { "{",			Token::TTOPENBLOCK },
+        { "}",			Token::TTCLOSEBLOCK },
+        { "true",		Token::TTBOOL },
+        { "false",		Token::TTBOOL },
+
+        { "Include",	Token::TTRES_INCLUDE },
+        { "Resource",	Token::TTRES_FILE },
+        { "Texture",	Token::TTRES_TEXTURE },
+        { "Sound",		Token::TTRES_SOUND },
+        { "Music",		Token::TTRES_MUSIC },
+        { "Image",      Token::TTRES_IMAGE },
+        { "Sprite",		Token::TTRES_SPRITE },
+        { "Animation",	Token::TTRES_ANIMATION },
+        { "Font",		Token::TTRES_FONT },
+        { "Particle",	Token::TTRES_PARTICLE },
+        { "Distortion",	Token::TTRES_DISTORT },
+        { "StringTable",Token::TTRES_STRTABLE },
+
+        { "filename",	Token::TTPAR_FILENAME },
+        { "resgroup",	Token::TTPAR_RESGROUP },
+        { "mipmap",		Token::TTPAR_MIPMAP },
+        { "amplify",	Token::TTPAR_AMPLIFY },
+        { "size",		Token::TTPAR_SIZE },
+        { "zbuffer",	Token::TTPAR_ZBUFFER },
+        { "texture",	Token::TTPAR_TEXTURE },
+        { "rect",		Token::TTPAR_RECT },
+        { "hotspot",	Token::TTPAR_HOTSPOT },
+        { "blendmode",	Token::TTPAR_BLENDMODE },
+        { "color",		Token::TTPAR_COLOR },
+        { "zorder",		Token::TTPAR_ZORDER },
+        { "flip",		Token::TTPAR_FLIP },
+        { "scale",		Token::TTPAR_SCALE },
+        { "proportion",	Token::TTPAR_PROPORTION },
+        { "rotation",	Token::TTPAR_ROTATION },
+        { "frames",		Token::TTPAR_FRAMES },
+        { "fps",		Token::TTPAR_FPS },
+        { "mode",		Token::TTPAR_MODE },
+        { "tracking",	Token::TTPAR_TRACKING },
+        { "spacing",	Token::TTPAR_SPACING },
+        { "sprite",		Token::TTPAR_SPRITE },
+        { "mesh",		Token::TTPAR_MESH },
+        { "columns",    Token::TTPAR_COLUMNS },
+        { "rows",       Token::TTPAR_ROWS },
+        { "start",      Token::TTPAR_START },
+
+        { "COLORMUL",	Token::TTCON_COLORMUL },
+        { "COLORADD",	Token::TTCON_COLORADD },
+        { "ALPHABLEND",	Token::TTCON_ALPHABLND },
+        { "ALPHAADD",	Token::TTCON_ALPHAADD },
+        { "ZWRITE",		Token::TTCON_ZWRITE },
+        { "NOZWRITE",	Token::TTCON_NOZWRITE },
+        { "FORWARD",	Token::TTCON_FORWARD },
+        { "REVERSE",	Token::TTCON_REVERSE },
+        { "PINGPONG",	Token::TTCON_PINGPONG },
+        { "NOPINGPONG",	Token::TTCON_NOPINGPONG },
+        { "LOOP",		Token::TTCON_LOOP },
+        { "NOLOOP",		Token::TTCON_NOLOOP },
+        { "CIRCLE",		Token::TTCON_CIRCLE },
+        { "RECT",		Token::TTCON_RECT },
+        { "ALPHA",		Token::TTCON_ALPHA }
+    };
+
+
+
+
+    bool ResourceParser::scriptSkipToNextParameter (TextParser *tp, bool ignore)
+    {
+        bool bToBeIgnored = ignore;
+        if (ignore)
+        {
+            tp->putBack ();
+        }
+
+        for (;;)
+        {
+            tp->getToken ();
+            if (tp->getTokentype () == Token::TTCLOSEBLOCK)
+            {
+                if (ignore)
+                {
+                    tp->putBack ();
+                    return true;
+                }
+                return false;
+            }
+            if ((tp->getTokentype () > Token::TTRES__FIRST && tp->getTokentype () < Token::TTRES__LAST) ||
+                tp->getTokentype () == Token::TTEND
+            )
+            {
+                tp->putBack ();
+                if (ignore)
+                    return true;
+
+                runtime_error ("End of block missed");
+                return false;
+            }
+            // ≈сли допустимо рекурсивное включение структур, то этот блок нужно переписать
+            if ((tp->getTokentype () <= Token::TTPAR__FIRST && tp->getTokentype () >= Token::TTPAR__LAST) || bToBeIgnored)
+            {
+                bToBeIgnored = false;
+                runtime_error ("Unsupported resource parameter");
+                do
+                {
+                    tp->getToken ();
+                }
+                while (
+                    (tp->getTokentype () <= Token::TTPAR__FIRST || tp->getTokentype () >= Token::TTPAR__LAST) &&
+                    (tp->getTokentype () <= Token::TTRES__FIRST || tp->getTokentype () >= Token::TTRES__LAST) &&
+                    tp->getTokentype () != Token::TTCLOSEBLOCK && tp->getTokentype () != Token::TTEND
+                );
+                tp->putBack ();
+            }
+            else
+            {
+                if (ignore)
+                {
+                    tp->putBack ();
+                }
+                return true;
+            }
+        }
+    }
+
 
     class RepeateException
     {};
@@ -87,44 +241,55 @@ namespace sfge
         size_t size (0);
         char* script (load_script (path, &size));
 
-        if (!script) return false;
+        if (!script)
+        {
+            runtime_error ("Loading script file " + std::string (path) + " failed");
+            return false;
+        }
 
-        TextParser tp (script);
+        SemanticsDescription desc;
+        desc.keytable = keytable;
+        desc.end_of_file = Token::TTEND;
+        desc.number = Token::TTNUMBER;
+        desc.string = Token::TTSTRING;
+
+        TextParser tp (script, desc);
 
         for (;;)
         {
-            tp.get_token ();
-            if (tp.get_tokentype () == TextParser::TTEND)
+            tp.getToken ();
+            if (tp.getTokentype () == Token::TTEND)
             {
                 break;
             }
-            else if (tp.get_tokentype () == TextParser::TTRES_INCLUDE)
+            else if (tp.getTokentype () == Token::TTRES_INCLUDE)
             {
-                tp.get_token ();
-                if (!parse_script (rm, tp.tkn_string ())) runtime_error ("Loading script failed!");
+                tp.getToken ();
+                if (!parse_script (rm, tp.tknString ()))
+                    runtime_error ("Including script named " + std::string(tp.tknString ()) + " failed!");
             }
 
-            else if (tp.get_tokentype () > TextParser::TTRES__FIRST && tp.get_tokentype () < TextParser::TTRES__LAST)
+            else if (tp.getTokentype () > Token::TTRES__FIRST && tp.getTokentype () < Token::TTRES__LAST)
             {
                 try
                 {
-                    Resource restype (Resource (tp.get_tokentype () - TextParser::TTRES__FIRST - 1));
+                    Resource restype (Resource (tp.getTokentype () - Token::TTRES__FIRST - 1));
 
-                    tp.get_token ();
+                    tp.getToken ();
                     char name[256] = { 0 };
-                    std::strcpy (name, tp.tkn_string ());
+                    std::strcpy (name, tp.tknString ());
 
-                    tp.get_token ();
+                    tp.getToken ();
 
                     char basename[256] = { 0 };
-                    if (tp.get_tokentype () == TextParser::TTBASED)
+                    if (tp.getTokentype () == Token::TTBASED)
                     {
-                        tp.get_token ();
-                        std::strcpy (basename, tp.tkn_string ());
-                        tp.get_token ();
+                        tp.getToken ();
+                        std::strcpy (basename, tp.tknString ());
+                        tp.getToken ();
                     }
 
-                    if (tp.get_tokentype () == TextParser::TTOPENBLOCK)
+                    if (tp.getTokentype () == Token::TTOPENBLOCK)
                     {
                         switch (restype)
                         {
@@ -231,32 +396,32 @@ namespace sfge
                     }
                     else
                     {
-                        debug_message ("Illegal resource syntax in line " + std::to_string (tp.get_line ()) + ". '{' expected.");
-                        while ((tp.get_tokentype () <= TextParser::TTRES__FIRST || tp.get_tokentype () >= TextParser::TTRES__LAST) && tp.get_tokentype () != TextParser::TTEND)
+                        debug_message ("Illegal resource syntax in line " + std::to_string (tp.getLine ()) + ". '{' expected.");
+                        while ((tp.getTokentype () <= Token::TTRES__FIRST || tp.getTokentype () >= Token::TTRES__LAST) && tp.getTokentype () != Token::TTEND)
                         {
-                            tp.get_token ();
+                            tp.getToken ();
                         }
-                        tp.put_back ();
+                        tp.putBack ();
                     }
                 }
                 catch (RepeateException)
                 {
-                    while ((tp.get_tokentype () <= TextParser::TTRES__FIRST || tp.get_tokentype () >= TextParser::TTRES__LAST) && tp.get_tokentype () != TextParser::TTEND)
+                    while ((tp.getTokentype () <= Token::TTRES__FIRST || tp.getTokentype () >= Token::TTRES__LAST) && tp.getTokentype () != Token::TTEND)
                     {
-                        tp.get_token ();
+                        tp.getToken ();
                     }
-                    tp.put_back ();
+                    tp.putBack ();
                     continue;
                 }
             }
             else
             {
-                debug_message ("Unrecognized resource specificator in line " + std::to_string (tp.get_line ()) + ".");
-                while ((tp.get_tokentype () <= TextParser::TTRES__FIRST || tp.get_tokentype () >= TextParser::TTRES__LAST) && tp.get_tokentype () != TextParser::TTEND)
+                debug_message ("Unrecognized resource specificator in line " + std::to_string (tp.getLine ()) + ".");
+                while ((tp.getTokentype () <= Token::TTRES__FIRST || tp.getTokentype () >= Token::TTRES__LAST) && tp.getTokentype () != Token::TTEND)
                 {
-                    tp.get_token ();
+                    tp.getToken ();
                 }
-                tp.put_back ();
+                tp.putBack ();
             }
         }
 
@@ -270,16 +435,16 @@ namespace sfge
     {
         std::shared_ptr<sf::Font> font (std::make_shared<sf::Font> ());
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                font->loadFromFile (tp->tkn_string ());
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                font->loadFromFile (tp->tknString ());
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -291,16 +456,16 @@ namespace sfge
     {
         std::shared_ptr<sf::Image> image (std::make_shared<sf::Image> ());
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                image->loadFromFile (tp->tkn_string ());
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                image->loadFromFile (tp->tknString ());
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -317,32 +482,32 @@ namespace sfge
 
         char path[256] = { 0 };
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_RECT:
-                tp->get_token ();
-                tp->get_token ();
-                rect.left = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                rect.top = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                rect.width = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                rect.height = tp->tkn_int ();
+            case Token::TTPAR_RECT:
+                tp->getToken ();
+                tp->getToken ();
+                rect.left = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                rect.top = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                rect.width = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                rect.height = tp->tknInt ();
                 break;
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                std::strcpy (path, tp->tkn_string ());
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                std::strcpy (path, tp->tknString ());
                 break;
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -358,40 +523,40 @@ namespace sfge
 
         char path[256] = { 0 };
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_RECT:
-                tp->get_token ();
-                tp->get_token ();
-                sprite.rect.left = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                sprite.rect.top = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                sprite.rect.width = tp->tkn_int ();
-                tp->get_token ();
-                tp->get_token ();
-                sprite.rect.height = tp->tkn_int ();
+            case Token::TTPAR_RECT:
+                tp->getToken ();
+                tp->getToken ();
+                sprite.rect.left = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                sprite.rect.top = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                sprite.rect.width = tp->tknInt ();
+                tp->getToken ();
+                tp->getToken ();
+                sprite.rect.height = tp->tknInt ();
                 break;
-            case TextParser::TTPAR_TEXTURE:
-                tp->get_token ();
-                tp->get_token ();
-                std::strcpy (path, tp->tkn_string ());
+            case Token::TTPAR_TEXTURE:
+                tp->getToken ();
+                tp->getToken ();
+                std::strcpy (path, tp->tknString ());
                 break;
-            case TextParser::TTPAR_HOTSPOT:
-                tp->get_token ();
-                tp->get_token ();
-                sprite.hotspot.x = tp->tkn_float ();
-                tp->get_token ();
-                tp->get_token ();
-                sprite.hotspot.y = tp->tkn_float ();
+            case Token::TTPAR_HOTSPOT:
+                tp->getToken ();
+                tp->getToken ();
+                sprite.hotspot.x = tp->tknFloat ();
+                tp->getToken ();
+                tp->getToken ();
+                sprite.hotspot.y = tp->tknFloat ();
                 break;
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -416,107 +581,107 @@ namespace sfge
             rm->addTexture (name, animation.texture);
         }
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_TEXTURE:
-                tp->get_token ();
-                tp->get_token ();
-                if (!animation.texture->loadFromFile (tp->tkn_string ()))
+            case Token::TTPAR_TEXTURE:
+                tp->getToken ();
+                tp->getToken ();
+                if (!animation.texture->loadFromFile (tp->tknString ()))
                     debug_message ("Animation wasn't loaded");
                 break;
 
-            case TextParser::TTPAR_HOTSPOT:
-                tp->get_token ();
-                tp->get_token ();
-                animation.hotspot.x = tp->tkn_float ();
-                tp->get_token ();
-                tp->get_token ();
-                animation.hotspot.y = tp->tkn_float ();
+            case Token::TTPAR_HOTSPOT:
+                tp->getToken ();
+                tp->getToken ();
+                animation.hotspot.x = tp->tknFloat ();
+                tp->getToken ();
+                tp->getToken ();
+                animation.hotspot.y = tp->tknFloat ();
                 break;
 
-            case TextParser::TTPAR_FRAMES:
+            case Token::TTPAR_FRAMES:
                 if (true)
                 {
-                    tp->get_token ();
-                    tp->get_token ();
-                    animation.frames = tp->tkn_int ();
+                    tp->getToken ();
+                    tp->getToken ();
+                    animation.frames = tp->tknInt ();
                     break;
                 }
 
-            case TextParser::TTPAR_ROWS:
+            case Token::TTPAR_ROWS:
                 if (true)
                 {
-                    tp->get_token ();
-                    tp->get_token ();
-                    animation.rows = tp->tkn_int ();
+                    tp->getToken ();
+                    tp->getToken ();
+                    animation.rows = tp->tknInt ();
                     break;
                 }
 
-            case TextParser::TTPAR_COLUMNS:
+            case Token::TTPAR_COLUMNS:
                 if (true)
                 {
-                    tp->get_token ();
-                    tp->get_token ();
-                    animation.cols = tp->tkn_int ();
+                    tp->getToken ();
+                    tp->getToken ();
+                    animation.cols = tp->tknInt ();
                     break;
                 }
 
-            case TextParser::TTPAR_FPS:
+            case Token::TTPAR_FPS:
                 if (true)
                 {
-                    tp->get_token ();
-                    tp->get_token ();
-                    animation.fps = tp->tkn_float ();
+                    tp->getToken ();
+                    tp->getToken ();
+                    animation.fps = tp->tknFloat ();
                     break;
                 }
 
-            case TextParser::TTPAR_START:
+            case Token::TTPAR_START:
                 if (true)
                 {
-                    tp->get_token ();
-                    tp->get_token ();
-                    animation.start = tp->tkn_int ();
+                    tp->getToken ();
+                    tp->getToken ();
+                    animation.start = tp->tknInt ();
                     break;
                 }
 
-            case TextParser::TTPAR_MODE:
+            case Token::TTPAR_MODE:
                 if (true)
                 {
                     int mode (Animation::FWD | Animation::LOOP);
                     for (;;)
                     {
-                        tp->get_token ();
-                        if (tp->get_tokentype () != TextParser::TTEQUALS && tp->get_tokentype () != TextParser::TTSEPARATOR)
+                        tp->getToken ();
+                        if (tp->getTokentype () != Token::TTEQUALS && tp->getTokentype () != Token::TTSEPARATOR)
                         {
-                            tp->put_back ();
+                            tp->putBack ();
                             break;
                         }
 
-                        switch (tp->get_token ())
+                        switch (tp->getToken ())
                         {
-                        case TextParser::TTCON_FORWARD:
+                        case Token::TTCON_FORWARD:
                             mode &= ~Animation::REV;
                             break;
 
-                        case TextParser::TTCON_REVERSE:
+                        case Token::TTCON_REVERSE:
                             mode |= Animation::REV;
                             break;
 
-                        case TextParser::TTCON_NOPINGPONG:
+                        case Token::TTCON_NOPINGPONG:
                             mode &= ~Animation::PINGPONG;
                             break;
 
-                        case TextParser::TTCON_PINGPONG:
+                        case Token::TTCON_PINGPONG:
                             mode |= Animation::PINGPONG;
                             break;
 
-                        case TextParser::TTCON_NOLOOP:
+                        case Token::TTCON_NOLOOP:
                             mode &= ~Animation::LOOP;
                             break;
 
-                        case TextParser::TTCON_LOOP:
+                        case Token::TTCON_LOOP:
                             mode |= Animation::LOOP;
                             break;
 
@@ -530,7 +695,7 @@ namespace sfge
                 }
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -541,18 +706,18 @@ namespace sfge
 
     void ResourceParser::parse_file_resource (ResourceLoader* rm, TextParser* tp, const char *name, const char* basename)
     {
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                rm->addFile (name, std::make_shared<File> (tp->tkn_string ()));
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                rm->addFile (name, std::make_shared<File> (tp->tknString ()));
                 break;
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -562,18 +727,18 @@ namespace sfge
     {
         char path[256] = { 0 };
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                std::strcpy (path, tp->tkn_string ());
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                std::strcpy (path, tp->tknString ());
                 break;
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -588,18 +753,18 @@ namespace sfge
     {
         char path[256] = { 0 };
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
-            case TextParser::TTPAR_FILENAME:
-                tp->get_token ();
-                tp->get_token ();
-                std::strcpy (path, tp->tkn_string ());
+            case Token::TTPAR_FILENAME:
+                tp->getToken ();
+                tp->getToken ();
+                std::strcpy (path, tp->tknString ());
                 break;
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -612,13 +777,13 @@ namespace sfge
     void ResourceParser::parse_target (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -627,13 +792,13 @@ namespace sfge
     void ResourceParser::parse_particle (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -642,13 +807,13 @@ namespace sfge
     void ResourceParser::parse_distort (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
@@ -657,13 +822,13 @@ namespace sfge
     void ResourceParser::parse_string_table (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
 
-        while (tp->scriptSkipToNextParameter (false))
+        while (scriptSkipToNextParameter (tp, false))
         {
-            switch (tp->get_tokentype ())
+            switch (tp->getTokentype ())
             {
 
             default:
-                tp->scriptSkipToNextParameter (true);
+                scriptSkipToNextParameter (tp, true);
                 break;
             }
         }

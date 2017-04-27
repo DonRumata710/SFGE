@@ -43,12 +43,12 @@
     <ClInclude Include="..\include\StackedWidget.h" />
     <ClInclude Include="..\include\StringTable.h" />
     <ClInclude Include="..\include\TextList.h" />
+    <ClInclude Include="..\include\TextParser.h" />
     <ClInclude Include="..\include\Unicode.h" />
     <ClInclude Include="..\include\Widget.h" />
     <ClInclude Include="AnimationDesc.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResourceParser.h" />
-    <ClInclude Include="TextParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
