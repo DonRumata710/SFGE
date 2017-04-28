@@ -55,7 +55,7 @@ namespace sfge
     {
         TTNONE, TTEND, TTNUMBER, TTSTRING,
 
-        TTBOOL, TTEQUALS, TTBASED, TTSEPARATOR, TTOPENBLOCK, TTCLOSEBLOCK,
+        TTBOOL, TTEQUALS, TTBASED, TTSEPARATOR, TTOPENBLOCK, TTCLOSEBLOCK, TTOR,
 
         TTRES__FIRST,
         TTRES_INCLUDE, TTRES_FONT, TTRES_IMAGE, TTRES_TEXTURE, TTRES_SPRITE,
@@ -79,19 +79,20 @@ namespace sfge
 
 
     std::unordered_map<std::string, const size_t> keytable = {
-        { "=",			Token::TTEQUALS },
-        { ":",			Token::TTBASED },
-        { ",",			Token::TTSEPARATOR },
-        { "{",			Token::TTOPENBLOCK },
-        { "}",			Token::TTCLOSEBLOCK },
-        { "true",		Token::TTBOOL },
-        { "false",		Token::TTBOOL },
+        { "=",          Token::TTEQUALS },
+        { ":",          Token::TTBASED },
+        { ",",          Token::TTSEPARATOR },
+        { "{",          Token::TTOPENBLOCK },
+        { "}",          Token::TTCLOSEBLOCK },
+        { "|",          Token::TTOR },
+        { "true",       Token::TTBOOL },
+        { "false",      Token::TTBOOL },
 
-        { "Include",	Token::TTRES_INCLUDE },
-        { "Resource",	Token::TTRES_FILE },
-        { "Texture",	Token::TTRES_TEXTURE },
-        { "Sound",		Token::TTRES_SOUND },
-        { "Music",		Token::TTRES_MUSIC },
+        { "Include",    Token::TTRES_INCLUDE },
+        { "Resource",   Token::TTRES_FILE },
+        { "Texture",    Token::TTRES_TEXTURE },
+        { "Sound",      Token::TTRES_SOUND },
+        { "Music",      Token::TTRES_MUSIC },
         { "Image",      Token::TTRES_IMAGE },
         { "Sprite",		Token::TTRES_SPRITE },
         { "Animation",	Token::TTRES_ANIMATION },
@@ -100,48 +101,48 @@ namespace sfge
         { "Distortion",	Token::TTRES_DISTORT },
         { "StringTable",Token::TTRES_STRTABLE },
 
-        { "filename",	Token::TTPAR_FILENAME },
-        { "resgroup",	Token::TTPAR_RESGROUP },
-        { "mipmap",		Token::TTPAR_MIPMAP },
-        { "amplify",	Token::TTPAR_AMPLIFY },
-        { "size",		Token::TTPAR_SIZE },
-        { "zbuffer",	Token::TTPAR_ZBUFFER },
-        { "texture",	Token::TTPAR_TEXTURE },
-        { "rect",		Token::TTPAR_RECT },
-        { "hotspot",	Token::TTPAR_HOTSPOT },
-        { "blendmode",	Token::TTPAR_BLENDMODE },
-        { "color",		Token::TTPAR_COLOR },
-        { "zorder",		Token::TTPAR_ZORDER },
-        { "flip",		Token::TTPAR_FLIP },
-        { "scale",		Token::TTPAR_SCALE },
-        { "proportion",	Token::TTPAR_PROPORTION },
-        { "rotation",	Token::TTPAR_ROTATION },
-        { "frames",		Token::TTPAR_FRAMES },
-        { "fps",		Token::TTPAR_FPS },
-        { "mode",		Token::TTPAR_MODE },
-        { "tracking",	Token::TTPAR_TRACKING },
-        { "spacing",	Token::TTPAR_SPACING },
-        { "sprite",		Token::TTPAR_SPRITE },
-        { "mesh",		Token::TTPAR_MESH },
+        { "filename",   Token::TTPAR_FILENAME },
+        { "resgroup",   Token::TTPAR_RESGROUP },
+        { "mipmap",	    Token::TTPAR_MIPMAP },
+        { "amplify",    Token::TTPAR_AMPLIFY },
+        { "size",	    Token::TTPAR_SIZE },
+        { "zbuffer",    Token::TTPAR_ZBUFFER },
+        { "texture",    Token::TTPAR_TEXTURE },
+        { "rect",	    Token::TTPAR_RECT },
+        { "hotspot",    Token::TTPAR_HOTSPOT },
+        { "blendmode",  Token::TTPAR_BLENDMODE },
+        { "color",      Token::TTPAR_COLOR },
+        { "zorder",     Token::TTPAR_ZORDER },
+        { "flip",       Token::TTPAR_FLIP },
+        { "scale",      Token::TTPAR_SCALE },
+        { "proportion", Token::TTPAR_PROPORTION },
+        { "rotation",   Token::TTPAR_ROTATION },
+        { "frames",     Token::TTPAR_FRAMES },
+        { "fps",        Token::TTPAR_FPS },
+        { "mode",       Token::TTPAR_MODE },
+        { "tracking",   Token::TTPAR_TRACKING },
+        { "spacing",    Token::TTPAR_SPACING },
+        { "sprite",     Token::TTPAR_SPRITE },
+        { "mesh",       Token::TTPAR_MESH },
         { "columns",    Token::TTPAR_COLUMNS },
         { "rows",       Token::TTPAR_ROWS },
         { "start",      Token::TTPAR_START },
 
-        { "COLORMUL",	Token::TTCON_COLORMUL },
-        { "COLORADD",	Token::TTCON_COLORADD },
-        { "ALPHABLEND",	Token::TTCON_ALPHABLND },
-        { "ALPHAADD",	Token::TTCON_ALPHAADD },
-        { "ZWRITE",		Token::TTCON_ZWRITE },
-        { "NOZWRITE",	Token::TTCON_NOZWRITE },
-        { "FORWARD",	Token::TTCON_FORWARD },
-        { "REVERSE",	Token::TTCON_REVERSE },
-        { "PINGPONG",	Token::TTCON_PINGPONG },
-        { "NOPINGPONG",	Token::TTCON_NOPINGPONG },
-        { "LOOP",		Token::TTCON_LOOP },
-        { "NOLOOP",		Token::TTCON_NOLOOP },
-        { "CIRCLE",		Token::TTCON_CIRCLE },
-        { "RECT",		Token::TTCON_RECT },
-        { "ALPHA",		Token::TTCON_ALPHA }
+        { "COLORMUL",   Token::TTCON_COLORMUL },
+        { "COLORADD",   Token::TTCON_COLORADD },
+        { "ALPHABLEND", Token::TTCON_ALPHABLND },
+        { "ALPHAADD",   Token::TTCON_ALPHAADD },
+        { "ZWRITE",     Token::TTCON_ZWRITE },
+        { "NOZWRITE",   Token::TTCON_NOZWRITE },
+        { "FORWARD",    Token::TTCON_FORWARD },
+        { "REVERSE",    Token::TTCON_REVERSE },
+        { "PINGPONG",   Token::TTCON_PINGPONG },
+        { "NOPINGPONG", Token::TTCON_NOPINGPONG },
+        { "LOOP",       Token::TTCON_LOOP },
+        { "NOLOOP",     Token::TTCON_NOLOOP },
+        { "CIRCLE",     Token::TTCON_CIRCLE },
+        { "RECT",       Token::TTCON_RECT },
+        { "ALPHA",      Token::TTCON_ALPHA }
     };
 
 
@@ -182,7 +183,7 @@ namespace sfge
             if ((tp->getTokentype () <= Token::TTPAR__FIRST && tp->getTokentype () >= Token::TTPAR__LAST) || bToBeIgnored)
             {
                 bToBeIgnored = false;
-                runtime_error ("Unsupported resource parameter");
+                runtime_error ("Unsupported resource parameter in line " + std::to_string (tp->getLine ()));
                 do
                 {
                     tp->getToken ();
@@ -208,12 +209,6 @@ namespace sfge
 
     class RepeateException
     {};
-
-
-    void log_undefined_base_resource (const std::string& name)
-    {
-        debug_message ("Resource \"" + name + "\" wasn't defined");
-    }
 
 
     char* ResourceParser::load_script (const char* path, size_t* size)
@@ -295,99 +290,99 @@ namespace sfge
                         {
                         case FONT:
                             if (rm->findFont (name)) throw RepeateException ();
-                            if (!rm->findFont (basename))
+                            if (*basename != '\0' && !rm->findFont (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_font (rm, &tp, name, basename);
                             break;
                         case IMAGE:
                             if (rm->findImage (name)) throw RepeateException ();
-                            if (!rm->findImage (basename))
+                            if (*basename != '\0' && !rm->findImage (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_image (rm, &tp, name, basename);
                             break;
                         case TEXTURE:
                             if (rm->findTexture (name)) throw RepeateException ();
-                            if (!rm->findTexture (basename))
+                            if (*basename != '\0' && !rm->findTexture (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_texture (rm, &tp, name, basename);
                             break;
                         case SPRITE:
                             if (rm->findSprite (name).texture) throw RepeateException ();
-                            if (!rm->findSprite (basename).texture)
+                            if (*basename != '\0' && !rm->findSprite (basename).texture)
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_sprite (rm, &tp, name, basename);
                             break;
                         case ANIMATION:
                             if (rm->findSprite (name).texture) throw RepeateException ();
-                            if (!rm->findSprite (basename).texture)
+                            if (*basename != '\0' && !rm->findSprite (basename).texture)
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_animation (rm, &tp, name, basename);
                             break;
                         case FILE:
                             if (rm->findFile (name)) throw RepeateException ();
-                            if (!rm->findFile (basename))
+                            if (*basename != '\0' && !rm->findFile (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_file_resource (rm, &tp, name, basename);
                             break;
                         case SOUND:
                             if (rm->findSound (name)) throw RepeateException ();
-                            if (!rm->findSound (basename))
+                            if (*basename != '\0' && !rm->findSound (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_effect (rm, &tp, name, basename);
                             break;
                         case MUSIC:
                             if (rm->findMusic (name)) throw RepeateException ();
-                            if (!rm->findMusic (basename))
+                            if (*basename != '\0' && !rm->findMusic (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_music (rm, &tp, name, basename);
                             break;
                         case PARTICLE:
                             if (rm->findParticle (name)) throw RepeateException ();
-                            if (!rm->findParticle (basename))
+                            if (*basename != '\0' && !rm->findParticle (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_particle (rm, &tp, name, basename);
                             break;
                         case DISTORT:
                             if (rm->findDistortion (name)) throw RepeateException ();
-                            if (!rm->findDistortion (basename))
+                            if (*basename != '\0' && !rm->findDistortion (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_distort (rm, &tp, name, basename);
                             break;
                         case STRTABLE:
                             if (rm->findStringTable (name)) throw RepeateException ();
-                            if (!rm->findStringTable (basename))
+                            if (*basename != '\0' && !rm->findStringTable (basename))
                             {
-                                log_undefined_base_resource (basename);
+                                log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
                             parse_string_table (rm, &tp, name, basename);
@@ -443,6 +438,7 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
                 font->loadFromFile (tp->tknString ());
+                break;
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -517,7 +513,7 @@ namespace sfge
         rm->addTexture (name, texture);
     }
 
-    void ResourceParser::parse_sprite (ResourceLoader * rm, TextParser * tp, const char * name, const char * basename)
+    void ResourceParser::parse_sprite (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
         SpriteDesc sprite;
 
@@ -602,58 +598,37 @@ namespace sfge
                 break;
 
             case Token::TTPAR_FRAMES:
-                if (true)
-                {
-                    tp->getToken ();
-                    tp->getToken ();
-                    animation.frames = tp->tknInt ();
-                    break;
-                }
-
+                tp->getToken ();
+                tp->getToken ();
+                animation.frames = tp->tknInt ();
+                break;
             case Token::TTPAR_ROWS:
-                if (true)
-                {
-                    tp->getToken ();
-                    tp->getToken ();
-                    animation.rows = tp->tknInt ();
-                    break;
-                }
-
+                tp->getToken ();
+                tp->getToken ();
+                animation.rows = tp->tknInt ();
+                break;
             case Token::TTPAR_COLUMNS:
-                if (true)
-                {
-                    tp->getToken ();
-                    tp->getToken ();
-                    animation.cols = tp->tknInt ();
-                    break;
-                }
-
+                tp->getToken ();
+                tp->getToken ();
+                animation.cols = tp->tknInt ();
+                break;
             case Token::TTPAR_FPS:
-                if (true)
-                {
-                    tp->getToken ();
-                    tp->getToken ();
-                    animation.fps = tp->tknFloat ();
-                    break;
-                }
-
+                tp->getToken ();
+                tp->getToken ();
+                animation.fps = tp->tknFloat ();
+                break;
             case Token::TTPAR_START:
-                if (true)
-                {
-                    tp->getToken ();
-                    tp->getToken ();
-                    animation.start = tp->tknInt ();
-                    break;
-                }
-
+                tp->getToken ();
+                tp->getToken ();
+                animation.start = tp->tknInt ();
+                break;
             case Token::TTPAR_MODE:
-                if (true)
                 {
                     int mode (Animation::FWD | Animation::LOOP);
-                    for (;;)
+                    while (true)
                     {
                         tp->getToken ();
-                        if (tp->getTokentype () != Token::TTEQUALS && tp->getTokentype () != Token::TTSEPARATOR)
+                        if (tp->getTokentype () != Token::TTEQUALS && tp->getTokentype () != Token::TTOR)
                         {
                             tp->putBack ();
                             break;
@@ -693,7 +668,6 @@ namespace sfge
                     animation.mode = mode;
                     break;
                 }
-
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -832,6 +806,12 @@ namespace sfge
                 break;
             }
         }
+    }
+
+
+    void ResourceParser::log_undefined_base_resource (const TextParser& tp, const std::string& name) const
+    {
+        debug_message ("Resource specified in line " + std::to_string (tp.getLine ()) + " \"" + name + "\" wasn't defined");
     }
 
 

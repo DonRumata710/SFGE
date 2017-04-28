@@ -74,12 +74,16 @@ namespace sfge
     class File;
 
 
+    void runtime_error (const std::string&);
+
+
     /////////////////////////////////////////////////////////////////////
     /// ResourceManager - class for control resources
     ///
     /// ResourceManager can contain all resources of game engine and
-    /// another resources. It delete them in destructor.
-    /// Some types of resources currently are not implemented.
+    /// another resources. It delete them in destructor. Some types of
+    /// resources currently are not implemented. Also it is possible to
+    /// create a subclass with providing new resources.
     /////////////////////////////////////////////////////////////////////
     class ResourceManager
     {
@@ -92,7 +96,13 @@ namespace sfge
         /// 
         /// @return pointer to device or nullptr if device wasn't created
         /////////////////////////////////////////////////////////////////////
-        static ResourceManager* getInstance ();
+        template<class Subclass = ResourceManager> static Subclass* getInstance ()
+        {
+            if (!m_manager)
+                runtime_error ("Attempt to obtain instance resource manager before creating");
+
+            return dynamic_cast<Subclass*> (m_manager);
+        }
 
         /////////////////////////////////////////////////////////////////////
         /// constructor
@@ -104,11 +114,18 @@ namespace sfge
         explicit ResourceManager (bool use_default_font = true);
 
         /////////////////////////////////////////////////////////////////////
+        /// loadScript - loading resources from script
+        ///
+        /// @param path - path to the script
+        ///
+        /// @returm - true if resources loaded successfuly, false otherwise
+        /////////////////////////////////////////////////////////////////////
+        bool loadScript (const std::string& path);
+
+        /////////////////////////////////////////////////////////////////////
         /// clear - remove all resources from manager
         /////////////////////////////////////////////////////////////////////
         void clear ();
-
-        bool loadScript (const std::string& path);
 
 
         /////////////////////////////////////////////////////////////////////

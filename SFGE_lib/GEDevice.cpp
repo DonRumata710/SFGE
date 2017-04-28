@@ -93,31 +93,38 @@ namespace sfge
 
     int GEDevice::run ()
     {
-        while (!m_active.empty ())
+        try
         {
-            for (auto iter = m_active.begin (); iter != m_active.end (); ++iter)
+            while (!m_active.empty ())
             {
-                if (!iter->second->update ())
+                for (auto iter = m_active.begin (); iter != m_active.end (); ++iter)
                 {
-                    int id (iter->second->getSwitch ());
-                    if (id >= 0 && m_managers[id].get () != iter->second)
+                    if (!iter->second->update ())
                     {
-                        UString window (iter->first);
-                        sfge::GUIManager* manager (iter->second);
-                        m_active[window] = m_managers[id].get ();
-                        m_managers[id]->enter (manager->getWindow ());
-                        break;
+                        int id (iter->second->getSwitch ());
+                        if (id >= 0 && m_managers[id].get () != iter->second)
+                        {
+                            UString window (iter->first);
+                            sfge::GUIManager* manager (iter->second);
+                            m_active[window] = m_managers[id].get ();
+                            m_managers[id]->enter (manager->getWindow ());
+                            break;
+                        }
+                        else if (id == -1)
+                        {
+                            iter->second->getWindow ()->close ();
+                            m_active.erase (iter);
+                            break;
+                        }
                     }
-                    else if (id == -1)
-                    {
-                        iter->second->getWindow ()->close ();
-                        m_active.erase (iter);
-                        break;
-                    }
-                }
 
-                iter->second->draw ();
+                    iter->second->draw ();
+                }
             }
+        }
+        catch (const std::exception& ex)
+        {
+            runtime_error (ex.what ());
         }
         return 0;
     }

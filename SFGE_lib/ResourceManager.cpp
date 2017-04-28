@@ -49,14 +49,6 @@ namespace sfge
     ResourceManager* ResourceManager::m_manager (nullptr);
 
 
-    ResourceManager * ResourceManager::getInstance ()
-    {
-        if (!m_manager)
-            runtime_error ("Attempt to obtain instance resource manager before creating");
-
-        return m_manager;
-    }
-
     ResourceManager::ResourceManager (bool use_default_font) :
         m_use_default_font (use_default_font)
     {
@@ -81,14 +73,15 @@ namespace sfge
         auto font_iter = std::find (m_scripts.begin (), m_scripts.end (), path);
 
         if (font_iter != m_scripts.end ())
+        {
+            runtime_error ("Resource script \"" + path + "\" was already read");
             return true;
+        }
 
         m_scripts.push_back (path);
 
         ResourceParser rp;
-        rp.parse_script ((ResourceLoader*) this, path.c_str ());
-
-        return true;
+        return rp.parse_script ((ResourceLoader*) this, path.c_str ());
     }
 
 

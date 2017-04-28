@@ -58,7 +58,7 @@ namespace sfge
 
         // Skip whitespaces and comments
 
-        for (;;)
+        while (true)
         {
             while (*script == ' ' || *script == '\t' || *script == '\n' || *script == '\r')
             {
@@ -69,8 +69,11 @@ namespace sfge
                 script++;
             }
 
-            if (*script == ';') while (*script && *script != '\n' && *script != '\r')
-                script++;
+            if (*script == ';')
+            {
+                while (*script && *script != '\n' && *script != '\r')
+                    script++;
+            }
             else
                 break;
         }
@@ -140,9 +143,7 @@ namespace sfge
 
         tokentype = semantics.string;
         for (i = 0;
-            *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r' &&
-            *script != ',' && *script != '=' && *script != '{' && *script != '}' && *script != ':' &&
-            *script != '[' && *script != ']' && *script != '<' && *script != '>' && *script != ';';
+            *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r';
             i++
         )
         {
@@ -157,7 +158,7 @@ namespace sfge
         script -= std::strlen (tokenvalue);
     }
 
-    int TextParser::getLine ()
+    int TextParser::getLine () const
     {
         return line;
     }

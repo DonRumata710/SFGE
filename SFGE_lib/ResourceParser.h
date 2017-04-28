@@ -30,6 +30,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 
 namespace sfge
@@ -42,7 +43,7 @@ namespace sfge
 
     class ResourceParser
     {
-        enum Resource
+        enum Resource : size_t
         {
             SCRIPT,
             FONT,
@@ -78,6 +79,8 @@ namespace sfge
         void parse_particle      (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_distort       (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_string_table  (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+
+        void log_undefined_base_resource (const TextParser& tp, const std::string& name) const;
     };
 
 

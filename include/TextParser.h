@@ -103,14 +103,14 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// getLine - get current line
         ///
-        /// @return - 
+        /// @return - current line
         /////////////////////////////////////////////////////////////////////
-        int getLine ();
+        int getLine () const;
 
         /////////////////////////////////////////////////////////////////////
-        /// tknString parse token as a 
+        /// tknString parse token as a string
         ///
-        /// @return - 
+        /// @return - parsed value
         /////////////////////////////////////////////////////////////////////
         char* tknString ();
 
@@ -149,7 +149,7 @@ namespace sfge
         const char* script;
         int line;
 
-        bool strtkcmp (const std::string& str, const char *mem);
+        static bool strtkcmp (const std::string& str, const char* mem);
     };
 
 
