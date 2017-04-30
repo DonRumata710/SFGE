@@ -46,8 +46,6 @@ namespace sf
 
 
 
-
-
 namespace sfge
 {
 

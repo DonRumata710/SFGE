@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.5)
+set(LIBRARY_NAME SFGE)
 
 set(SOURCES)
 set(HEADERS)
@@ -42,23 +42,24 @@ set(UTILITY_HEADERS
     Unicode
 )
 
-set(SFGE_LIB_DIR ./SFGE_lib)
+set(SFGE_LIB_DIR ${PROJECT_SOURCE_DIR}/${LIBRARY_NAME}_lib/)
+set(SFGE_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/${LIBRARY_NAME}/)
 
 foreach(class ${CLASSES})
-    LIST(APPEND SOURCES ${PROJECT_SOURCE_DIR}/SFGE_lib/${class}.cpp)
-    LIST(APPEND HEADERS ${PROJECT_SOURCE_DIR}/include/${class}.h)
+    LIST(APPEND SOURCES ${SFGE_LIB_DIR}${class}.cpp)
+    LIST(APPEND HEADERS ${SFGE_INCLUDE_DIR}${class}.h)
 endforeach()
 
 foreach(class ${PRIVATE_CLASSES})
-    LIST(APPEND SOURCES ${PROJECT_SOURCE_DIR}/SFGE_lib/${class}.cpp)
-    LIST(APPEND HEADERS ${PROJECT_SOURCE_DIR}/SFGE_lib/${class}.h)
+    LIST(APPEND SOURCES ${SFGE_LIB_DIR}${class}.cpp)
+    LIST(APPEND HEADERS ${SFGE_LIB_DIR}${class}.h)
 endforeach()
 
 foreach(header ${UTILITY_HEADERS})
-    LIST(APPEND HEADERS ${PROJECT_SOURCE_DIR}/include/${header}.h)
+    LIST(APPEND HEADERS ${SFGE_INCLUDE_DIR}${header}.h)
 endforeach()
 
-include_directories(${PROJECT_SOURCE_DIR}/include ${SFML_ROOT}/include)
+include_directories(${SFGE_INCLUDE_DIR} ${SFML_ROOT}/include)
 add_definitions(-DSFML_STATIC)
 
-add_library(SFGE STATIC ${SOURCES} ${HEADERS})
+add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})

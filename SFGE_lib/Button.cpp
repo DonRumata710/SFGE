@@ -148,7 +148,7 @@ namespace sfge
 
     bool Button::check_mouse (const int x, const int y)
     {
-        if (m_view.contains (x, y))
+        if (m_view.contains (static_cast<float> (x), static_cast<float> (y)))
         {
             set_view (FOCUSED);
             return true;
