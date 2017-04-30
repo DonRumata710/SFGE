@@ -44,7 +44,7 @@ namespace sfge
         m_texture (std::make_unique<sf::RenderTexture> ())
     {
         m_text.setCharacterSize (14);
-        m_text.setPosition (m_text.getCharacterSize () / 4, 0);
+        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / 4), 0.0f);
 
         setTextColor (sf::Color::White);
     }
@@ -93,8 +93,8 @@ namespace sfge
         m_text.setCharacterSize (size);
 
         setRect ({ 
-            (int) m_outward_view.getPosition ().x,
-            (int) m_outward_view.getPosition ().y,
+            static_cast<int> (m_outward_view.getPosition ().x),
+            static_cast<int> (m_outward_view.getPosition ().y),
             m_outward_view.getSize ().x,
             m_outward_view.getSize ().y
         });
@@ -148,9 +148,9 @@ namespace sfge
     {
         m_text.setString ("");
         m_string.clear ();
-        m_text.setPosition (m_text.getCharacterSize () / 4, m_text.getPosition ().y);
-        m_line[0].position.x = m_text.getCharacterSize () / 4;
-        m_line[1].position.x = m_text.getCharacterSize () / 4;
+        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / 4), static_cast<float> (m_text.getPosition ().y));
+        m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
+        m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -170,17 +170,17 @@ namespace sfge
         m_background.setSize (desc.width, desc.height);
         m_focus.setSize (0, desc.height);
 
-        m_text.setPosition (m_text.getCharacterSize () / 4, (desc.height - m_text.getCharacterSize ()) / 2);
-        m_line[0].position.y = (desc.height - m_text.getCharacterSize ()) / 2;
-        m_line[1].position.y = (desc.height - m_text.getCharacterSize ()) / 2 + m_text.getCharacterSize ();
+        m_text.setPosition (float (m_text.getCharacterSize () / 4), float ((desc.height - m_text.getCharacterSize ()) / 2));
+        m_line[0].position.y = float ((desc.height - m_text.getCharacterSize ()) / 2);
+        m_line[1].position.y = float ((desc.height - m_text.getCharacterSize ()) / 2 + m_text.getCharacterSize ());
 
         redraw ();
     }
 
     void LineEdit::enter ()
     {
-        m_line[0].position.y = (m_background.getSize ().y - m_text.getCharacterSize ()) / 2;
-        m_line[1].position.y = m_text.getCharacterSize () + m_text.getCharacterSize () / 4;
+        m_line[0].position.y = float ((m_background.getSize ().y - m_text.getCharacterSize ()) / 2);
+        m_line[1].position.y = float (m_text.getCharacterSize () + m_text.getCharacterSize () / 4);
         set_focus_pos (0);
     }
 
@@ -196,8 +196,8 @@ namespace sfge
             set_focus_pos (0);
             break;
         case sf::Keyboard::End:
-            m_focused_char = m_string.getSize ();
-            set_focus_pos (m_text.getLocalBounds ().width);
+            m_focused_char = static_cast<unsigned int> (m_string.getSize ());
+            set_focus_pos (static_cast<int> (m_text.getLocalBounds ().width));
             break;
         case sf::Keyboard::Left:
             if (m_focused_char)
@@ -286,7 +286,7 @@ namespace sfge
 
     bool LineEdit::check_mouse (const int x, const int y)
     {
-        return m_outward_view.contains (x, y);
+        return m_outward_view.contains (static_cast<float> (x), static_cast<float> (y));
     }
 
     void LineEdit::draw (sf::RenderTarget& target) const
@@ -318,25 +318,32 @@ namespace sfge
 
     unsigned LineEdit::get_width (const unsigned index) const
     {
-        return unsigned (m_text.getFont ()->getGlyph (m_string[index], m_text.getCharacterSize (), false).advance);
+        const sf::Font* font (m_text.getFont ());
+        if (index)
+        {
+            return static_cast<unsigned> (font->getGlyph (m_string[index], m_text.getCharacterSize (), false).advance +
+                font->getKerning (m_string[index], m_string[index - 1], m_text.getCharacterSize ()));
+        }
+        else
+            return static_cast<unsigned> (font->getGlyph (m_string[index], m_text.getCharacterSize (), false).advance);
     }
 
     void LineEdit::set_focus_pos (int x)
     {
-        m_line[0].position.x = x + (int) m_text.getCharacterSize () / 4;
-        m_line[1].position.x = x + (int) m_text.getCharacterSize () / 4;
+        m_line[0].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / 4);
+        m_line[1].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / 4);
 
         if (m_line[0].position.x > m_background.getSize ().x)
         {
             m_text.move (m_background.getSize ().x - m_line[0].position.x, 0);
-            m_line[0].position.x = m_background.getSize ().x;
-            m_line[1].position.x = m_background.getSize ().x;
+            m_line[0].position.x = static_cast<float> (m_background.getSize ().x);
+            m_line[1].position.x = static_cast<float> (m_background.getSize ().x);
         }
         else if (m_line[0].position.x < m_text.getCharacterSize () / 4)
         {
             m_text.move (m_text.getCharacterSize () / 4 - m_line[0].position.x, 0);
-            m_line[0].position.x = m_text.getCharacterSize () / 4;
-            m_line[1].position.x = m_text.getCharacterSize () / 4;
+            m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
+            m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
         }
 
         redraw ();
