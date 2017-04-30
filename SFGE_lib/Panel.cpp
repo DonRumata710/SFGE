@@ -28,6 +28,7 @@
 
 
 #include "Panel.h"
+#include "ResourceManager.h"
 
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -65,6 +66,20 @@ namespace sfge
     {
         m_texture = tex;
         sf::Vector2u size (tex->getSize ());
+        m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
+        m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
+        m_arr[2].texCoords = sf::Vector2f (0.0, size.y);
+        m_arr[3].texCoords = sf::Vector2f (size.x, size.y);
+        m_arr[0].color = sf::Color (255, 255, 255);
+        m_arr[1].color = sf::Color (255, 255, 255);
+        m_arr[2].color = sf::Color (255, 255, 255);
+        m_arr[3].color = sf::Color (255, 255, 255);
+    }
+
+    void Panel::setTexture (const std::string& tex)
+    {
+        m_texture = ResourceManager::getInstance ()->findTexture (tex);
+        sf::Vector2u size (m_texture->getSize ());
         m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
         m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
         m_arr[2].texCoords = sf::Vector2f (0.0, size.y);

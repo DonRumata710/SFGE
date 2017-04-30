@@ -35,6 +35,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 
 #include <memory>
+#include <string>
 
 
 namespace sf
@@ -76,6 +77,13 @@ namespace sfge
         /// @param tex - new texture
         /////////////////////////////////////////////////////////////////////
         void setTexture (const std::shared_ptr<const Texture> tex);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setTexture - set texture to panel
+        /// 
+        /// @param tex - name of new texture
+        /////////////////////////////////////////////////////////////////////
+        void setTexture (const std::string& tex);
 
         /////////////////////////////////////////////////////////////////////
         /// setColor - fill panel by one color
