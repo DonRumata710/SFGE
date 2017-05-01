@@ -33,6 +33,9 @@
 #include <catch.hpp>
 
 
+using namespace sfge;
+
+
 TEST_CASE ("Test successful collisions")
 {
     Collision c1;

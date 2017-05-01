@@ -31,30 +31,21 @@
 #include <SFGE/ResourceManager.h>
 
 
-MapObject::MapObject (const std::string& view) :
-    _panel (sfge::ResourceManager::getInstance ()->getTexture (view))
-{}
+using namespace sfge;
 
 
-MapObject::~MapObject ()
-{}
-
-void MapObject::setPosition (const sfge::Vector2u pos)
+void MapObject::setPosition (const Vector2f& pos)
 {
-    _panel.setPosition (pos);
+    m_collision.move (m_position - pos);
+    m_position = pos;
 }
 
-void MapObject::setCollision (const Collision & collision)
+void MapObject::setCollision (const Collision& collision)
 {
-    _collision = collision;
+    m_collision = collision;
 }
 
-bool MapObject::detectCollision (const Collision & collision)
+bool MapObject::detectCollision (const Collision& collision)
 {
-    return _collision.check (collision);
-}
-
-void MapObject::setView (const std::string& view)
-{
-    _panel.setTexture (sfge::ResourceManager::getInstance ()->findTexture (view));
+    return m_collision.check (collision);
 }

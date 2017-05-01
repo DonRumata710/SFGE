@@ -27,42 +27,33 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "StaticObject.h"
 
 
-#include <SFML\System\Vector2.hpp>
-
-#include <vector>
-#include <utility>
+using namespace sfge;
 
 
-namespace sfge
+sfge::StaticObject::StaticObject (std::shared_ptr<const Texture> texture)
 {
+    m_panel.setTexture (texture);
+}
 
+sfge::StaticObject::StaticObject (const std::string& texture)
+{
+    m_panel.setTexture (texture);
+}
 
-    typedef sf::Vector2f Position;
-    typedef std::vector<Position> Circuit;
+void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
+{
+    m_panel.setTexture (texture);
+}
 
+void sfge::StaticObject::setView (const std::string& texture)
+{
+    m_panel.setTexture (texture);
+}
 
-    class Collision
-    {
-    public:
-        Collision () = default;
-        Collision (const Circuit& points);
-        ~Collision ();
-
-        void setPoints (const Circuit& points);
-
-        void move (const Position pos);
-
-        bool check (const Collision&);
-
-    private:
-        static bool segmentCollision (const Position a, const Position b, const Position c, const Position d);
-
-    private:
-        Circuit points;
-    };
-
-
+void StaticObject::draw (RenderTarget& target) const
+{
+    target.draw (m_panel);
 }

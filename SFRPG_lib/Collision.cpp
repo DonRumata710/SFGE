@@ -30,22 +30,23 @@
 #include "Collision.h"
 
 
+using namespace sfge;
+
+
 const float epsilon = 1e-4f;
 
 
 Position& operator+= (Position& p1, const Position p2)
 {
-    p1.first += p2.first;
-    p1.second += p2.second;
+    p1.x += p2.x;
+    p1.y += p2.y;
     return p1;
 }
-
 
 
 Collision::Collision (const Circuit& _points) :
     points (_points)
 {}
-
 
 Collision::~Collision ()
 {}
@@ -85,11 +86,11 @@ bool Collision::check (const Collision& collision)
 
 bool Collision::segmentCollision (const Position a, const Position b, const Position c, const Position d)
 {
-    float side_a ((a.first - c.first) * (d.second - c.second) - (a.second - c.second) * (d.first - c.first));
-    float side_b ((b.first - c.first) * (d.second - c.second) - (b.second - c.second) * (d.first - c.first));
+    float side_a ((a.x - c.x) * (d.y - c.y) - (a.y - c.y) * (d.x - c.x));
+    float side_b ((b.x - c.x) * (d.y - c.y) - (b.y - c.y) * (d.x - c.x));
 
-    float side_c ((c.first - a.first) * (b.second - a.second) - (c.second - a.second) * (b.first - a.first));
-    float side_d ((d.first - a.first) * (b.second - a.second) - (d.second - a.second) * (b.first - a.first));
+    float side_c ((c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x));
+    float side_d ((d.x - a.x) * (b.y - a.y) - (d.y - a.y) * (b.x - a.x));
 
     if (((side_a < -epsilon && side_b > epsilon) || (side_a > epsilon && side_b < -epsilon)) &&
         ((side_c < -epsilon && side_d > epsilon) || (side_c > epsilon && side_d < -epsilon))

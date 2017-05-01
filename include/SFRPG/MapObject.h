@@ -31,26 +31,38 @@
 
 #include "Collision.h"
 
-#include <SFGE\Panel.h>
+#include <SFML\Graphics\RenderTarget.hpp>
+
 #include <string>
 
 
-class MapObject
+namespace sfge
 {
-public:
-    MapObject (const std::string& view);
-    ~MapObject ();
 
-    void setPosition (const sfge::Vector2u pos);
 
-    void setCollision (const Collision& collision);
+    using sf::Vector2f;
+    using sf::RenderTarget;
 
-    bool detectCollision (const Collision& collision);
 
-    void setView (const std::string& view);
+    class MapObject
+    {
+    public:
+        MapObject () = default;
 
-private:
-    sfge::Panel _panel;
-    Collision _collision;
-};
+        ~MapObject () = default;
 
+        void setPosition (const Vector2f& pos);
+
+        void setCollision (const Collision& collision);
+
+        bool detectCollision (const Collision& collision);
+
+        virtual void draw (RenderTarget& target) const = 0;
+
+    private:
+        Collision m_collision;
+        Vector2f m_position;
+    };
+
+
+}

@@ -30,38 +30,34 @@
 #pragma once
 
 
-#include <SFML\System\Vector2.hpp>
+#include "MapObject.h"
 
-#include <vector>
-#include <utility>
+#include <SFGE\Panel.h>
 
 
 namespace sfge
 {
 
 
-    typedef sf::Vector2f Position;
-    typedef std::vector<Position> Circuit;
-
-
-    class Collision
+    class StaticObject final : public MapObject
     {
     public:
-        Collision () = default;
-        Collision (const Circuit& points);
-        ~Collision ();
+        StaticObject () = default;
 
-        void setPoints (const Circuit& points);
+        StaticObject (std::shared_ptr<const Texture> texture);
 
-        void move (const Position pos);
+        StaticObject (const std::string& texture);
 
-        bool check (const Collision&);
+        ~StaticObject () = default;
+
+        void setView (std::shared_ptr<const Texture> texture);
+
+        void setView (const std::string& texture);
+
+        virtual void draw (RenderTarget& target) const override;
 
     private:
-        static bool segmentCollision (const Position a, const Position b, const Position c, const Position d);
-
-    private:
-        Circuit points;
+        Panel m_panel;
     };
 
 

@@ -22,11 +22,13 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\SFRPG\Collision.h" />
     <ClInclude Include="..\include\SFRPG\Map.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />
+    <ClInclude Include="..\include\SFRPG\StaticObject.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{853830EB-175C-4F2F-89C2-0F827B05C376}</ProjectGuid>
