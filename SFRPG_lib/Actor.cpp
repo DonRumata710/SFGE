@@ -26,24 +26,3 @@
 // 
 /////////////////////////////////////////////////////////////////////
 
-
-#include "StaticObject.h"
-
-
-using namespace sfge;
-
-
-void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
-{
-    m_panel.setTexture (texture);
-}
-
-void sfge::StaticObject::setView (const std::string& texture)
-{
-    m_panel.setTexture (texture);
-}
-
-void StaticObject::draw (RenderTarget& target) const
-{
-    target.draw (m_panel);
-}

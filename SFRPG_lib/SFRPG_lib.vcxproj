@@ -19,13 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="DynamicObject.cpp" />
+    <ClCompile Include="InteractiveObject.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="StaticObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\SFRPG\Action.h" />
+    <ClInclude Include="..\include\SFRPG\Actor.h" />
     <ClInclude Include="..\include\SFRPG\Collision.h" />
+    <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
+    <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
     <ClInclude Include="..\include\SFRPG\Map.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />
     <ClInclude Include="..\include\SFRPG\StaticObject.h" />

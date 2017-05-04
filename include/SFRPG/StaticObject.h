@@ -42,14 +42,6 @@ namespace sfge
     class StaticObject final : public MapObject
     {
     public:
-        StaticObject () = default;
-
-        StaticObject (std::shared_ptr<const Texture> texture);
-
-        StaticObject (const std::string& texture);
-
-        ~StaticObject () = default;
-
         void setView (std::shared_ptr<const Texture> texture);
 
         void setView (const std::string& texture);

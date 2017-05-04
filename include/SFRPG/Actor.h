@@ -27,23 +27,27 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "StaticObject.h"
+#pragma once
 
 
-using namespace sfge;
+#include "InteractiveObject.h"
+#include <cstdint>
 
 
-void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
+namespace sfge
 {
-    m_panel.setTexture (texture);
-}
 
-void sfge::StaticObject::setView (const std::string& texture)
-{
-    m_panel.setTexture (texture);
-}
 
-void StaticObject::draw (RenderTarget& target) const
-{
-    target.draw (m_panel);
+    class Actor : public InteractiveObject
+    {
+    public:
+        void action (std::shared_ptr<iAction> action, InteractiveObject* target);
+
+    private:
+        uint32_t m_hp;
+        uint32_t m_fp;
+        uint32_t m_sp;
+    };
+
+
 }

@@ -27,23 +27,22 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "StaticObject.h"
+#include "DynamicObject.h"
+
+#include <SFGE\ResourceManager.h>
 
 
-using namespace sfge;
-
-
-void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
+void sfge::DynamicObject::setAnimation (std::unique_ptr<Animation> animation)
 {
-    m_panel.setTexture (texture);
+    m_animation.swap (animation);
 }
 
-void sfge::StaticObject::setView (const std::string& texture)
+void sfge::DynamicObject::setAnimation (const std::string & animation)
 {
-    m_panel.setTexture (texture);
+    setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
 }
 
-void StaticObject::draw (RenderTarget& target) const
+void sfge::DynamicObject::draw (RenderTarget & target) const
 {
-    target.draw (m_panel);
+    target.draw (*m_animation);
 }

@@ -27,23 +27,38 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "StaticObject.h"
+#pragma once
+
+#include "MapObject.h"
+#include "Action.h"
+
+#include <SFGE\Animation.h>
+
+#include <functional>
+#include <unordered_map>
 
 
-using namespace sfge;
-
-
-void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
+namespace sfge
 {
-    m_panel.setTexture (texture);
-}
 
-void sfge::StaticObject::setView (const std::string& texture)
-{
-    m_panel.setTexture (texture);
-}
 
-void StaticObject::draw (RenderTarget& target) const
-{
-    target.draw (m_panel);
+    class InteractiveObject : public MapObject
+    {
+    public:
+        void setAnimation (std::unique_ptr<Animation> animation);
+
+        void setAnimation (const std::string& animation);
+
+        virtual void draw (RenderTarget& target) const override;
+
+        void attachReaction (uint32_t action, std::shared_ptr<iAction> reaction);
+
+        uint32_t doAction (uint32_t action, uint32_t parameter);
+
+    private:
+        std::unique_ptr<Animation> m_animation;
+        std::unordered_map<uint32_t, std::shared_ptr<iAction>> m_reactions;
+    };
+
+
 }

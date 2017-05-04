@@ -27,23 +27,36 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "StaticObject.h"
+#include "InteractiveObject.h"
+
+#include <SFGE\ResourceManager.h>
 
 
-using namespace sfge;
-
-
-void sfge::StaticObject::setView (std::shared_ptr<const Texture> texture)
+void sfge::InteractiveObject::setAnimation (std::unique_ptr<Animation> animation)
 {
-    m_panel.setTexture (texture);
+    m_animation.swap (animation);
 }
 
-void sfge::StaticObject::setView (const std::string& texture)
+void sfge::InteractiveObject::setAnimation (const std::string & animation)
 {
-    m_panel.setTexture (texture);
+    setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
 }
 
-void StaticObject::draw (RenderTarget& target) const
+void sfge::InteractiveObject::draw (RenderTarget & target) const
 {
-    target.draw (m_panel);
+    target.draw (*m_animation);
+}
+
+void sfge::InteractiveObject::attachReaction (uint32_t action, std::shared_ptr<iAction> reaction)
+{
+    m_reactions.insert ({ action, reaction });
+}
+
+uint32_t sfge::InteractiveObject::doAction (uint32_t action, uint32_t parameter)
+{
+    auto reaction (m_reactions.find (action));
+    if (reaction != m_reactions.end ())
+        return reaction->second->doAction (this);
+
+    return UINT32_MAX;
 }
