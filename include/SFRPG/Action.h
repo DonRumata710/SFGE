@@ -44,12 +44,22 @@ namespace sfge
     class iAction
     {
     public:
-        iAction (Actor* actor);
+        typedef uint32_t ActionID;
 
-        virtual uint32_t doAction (InteractiveObject* actor) = 0;
+        ActionID getID () const;
+
+        Actor* getActor () const;
+
+        virtual ActionID doAction (InteractiveObject* actor = nullptr) = 0;
+
+    protected:
+        explicit iAction (Actor* actor, ActionID id);
 
     private:
-        Actor* m_actor;
+        static const ActionID INVALID_OBJECT = UINT32_MAX;
+
+        Actor* m_actor = nullptr;
+        ActionID m_id = INVALID_OBJECT;
     };
 
 

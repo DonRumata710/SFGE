@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Collision.h"
 
 #include <SFML\Graphics\RenderTarget.hpp>

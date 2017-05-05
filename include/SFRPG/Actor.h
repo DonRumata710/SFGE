@@ -41,12 +41,11 @@ namespace sfge
     class Actor : public InteractiveObject
     {
     public:
-        void action (std::shared_ptr<iAction> action, InteractiveObject* target);
-
-    private:
-        uint32_t m_hp;
-        uint32_t m_fp;
-        uint32_t m_sp;
+        template<class Action, typename ...Args> void runAction (InteractiveObject* target, Args ...args)
+        {
+            Action action (this, args);
+            target->doAction (&action);
+        }
     };
 
 

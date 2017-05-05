@@ -30,6 +30,9 @@
 #include "Map.h"
 
 
+using namespace sfge;
+
+
 Map::Map ()
 {}
 
@@ -37,5 +40,11 @@ Map::Map ()
 Map::~Map ()
 {}
 
-void Map::draw (sfge::RenderTarget & target) const
-{}
+void Map::draw (sfge::RenderTarget& target) const
+{
+    for (auto tile : m_tiles)
+        target.draw (tile);
+
+    for (auto object : m_objects)
+        object->draw (target);
+}

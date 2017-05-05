@@ -32,6 +32,8 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch.hpp>
 
+#include <random>
+
 
 using namespace sfge;
 
@@ -98,4 +100,55 @@ TEST_CASE ("Test fail collisions")
     c2.setPoints (points2);
 
     REQUIRE (!c1.check (c2));
+}
+
+TEST_CASE ("Test point detecting")
+{
+    Collision c;
+    Circuit points;
+
+    points.assign ({ { 0.0, 10.0 }, { 10.0, 10.0 }, { 10.0, 0.0 }, { 0.0, 0.0 } });
+
+    c.setPoints (points);
+
+    std::random_device rd;
+    std::mt19937 mt (rd ());
+    std::uniform_real_distribution<float> dist (0.0, 10.0);
+
+    for (size_t i = 0; i < 100; ++i)
+    {
+        Point p (dist (mt), dist (mt));
+
+        REQUIRE (c.check (p));
+    }
+}
+
+TEST_CASE ("Test failing point detecting")
+{
+    Collision c;
+    Circuit points;
+
+    points.assign ({ { 0.0, 10.0 }, { 10.0, 10.0 }, { 10.0, 0.0 }, { 0.0, 0.0 } });
+
+    c.setPoints (points);
+
+    std::random_device rd;
+    std::mt19937 mt (rd ());
+    std::uniform_real_distribution<float> dist_big (10.0, 20.0);
+    std::uniform_real_distribution<float> dist_sml (-10.0, 0.0);
+
+    for (size_t i = 0; i < 25; ++i)
+    {
+        Point p1 (dist_big (mt), dist_big (mt));
+        REQUIRE (!c.check (p1));
+
+        Point p2 (dist_big (mt), dist_sml (mt));
+        REQUIRE (!c.check (p2));
+
+        Point p3 (dist_sml (mt), dist_big (mt));
+        REQUIRE (!c.check (p3));
+
+        Point p4 (dist_sml (mt), dist_sml (mt));
+        REQUIRE (!c.check (p4));
+    }
 }

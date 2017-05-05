@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "MapObject.h"
 #include "Action.h"
 
@@ -51,13 +52,13 @@ namespace sfge
 
         virtual void draw (RenderTarget& target) const override;
 
-        void attachReaction (uint32_t action, std::shared_ptr<iAction> reaction);
+        void attachReaction (iAction::ActionID action, std::shared_ptr<iAction> reaction);
 
-        uint32_t doAction (uint32_t action, uint32_t parameter);
+        void doAction (const iAction* action);
 
     private:
         std::unique_ptr<Animation> m_animation;
-        std::unordered_map<uint32_t, std::shared_ptr<iAction>> m_reactions;
+        std::unordered_map<iAction::ActionID, std::shared_ptr<iAction>> m_reactions;
     };
 
 

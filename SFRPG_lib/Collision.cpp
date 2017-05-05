@@ -36,7 +36,7 @@ using namespace sfge;
 const float epsilon = 1e-4f;
 
 
-Position& operator+= (Position& p1, const Position p2)
+Point& operator+= (Point& p1, const Point p2)
 {
     p1.x += p2.x;
     p1.y += p2.y;
@@ -56,7 +56,7 @@ void Collision::setPoints (const Circuit& new_points)
     points.assign (new_points.begin (), new_points.end ());
 }
 
-void Collision::move (const Position newpos)
+void Collision::move (const Point newpos)
 {
     for (auto point : points)
     {
@@ -84,7 +84,22 @@ bool Collision::check (const Collision& collision)
     return true;
 }
 
-bool Collision::segmentCollision (const Position a, const Position b, const Position c, const Position d)
+bool sfge::Collision::check (Point point)
+{
+    for (int i = 0; i < points.size (); ++i)
+    {
+        auto a_point (i == 0 ? *points.rbegin () : points[i - 1]);
+        auto b_point (points[i]);
+        auto c_point (i == (points.size () - 1) ? points[0] : points[i + 1]);
+
+        if (isPointInTriangle (a_point, b_point, c_point, point))
+            return true;
+    }
+
+    return false;
+}
+
+bool Collision::segmentCollision (const Point a, const Point b, const Point c, const Point d)
 {
     float side_a ((a.x - c.x) * (d.y - c.y) - (a.y - c.y) * (d.x - c.x));
     float side_b ((b.x - c.x) * (d.y - c.y) - (b.y - c.y) * (d.x - c.x));
@@ -98,4 +113,20 @@ bool Collision::segmentCollision (const Position a, const Position b, const Posi
         return false;
     
     return true;
+}
+
+float Collision::sign (Point p1, Point p2, Point p3)
+{
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
+
+bool sfge::Collision::isPointInTriangle (Point triangle_a, Point triangle_b, Point triangle_c, Point point)
+{
+    bool b1, b2, b3;
+
+    b1 = sign (point, triangle_a, triangle_b) < 0.0f;
+    b2 = sign (point, triangle_b, triangle_c) < 0.0f;
+    b3 = sign (point, triangle_c, triangle_a) < 0.0f;
+
+    return ((b1 == b2) && (b2 == b3));
 }

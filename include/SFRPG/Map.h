@@ -29,19 +29,32 @@
 
 #pragma once
 
+
+#include "MapObject.h"
+
 #include <SFGE/Widget.h>
+#include <SFGE/Panel.h>
+
+#include <vector>
 
 
-class Map final : public sfge::iWidget
+namespace sfge
 {
-public:
-    Map ();
-    virtual ~Map ();
 
-private:
-    virtual void draw (sfge::RenderTarget& target) const override;
 
-private:
+    class Map final : public sfge::iWidget
+    {
+    public:
+        Map ();
+        virtual ~Map ();
 
-};
+    private:
+        virtual void draw (sfge::RenderTarget& target) const override;
 
+    private:
+        std::vector<Panel> m_tiles;
+        std::vector<std::shared_ptr<MapObject>> m_objects;
+    };
+
+
+}

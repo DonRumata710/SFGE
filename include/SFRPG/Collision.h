@@ -40,8 +40,8 @@ namespace sfge
 {
 
 
-    typedef sf::Vector2f Position;
-    typedef std::vector<Position> Circuit;
+    typedef sf::Vector2f Point;
+    typedef std::vector<Point> Circuit;
 
 
     class Collision
@@ -53,12 +53,17 @@ namespace sfge
 
         void setPoints (const Circuit& points);
 
-        void move (const Position pos);
+        void move (const Point pos);
 
-        bool check (const Collision&);
+        bool check (const Collision& collision);
+        bool check (Point point);
 
     private:
-        static bool segmentCollision (const Position a, const Position b, const Position c, const Position d);
+        static bool segmentCollision (const Point a, const Point b, const Point c, const Point d);
+
+        static bool isPointInTriangle (Point triangle_a, Point triangle_b, Point triangle_c, Point point);
+
+        static float sign (Point p1, Point p2, Point p3);
 
     private:
         Circuit points;

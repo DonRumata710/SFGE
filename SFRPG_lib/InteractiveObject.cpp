@@ -28,6 +28,7 @@
 
 
 #include "InteractiveObject.h"
+#include "Actor.h"
 
 #include <SFGE\ResourceManager.h>
 
@@ -47,16 +48,15 @@ void sfge::InteractiveObject::draw (RenderTarget & target) const
     target.draw (*m_animation);
 }
 
-void sfge::InteractiveObject::attachReaction (uint32_t action, std::shared_ptr<iAction> reaction)
+void sfge::InteractiveObject::attachReaction (iAction::ActionID action, std::shared_ptr<iAction> reaction)
 {
     m_reactions.insert ({ action, reaction });
 }
 
-uint32_t sfge::InteractiveObject::doAction (uint32_t action, uint32_t parameter)
+void sfge::InteractiveObject::doAction (const iAction* action)
 {
-    auto reaction (m_reactions.find (action));
-    if (reaction != m_reactions.end ())
-        return reaction->second->doAction (this);
+    auto reaction (m_reactions.find (action->getID ()));
 
-    return UINT32_MAX;
+    if (reaction != m_reactions.end ())
+        reaction->second->doAction (action->getActor ());
 }

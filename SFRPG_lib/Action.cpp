@@ -30,6 +30,17 @@
 #include "..\include\SFRPG\Action.h"
 
 
-sfge::iAction::iAction (Actor* actor) :
-    m_actor (actor)
+sfge::iAction::iAction (Actor* actor, ActionID id) :
+    m_actor (actor),
+    m_id (id)
 {}
+
+sfge::iAction::ActionID sfge::iAction::getID () const
+{
+    return m_id;
+}
+
+sfge::Actor* sfge::iAction::getActor () const
+{
+    return m_actor;
+}
