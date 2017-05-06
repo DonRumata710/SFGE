@@ -52,9 +52,19 @@ namespace sfge
 
         virtual void draw (RenderTarget& target) const override;
 
-        void attachReaction (iAction::ActionID action, std::shared_ptr<iAction> reaction);
+        template<class Action, typename ...Args> void runAction (InteractiveObject* target, Args ...args)
+        {
+            Action action (this, args);
+            target->doAction (&action);
+        }
 
         void doAction (const iAction* action);
+
+        template<class Action, typename ...Args> void attachReaction (iAction::ActionID id_action, Args ...args)
+        {
+            std::shared_ptr<iAction> action (new Action (this, args));
+            m_reactions[id_action] = action;
+        }
 
     private:
         std::unique_ptr<Animation> m_animation;

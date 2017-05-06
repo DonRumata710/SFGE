@@ -42,11 +42,16 @@ namespace sfge
 {
 
 
+    using sf::Vector2f;
+
+
     class Map final : public sfge::iWidget
     {
     public:
         Map ();
         virtual ~Map ();
+
+        bool checkMovement (const MapObject* object) const;
 
     private:
         virtual void draw (sfge::RenderTarget& target) const override;
@@ -54,6 +59,8 @@ namespace sfge
     private:
         std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;
+
+        Vector2f m_size;
     };
 
 

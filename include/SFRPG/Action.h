@@ -38,7 +38,6 @@ namespace sfge
 
 
     class InteractiveObject;
-    class Actor;
 
 
     class iAction
@@ -48,17 +47,17 @@ namespace sfge
 
         ActionID getID () const;
 
-        Actor* getActor () const;
+        InteractiveObject* getActor () const;
 
-        virtual ActionID doAction (InteractiveObject* actor = nullptr) = 0;
+        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
 
     protected:
-        explicit iAction (Actor* actor, ActionID id);
+        iAction (InteractiveObject* actor, ActionID id);
 
     private:
         static const ActionID INVALID_OBJECT = UINT32_MAX;
 
-        Actor* m_actor = nullptr;
+        InteractiveObject* m_actor = nullptr;
         ActionID m_id = INVALID_OBJECT;
     };
 

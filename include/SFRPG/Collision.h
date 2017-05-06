@@ -39,34 +39,51 @@
 namespace sfge
 {
 
+    
+    using sf::Vector2f;
 
-    typedef sf::Vector2f Point;
+    typedef Vector2f Point;
     typedef std::vector<Point> Circuit;
 
 
     class Collision
     {
     public:
+        enum class State
+        {
+            INTERSECTION,
+            INSIDE,
+            OUTSIDE
+        };
+
         Collision () = default;
-        Collision (const Circuit& points);
+
+        explicit Collision (const Circuit& points);
+
         ~Collision ();
+
+        void setPosition (const Point pos);
+
+        void move (const Vector2f vector);
+
+        Point getPosition () const;
 
         void setPoints (const Circuit& points);
 
-        void move (const Point pos);
+        State check (const Collision& collision) const;
 
-        bool check (const Collision& collision);
-        bool check (Point point);
+        State check (const Point point) const;
 
     private:
-        static bool segmentCollision (const Point a, const Point b, const Point c, const Point d);
+        bool segmentCollision (const Point a, const Point b, const Point c, const Point d) const;
 
-        static bool isPointInTriangle (Point triangle_a, Point triangle_b, Point triangle_c, Point point);
+        bool isPointInside (Point p) const;
 
         static float sign (Point p1, Point p2, Point p3);
 
     private:
-        Circuit points;
+        Circuit m_points;
+        Point m_position;
     };
 
 

@@ -73,7 +73,7 @@ TEST_CASE ("Test successful collisions")
     c1.setPoints (points1);
     c2.setPoints (points2);
 
-    REQUIRE (c1.check (c2));
+    REQUIRE (c1.check (c2) != Collision::State::INTERSECTION);
 }
 
 TEST_CASE ("Test fail collisions")
@@ -99,7 +99,7 @@ TEST_CASE ("Test fail collisions")
     c1.setPoints (points1);
     c2.setPoints (points2);
 
-    REQUIRE (!c1.check (c2));
+    REQUIRE (c1.check (c2) == Collision::State::INTERSECTION);
 }
 
 TEST_CASE ("Test point detecting")
@@ -119,11 +119,11 @@ TEST_CASE ("Test point detecting")
     {
         Point p (dist (mt), dist (mt));
 
-        REQUIRE (c.check (p));
+        REQUIRE (c.check (p) == Collision::State::INSIDE);
     }
 }
 
-TEST_CASE ("Test failing point detecting")
+TEST_CASE ("Test outside point detecting")
 {
     Collision c;
     Circuit points;
@@ -140,15 +140,75 @@ TEST_CASE ("Test failing point detecting")
     for (size_t i = 0; i < 25; ++i)
     {
         Point p1 (dist_big (mt), dist_big (mt));
-        REQUIRE (!c.check (p1));
+        REQUIRE (c.check (p1) == Collision::State::OUTSIDE);
 
         Point p2 (dist_big (mt), dist_sml (mt));
-        REQUIRE (!c.check (p2));
+        REQUIRE (c.check (p2) == Collision::State::OUTSIDE);
 
         Point p3 (dist_sml (mt), dist_big (mt));
-        REQUIRE (!c.check (p3));
+        REQUIRE (c.check (p3) == Collision::State::OUTSIDE);
 
         Point p4 (dist_sml (mt), dist_sml (mt));
-        REQUIRE (!c.check (p4));
+        REQUIRE (c.check (p4) == Collision::State::OUTSIDE);
+    }
+}
+
+TEST_CASE ("Test collision movement")
+{
+    Collision c1;
+    Collision c2;
+
+    Circuit points1;
+    Circuit points2;
+    
+    points1.assign ({ { 4.0, 4.0 }, { 4.0, -4.0 }, { -4.0, -4.0 }, { -4.0, 4.0 } });
+    points2.assign ({ { 5.0, 5.0 }, { 5.0, -5.0 }, { -5.0, -5.0 }, { -5.0, 5.0 } });
+
+    c1.setPoints (points1);
+    c2.setPoints (points2);
+
+    REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
+    REQUIRE (c2.check (c1) == Collision::State::INSIDE);
+
+    SECTION ("1")
+    {
+        c1.setPosition ({ 10.0, 0.0 });
+        REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
+        REQUIRE (c2.check (c1) == Collision::State::OUTSIDE);
+    }
+
+    SECTION ("2")
+    {
+        c2.setPosition ({ 5.0, -5.0 });
+        REQUIRE (c1.check (c2) == Collision::State::INTERSECTION);
+        REQUIRE (c2.check (c1) == Collision::State::INTERSECTION);
+    }
+
+    SECTION ("3")
+    {
+        c1.setPosition ({ 0.0, 10.0 });
+        REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
+        REQUIRE (c2.check (c1) == Collision::State::OUTSIDE);
+    }
+
+    SECTION ("4")
+    {
+        c1.move ({ 10.0, 0.0 });
+        REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
+        REQUIRE (c2.check (c1) == Collision::State::OUTSIDE);
+    }
+
+    SECTION ("5")
+    {
+        c2.move ({ -3.0, 3.0 });
+        REQUIRE (c1.check (c2) == Collision::State::INTERSECTION);
+        REQUIRE (c2.check (c1) == Collision::State::INTERSECTION);
+    }
+
+    SECTION ("6")
+    {
+        c1.move ({ 6.0, 0.0 });
+        REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
+        REQUIRE (c2.check (c1) == Collision::State::OUTSIDE);
     }
 }

@@ -27,10 +27,11 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "..\include\SFRPG\Action.h"
+#include "Action.h"
+#include "InteractiveObject.h"
 
 
-sfge::iAction::iAction (Actor* actor, ActionID id) :
+sfge::iAction::iAction (InteractiveObject* actor, ActionID id) :
     m_actor (actor),
     m_id (id)
 {}
@@ -40,7 +41,7 @@ sfge::iAction::ActionID sfge::iAction::getID () const
     return m_id;
 }
 
-sfge::Actor* sfge::iAction::getActor () const
+sfge::InteractiveObject* sfge::iAction::getActor () const
 {
     return m_actor;
 }

@@ -41,11 +41,6 @@ namespace sfge
     class Actor : public InteractiveObject
     {
     public:
-        template<class Action, typename ...Args> void runAction (InteractiveObject* target, Args ...args)
-        {
-            Action action (this, args);
-            target->doAction (&action);
-        }
     };
 
 

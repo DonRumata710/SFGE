@@ -28,6 +28,8 @@
 
 
 #include "MapObject.h"
+#include "Map.h"
+
 #include <SFGE/ResourceManager.h>
 
 
@@ -36,8 +38,17 @@ using namespace sfge;
 
 void MapObject::setPosition (const Vector2f& pos)
 {
-    m_collision.move (m_position - pos);
-    m_position = pos;
+    Vector2f tmp (m_collision.getPosition ());
+    m_collision.setPosition (pos);
+    if (!m_map->checkMovement (this))
+        m_collision.setPosition (tmp);
+}
+
+void sfge::MapObject::move (Vector2f vector)
+{
+    m_collision.move (vector);
+    if (!m_map->checkMovement (this))
+        m_collision.move (-vector);
 }
 
 void MapObject::setCollision (const Collision& collision)
@@ -45,7 +56,7 @@ void MapObject::setCollision (const Collision& collision)
     m_collision = collision;
 }
 
-bool MapObject::detectCollision (const Collision& collision)
+Collision::State MapObject::detectCollision (const MapObject* object) const
 {
-    return m_collision.check (collision);
+    return m_collision.check (object->m_collision);
 }

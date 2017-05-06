@@ -48,11 +48,6 @@ void sfge::InteractiveObject::draw (RenderTarget & target) const
     target.draw (*m_animation);
 }
 
-void sfge::InteractiveObject::attachReaction (iAction::ActionID action, std::shared_ptr<iAction> reaction)
-{
-    m_reactions.insert ({ action, reaction });
-}
-
 void sfge::InteractiveObject::doAction (const iAction* action)
 {
     auto reaction (m_reactions.find (action->getID ()));

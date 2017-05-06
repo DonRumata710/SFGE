@@ -43,6 +43,8 @@ namespace sfge
 
     using sf::Vector2f;
     using sf::RenderTarget;
+    
+    class Map;
 
 
     class MapObject
@@ -54,15 +56,17 @@ namespace sfge
 
         void setPosition (const Vector2f& pos);
 
+        void move (Vector2f vector);
+
         void setCollision (const Collision& collision);
 
-        bool detectCollision (const Collision& collision);
+        Collision::State detectCollision (const MapObject* object) const;
 
         virtual void draw (RenderTarget& target) const = 0;
 
     private:
         Collision m_collision;
-        Vector2f m_position;
+        Map* m_map = nullptr;
     };
 
 

@@ -40,6 +40,17 @@ Map::Map ()
 Map::~Map ()
 {}
 
+bool sfge::Map::checkMovement (const MapObject* moved_object) const
+{
+    for (auto object : m_objects)
+    {
+        if (object->detectCollision (moved_object) != Collision::State::OUTSIDE)
+            return false;
+    }
+
+    return true;
+}
+
 void Map::draw (sfge::RenderTarget& target) const
 {
     for (auto tile : m_tiles)
