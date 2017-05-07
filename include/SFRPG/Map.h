@@ -31,6 +31,7 @@
 
 
 #include "MapObject.h"
+#include "WayPoint.h"
 
 #include <SFGE/Widget.h>
 #include <SFGE/Panel.h>
@@ -44,23 +45,34 @@ namespace sfge
 
     using sf::Vector2f;
 
+    class InteractiveObject;
+    class Way;
+
 
     class Map final : public sfge::iWidget
     {
     public:
-        Map ();
+        explicit Map (uint32_t id);
+
         virtual ~Map ();
 
-        bool checkMovement (const MapObject* object) const;
+        bool checkMovement (InteractiveObject* object) const;
+
+        Way getWay (Vector2f departure, Vector2f target) const;
 
     private:
         virtual void draw (sfge::RenderTarget& target) const override;
 
+        const WayPoint* getNearestWayPoint (Vector2f pos) const;
+
     private:
         std::vector<Panel> m_tiles;
+        std::vector<WayPoint> m_way_points;
         std::vector<std::shared_ptr<MapObject>> m_objects;
 
         Vector2f m_size;
+
+        uint32_t m_id = UINT32_MAX;
     };
 
 

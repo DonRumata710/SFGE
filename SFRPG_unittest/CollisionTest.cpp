@@ -208,7 +208,7 @@ TEST_CASE ("Test collision movement")
     SECTION ("6")
     {
         c1.move ({ 6.0, 0.0 });
-        REQUIRE (c1.check (c2) == Collision::State::OUTSIDE);
-        REQUIRE (c2.check (c1) == Collision::State::OUTSIDE);
+        REQUIRE (c1.check (c2) == Collision::State::INTERSECTION);
+        REQUIRE (c2.check (c1) == Collision::State::INTERSECTION);
     }
 }

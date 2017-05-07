@@ -27,51 +27,36 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "Way.h"
 
 
-#include <cstdint>
+using namespace sfge;
 
 
-namespace sfge
+Way::Way (const std::vector<const WayPoint*>& points, Vector2f target) :
+    m_points (points), m_target (target)
+{}
+
+Vector2f Way::getMovingVector (Vector2f position, float step)
 {
+    Vector2f target;
 
+    if (m_current_point == m_points.size () - 1)
+        target = m_target;
+    else
+        target = m_points[m_current_point]->getRoute (m_points[m_current_point + 1]);
 
-    class InteractiveObject;
+    auto rest_vec (target - position);
+    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
 
-
-    class iAction
+    if (step > rest_dist)
     {
-    public:
-        typedef uint32_t ActionID;
-
-        enum DefaultAction : ActionID
-        {
-            INVALID_ACTION = UINT32_MAX,
-            COLLISION_ACTION = UINT32_MAX - 1
-        };
-
-        ActionID getID () const;
-
-        InteractiveObject* getActor () const;
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
-
-    protected:
-        iAction (InteractiveObject* actor, ActionID id);
-
-    private:
-        InteractiveObject* m_actor = nullptr;
-        ActionID m_id = INVALID_ACTION;
-    };
-
-
-    class CollisionAction : public iAction
+        float relation (step / rest_dist);
+        return rest_vec * relation;
+    }
+    else
     {
-        CollisionAction (InteractiveObject* actor);
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) override;
-    };
-
-
+        step -= rest_dist;
+        return rest_vec + getMovingVector (target, step);
+    }
 }

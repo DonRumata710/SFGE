@@ -28,30 +28,40 @@
 
 
 #include "InteractiveObject.h"
-#include "Actor.h"
+#include "Map.h"
 
 #include <SFGE\ResourceManager.h>
 
 
-void sfge::InteractiveObject::setAnimation (std::unique_ptr<Animation> animation)
+using namespace sfge;
+
+
+void InteractiveObject::setAnimation (std::unique_ptr<Animation> animation)
 {
     m_animation.swap (animation);
 }
 
-void sfge::InteractiveObject::setAnimation (const std::string & animation)
+void InteractiveObject::setAnimation (const std::string& animation)
 {
     setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
 }
 
-void sfge::InteractiveObject::draw (RenderTarget & target) const
+void InteractiveObject::draw (RenderTarget& target) const
 {
     target.draw (*m_animation);
 }
 
-void sfge::InteractiveObject::doAction (const iAction* action)
+void InteractiveObject::doAction (const iAction* action)
 {
     auto reaction (m_reactions.find (action->getID ()));
 
     if (reaction != m_reactions.end ())
         reaction->second->doAction (action->getActor ());
+}
+
+void InteractiveObject::move (Vector2f vector)
+{
+    m_collision.move (vector);
+    if (!m_map->checkMovement (this))
+        m_collision.move (-vector);
 }

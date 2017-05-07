@@ -31,17 +31,31 @@
 #include "InteractiveObject.h"
 
 
-sfge::iAction::iAction (InteractiveObject* actor, ActionID id) :
+
+using namespace sfge;
+
+
+iAction::iAction (InteractiveObject* actor, ActionID id) :
     m_actor (actor),
     m_id (id)
 {}
 
-sfge::iAction::ActionID sfge::iAction::getID () const
+iAction::ActionID iAction::getID () const
 {
     return m_id;
 }
 
-sfge::InteractiveObject* sfge::iAction::getActor () const
+InteractiveObject* iAction::getActor () const
 {
     return m_actor;
+}
+
+iAction::ActionID CollisionAction::doAction (InteractiveObject* target)
+{
+    if (target)
+        target->doAction (this);
+
+
+
+    return ActionID ();
 }

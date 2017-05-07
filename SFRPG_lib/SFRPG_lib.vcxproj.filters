@@ -9,6 +9,8 @@
     <ClCompile Include="InteractiveObject.cpp" />
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Way.cpp" />
+    <ClCompile Include="WayPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\SFRPG\Collision.h" />
@@ -19,5 +21,7 @@
     <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
     <ClInclude Include="..\include\SFRPG\Action.h" />
     <ClInclude Include="..\include\SFRPG\Actor.h" />
+    <ClInclude Include="..\include\SFRPG\Way.h" />
+    <ClInclude Include="..\include\SFRPG\WayPoint.h" />
   </ItemGroup>
 </Project>

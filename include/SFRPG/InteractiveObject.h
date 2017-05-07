@@ -66,6 +66,8 @@ namespace sfge
             m_reactions[id_action] = action;
         }
 
+        void move (Vector2f vector);
+
     private:
         std::unique_ptr<Animation> m_animation;
         std::unordered_map<iAction::ActionID, std::shared_ptr<iAction>> m_reactions;

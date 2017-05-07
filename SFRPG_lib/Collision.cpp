@@ -90,11 +90,11 @@ Collision::State Collision::check (const Point point) const
 
 bool Collision::segmentCollision (const Point a, const Point b, const Point c, const Point d) const
 {
-    float side_a ((a.x - c.x) * (d.y - c.y) - (a.y - c.y) * (d.x - c.x));
-    float side_b ((b.x - c.x) * (d.y - c.y) - (b.y - c.y) * (d.x - c.x));
+    float side_a (sign (a, c, d));
+    float side_b (sign (b, c, d));
 
-    float side_c ((c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x));
-    float side_d ((d.x - a.x) * (b.y - a.y) - (d.y - a.y) * (b.x - a.x));
+    float side_c (sign (c, a, b));
+    float side_d (sign (d, a, b));
 
     if (((side_a < -EPSILON && side_b > EPSILON) || (side_a > EPSILON && side_b < -EPSILON)) &&
         ((side_c < -EPSILON && side_d > EPSILON) || (side_c > EPSILON && side_d < -EPSILON))
@@ -119,5 +119,5 @@ bool sfge::Collision::isPointInside (Point p) const
 
 float Collision::sign (Point p1, Point p2, Point p3)
 {
-    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p1.y - p3.y) * (p2.x - p3.x);
 }

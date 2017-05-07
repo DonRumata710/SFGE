@@ -28,27 +28,55 @@
 
 
 #include "Map.h"
+#include "InteractiveObject.h"
+#include "Way.h"
 
 
 using namespace sfge;
 
 
-Map::Map ()
+Map::Map (uint32_t id) :
+    m_id (id)
 {}
-
 
 Map::~Map ()
 {}
 
-bool sfge::Map::checkMovement (const MapObject* moved_object) const
+bool Map::checkMovement (InteractiveObject* moved_object) const
 {
     for (auto object : m_objects)
     {
         if (object->detectCollision (moved_object) != Collision::State::OUTSIDE)
+        {
+            moved_object->runAction<CollisionAction> (nullptr);
             return false;
+        }
     }
 
     return true;
+}
+
+Way Map::getWay (Vector2f departure, Vector2f target) const
+{
+    const WayPoint* const departure_point (getNearestWayPoint (departure));
+    const WayPoint* const target_point (getNearestWayPoint (target));
+
+    std::vector<const WayPoint*> way_points;
+
+    if (departure_point == target_point)
+        return Way (way_points, target);
+
+    way_points.push_back (departure_point);
+
+    while (true)
+    {
+        const WayPoint* next_point (departure_point->getNextPoint (target_point));
+        way_points.push_back (next_point);
+        if (next_point == target_point)
+            break;
+    }
+
+    return Way (way_points, target);
 }
 
 void Map::draw (sfge::RenderTarget& target) const
@@ -58,4 +86,22 @@ void Map::draw (sfge::RenderTarget& target) const
 
     for (auto object : m_objects)
         object->draw (target);
+}
+
+const WayPoint* Map::getNearestWayPoint (Vector2f pos) const
+{
+    const WayPoint* nearest_point (nullptr);
+    float min_distance (FLT_MAX);
+
+    for (const WayPoint point : m_way_points)
+    {
+        float distance (point.checkArea (pos));
+        if (distance < min_distance)
+        {
+            min_distance = distance;
+            nearest_point = &point;
+        }
+    }
+
+    return nearest_point;
 }

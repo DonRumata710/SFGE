@@ -38,22 +38,17 @@ using namespace sfge;
 
 void MapObject::setPosition (const Vector2f& pos)
 {
-    Vector2f tmp (m_collision.getPosition ());
     m_collision.setPosition (pos);
-    if (!m_map->checkMovement (this))
-        m_collision.setPosition (tmp);
-}
-
-void sfge::MapObject::move (Vector2f vector)
-{
-    m_collision.move (vector);
-    if (!m_map->checkMovement (this))
-        m_collision.move (-vector);
 }
 
 void MapObject::setCollision (const Collision& collision)
 {
     m_collision = collision;
+}
+
+const Collision & sfge::MapObject::getCollision () const
+{
+    return m_collision;
 }
 
 Collision::State MapObject::detectCollision (const MapObject* object) const

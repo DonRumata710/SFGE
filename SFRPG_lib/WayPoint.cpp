@@ -27,51 +27,63 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "WayPoint.h"
 
 
-#include <cstdint>
+using namespace sfge;
 
 
-namespace sfge
+WayPoint::WayPoint (uint32_t id, uint32_t map_id) :
+    m_id (id), m_map_id (map_id)
+{}
+
+void WayPoint::setPosition (Vector2f pos)
 {
+    m_position = pos;
+}
 
+Vector2f WayPoint::getPosition () const
+{
+    return m_position;
+}
 
-    class InteractiveObject;
+void WayPoint::setRadius (float r)
+{
+    m_radius = r;
+}
 
+float WayPoint::getRadius () const
+{
+    return m_radius;
+}
 
-    class iAction
-    {
-    public:
-        typedef uint32_t ActionID;
+Vector2f WayPoint::getRoute (const WayPoint* const target) const
+{
+    auto iter (m_neighbours.find (target));
 
-        enum DefaultAction : ActionID
-        {
-            INVALID_ACTION = UINT32_MAX,
-            COLLISION_ACTION = UINT32_MAX - 1
-        };
+    if (iter != m_neighbours.end ())
+        return iter->second.first;
 
-        ActionID getID () const;
+    return Vector2f ();
+}
 
-        InteractiveObject* getActor () const;
+const WayPoint* WayPoint::getNextPoint (const WayPoint * const target) const
+{
+    auto iter (m_neighbours.find (target));
 
-        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
+    if (iter != m_neighbours.end ())
+        return iter->second.second;
 
-    protected:
-        iAction (InteractiveObject* actor, ActionID id);
+    return nullptr;
+}
 
-    private:
-        InteractiveObject* m_actor = nullptr;
-        ActionID m_id = INVALID_ACTION;
-    };
+float WayPoint::checkArea (const Vector2f point) const
+{
+    Vector2f vec_dist (m_position - point);
+    float distance (sqrt (vec_dist.x * vec_dist.x + vec_dist.y * vec_dist.y));
 
-
-    class CollisionAction : public iAction
-    {
-        CollisionAction (InteractiveObject* actor);
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) override;
-    };
-
-
+    if (distance < m_radius)
+        return distance;
+    else
+        return FLT_MAX;
 }

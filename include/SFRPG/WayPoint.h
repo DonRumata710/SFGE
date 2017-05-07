@@ -30,47 +30,45 @@
 #pragma once
 
 
-#include <cstdint>
+#include <SFML\System\Vector2.hpp>
+
+#include <unordered_map>
 
 
 namespace sfge
 {
 
 
-    class InteractiveObject;
+    using sf::Vector2f;
 
 
-    class iAction
+    class WayPoint
     {
     public:
-        typedef uint32_t ActionID;
+        WayPoint (uint32_t id, uint32_t map_id);
 
-        enum DefaultAction : ActionID
-        {
-            INVALID_ACTION = UINT32_MAX,
-            COLLISION_ACTION = UINT32_MAX - 1
-        };
+        void setPosition (Vector2f pos);
 
-        ActionID getID () const;
+        Vector2f getPosition () const;
 
-        InteractiveObject* getActor () const;
+        void setRadius (float r);
 
-        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
+        float getRadius () const;
 
-    protected:
-        iAction (InteractiveObject* actor, ActionID id);
+        Vector2f getRoute (const WayPoint* const target) const;
+
+        const WayPoint* getNextPoint (const WayPoint* const target) const;
+
+        float checkArea (const Vector2f point) const;
 
     private:
-        InteractiveObject* m_actor = nullptr;
-        ActionID m_id = INVALID_ACTION;
-    };
+        Vector2f m_position;
+        float m_radius = 0.0f;
 
+        std::unordered_map<const WayPoint*, std::pair<Vector2f, const WayPoint*>> m_neighbours;
 
-    class CollisionAction : public iAction
-    {
-        CollisionAction (InteractiveObject* actor);
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) override;
+        uint32_t m_id = UINT32_MAX;
+        uint32_t m_map_id = UINT32_MAX;
     };
 
 

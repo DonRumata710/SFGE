@@ -30,47 +30,27 @@
 #pragma once
 
 
-#include <cstdint>
+#include "WayPoint.h"
+
+#include <vector>
 
 
 namespace sfge
 {
 
 
-    class InteractiveObject;
-
-
-    class iAction
+    class Way
     {
     public:
-        typedef uint32_t ActionID;
+        Way (const std::vector<const WayPoint*>& points, Vector2f target);
 
-        enum DefaultAction : ActionID
-        {
-            INVALID_ACTION = UINT32_MAX,
-            COLLISION_ACTION = UINT32_MAX - 1
-        };
-
-        ActionID getID () const;
-
-        InteractiveObject* getActor () const;
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
+        Vector2f getMovingVector (Vector2f position, float step);
 
     protected:
-        iAction (InteractiveObject* actor, ActionID id);
+        std::vector<const WayPoint*> m_points;
+        size_t m_current_point = 0;
 
-    private:
-        InteractiveObject* m_actor = nullptr;
-        ActionID m_id = INVALID_ACTION;
-    };
-
-
-    class CollisionAction : public iAction
-    {
-        CollisionAction (InteractiveObject* actor);
-
-        virtual ActionID doAction (InteractiveObject* target = nullptr) override;
+        Vector2f m_target;
     };
 
 

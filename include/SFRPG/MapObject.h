@@ -56,15 +56,15 @@ namespace sfge
 
         void setPosition (const Vector2f& pos);
 
-        void move (Vector2f vector);
-
         void setCollision (const Collision& collision);
+
+        const Collision& getCollision () const;
 
         Collision::State detectCollision (const MapObject* object) const;
 
         virtual void draw (RenderTarget& target) const = 0;
 
-    private:
+    protected:
         Collision m_collision;
         Map* m_map = nullptr;
     };
