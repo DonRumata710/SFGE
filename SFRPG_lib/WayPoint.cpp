@@ -33,8 +33,12 @@
 using namespace sfge;
 
 
-WayPoint::WayPoint (uint32_t id, uint32_t map_id) :
-    m_id (id), m_map_id (map_id)
+sfge::WayPointID::WayPointID (uint32_t map_id, uint32_t id) :
+    m_map_id (map_id), m_id (id)
+{}
+
+
+WayPoint::WayPoint (uint32_t map_id) : m_map_id (map_id)
 {}
 
 void WayPoint::setPosition (Vector2f pos)
@@ -57,26 +61,6 @@ float WayPoint::getRadius () const
     return m_radius;
 }
 
-Vector2f WayPoint::getRoute (const WayPoint* const target) const
-{
-    auto iter (m_neighbours.find (target));
-
-    if (iter != m_neighbours.end ())
-        return iter->second.first;
-
-    return Vector2f ();
-}
-
-const WayPoint* WayPoint::getNextPoint (const WayPoint * const target) const
-{
-    auto iter (m_neighbours.find (target));
-
-    if (iter != m_neighbours.end ())
-        return iter->second.second;
-
-    return nullptr;
-}
-
 float WayPoint::checkArea (const Vector2f point) const
 {
     Vector2f vec_dist (m_position - point);
@@ -86,4 +70,9 @@ float WayPoint::checkArea (const Vector2f point) const
         return distance;
     else
         return FLT_MAX;
+}
+
+const WayPoint::EdgeList& WayPoint::getEdges () const
+{
+    return m_neighbours;
 }

@@ -68,6 +68,7 @@ namespace sfge
 
     class CollisionAction : public iAction
     {
+    public:
         CollisionAction (InteractiveObject* actor);
 
         virtual ActionID doAction (InteractiveObject* target = nullptr) override;

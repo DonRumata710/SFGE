@@ -42,10 +42,22 @@ namespace sfge
     using sf::Vector2f;
 
 
+    struct WayPointID
+    {
+        uint32_t m_id = UINT32_MAX;
+        uint32_t m_map_id = UINT32_MAX;
+
+        WayPointID () = default;
+        WayPointID (uint32_t map_id, uint32_t id);
+    };
+
+
     class WayPoint
     {
     public:
-        WayPoint (uint32_t id, uint32_t map_id);
+        typedef std::vector<WayPointID> EdgeList;
+
+        WayPoint (uint32_t map_id = UINT32_MAX);
 
         void setPosition (Vector2f pos);
 
@@ -55,19 +67,16 @@ namespace sfge
 
         float getRadius () const;
 
-        Vector2f getRoute (const WayPoint* const target) const;
-
-        const WayPoint* getNextPoint (const WayPoint* const target) const;
-
         float checkArea (const Vector2f point) const;
+
+        const EdgeList& getEdges () const;
 
     private:
         Vector2f m_position;
         float m_radius = 0.0f;
 
-        std::unordered_map<const WayPoint*, std::pair<Vector2f, const WayPoint*>> m_neighbours;
+        EdgeList m_neighbours;
 
-        uint32_t m_id = UINT32_MAX;
         uint32_t m_map_id = UINT32_MAX;
     };
 

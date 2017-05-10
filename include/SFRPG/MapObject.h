@@ -33,6 +33,7 @@
 #include "Collision.h"
 
 #include <SFML\Graphics\RenderTarget.hpp>
+#include <SFML\Graphics\Drawable.hpp>
 
 #include <string>
 
@@ -43,11 +44,13 @@ namespace sfge
 
     using sf::Vector2f;
     using sf::RenderTarget;
+    using sf::RenderStates;
+    using sf::Drawable;
     
-    class Map;
+    class MapSector;
 
 
-    class MapObject
+    class MapObject : public Drawable
     {
     public:
         MapObject () = default;
@@ -62,11 +65,9 @@ namespace sfge
 
         Collision::State detectCollision (const MapObject* object) const;
 
-        virtual void draw (RenderTarget& target) const = 0;
-
     protected:
         Collision m_collision;
-        Map* m_map = nullptr;
+        MapSector* m_map = nullptr;
     };
 
 

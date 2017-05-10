@@ -43,7 +43,7 @@ void sfge::StaticObject::setView (const std::string& texture)
     m_panel.setTexture (texture);
 }
 
-void StaticObject::draw (RenderTarget& target) const
+void StaticObject::draw (RenderTarget& target, RenderStates states) const
 {
-    target.draw (m_panel);
+    target.draw (m_panel, states);
 }

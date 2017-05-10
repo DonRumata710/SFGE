@@ -28,7 +28,7 @@
 
 
 #include "MapObject.h"
-#include "Map.h"
+#include "MapSector.h"
 
 #include <SFGE/ResourceManager.h>
 

@@ -50,11 +50,11 @@ namespace sfge
 
         void setAnimation (const std::string& animation);
 
-        virtual void draw (RenderTarget& target) const override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
         template<class Action, typename ...Args> void runAction (InteractiveObject* target, Args ...args)
         {
-            Action action (this, args);
+            Action action (this, args...);
             target->doAction (&action);
         }
 

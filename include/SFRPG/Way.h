@@ -32,7 +32,7 @@
 
 #include "WayPoint.h"
 
-#include <vector>
+#include <deque>
 
 
 namespace sfge
@@ -41,16 +41,20 @@ namespace sfge
 
     class Way
     {
+        typedef std::deque<Vector2f> WayPoints;
+        typedef WayPoints::iterator WayIterator;
+
     public:
-        Way (const std::vector<const WayPoint*>& points, Vector2f target);
+        Way ();
+
+        void pushPointFront (Vector2f);
+        void pushPointBack (Vector2f);
 
         Vector2f getMovingVector (Vector2f position, float step);
 
     protected:
-        std::vector<const WayPoint*> m_points;
-        size_t m_current_point = 0;
-
-        Vector2f m_target;
+        WayPoints m_points;
+        WayIterator m_current_point;
     };
 
 

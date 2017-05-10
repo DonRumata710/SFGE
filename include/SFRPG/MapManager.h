@@ -27,65 +27,33 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Way.h"
+#pragma once
 
 
-using namespace sfge;
+#include "SFML\System\Vector2.hpp"
+#include "MapSector.h"
 
 
-Way::Way ()
-{}
-
-void sfge::Way::pushPointFront (Vector2f point)
+namespace sfge
 {
-    m_points.push_front (point);
-    m_current_point = m_points.begin ();
-}
 
-void sfge::Way::pushPointBack (Vector2f point)
-{
-    m_points.push_back (point);
-}
 
-Vector2f Way::getMovingVector (Vector2f position, float step)
-{
-    auto rest_vec (*m_current_point - position);
-    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
+    using sf::Vector2f;
 
-    if (step > rest_dist)
+    class Way;
+
+
+    class MapManager : public sfge::iWidget
     {
-        float relation (step / rest_dist);
-        return rest_vec * relation;
-    }
-    else
-    {
-        step -= rest_dist;
-        if (m_current_point != m_points.end ())
-            return rest_vec + getMovingVector (*m_current_point++, step);
-        else
-            return rest_vec;
-    }
+    public:
+        Way getWay (Vector2f departure, Vector2f target) const;
+
+    private:
+        virtual void draw (sfge::RenderTarget& target) const override;
+
+    private:
+        std::unordered_map<uint32_t, MapSector> m_sectors;
+    };
+
+
 }
-
-/*
-{
-    if (m_current_point == m_points.size () - 1)
-        target = m_target;
-    else
-        target = m_points[m_current_point]->getRoute (m_points[m_current_point + 1]);
-
-    auto rest_vec (target - position);
-    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
-
-    if (step > rest_dist)
-    {
-        float relation (step / rest_dist);
-        return rest_vec * relation;
-    }
-    else
-    {
-        step -= rest_dist;
-        return rest_vec + getMovingVector (target, step);
-    }
-}
-*/

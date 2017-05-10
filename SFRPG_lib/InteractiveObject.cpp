@@ -28,7 +28,7 @@
 
 
 #include "InteractiveObject.h"
-#include "Map.h"
+#include "MapSector.h"
 
 #include <SFGE\ResourceManager.h>
 
@@ -46,9 +46,9 @@ void InteractiveObject::setAnimation (const std::string& animation)
     setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
 }
 
-void InteractiveObject::draw (RenderTarget& target) const
+void InteractiveObject::draw (RenderTarget& target, RenderStates states) const
 {
-    target.draw (*m_animation);
+    target.draw (*m_animation, states);
 }
 
 void InteractiveObject::doAction (const iAction* action)

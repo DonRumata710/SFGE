@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Map.h"
+#include "MapSector.h"
 #include "InteractiveObject.h"
 #include "Way.h"
 
@@ -35,14 +35,17 @@
 using namespace sfge;
 
 
-Map::Map (uint32_t id) :
-    m_id (id)
-{}
+Vector2f sfge::MapSector::getOffset () const
+{
+    return m_offset;
+}
 
-Map::~Map ()
-{}
+Vector2f sfge::MapSector::getSize () const
+{
+    return m_size;
+}
 
-bool Map::checkMovement (InteractiveObject* moved_object) const
+bool MapSector::checkMovement (InteractiveObject* moved_object) const
 {
     for (auto object : m_objects)
     {
@@ -56,52 +59,34 @@ bool Map::checkMovement (InteractiveObject* moved_object) const
     return true;
 }
 
-Way Map::getWay (Vector2f departure, Vector2f target) const
+uint32_t MapSector::getNearestWayPoint (Vector2f pos) const
 {
-    const WayPoint* const departure_point (getNearestWayPoint (departure));
-    const WayPoint* const target_point (getNearestWayPoint (target));
-
-    std::vector<const WayPoint*> way_points;
-
-    if (departure_point == target_point)
-        return Way (way_points, target);
-
-    way_points.push_back (departure_point);
-
-    while (true)
-    {
-        const WayPoint* next_point (departure_point->getNextPoint (target_point));
-        way_points.push_back (next_point);
-        if (next_point == target_point)
-            break;
-    }
-
-    return Way (way_points, target);
-}
-
-void Map::draw (sfge::RenderTarget& target) const
-{
-    for (auto tile : m_tiles)
-        target.draw (tile);
-
-    for (auto object : m_objects)
-        object->draw (target);
-}
-
-const WayPoint* Map::getNearestWayPoint (Vector2f pos) const
-{
-    const WayPoint* nearest_point (nullptr);
+    uint32_t nearest_point (0);
     float min_distance (FLT_MAX);
 
-    for (const WayPoint point : m_way_points)
+    for (const auto& point : m_way_points)
     {
-        float distance (point.checkArea (pos));
+        float distance (point.second.checkArea (pos));
         if (distance < min_distance)
         {
             min_distance = distance;
-            nearest_point = &point;
+            nearest_point = point.first;
         }
     }
 
     return nearest_point;
+}
+
+const WayPoint* sfge::MapSector::getPoint (uint32_t id)
+{
+    return &m_way_points[id];
+}
+
+void sfge::MapSector::draw (RenderTarget& target, RenderStates states) const
+{
+    for (auto& tile : m_tiles)
+        target.draw (tile, states);
+
+    for (auto object : m_objects)
+        target.draw (*object, states);
 }

@@ -45,7 +45,7 @@ namespace sfge
 
         void setAnimation (const std::string& animation);
 
-        virtual void draw (RenderTarget& target) const override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
         std::unique_ptr<Animation> m_animation;

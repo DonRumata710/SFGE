@@ -31,7 +31,6 @@
 #include "InteractiveObject.h"
 
 
-
 using namespace sfge;
 
 
@@ -49,6 +48,10 @@ InteractiveObject* iAction::getActor () const
 {
     return m_actor;
 }
+
+CollisionAction::CollisionAction (InteractiveObject* actor) :
+    iAction (actor, DefaultAction::COLLISION_ACTION)
+{}
 
 iAction::ActionID CollisionAction::doAction (InteractiveObject* target)
 {

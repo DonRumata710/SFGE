@@ -27,65 +27,60 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Way.h"
+#pragma once
 
 
-using namespace sfge;
+#include "MapObject.h"
+#include "WayPoint.h"
+
+#include <SFGE/Widget.h>
+
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 
 
-Way::Way ()
-{}
-
-void sfge::Way::pushPointFront (Vector2f point)
+namespace sfge
 {
-    m_points.push_front (point);
-    m_current_point = m_points.begin ();
-}
 
-void sfge::Way::pushPointBack (Vector2f point)
-{
-    m_points.push_back (point);
-}
 
-Vector2f Way::getMovingVector (Vector2f position, float step)
-{
-    auto rest_vec (*m_current_point - position);
-    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
+    using sf::Vector2f;
+    using sf::Sprite;
+    using sf::RenderStates;
+    using sf::Drawable;
 
-    if (step > rest_dist)
+    class InteractiveObject;
+    class Way;
+
+
+    class MapSector : public Drawable
     {
-        float relation (step / rest_dist);
-        return rest_vec * relation;
-    }
-    else
-    {
-        step -= rest_dist;
-        if (m_current_point != m_points.end ())
-            return rest_vec + getMovingVector (*m_current_point++, step);
-        else
-            return rest_vec;
-    }
+    public:
+        MapSector () = default;
+
+        ~MapSector () = default;
+        
+        Vector2f getOffset () const;
+
+        Vector2f getSize () const;
+
+        bool checkMovement (InteractiveObject* object) const;
+
+        uint32_t getNearestWayPoint (Vector2f pos) const;
+
+        const WayPoint* getPoint (uint32_t id);
+
+    private:
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
+
+    private:
+        std::vector<Sprite> m_tiles;
+        std::vector<std::shared_ptr<MapObject>> m_objects;
+
+        std::unordered_map<uint32_t, WayPoint> m_way_points;
+
+        Vector2f m_offset;
+        Vector2f m_size;
+    };
+
+
 }
-
-/*
-{
-    if (m_current_point == m_points.size () - 1)
-        target = m_target;
-    else
-        target = m_points[m_current_point]->getRoute (m_points[m_current_point + 1]);
-
-    auto rest_vec (target - position);
-    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
-
-    if (step > rest_dist)
-    {
-        float relation (step / rest_dist);
-        return rest_vec * relation;
-    }
-    else
-    {
-        step -= rest_dist;
-        return rest_vec + getMovingVector (target, step);
-    }
-}
-*/

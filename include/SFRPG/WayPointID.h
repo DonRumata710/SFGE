@@ -30,50 +30,28 @@
 #pragma once
 
 
-#include "MapObject.h"
-#include "WayPoint.h"
+#include <cstdint>
+#include <functional>
 
-#include <SFGE/Widget.h>
-#include <SFGE/Panel.h>
-
-#include <vector>
-
-
-namespace sfge
-{
-
-
-    using sf::Vector2f;
-
-    class InteractiveObject;
-    class Way;
-
-
-    class Map final : public sfge::iWidget
-    {
-    public:
-        explicit Map (uint32_t id);
-
-        virtual ~Map ();
-
-        bool checkMovement (InteractiveObject* object) const;
-
-        Way getWay (Vector2f departure, Vector2f target) const;
-
-    private:
-        virtual void draw (sfge::RenderTarget& target) const override;
-
-        const WayPoint* getNearestWayPoint (Vector2f pos) const;
-
-    private:
-        std::vector<Panel> m_tiles;
-        std::vector<WayPoint> m_way_points;
-        std::vector<std::shared_ptr<MapObject>> m_objects;
-
-        Vector2f m_size;
-
-        uint32_t m_id = UINT32_MAX;
-    };
-
-
-}
+//
+//namespace sfge
+//{
+//
+//
+//    struct WayPointID
+//    {
+//        uint32_t map_id = UINT32_MAX;
+//        uint32_t id = UINT32_MAX;
+//    };
+//
+//
+//}
+//
+//
+//template <> struct std::hash<sfge::WayPointID>
+//{
+//    size_t operator()(const sfge::WayPointID& id) const
+//    {
+//        return hash<uint32_t> () ((id.map_id << 16) | id.id);
+//    }
+//};

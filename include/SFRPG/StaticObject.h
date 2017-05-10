@@ -46,7 +46,7 @@ namespace sfge
 
         void setView (const std::string& texture);
 
-        virtual void draw (RenderTarget& target) const override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
         Panel m_panel;
