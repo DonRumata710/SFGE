@@ -86,9 +86,9 @@ namespace sfge
     {
         m_background.setPosition (desc.x, desc.y);
 
-        sf::Vector2u pos (desc.x, desc.y);
+        sf::Vector2f pos (desc.x, desc.y);
 
-        pos += m_background.getSize () / (unsigned) 2 - m_flag.getSize () / (unsigned) 2;
+        pos += m_background.getSize () / 2.0f - m_flag.getSize () / 2.0f;
         m_flag.setPosition (pos);
 
         m_background.setSize (desc.width, desc.height);

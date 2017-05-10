@@ -73,7 +73,7 @@ namespace sfge
         }
 
         if (m_view.getSize ().x == 0)
-            m_view.setSize (view->getSize ());
+            m_view.setSize (view->getSize ().x, view->getSize ().y);
     }
     
     void Button::attachView (const std::string& tex, const EventType e)

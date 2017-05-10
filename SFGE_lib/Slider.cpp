@@ -85,7 +85,7 @@ namespace sfge
         m_outward_view.setTexture (tex);
 
         if (m_outward_view.getSize ().x == 0)
-            m_outward_view.setSize (tex->getSize ());
+            m_outward_view.setSize ({ (float) tex->getSize ().x, (float) tex->getSize ().y });
     }
 
     void Slider::attachBackground (const std::string& tex)
@@ -157,11 +157,11 @@ namespace sfge
 
     void Slider::setRect (const PositionDesc & desc)
     {
-        m_outward_view.setPosition (desc.x, desc.y);
-        m_outward_view.setSize (desc.width, desc.height);
+        m_outward_view.setPosition (static_cast<float> (desc.x), static_cast<float> (desc.y));
+        m_outward_view.setSize (static_cast<float> (desc.width), static_cast<float> (desc.height));
 
         unsigned size (desc.width < desc.height ? desc.width : desc.height);
-        m_slider.setSize (size, size);
+        m_slider.setSize (static_cast<float> (size), static_cast<float> (size));
     
         calc_slider_position ();
     }
@@ -184,7 +184,7 @@ namespace sfge
 
     bool Slider::check_mouse (const int x, const int y)
     {
-        if (m_slider.contains (x, y))
+        if (m_slider.contains (static_cast<float> (x), static_cast<float> (y)))
         {
             if (!m_is_pressed)
                 set_view (View::FOCUSED);
@@ -249,7 +249,7 @@ namespace sfge
             slider_pos.y = pos.y;
         }
 
-        m_slider.setPosition (slider_pos);
+        m_slider.setPosition (slider_pos.x, slider_pos.y);
     }
 
     void Slider::set_view (const View type)

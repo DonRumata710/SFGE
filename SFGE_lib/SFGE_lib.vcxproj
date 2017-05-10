@@ -46,6 +46,8 @@
     <ClInclude Include="..\include\SFGE\TextParser.h" />
     <ClInclude Include="..\include\SFGE\Unicode.h" />
     <ClInclude Include="..\include\SFGE\Widget.h" />
+    <ClInclude Include="ResourceLoader.h" />
+    <ClInclude Include="ResourceParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />

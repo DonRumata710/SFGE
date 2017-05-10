@@ -82,6 +82,12 @@
     <ClInclude Include="..\include\SFGE\Field.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceParser.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">

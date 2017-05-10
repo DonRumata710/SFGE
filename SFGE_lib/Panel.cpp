@@ -65,7 +65,7 @@ namespace sfge
     void Panel::setTexture (const std::shared_ptr<const sf::Texture> tex)
     {
         m_texture = tex;
-        sf::Vector2u size (tex->getSize ());
+        sf::Vector2f size (tex->getSize ());
         m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
         m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
         m_arr[2].texCoords = sf::Vector2f (0.0, size.y);
@@ -79,7 +79,7 @@ namespace sfge
     void Panel::setTexture (const std::string& tex)
     {
         m_texture = ResourceManager::getInstance ()->findTexture (tex);
-        sf::Vector2u size (m_texture->getSize ());
+        sf::Vector2f size (m_texture->getSize ());
         m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
         m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
         m_arr[2].texCoords = sf::Vector2f (0.0, size.y);
@@ -99,7 +99,7 @@ namespace sfge
         m_texture.reset ();
     }
 
-    void Panel::setPosition (const unsigned x, const unsigned y)
+    void Panel::setPosition (const float x, const float y)
     {
         sf::Vector2u size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
 
@@ -109,7 +109,7 @@ namespace sfge
         m_arr[3].position = sf::Vector2f (x + size.x, y + size.y);
     }
 
-    void Panel::setPosition (const sf::Vector2u pos)
+    void Panel::setPosition (const sf::Vector2f pos)
     {
         sf::Vector2u size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
 
@@ -119,31 +119,39 @@ namespace sfge
         m_arr[3].position = sf::Vector2f (pos.x + size.x, pos.y + size.y);
     }
 
-    void Panel::setPosition (const sf::IntRect pos)
+    void Panel::move (const Vector2f vec)
     {
-        m_arr[0].position = sf::Vector2f (pos.left, pos.top);
-        m_arr[1].position = sf::Vector2f (pos.left + pos.width, pos.top);
-        m_arr[2].position = sf::Vector2f (pos.left, pos.top + pos.height);
-        m_arr[3].position = sf::Vector2f (pos.left + pos.width, pos.top + pos.height);
+        m_arr[0].position += vec;
+        m_arr[1].position += vec;
+        m_arr[2].position += vec;
+        m_arr[3].position += vec;
     }
 
-    void Panel::setSize (const sf::Vector2u size)
+    void Panel::setPosition (const FloatRect pos)
+    {
+        m_arr[0].position = Vector2f (pos.left, pos.top);
+        m_arr[1].position = Vector2f (pos.left + pos.width, pos.top);
+        m_arr[2].position = Vector2f (pos.left, pos.top + pos.height);
+        m_arr[3].position = Vector2f (pos.left + pos.width, pos.top + pos.height);
+    }
+
+    void Panel::setSize (const Vector2f size)
     {
         m_arr[1].position.x = m_arr[0].position.x + size.x;
         m_arr[2].position.y = m_arr[0].position.y + size.y;
         m_arr[3].position = sf::Vector2f (m_arr[0].position.x + size.x, m_arr[0].position.y + size.y);
     }
 
-    void Panel::setSize (unsigned x, unsigned y)
+    void Panel::setSize (float x, float y)
     {
         m_arr[1].position.x = m_arr[0].position.x + x;
         m_arr[2].position.y = m_arr[0].position.y + y;
-        m_arr[3].position = sf::Vector2f (m_arr[0].position.x + x, m_arr[0].position.y + y);
+        m_arr[3].position = { m_arr[0].position.x + x, m_arr[0].position.y + y };
     }
 
-    sf::IntRect Panel::getRect () const
+    FloatRect Panel::getRect () const
     {
-        return sf::IntRect (
+        return FloatRect (
             m_arr[0].position.x,
             m_arr[0].position.y,
             m_arr[1].position.x - m_arr[0].position.x,
@@ -151,17 +159,14 @@ namespace sfge
         );
     }
 
-    sf::Vector2u Panel::getPosition () const
+    sf::Vector2f Panel::getPosition () const
     {
-        return sf::Vector2u (
-            m_arr[0].position.x,
-            m_arr[0].position.y
-        );
+        return m_arr[0].position;
     }
 
-    sf::Vector2u Panel::getSize () const
+    sf::Vector2f Panel::getSize () const
     {
-        return sf::Vector2u (m_arr[1].position.x - m_arr[0].position.x,
+        return sf::Vector2f (m_arr[1].position.x - m_arr[0].position.x,
             m_arr[2].position.y - m_arr[0].position.y
         );
     }
