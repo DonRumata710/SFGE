@@ -27,54 +27,59 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "Map.h"
+#include "Way.h"
 
 
-#include "Collision.h"
-
-#include <SFML\Graphics\RenderTarget.hpp>
-#include <SFML\Graphics\Drawable.hpp>
-
-#include <string>
+using namespace sfge;
 
 
-namespace sfge
+Way Map::getWay (Vector2f departure, Vector2f target) const
 {
+    WayPointID departure_point;
+    WayPointID target_point;
 
-
-    using sf::Vector2f;
-    using sf::RenderTarget;
-    using sf::RenderStates;
-    using sf::Drawable;
-    
-    class MapSector;
-
-
-    class MapObject : public Drawable
+    for (const auto& map : m_sectors)
     {
-    public:
-        MapObject () = default;
+        if (map.second.checkObjectPosition (departure))
+            departure_point = { map.first, map.second.getNearestWayPoint (departure - map.second.getOffset ()) };
+    }
 
-        ~MapObject () = default;
+    for (const auto& map : m_sectors)
+    {
+        if (!map.second.checkObjectPosition (target))
+            continue;
 
-        void attachToSector (MapSector*);
+        departure_point = { map.first, map.second.getNearestWayPoint (target - map.second.getOffset ()) };
+    }
 
-        MapSector* getSector () const;
+    Way way;
 
-        void setPosition (const Vector2f& pos);
+    while (true)
+    {
+        /*
+        way.pushPointBack (departure_point->getRoute (target_point));
+        WayPointID point_id = departure_point->getNextPoint (target_point);
+        target_point = m_sectors.at (point_id.m_map_id).get;
+        */
+    }
 
-        Vector2f getPosition () const;
+    return way;
+}
 
-        void setCollision (const Collision& collision);
+MapSector* Map::getSector (Vector2f position)
+{
+    for (auto& map : m_sectors)
+    {
+        if (map.second.checkObjectPosition (position))
+            return &map.second;
+    }
 
-        const Collision& getCollision () const;
+    return nullptr;
+}
 
-        Collision::State detectCollision (const MapObject* object) const;
-
-    protected:
-        Collision m_collision;
-        MapSector* m_map = nullptr;
-    };
-
-
+void sfge::Map::draw (sfge::RenderTarget& target) const
+{
+    for (const auto& sector : m_sectors)
+        target.draw (sector.second);
 }

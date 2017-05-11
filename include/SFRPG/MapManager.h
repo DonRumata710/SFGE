@@ -30,29 +30,29 @@
 #pragma once
 
 
-#include "SFML\System\Vector2.hpp"
-#include "MapSector.h"
-
-
 namespace sfge
 {
 
 
-    using sf::Vector2f;
-
-    class Way;
+    class Map;
 
 
-    class MapManager : public sfge::iWidget
+    class MapManager
     {
     public:
-        Way getWay (Vector2f departure, Vector2f target) const;
+        static MapManager* getInstance ();
+
+        MapManager ();
+
+        ~MapManager ();
+
+        Map* getMap () const;
 
     private:
-        virtual void draw (sfge::RenderTarget& target) const override;
+        Map* m_map;
 
     private:
-        std::unordered_map<uint32_t, MapSector> m_sectors;
+        static MapManager* m_instance;
     };
 
 

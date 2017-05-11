@@ -33,9 +33,8 @@
 #include "MapObject.h"
 #include "WayPoint.h"
 
-#include <SFGE/Widget.h>
+#include <SFGE/Panel.h>
 
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
 
@@ -44,7 +43,6 @@ namespace sfge
 
 
     using sf::Vector2f;
-    using sf::Sprite;
     using sf::RenderStates;
     using sf::Drawable;
 
@@ -63,17 +61,21 @@ namespace sfge
 
         Vector2f getSize () const;
 
-        bool checkMovement (InteractiveObject* object) const;
+        bool checkMovement (InteractiveObject* object);
 
         uint32_t getNearestWayPoint (Vector2f pos) const;
 
         const WayPoint* getPoint (uint32_t id);
 
+        void attachObject (std::shared_ptr<MapObject> object);
+
+        bool checkObjectPosition (Vector2f pos) const;
+
     private:
         virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
-        std::vector<Sprite> m_tiles;
+        std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;
 
         std::unordered_map<uint32_t, WayPoint> m_way_points;

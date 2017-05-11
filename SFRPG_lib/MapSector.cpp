@@ -35,18 +35,34 @@
 using namespace sfge;
 
 
-Vector2f sfge::MapSector::getOffset () const
+Vector2f MapSector::getOffset () const
 {
     return m_offset;
 }
 
-Vector2f sfge::MapSector::getSize () const
+Vector2f MapSector::getSize () const
 {
     return m_size;
 }
 
-bool MapSector::checkMovement (InteractiveObject* moved_object) const
+bool MapSector::checkMovement (InteractiveObject* moved_object)
 {
+    if (moved_object->getPosition ().x < m_offset.x ||
+        moved_object->getPosition ().y < m_offset.y ||
+        moved_object->getPosition ().x > m_offset.x + m_size.x ||
+        moved_object->getPosition ().y > m_offset.y + m_size.y
+    )
+    {
+        moved_object->runAction<SectorLeavingAction> (nullptr);
+        m_objects.erase (
+            std::remove_if (
+                m_objects.begin (),
+                m_objects.end (),
+                [moved_object](std::shared_ptr<MapObject> object) { return moved_object == object.get (); }
+            )
+        );
+    }
+
     for (auto object : m_objects)
     {
         if (object->detectCollision (moved_object) != Collision::State::OUTSIDE)
@@ -77,12 +93,22 @@ uint32_t MapSector::getNearestWayPoint (Vector2f pos) const
     return nearest_point;
 }
 
-const WayPoint* sfge::MapSector::getPoint (uint32_t id)
+const WayPoint* MapSector::getPoint (uint32_t id)
 {
     return &m_way_points[id];
 }
 
-void sfge::MapSector::draw (RenderTarget& target, RenderStates states) const
+void MapSector::attachObject (std::shared_ptr<MapObject> object)
+{
+    m_objects.push_back (object);
+}
+
+bool sfge::MapSector::checkObjectPosition (Vector2f pos) const
+{
+    return pos.x > m_offset.x && pos.y > m_offset.y && pos.x < m_offset.x + m_size.x && pos.y < m_offset.y + m_size.y;
+}
+
+void MapSector::draw (RenderTarget& target, RenderStates states) const
 {
     for (auto& tile : m_tiles)
         target.draw (tile, states);

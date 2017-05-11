@@ -12,6 +12,7 @@
     <ClCompile Include="WayPoint.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapSector.cpp" />
+    <ClCompile Include="Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\SFRPG\Collision.h" />
@@ -26,5 +27,6 @@
     <ClInclude Include="..\include\SFRPG\MapManager.h" />
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\WayPointID.h" />
+    <ClInclude Include="..\include\SFRPG\Map.h" />
   </ItemGroup>
 </Project>

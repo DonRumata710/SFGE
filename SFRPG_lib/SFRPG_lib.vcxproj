@@ -24,6 +24,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="InteractiveObject.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapSector.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\include\SFRPG\Collision.h" />
     <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
     <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
+    <ClInclude Include="..\include\SFRPG\Map.h" />
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\MapManager.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />

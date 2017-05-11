@@ -47,22 +47,23 @@ namespace sfge
 
         enum DefaultAction : ActionID
         {
-            INVALID_ACTION = UINT32_MAX,
-            COLLISION_ACTION = UINT32_MAX - 1
+            INVALID_ACTION_ID = UINT32_MAX,
+            COLLISION_ACTION = UINT32_MAX - 1,
+            SECTOR_LEAVING_ACTION = UINT32_MAX - 2
         };
 
         ActionID getID () const;
 
         InteractiveObject* getActor () const;
 
-        virtual ActionID doAction (InteractiveObject* target = nullptr) = 0;
+        virtual void doAction (InteractiveObject* target = nullptr) = 0;
 
     protected:
         iAction (InteractiveObject* actor, ActionID id);
 
     private:
         InteractiveObject* m_actor = nullptr;
-        ActionID m_id = INVALID_ACTION;
+        ActionID m_id = INVALID_ACTION_ID;
     };
 
 
@@ -71,7 +72,16 @@ namespace sfge
     public:
         CollisionAction (InteractiveObject* actor);
 
-        virtual ActionID doAction (InteractiveObject* target = nullptr) override;
+        virtual void doAction (InteractiveObject* target = nullptr) override;
+    };
+
+
+    class SectorLeavingAction : public iAction
+    {
+    public:
+        SectorLeavingAction (InteractiveObject* actor);
+
+        virtual void doAction (InteractiveObject* target = nullptr) override;
     };
 
 

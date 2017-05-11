@@ -29,6 +29,9 @@
 
 #include "Action.h"
 #include "InteractiveObject.h"
+#include "MapManager.h"
+#include "Map.h"
+#include "MapSector.h"
 
 
 using namespace sfge;
@@ -49,16 +52,28 @@ InteractiveObject* iAction::getActor () const
     return m_actor;
 }
 
+
 CollisionAction::CollisionAction (InteractiveObject* actor) :
     iAction (actor, DefaultAction::COLLISION_ACTION)
 {}
 
-iAction::ActionID CollisionAction::doAction (InteractiveObject* target)
+void CollisionAction::doAction (InteractiveObject* target)
 {
-    if (target)
-        target->doAction (this);
+    if (getActor ())
+        getActor ()->doAction (this);
+}
 
 
+SectorLeavingAction::SectorLeavingAction (InteractiveObject* actor) :
+    iAction (actor, SECTOR_LEAVING_ACTION)
+{}
 
-    return ActionID ();
+void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
+{
+    if (getActor ())
+    {
+        getActor ()->doAction (this);
+
+        getActor ()->attachToSector (MapManager::getInstance ()->getMap ()->getSector (target->getPosition ()));
+    }
 }

@@ -36,9 +36,24 @@
 using namespace sfge;
 
 
+void sfge::MapObject::attachToSector (MapSector* map_sector)
+{
+    m_map = map_sector;
+}
+
+MapSector* sfge::MapObject::getSector () const
+{
+    return m_map;
+}
+
 void MapObject::setPosition (const Vector2f& pos)
 {
     m_collision.setPosition (pos);
+}
+
+Vector2f sfge::MapObject::getPosition () const
+{
+    return m_collision.getPosition ();
 }
 
 void MapObject::setCollision (const Collision& collision)

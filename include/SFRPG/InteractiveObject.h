@@ -55,7 +55,7 @@ namespace sfge
         template<class Action, typename ...Args> void runAction (InteractiveObject* target, Args ...args)
         {
             Action action (this, args...);
-            target->doAction (&action);
+            action.doAction (target);
         }
 
         void doAction (const iAction* action);

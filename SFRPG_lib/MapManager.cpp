@@ -28,57 +28,35 @@
 
 
 #include "MapManager.h"
-#include "Way.h"
+
+#include <SFGE/Err.h>
 
 
 using namespace sfge;
 
 
-Way MapManager::getWay (Vector2f departure, Vector2f target) const
+MapManager* MapManager::m_instance (nullptr);
+
+
+MapManager* MapManager::getInstance ()
 {
-    WayPointID departure_point;
-    WayPointID target_point;
-
-    for (const auto& map : m_sectors)
-    {
-        if (departure.x < map.second.getOffset ().x ||
-            departure.y < map.second.getOffset ().y ||
-            departure.x > map.second.getOffset ().x + map.second.getSize ().x ||
-            departure.y > map.second.getOffset ().y + map.second.getSize ().y
-        )
-            continue;
-
-        departure_point = { map.first, map.second.getNearestWayPoint (departure - map.second.getOffset ()) };
-    }
-
-    for (const auto& map : m_sectors)
-    {
-        if (target.x < map.second.getOffset ().x ||
-            target.y < map.second.getOffset ().y ||
-            target.x > map.second.getOffset ().x + map.second.getSize ().x ||
-            target.y > map.second.getOffset ().y + map.second.getSize ().y
-        )
-            continue;
-
-        departure_point = { map.first, map.second.getNearestWayPoint (target - map.second.getOffset ()) };
-    }
-
-    Way way;
-
-    while (true)
-    {
-        /*
-        way.pushPointBack (departure_point->getRoute (target_point));
-        WayPointID point_id = departure_point->getNextPoint (target_point);
-        target_point = m_sectors.at (point_id.m_map_id).get;
-        */
-    }
-
-    return way;
+    return m_instance;
 }
 
-void sfge::MapManager::draw (sfge::RenderTarget& target) const
+MapManager::MapManager ()
 {
-    for (const auto& sector : m_sectors)
-        target.draw (sector.second);
+    if (m_instance)
+        critical_error ("Few map managers was created!");
+
+    m_instance = this;
+}
+
+MapManager::~MapManager ()
+{
+    m_instance = nullptr;
+}
+
+Map* sfge::MapManager::getMap () const
+{
+    return m_map;
 }

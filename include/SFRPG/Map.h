@@ -30,12 +30,11 @@
 #pragma once
 
 
-#include "Collision.h"
+#include "MapSector.h"
 
-#include <SFML\Graphics\RenderTarget.hpp>
-#include <SFML\Graphics\Drawable.hpp>
+#include <SFGE/Widget.h>
 
-#include <string>
+#include "SFML\System\Vector2.hpp"
 
 
 namespace sfge
@@ -43,37 +42,22 @@ namespace sfge
 
 
     using sf::Vector2f;
-    using sf::RenderTarget;
-    using sf::RenderStates;
-    using sf::Drawable;
-    
-    class MapSector;
+
+    class Way;
 
 
-    class MapObject : public Drawable
+    class Map : public sfge::iWidget
     {
     public:
-        MapObject () = default;
+        Way getWay (Vector2f departure, Vector2f target) const;
 
-        ~MapObject () = default;
+        MapSector* getSector (Vector2f position);
 
-        void attachToSector (MapSector*);
+    private:
+        virtual void draw (RenderTarget& target) const override;
 
-        MapSector* getSector () const;
-
-        void setPosition (const Vector2f& pos);
-
-        Vector2f getPosition () const;
-
-        void setCollision (const Collision& collision);
-
-        const Collision& getCollision () const;
-
-        Collision::State detectCollision (const MapObject* object) const;
-
-    protected:
-        Collision m_collision;
-        MapSector* m_map = nullptr;
+    private:
+        std::unordered_map<uint32_t, MapSector> m_sectors;
     };
 
 
