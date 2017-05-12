@@ -65,7 +65,7 @@ namespace sfge
 
         uint32_t getNearestWayPoint (Vector2f pos) const;
 
-        const WayPoint* getPoint (uint32_t id);
+        const WayPoint* getPoint (uint32_t id) const;
 
         void attachObject (std::shared_ptr<MapObject> object);
 

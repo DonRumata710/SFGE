@@ -93,7 +93,7 @@ uint32_t MapSector::getNearestWayPoint (Vector2f pos) const
     return nearest_point;
 }
 
-const WayPoint* MapSector::getPoint (uint32_t id)
+const WayPoint* MapSector::getPoint (uint32_t id) const
 {
     return &m_way_points[id];
 }

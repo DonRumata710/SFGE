@@ -34,7 +34,9 @@
 
 #include <SFGE/Widget.h>
 
-#include "SFML\System\Vector2.hpp"
+#include "SFML/System/Vector2.hpp"
+
+#include <deque>
 
 
 namespace sfge
@@ -55,6 +57,12 @@ namespace sfge
 
     private:
         virtual void draw (RenderTarget& target) const override;
+
+        std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
+
+        static float getDistance (Vector2f p1, Vector2f p2);
+
+        static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
 
     private:
         std::unordered_map<uint32_t, MapSector> m_sectors;

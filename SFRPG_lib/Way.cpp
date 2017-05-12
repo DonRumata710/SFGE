@@ -33,8 +33,20 @@
 using namespace sfge;
 
 
-Way::Way ()
+sfge::Way::Way (const WayPoints& points) :
+    m_points (points),
+    m_current_point (points.begin)
 {}
+
+sfge::Way::Way (WayPoints&& points) :
+    m_points (std::move (points)),
+    m_current_point (points.begin)
+{}
+
+void sfge::Way::clear ()
+{
+    m_points.clear ();
+}
 
 void sfge::Way::pushPointFront (Vector2f point)
 {
@@ -66,26 +78,3 @@ Vector2f Way::getMovingVector (Vector2f position, float step)
             return rest_vec;
     }
 }
-
-/*
-{
-    if (m_current_point == m_points.size () - 1)
-        target = m_target;
-    else
-        target = m_points[m_current_point]->getRoute (m_points[m_current_point + 1]);
-
-    auto rest_vec (target - position);
-    float rest_dist (sqrt (rest_vec.x * rest_vec.x + rest_vec.y * rest_vec.y));
-
-    if (step > rest_dist)
-    {
-        float relation (step / rest_dist);
-        return rest_vec * relation;
-    }
-    else
-    {
-        step -= rest_dist;
-        return rest_vec + getMovingVector (target, step);
-    }
-}
-*/

@@ -45,7 +45,11 @@ namespace sfge
         typedef WayPoints::iterator WayIterator;
 
     public:
-        Way ();
+        Way (const WayPoints& points);
+
+        Way (WayPoints&& points);
+
+        void clear ();
 
         void pushPointFront (Vector2f);
         void pushPointBack (Vector2f);
