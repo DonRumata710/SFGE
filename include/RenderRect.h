@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
@@ -43,28 +44,35 @@ namespace sfge
 {
 
 
+    using sf::IntRect;
+    using sf::Vector2u;
+    using sf::Vertex;
+    using sf::RenderTarget;
+    using sf::RenderStates;
+
+
     class RenderRect : public sf::Drawable
     {
     public:
         RenderRect ();
-        RenderRect (sf::Vector2u);
+        RenderRect (Vector2u);
 
         void setPosition (const unsigned x, const unsigned y);
-        void setPosition (const sf::Vector2u pos);
-        void setPosition (const sf::IntRect pos);
+        void setPosition (const Vector2u pos);
+        void setPosition (const IntRect pos);
 
-        void setSize (sf::Vector2u size);
+        void setSize (Vector2u size);
         void setSize (unsigned x, unsigned y);
 
-        sf::IntRect getRect () const;
-        sf::Vector2u getPosition () const;
-        sf::Vector2u getSize () const;
+        IntRect getRect () const;
+        Vector2u getPosition () const;
+        Vector2u getSize () const;
 
         bool contains (const float x, const float y);
 
-        virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
-        sf::Vertex m_arr[4];
+        Vertex m_arr[4];
     };
 
 

@@ -29,18 +29,19 @@
 
 #pragma once
 
+
 #include "AnimationDesc.h"
 #include "SpriteDesc.h"
 #include "ParticleSystem.h"
 #include "DistortionMesh.h"
 #include "StringTable.h"
 
+#include <SFML/Graphics/Rect.hpp>
+
 #include <unordered_map>
 #include <list>
 #include <string>
 #include <memory>
-
-#include <SFML/Graphics/Rect.hpp>
 
 
 

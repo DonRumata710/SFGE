@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Widget.h"
 #include "Unicode.h"
 
@@ -42,6 +43,8 @@ namespace sfge
 
     using sf::Font;
     using sf::Color;
+    using sf::RenderTarget;
+    using sf::Text;
 
 
     /////////////////////////////////////////////////////////////////////
@@ -123,9 +126,9 @@ namespace sfge
 
         virtual bool check_mouse (const int x, const int y) override;
 
-        virtual void draw (sf::RenderTarget&) const override;
+        virtual void draw (RenderTarget&) const override;
 
-        sf::Text m_text;
+        Text m_text;
         Align m_align = (Align) (LEFT | TOP);
     };
 

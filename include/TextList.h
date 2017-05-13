@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Widget.h"
 #include "Panel.h"
 #include "RenderRect.h"
@@ -65,6 +66,7 @@ namespace sfge
     class TextList : public iWidget
     {
     public:
+      
         /////////////////////////////////////////////////////////////////////
         /// EventType - enumeration of types of events
         /////////////////////////////////////////////////////////////////////
@@ -75,7 +77,7 @@ namespace sfge
         };
 
         /////////////////////////////////////////////////////////////////////
-        /// default constructor
+        /// Default constructor
         /////////////////////////////////////////////////////////////////////
         TextList ();
 
@@ -149,7 +151,6 @@ namespace sfge
         /// @return string 
         /////////////////////////////////////////////////////////////////////
         std::string getCurrent () const;
-
 
     private:
         virtual void setRect (const PositionDesc& desc) override;

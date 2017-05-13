@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Widget.h"
 #include "Panel.h"
 
@@ -46,6 +47,7 @@ namespace sfge
     class CheckBox : public iWidget
     {
     public:
+      
         /////////////////////////////////////////////////////////////////////
         /// ViewType - enumeration of types of view which widget use
         /////////////////////////////////////////////////////////////////////

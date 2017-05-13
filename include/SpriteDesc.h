@@ -29,8 +29,10 @@
 
 #pragma once
 
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
+
 #include <memory>
 
 
@@ -38,14 +40,19 @@ namespace sfge
 {
 
 
+    using sf::IntRect;
+    using sf::Vector2f;
+    using sf::Texture;
+
+
     /////////////////////////////////////////////////////////////////////
     /// SpriteDesc - desscription for loading sprites
     /////////////////////////////////////////////////////////////////////
     struct SpriteDesc
     {
-        sf::IntRect rect;                       // rect of texture which be show by sprite
-        std::shared_ptr<sf::Texture> texture;   // sprite texture
-        sf::Vector2f hotspot;                   // offset of sprite center from top-left corner
+        IntRect rect;                       // rect of texture which be show by sprite
+        std::shared_ptr<Texture> texture;   // sprite texture
+        Vector2f hotspot;                   // offset of sprite center from top-left corner
     };
 
 

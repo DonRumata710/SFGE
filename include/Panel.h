@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -53,6 +54,9 @@ namespace sfge
     using sf::Vector2u;
     using sf::IntRect;
     using sf::Color;
+    using sf::Vertex;
+    using sf::RenderStates;
+    using sf::RenderTarget;
 
 
     /////////////////////////////////////////////////////////////////////
@@ -161,10 +165,10 @@ namespace sfge
         bool contains (const float x, const float y);
 
     private:
-        virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
-        sf::Vertex m_arr[4];
-        std::shared_ptr<const sf::Texture> m_texture;
+        Vertex m_arr[4];
+        std::shared_ptr<const Texture> m_texture;
     };
 
 

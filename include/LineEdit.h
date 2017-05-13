@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Widget.h"
 #include "Panel.h"
 #include "RenderRect.h"
@@ -55,6 +56,8 @@ namespace sfge
     using sf::Color;
     using sf::Font;
     using sf::Texture;
+    using sf::RenderTexture;
+    using sf::Vertex;
 
 
     /////////////////////////////////////////////////////////////////////
@@ -195,16 +198,16 @@ namespace sfge
 
 
         sf::Text m_text;
-        sf::String m_string;
+        UString m_string;
         unsigned m_focused_char = 0;
 
         RenderRect m_outward_view;
         Panel m_background;
         Panel m_focus;
 
-        sf::Vertex m_line[2];
+        Vertex m_line[2];
 
-        std::unique_ptr<sf::RenderTexture> m_texture;
+        std::unique_ptr<RenderTexture> m_texture;
 
         bool m_is_pressed = false;
         float m_dc_timer = 0.0f;

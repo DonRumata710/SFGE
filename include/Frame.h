@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector.hpp>
 
 
 namespace sfge
@@ -59,12 +59,22 @@ namespace sfge
         PositionDesc () {}
 
         /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param x - x coord of top left corner
+        /// @param y - y coord of top left corner
+        /// @param width - width of widget
+        /// @param height - height of widget
         /////////////////////////////////////////////////////////////////////
         PositionDesc (int _x, int _y, unsigned _width, unsigned _height) :
             x (_x), y (_y), width (_width), height (_height)
         {}
 
         /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param pos - position of widget
+        /// @param size - size of widget
         /////////////////////////////////////////////////////////////////////
         PositionDesc (const Vector2i& pos, const Vector2u& size) :
             x (pos.x), y (pos.y), width (size.x), height (pos.y)

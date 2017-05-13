@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include <string>
 
 
@@ -42,8 +43,9 @@ namespace sfge
     class Exception : public std::exception
     {
     public:
+      
         /////////////////////////////////////////////////////////////////////
-        /// constructor
+        /// Constructor
         /// 
         /// Create exception object with message.
         /// 

@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Field.h"
 #include "Frame.h"
 #include "Widget.h"
@@ -62,6 +63,7 @@ namespace sfge
     class GUIManager : public Field
     {
     public:
+
         /////////////////////////////////////////////////////////////////////
         /// constructor - create an instance of class GUIManager
         ///
@@ -179,7 +181,6 @@ namespace sfge
         /// @return return unique pointer to window
         /////////////////////////////////////////////////////////////////////
         std::unique_ptr<RenderWindow>& getWindow ();
-
 
     private:
         enum class State

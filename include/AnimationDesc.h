@@ -29,8 +29,10 @@
 
 #pragma once
 
-#include <SFML/Graphics/Rect.hpp>
+
+#include <SFML/System/Vector.hpp>
 #include <SFML/Graphics/Texture.hpp>
+
 #include <memory>
 
 
@@ -38,19 +40,23 @@ namespace sfge
 {
 
 
+    using sf::Texture;
+    using sf::Vector2f;
+
+
     /////////////////////////////////////////////////////////////////////
     /// AnimationDesc - description for loading animation
     /////////////////////////////////////////////////////////////////////
     struct AnimationDesc
     {
-        std::shared_ptr<sf::Texture> texture;   // texture where frames placed
-        sf::Vector2f hotspot;                   // offset of animation center from top-left corner
-        int frames = 0;                         // number of frames
-        int rows = 0;                           // number of rows in texture
-        int cols = 0;                           // number of columns in texture
-        float fps = 1.0f;                       // animation FPS
-        int start = 0;                          // first frame of animation
-        int mode = 0;                           // mode of animation playing
+        std::shared_ptr<Texture> texture;   // texture where frames placed
+        Vector2f hotspot;                   // offset of animation center from top-left corner
+        int frames = 0;                     // number of frames
+        int rows = 0;                       // number of rows in texture
+        int cols = 0;                       // number of columns in texture
+        float fps = 1.0f;                   // animation FPS
+        int start = 0;                      // first frame of animation
+        int mode = 0;                       // mode of animation playing
     };
 
 

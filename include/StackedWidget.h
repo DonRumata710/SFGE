@@ -35,8 +35,6 @@
 #include "Field.h"
 
 
-
-
 namespace sfge
 {
 

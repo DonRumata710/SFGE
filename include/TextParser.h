@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include <unordered_map>
 #include <string>
 
@@ -73,6 +74,7 @@ namespace sfge
     class TextParser
     {
     public:
+      
         /////////////////////////////////////////////////////////////////////
         /// constructor - create text parser
         ///

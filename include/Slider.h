@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "Widget.h"
 #include "Panel.h"
 
@@ -37,6 +38,7 @@ namespace sfge
 {
 
 
+    using sf::Vector2i;
     using sf::Texture;
 
 
@@ -46,6 +48,7 @@ namespace sfge
     class Slider : public iWidget
     {
     public:
+
         /////////////////////////////////////////////////////////////////////
         /// Orientation - enumeration for orientation of slider
         /////////////////////////////////////////////////////////////////////
@@ -189,9 +192,9 @@ namespace sfge
         Orientation m_orient = VERTICAL;
         Mode m_mode = Mode::SLIDER;
 
-        std::shared_ptr<const sf::Texture> m_released_slider;
-        std::shared_ptr<const sf::Texture> m_focused_slider;
-        std::shared_ptr<const sf::Texture> m_pressed_slider;
+        std::shared_ptr<const Texture> m_released_slider;
+        std::shared_ptr<const Texture> m_focused_slider;
+        std::shared_ptr<const Texture> m_pressed_slider;
 
         Panel m_outward_view;
         Panel m_slider;
@@ -201,7 +204,7 @@ namespace sfge
         float m_value = 0.0f;
 
         bool m_is_pressed = false;
-        sf::Vector2i m_mouse;
+        Vector2i m_mouse;
     };
 
 

@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include <string>
 #include <memory>
 
@@ -43,6 +44,7 @@ namespace sfge
     class File
     {
     public:
+      
         /////////////////////////////////////////////////////////////////////
         /// default constructor
         ///
@@ -76,6 +78,11 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         size_t getSize ();
 
+	/////////////////////////////////////////////////////////////////////
+	/// Cast to bool
+	///
+	/// @return true if file is open and is not epmty, false otherwise
+	/////////////////////////////////////////////////////////////////////
         operator bool () const;
 
     private:

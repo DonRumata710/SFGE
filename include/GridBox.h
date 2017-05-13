@@ -127,7 +127,7 @@ namespace sfge
         /// 
         /// @param color - color of background
         /////////////////////////////////////////////////////////////////////
-        void setBackground (sfge::Color color);
+        void setBackground (Color color);
 
         /////////////////////////////////////////////////////////////////////
         /// closeWidget - close widget contained in this grid

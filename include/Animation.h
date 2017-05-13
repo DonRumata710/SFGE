@@ -29,6 +29,7 @@
 
 #pragma once
 
+
 #include "AnimationDesc.h"
 
 #include <SFML/Graphics/Sprite.hpp>
@@ -38,6 +39,9 @@
 
 namespace sfge
 {
+
+
+    using sf::Texture;
 
 
     /////////////////////////////////////////////////////////////////////
@@ -64,7 +68,14 @@ namespace sfge
             LOOP = 4        /// start from first view when last view is shown
         };
 
+	/////////////////////////////////////////////////////////////////////
+	/// Default constructor
+	/////////////////////////////////////////////////////////////////////
         Animation ();
+	
+	/////////////////////////////////////////////////////////////////////
+	/// Copy constructor
+	/////////////////////////////////////////////////////////////////////
         explicit Animation (const AnimationDesc&);
 
         /////////////////////////////////////////////////////////////////////
@@ -83,7 +94,7 @@ namespace sfge
         /// @param count - number of views in animation
         /// @param start - number of view on texture which is first for animation
         /////////////////////////////////////////////////////////////////////
-        void setTexture (const sf::Texture& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start = 0);
+        void setTexture (const Texture& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start = 0);
 
         /////////////////////////////////////////////////////////////////////
         /// setMode - set mode of displaying of animation
