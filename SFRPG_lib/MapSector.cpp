@@ -110,7 +110,7 @@ uint32_t MapSector::getNearestWayPoint (Vector2f pos) const
         if (distance < min_distance)
         {
             min_distance = distance;
-            nearest_point = i;
+            nearest_point = static_cast<uint32_t> (i);
         }
     }
 

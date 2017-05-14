@@ -42,6 +42,7 @@ namespace sfge
 
 
     using sf::Texture;
+    using sf::Sprite;
 
 
     /////////////////////////////////////////////////////////////////////
@@ -51,7 +52,7 @@ namespace sfge
     /// one. Texture should be divided on rows and columns which contain
     /// frames of animation(s).
     /////////////////////////////////////////////////////////////////////
-    class Animation : public sf::Sprite
+    class Animation : public Sprite
     {
     public:
 

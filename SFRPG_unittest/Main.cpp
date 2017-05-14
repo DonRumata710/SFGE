@@ -27,54 +27,12 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#define CATCH_CONFIG_RUNNER
+#include <catch.hpp>
 
 
-#include <SFML/Graphics/Vertex.hpp>
-#include <SFML/Graphics/Drawable.hpp>
-
-
-namespace sf
+int main (int argc, char * argv[])
 {
-    class Color;
-}
-
-
-namespace sfge
-{
-
-
-    using sf::IntRect;
-    using sf::Vector2u;
-    using sf::Vector2i;
-    using sf::Vertex;
-    using sf::RenderTarget;
-    using sf::RenderStates;
-
-
-    class RenderRect : public sf::Drawable
-    {
-    public:
-        RenderRect ();
-        RenderRect (Vector2u size);
-
-        void setPosition (const int x, const int y);
-        void setPosition (const Vector2i pos);
-        void setPosition (const IntRect pos);
-
-        void setSize (Vector2u size);
-        void setSize (unsigned x, unsigned y);
-
-        IntRect getRect () const;
-        Vector2i getPosition () const;
-        Vector2u getSize () const;
-
-        bool contains (const float x, const float y);
-
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
-
-        Vertex m_arr[4];
-    };
-
-
+    int result = Catch::Session ().run (argc, argv);
+    return (result < 0xff ? result : 0xff);
 }

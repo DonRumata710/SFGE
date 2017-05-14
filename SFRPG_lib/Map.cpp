@@ -200,18 +200,8 @@ Vector2f Map::getWayStep (const WayPoint* p1, const WayPoint* p2)
     return start + dist * p2->getRadius () / sqrt (dist.x * dist.x + dist.y * dist.y);
 }
 
-void Map::setRect (const PositionDesc& desc)
-{
-
-}
-
-void Map::draw (RenderTarget& target) const
+void Map::draw (RenderTarget & target, RenderStates states) const
 {
     for (const auto& sector : m_sectors)
         target.draw (sector.second);
-}
-
-bool Map::check_mouse (const int x, const int y)
-{
-    return true;
 }

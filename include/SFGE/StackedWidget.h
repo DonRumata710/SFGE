@@ -45,7 +45,7 @@ namespace sfge
 
 
     /////////////////////////////////////////////////////////////////////
-    /// StackedWidget - widget which can contain several other widgets  and keep active one of them
+    /// StackedWidget - widget which can contain several other widgets and keep active one of them
     /////////////////////////////////////////////////////////////////////
     class StackedWidget : public iWidget, public Field
     {
@@ -65,8 +65,7 @@ namespace sfge
         unsigned addWidget (pWidget widget);
 
         /////////////////////////////////////////////////////////////////////
-        /// switchToNext - this function activate widget which is next in 
-        /// stack
+        /// switchToNext - this function activate widget which is next in stack
         /////////////////////////////////////////////////////////////////////
         void switchToNext ();
 

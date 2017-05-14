@@ -74,12 +74,12 @@ namespace sfge
         add_frame (widget.get ());
     }
 
-    void GUIManager::setBackground (std::shared_ptr<const sf::Texture> tex)
+    void GUIManager::setBackground (std::shared_ptr<const Texture> tex)
     {
         m_background = tex;
     }
 
-    void GUIManager::setBackground (const std::string & texture)
+    void GUIManager::setBackground (const std::string& texture)
     {
         setBackground (ResourceManager::getInstance ()->findTexture (texture));
     }

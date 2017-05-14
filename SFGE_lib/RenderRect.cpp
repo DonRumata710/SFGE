@@ -53,9 +53,9 @@ namespace sfge
         m_arr[3].texCoords = sf::Vector2f (size.x, size.y);
     }
 
-    void RenderRect::setPosition (const unsigned x, const unsigned y)
+    void RenderRect::setPosition (const int x, const int y)
     {
-        sf::Vector2u size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
+        sf::Vector2i size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
 
         m_arr[0].position = sf::Vector2f (x, y);
         m_arr[1].position = sf::Vector2f (x + size.x, y);
@@ -63,9 +63,9 @@ namespace sfge
         m_arr[3].position = sf::Vector2f (x + size.x, y + size.y);
     }
 
-    void RenderRect::setPosition (const sf::Vector2u pos)
+    void RenderRect::setPosition (const Vector2i pos)
     {
-        sf::Vector2u size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
+        sf::Vector2i size (m_arr[1].position.x - m_arr[0].position.x, m_arr[2].position.y - m_arr[0].position.y);
 
         m_arr[0].position = sf::Vector2f (pos.x, pos.y);
         m_arr[1].position = sf::Vector2f (pos.x + size.x, pos.y);
@@ -73,7 +73,7 @@ namespace sfge
         m_arr[3].position = sf::Vector2f (pos.x + size.x, pos.y + size.y);
     }
 
-    void RenderRect::setPosition (const sf::IntRect pos)
+    void RenderRect::setPosition (const IntRect pos)
     {
         m_arr[0].position = sf::Vector2f (pos.left, pos.top);
         m_arr[1].position = sf::Vector2f (pos.left + pos.width, pos.top);

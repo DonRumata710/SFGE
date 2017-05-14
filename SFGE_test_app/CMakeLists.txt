@@ -1,5 +1,5 @@
 
-set(APPLICATION_NAME TestApplication)
+set(APPLICATION_NAME SFGE_test_app)
 
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/${APPLICATION_NAME}/Source.cpp

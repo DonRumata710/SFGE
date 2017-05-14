@@ -29,7 +29,6 @@
 
 #include <SFRPG/Collision.h>
 
-#define CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
 #include <random>

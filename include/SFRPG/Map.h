@@ -34,7 +34,7 @@
 
 #include <SFGE/Widget.h>
 
-#include "SFML/System/Vector2.hpp"
+#include <SFML/System/Vector2.hpp>
 
 #include <deque>
 
@@ -48,7 +48,7 @@ namespace sfge
     class Way;
 
 
-    class Map : public sfge::iWidget
+    class Map : public Drawable
     {
     public:
         Map (const std::unordered_map<uint32_t, MapSector>& sectors);
@@ -68,11 +68,7 @@ namespace sfge
 
         static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
 
-        virtual void setRect (const PositionDesc& desc) override;
-
-        virtual void draw (RenderTarget& target) const override;
-
-        virtual bool check_mouse (const int x, const int y) override;
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
         std::unordered_map<uint32_t, MapSector> m_sectors;
