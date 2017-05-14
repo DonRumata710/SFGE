@@ -73,7 +73,7 @@ namespace sfge
         }
 
         if (m_view.getSize ().x == 0)
-            m_view.setSize (view->getSize ());
+            m_view.setSize (view->getSize ().x, view->getSize ().y);
     }
     
     void Button::attachView (const std::string& tex, const EventType e)
@@ -148,7 +148,7 @@ namespace sfge
 
     bool Button::check_mouse (const int x, const int y)
     {
-        if (m_view.contains (x, y))
+        if (m_view.contains (static_cast<float> (x), static_cast<float> (y)))
         {
             set_view (FOCUSED);
             return true;

@@ -1,94 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="AnimationDesc.h">
+    <ClInclude Include="..\include\SFGE\Animation.h">
       <Filter>GraphicManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Animation.h">
+    <ClInclude Include="..\include\SFGE\AnimationDesc.h">
       <Filter>GraphicManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\AnimationDesc.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Button.h">
+    <ClInclude Include="..\include\SFGE\Button.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\CheckBox.h">
+    <ClInclude Include="..\include\SFGE\CheckBox.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Err.h">
+    <ClInclude Include="..\include\SFGE\Err.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\GEDevice.h">
+    <ClInclude Include="..\include\SFGE\File.h">
+      <Filter>ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\DistortionMesh.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Frame.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\GEDevice.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Label.h">
+    <ClInclude Include="..\include\SFGE\GridBox.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\File.h">
+    <ClInclude Include="..\include\SFGE\GuiElement.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\GuiManager.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Label.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\LineEdit.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Panel.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\ParticleSystem.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\RenderRect.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\ResourceManager.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Field.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Frame.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GuiElement.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GridBox.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\DistortionMesh.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Panel.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GuiManager.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\LineEdit.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ParticleSystem.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\RenderRect.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Slider.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SpriteDesc.h">
-      <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ResourceManager.h">
+    <ClInclude Include="..\include\SFGE\TextParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\StackedWidget.h">
+    <ClInclude Include="..\include\SFGE\Slider.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\StringTable.h">
+    <ClInclude Include="..\include\SFGE\SpriteDesc.h">
+      <Filter>GraphicManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\StackedWidget.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\StringTable.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\TextList.h">
+    <ClInclude Include="..\include\SFGE\TextList.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Unicode.h">
+    <ClInclude Include="..\include\SFGE\Unicode.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Widget.h">
+    <ClInclude Include="..\include\SFGE\Widget.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Field.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
     <ClInclude Include="ResourceLoader.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
     <ClInclude Include="ResourceParser.h">
-      <Filter>ResourceManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\TextParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
   </ItemGroup>

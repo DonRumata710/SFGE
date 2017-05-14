@@ -291,13 +291,13 @@ namespace sfge
             }
             else if (y_pos + m_character_size + m_character_size / 4 > m_background.getSize ().y)
             {
-                int offset (y_pos + m_character_size + m_character_size / 4 - m_background.getSize ().y);
+                int offset (y_pos + m_character_size + m_character_size / 4 - static_cast<int> (m_background.getSize ().y));
                 m_offset -= offset;
                 y_pos -= offset;
             }
         }
 
-        m_focus.setPosition (0, y_pos);
+        m_focus.setPosition (0.0f, static_cast<int> (y_pos));
 
         replace_text ();
     }
@@ -310,7 +310,7 @@ namespace sfge
 
         for (std::shared_ptr<sf::Text> text : m_string_list)
         {
-            text->setPosition (m_character_size / 4, m_offset + int (text_pos + m_character_size / 8));
+            text->setPosition (static_cast<float> (m_character_size / 4), static_cast<float> (m_offset + int (text_pos + m_character_size / 8)));
             text_pos += m_character_size + m_character_size / 4;
         }
 

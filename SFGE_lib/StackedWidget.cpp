@@ -49,7 +49,7 @@ unsigned sfge::StackedWidget::addWidget (pWidget widget)
 
     add_frame (widget.get ());
 
-    return m_widgets.size () - 1;
+    return uint32_t (m_widgets.size () - 1);
 }
 
 void sfge::StackedWidget::switchToNext ()
@@ -66,7 +66,7 @@ void sfge::StackedWidget::switchToPrevious ()
     m_widgets[m_current_widget]->setEnabled (false);
     --m_current_widget;
     if (m_current_widget > m_widgets.size ())
-        m_current_widget = m_widgets.size () - 1;
+        m_current_widget = uint32_t (m_widgets.size () - 1);
     m_widgets[m_current_widget]->setEnabled (true);
 
     if (m_is_enter)

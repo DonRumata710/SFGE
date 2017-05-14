@@ -27,18 +27,18 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include <Button.h>
-#include <Slider.h>
-#include <TextList.h>
-#include <LineEdit.h>
-#include <CheckBox.h>
-#include <Label.h>
-#include <GuiManager.h>
-#include <GEDevice.h>
+#include <SFGE/Button.h>
+#include <SFGE/Slider.h>
+#include <SFGE/TextList.h>
+#include <SFGE/LineEdit.h>
+#include <SFGE/CheckBox.h>
+#include <SFGE/Label.h>
+#include <SFGE/GuiManager.h>
+#include <SFGE/GEDevice.h>
 
-#include <Panel.h>
+#include <SFGE/Panel.h>
 
-#include <ResourceManager.h>
+#include <SFGE/ResourceManager.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -54,7 +54,7 @@ int main ()
 
 
     ResourceManager rm;
-    if (!rm.loadScript ("resources.cfg")) return 1;
+    if (!rm.loadScript ("media\\resources\\resources.cfg")) return 1;
 
 
 
@@ -142,9 +142,7 @@ int main ()
 
     device.addGuiManager (0, manager);
     device.addGuiManager (1, child_win);
-    device.createWindow (0, "SFML 1", sfge::VideoMode (800, 800));
-
-
+    device.createWindow (0, "SFGE test application", sfge::VideoMode (800, 800));
 
     return device.run ();
 }

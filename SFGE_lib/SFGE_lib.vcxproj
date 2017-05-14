@@ -19,34 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Animation.h" />
-    <ClInclude Include="..\include\AnimationDesc.h" />
-    <ClInclude Include="..\include\Button.h" />
-    <ClInclude Include="..\include\CheckBox.h" />
-    <ClInclude Include="..\include\DistortionMesh.h" />
-    <ClInclude Include="..\include\Err.h" />
-    <ClInclude Include="..\include\Field.h" />
-    <ClInclude Include="..\include\File.h" />
-    <ClInclude Include="..\include\Frame.h" />
-    <ClInclude Include="..\include\GEDevice.h" />
-    <ClInclude Include="..\include\GridBox.h" />
-    <ClInclude Include="..\include\GuiElement.h" />
-    <ClInclude Include="..\include\GuiManager.h" />
-    <ClInclude Include="..\include\Label.h" />
-    <ClInclude Include="..\include\LineEdit.h" />
-    <ClInclude Include="..\include\Panel.h" />
-    <ClInclude Include="..\include\ParticleSystem.h" />
-    <ClInclude Include="..\include\RenderRect.h" />
-    <ClInclude Include="..\include\ResourceManager.h" />
-    <ClInclude Include="..\include\Slider.h" />
-    <ClInclude Include="..\include\SpriteDesc.h" />
-    <ClInclude Include="..\include\StackedWidget.h" />
-    <ClInclude Include="..\include\StringTable.h" />
-    <ClInclude Include="..\include\TextList.h" />
-    <ClInclude Include="..\include\TextParser.h" />
-    <ClInclude Include="..\include\Unicode.h" />
-    <ClInclude Include="..\include\Widget.h" />
-    <ClInclude Include="AnimationDesc.h" />
+    <ClInclude Include="..\include\SFGE\Animation.h" />
+    <ClInclude Include="..\include\SFGE\AnimationDesc.h" />
+    <ClInclude Include="..\include\SFGE\Button.h" />
+    <ClInclude Include="..\include\SFGE\CheckBox.h" />
+    <ClInclude Include="..\include\SFGE\DistortionMesh.h" />
+    <ClInclude Include="..\include\SFGE\Err.h" />
+    <ClInclude Include="..\include\SFGE\Field.h" />
+    <ClInclude Include="..\include\SFGE\File.h" />
+    <ClInclude Include="..\include\SFGE\Frame.h" />
+    <ClInclude Include="..\include\SFGE\GEDevice.h" />
+    <ClInclude Include="..\include\SFGE\GridBox.h" />
+    <ClInclude Include="..\include\SFGE\GuiElement.h" />
+    <ClInclude Include="..\include\SFGE\GuiManager.h" />
+    <ClInclude Include="..\include\SFGE\Label.h" />
+    <ClInclude Include="..\include\SFGE\LineEdit.h" />
+    <ClInclude Include="..\include\SFGE\Panel.h" />
+    <ClInclude Include="..\include\SFGE\ParticleSystem.h" />
+    <ClInclude Include="..\include\SFGE\RenderRect.h" />
+    <ClInclude Include="..\include\SFGE\ResourceManager.h" />
+    <ClInclude Include="..\include\SFGE\Slider.h" />
+    <ClInclude Include="..\include\SFGE\SpriteDesc.h" />
+    <ClInclude Include="..\include\SFGE\StackedWidget.h" />
+    <ClInclude Include="..\include\SFGE\StringTable.h" />
+    <ClInclude Include="..\include\SFGE\TextList.h" />
+    <ClInclude Include="..\include\SFGE\TextParser.h" />
+    <ClInclude Include="..\include\SFGE\Unicode.h" />
+    <ClInclude Include="..\include\SFGE\Widget.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResourceParser.h" />
   </ItemGroup>
@@ -153,7 +152,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Projects\SFGE\include;D:\Development\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\SFGE;$(SolutionDir)..\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -187,7 +186,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Projects\SFGE\include;D:\Projects\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\SFGE;$(SolutionDir)..\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

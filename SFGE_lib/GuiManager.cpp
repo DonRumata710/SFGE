@@ -156,7 +156,7 @@ namespace sfge
         m_state = State::ENTER;
         m_timer.restart ();
         m_window.swap (window);
-        m_background.setSize (m_window->getSize ());
+        m_background.setSize (m_window->getSize ().x, m_window->getSize ().y);
 
         set_size (m_window->getSize ());
 

@@ -51,8 +51,8 @@ namespace sfge
 
 
     using sf::Texture;
-    using sf::Vector2u;
-    using sf::IntRect;
+    using sf::Vector2f;
+    using sf::FloatRect;
     using sf::Color;
     using sf::Vertex;
     using sf::RenderStates;
@@ -65,12 +65,15 @@ namespace sfge
     class Panel : public sf::Drawable
     {
     public:
+
+        /////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        /////////////////////////////////////////////////////////////////////
         Panel ();
 
         /////////////////////////////////////////////////////////////////////
-        /// constructor which automatically set panel size according to 
-        /// texture size
-        /// 
+        /// Constructor which automatically set panel size according to  texture size
+        ///
         /// @param tex - texture of panel
         /////////////////////////////////////////////////////////////////////
         Panel (const std::shared_ptr<const Texture> tex);
@@ -102,28 +105,35 @@ namespace sfge
         /// @param x - X coordinate of new position
         /// @param y - Y coordinate of new position
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const unsigned x, const unsigned y);
+        void setPosition (const float x, const float y);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set coordinates of top-left corner
         /// 
         /// @param pos - point to move
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const Vector2u pos);
+        void setPosition (const Vector2f pos);
+
+        /////////////////////////////////////////////////////////////////////
+        /// move - move panel
+        /// 
+        /// @param - offset to move
+        /////////////////////////////////////////////////////////////////////
+        void move (const Vector2f vec);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position of top-left corner and size of panel
         /// 
         /// @param pos - new position and size
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const IntRect pos);
+        void setPosition (const FloatRect pos);
 
         /////////////////////////////////////////////////////////////////////
         /// setSize - set size of panel
         /// 
         /// @param size - new size of panel
         /////////////////////////////////////////////////////////////////////
-        void setSize (Vector2u size);
+        void setSize (Vector2f size);
 
         /////////////////////////////////////////////////////////////////////
         /// setSize - set size of panel
@@ -131,28 +141,28 @@ namespace sfge
         /// @param x - width of panel
         /// @param y - height of panel
         /////////////////////////////////////////////////////////////////////
-        void setSize (unsigned x, unsigned y);
+        void setSize (float x, float y);
 
         /////////////////////////////////////////////////////////////////////
         /// getRect - get position of top-left corner and size of panel
         /// 
         /// @return position and size of panel
         /////////////////////////////////////////////////////////////////////
-        IntRect getRect () const;
+        FloatRect getRect () const;
 
         /////////////////////////////////////////////////////////////////////
         /// getPosition - position of panel
         /// 
         /// @return position of top-left corner
         /////////////////////////////////////////////////////////////////////
-        Vector2u getPosition () const;
+        Vector2f getPosition () const;
 
         /////////////////////////////////////////////////////////////////////
         /// getSize - get size of panel
         /// 
         /// @return size of panel
         /////////////////////////////////////////////////////////////////////
-        Vector2u getSize () const;
+        Vector2f getSize () const;
 
         /////////////////////////////////////////////////////////////////////
         /// contains - check if point is inside of panel

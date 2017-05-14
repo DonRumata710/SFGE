@@ -30,33 +30,26 @@
 #pragma once
 
 
-#include <SFML/System/Vector.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include "MapObject.h"
 
-#include <memory>
+#include <SFGE\Panel.h>
 
 
 namespace sfge
 {
 
 
-    using sf::Texture;
-    using sf::Vector2f;
-
-
-    /////////////////////////////////////////////////////////////////////
-    /// AnimationDesc - description for loading animation
-    /////////////////////////////////////////////////////////////////////
-    struct AnimationDesc
+    class StaticObject final : public MapObject
     {
-        std::shared_ptr<Texture> texture;   // texture where frames placed
-        Vector2f hotspot;                   // offset of animation center from top-left corner
-        int frames = 0;                     // number of frames
-        int rows = 0;                       // number of rows in texture
-        int cols = 0;                       // number of columns in texture
-        float fps = 1.0f;                   // animation FPS
-        int start = 0;                      // first frame of animation
-        int mode = 0;                       // mode of animation playing
+    public:
+        void setView (std::shared_ptr<const Texture> texture);
+
+        void setView (const std::string& texture);
+
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
+
+    private:
+        Panel m_panel;
     };
 
 
