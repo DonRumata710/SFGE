@@ -72,6 +72,8 @@ namespace sfge
 
         State check (const Collision& collision) const;
 
+        State check (const Point p1, const Point p2) const;
+
         State check (const Point point) const;
 
     private:

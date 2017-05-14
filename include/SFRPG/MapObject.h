@@ -67,9 +67,9 @@ namespace sfge
 
         void setCollision (const Collision& collision);
 
-        const Collision& getCollision () const;
-
         Collision::State detectCollision (const MapObject* object) const;
+
+        Collision::State detectCollision (const Vector2f p1, const Vector2f p2) const;
 
     protected:
         Collision m_collision;

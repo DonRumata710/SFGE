@@ -56,6 +56,10 @@ namespace sfge
 
         Vector2f getMovingVector (Vector2f position, float step);
 
+        float getLength () const;
+
+        size_t getPoints () const;
+
     protected:
         WayPoints m_points;
         WayIterator m_current_point;

@@ -55,9 +55,11 @@ namespace sfge
     class WayPoint
     {
     public:
-        typedef std::vector<WayPointID> EdgeList;
+        typedef std::vector<const WayPoint*> EdgeList;
 
-        WayPoint (uint32_t map_id = UINT32_MAX);
+        void assignEdges (const EdgeList& edges);
+
+        const EdgeList& getEdges () const;
 
         void setPosition (Vector2f pos);
 
@@ -69,15 +71,11 @@ namespace sfge
 
         float checkArea (const Vector2f point) const;
 
-        const EdgeList& getEdges () const;
-
     private:
         Vector2f m_position;
         float m_radius = 0.0f;
 
         EdgeList m_neighbours;
-
-        uint32_t m_map_id = UINT32_MAX;
     };
 
 

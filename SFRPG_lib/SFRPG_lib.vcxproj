@@ -45,7 +45,6 @@
     <ClInclude Include="..\include\SFRPG\StaticObject.h" />
     <ClInclude Include="..\include\SFRPG\Way.h" />
     <ClInclude Include="..\include\SFRPG\WayPoint.h" />
-    <ClInclude Include="..\include\SFRPG\WayPointID.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{853830EB-175C-4F2F-89C2-0F827B05C376}</ProjectGuid>

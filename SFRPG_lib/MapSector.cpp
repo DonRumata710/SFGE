@@ -35,9 +35,39 @@
 using namespace sfge;
 
 
+void MapSector::setTiles (const std::vector<Panel>& tiles)
+{
+    m_tiles = tiles;
+}
+
+void MapSector::setTiles (std::vector<Panel>&& tiles)
+{
+    m_tiles = std::move (tiles);
+}
+
+void MapSector::setWayPoints (const std::vector<WayPoint>& way_points)
+{
+    m_way_points = way_points;
+}
+
+void MapSector::setWayPoints (std::vector<WayPoint>&& way_points)
+{
+    m_way_points = std::move (way_points);
+}
+
+void sfge::MapSector::setOffset (Vector2f offset)
+{
+    m_offset = offset;
+}
+
 Vector2f MapSector::getOffset () const
 {
     return m_offset;
+}
+
+void sfge::MapSector::setSize (Vector2f size)
+{
+    m_size = size;
 }
 
 Vector2f MapSector::getSize () const
@@ -54,13 +84,7 @@ bool MapSector::checkMovement (InteractiveObject* moved_object)
     )
     {
         moved_object->runAction<SectorLeavingAction> (nullptr);
-        m_objects.erase (
-            std::remove_if (
-                m_objects.begin (),
-                m_objects.end (),
-                [moved_object](std::shared_ptr<MapObject> object) { return moved_object == object.get (); }
-            )
-        );
+        removeObject (moved_object);
     }
 
     for (auto object : m_objects)
@@ -80,20 +104,20 @@ uint32_t MapSector::getNearestWayPoint (Vector2f pos) const
     uint32_t nearest_point (0);
     float min_distance (FLT_MAX);
 
-    for (const auto& point : m_way_points)
+    for (size_t i = 0; i < m_way_points.size (); ++i)
     {
-        float distance (point.second.checkArea (pos));
+        float distance (m_way_points[i].checkArea (pos));
         if (distance < min_distance)
         {
             min_distance = distance;
-            nearest_point = point.first;
+            nearest_point = i;
         }
     }
 
     return nearest_point;
 }
 
-const WayPoint* MapSector::getPoint (uint32_t id) const
+const WayPoint* MapSector::getWayPoint (uint32_t id) const
 {
     return &m_way_points[id];
 }
@@ -103,9 +127,73 @@ void MapSector::attachObject (std::shared_ptr<MapObject> object)
     m_objects.push_back (object);
 }
 
-bool sfge::MapSector::checkObjectPosition (Vector2f pos) const
+void MapSector::removeObject (const MapObject* object)
+{
+    m_objects.erase (std::remove_if (
+        m_objects.begin (),
+        m_objects.end (),
+        [object](std::shared_ptr<MapObject> obj) { return object == obj.get (); }
+    ));
+}
+
+bool MapSector::isObjectInSector (Vector2f pos) const
 {
     return pos.x > m_offset.x && pos.y > m_offset.y && pos.x < m_offset.x + m_size.x && pos.y < m_offset.y + m_size.y;
+}
+
+void MapSector::connectWayPoints ()
+{
+    std::vector<WayPoint::EdgeList> neighbours (m_way_points.size ());
+
+    for (size_t i = 0; i < m_way_points.size (); ++i)
+    {
+        for (size_t j = i + 1; j < m_way_points.size (); ++j)
+        {
+            if (checkPass (m_way_points[i].getPosition (), m_way_points[j].getPosition ()))
+            {
+                neighbours[i].push_back (&m_way_points[j]);
+                neighbours[j].push_back (&m_way_points[i]);
+            }
+        }
+
+        m_way_points[i].assignEdges (neighbours[i]);
+    }
+}
+
+void MapSector::connectWayPoints (MapSector* map_sector)
+{
+    std::vector<WayPoint::EdgeList> self_neighbours (m_way_points.size ());
+    std::vector<WayPoint::EdgeList> neighbours (m_way_points.size ());
+
+    for (size_t i = 0; i < m_way_points.size (); ++i)
+    {
+        for (size_t j = 0; j < map_sector->m_way_points.size (); ++j)
+        {
+            if (checkPass (m_way_points[i].getPosition (), map_sector->m_way_points[j].getPosition ()))
+            {
+                self_neighbours[i].push_back (&map_sector->m_way_points[j]);
+                neighbours[j].push_back (&m_way_points[i]);
+            }
+        }
+
+        m_way_points[i].assignEdges (self_neighbours[i]);
+    }
+
+    for (size_t i = 0; i < map_sector->m_way_points.size (); ++i)
+    {
+        map_sector->m_way_points[i].assignEdges (neighbours[i]);
+    }
+}
+
+void MapSector::attachNeighbours (WayPoint* way_point) const
+{
+    WayPoint::EdgeList neighbours;
+
+    for (const WayPoint& point : m_way_points)
+    {
+        if (checkPass (way_point->getPosition (), point.getPosition ()))
+            neighbours.push_back (&point);
+    }
 }
 
 void MapSector::draw (RenderTarget& target, RenderStates states) const
@@ -115,4 +203,15 @@ void MapSector::draw (RenderTarget& target, RenderStates states) const
 
     for (auto object : m_objects)
         target.draw (*object, states);
+}
+
+bool MapSector::checkPass (Vector2f p1, Vector2f p2) const
+{
+    for (auto object : m_objects)
+    {
+        if (object->detectCollision (p1, p2) != Collision::State::OUTSIDE)
+            return false;
+    }
+
+    return true;
 }

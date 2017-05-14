@@ -38,8 +38,15 @@ sfge::WayPointID::WayPointID (uint32_t map_id, uint32_t id) :
 {}
 
 
-WayPoint::WayPoint (uint32_t map_id) : m_map_id (map_id)
-{}
+void WayPoint::assignEdges (const EdgeList& edges)
+{
+    m_neighbours.assign (edges.begin (), edges.end ());
+}
+
+const WayPoint::EdgeList& WayPoint::getEdges () const
+{
+    return m_neighbours;
+}
 
 void WayPoint::setPosition (Vector2f pos)
 {
@@ -70,9 +77,4 @@ float WayPoint::checkArea (const Vector2f point) const
         return distance;
     else
         return FLT_MAX;
-}
-
-const WayPoint::EdgeList& WayPoint::getEdges () const
-{
-    return m_neighbours;
 }

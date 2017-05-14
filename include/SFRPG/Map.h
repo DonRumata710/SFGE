@@ -51,18 +51,28 @@ namespace sfge
     class Map : public sfge::iWidget
     {
     public:
+        Map (const std::unordered_map<uint32_t, MapSector>& sectors);
+
+        Map (std::unordered_map<uint32_t, MapSector>&& sectors);
+
         Way getWay (Vector2f departure, Vector2f target) const;
 
         MapSector* getSector (Vector2f position);
 
     private:
-        virtual void draw (RenderTarget& target) const override;
+        void findWayPointsEdges ();
 
         std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
 
         static float getDistance (Vector2f p1, Vector2f p2);
 
         static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
+
+        virtual void setRect (const PositionDesc& desc) override;
+
+        virtual void draw (RenderTarget& target) const override;
+
+        virtual bool check_mouse (const int x, const int y) override;
 
     private:
         std::unordered_map<uint32_t, MapSector> m_sectors;

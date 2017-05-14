@@ -37,6 +37,8 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include <unordered_set>
+
 
 namespace sfge
 {
@@ -56,8 +58,20 @@ namespace sfge
         MapSector () = default;
 
         ~MapSector () = default;
+
+        void setTiles (const std::vector<Panel>& tiles);
+
+        void setTiles (std::vector<Panel>&& tiles);
+
+        void setWayPoints (const std::vector<WayPoint>& way_points);
+
+        void setWayPoints (std::vector<WayPoint>&& way_points);
         
+        void setOffset (Vector2f offset);
+
         Vector2f getOffset () const;
+
+        void setSize (Vector2f size);
 
         Vector2f getSize () const;
 
@@ -65,20 +79,30 @@ namespace sfge
 
         uint32_t getNearestWayPoint (Vector2f pos) const;
 
-        const WayPoint* getPoint (uint32_t id) const;
+        const WayPoint* getWayPoint (uint32_t id) const;
 
         void attachObject (std::shared_ptr<MapObject> object);
 
-        bool checkObjectPosition (Vector2f pos) const;
+        void removeObject (const MapObject* object);
+
+        bool isObjectInSector (Vector2f pos) const;
+
+        void connectWayPoints ();
+
+        void connectWayPoints (MapSector* map_sector);
+
+        void attachNeighbours (WayPoint* way_point) const;
 
     private:
         virtual void draw (RenderTarget& target, RenderStates states) const override;
+
+        bool checkPass (Vector2f p1, Vector2f p2) const;
 
     private:
         std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;
 
-        std::unordered_map<uint32_t, WayPoint> m_way_points;
+        std::vector<WayPoint> m_way_points;
 
         Vector2f m_offset;
         Vector2f m_size;

@@ -61,12 +61,12 @@ void MapObject::setCollision (const Collision& collision)
     m_collision = collision;
 }
 
-const Collision & sfge::MapObject::getCollision () const
-{
-    return m_collision;
-}
-
 Collision::State MapObject::detectCollision (const MapObject* object) const
 {
     return m_collision.check (object->m_collision);
+}
+
+Collision::State sfge::MapObject::detectCollision (const Vector2f p1, const Vector2f p2) const
+{
+    return m_collision.check (p1, p2);
 }

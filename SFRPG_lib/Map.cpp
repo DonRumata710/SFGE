@@ -37,6 +37,18 @@
 using namespace sfge;
 
 
+Map::Map (const std::unordered_map<uint32_t, MapSector>& sectors) :
+    m_sectors (sectors)
+{
+    findWayPointsEdges ();
+}
+
+Map::Map (std::unordered_map<uint32_t, MapSector>&& sectors) :
+    m_sectors (sectors)
+{
+    findWayPointsEdges ();
+}
+
 Way Map::getWay (Vector2f departure, Vector2f target) const
 {
     WayPointID departure_point;
@@ -44,16 +56,20 @@ Way Map::getWay (Vector2f departure, Vector2f target) const
 
     for (const auto& map : m_sectors)
     {
-        if (map.second.checkObjectPosition (departure))
+        if (map.second.isObjectInSector (departure))
+        {
             departure_point = { map.first, map.second.getNearestWayPoint (departure - map.second.getOffset ()) };
+            break;
+        }
     }
 
     for (const auto& map : m_sectors)
     {
-        if (!map.second.checkObjectPosition (target))
-            continue;
-
-        target_point = { map.first, map.second.getNearestWayPoint (target - map.second.getOffset ()) };
+        if (map.second.isObjectInSector (target))
+        {
+            target_point = { map.first, map.second.getNearestWayPoint (target - map.second.getOffset ()) };
+            break;
+        }
     }
 
     Way way (findWay (departure_point, target_point));
@@ -67,29 +83,27 @@ MapSector* Map::getSector (Vector2f position)
 {
     for (auto& map : m_sectors)
     {
-        if (map.second.checkObjectPosition (position))
+        if (map.second.isObjectInSector (position))
             return &map.second;
     }
 
     return nullptr;
 }
 
-void Map::draw (RenderTarget& target) const
-{
-    for (const auto& sector : m_sectors)
-        target.draw (sector.second);
-}
-
 
 
 struct PathDesc
 {
-    const WayPoint* parent = nullptr;
     const WayPoint* point = nullptr;
+    const WayPoint* parent = nullptr;
     float passed_dist = 0.0f;
 
     PathDesc (const WayPoint* _point) :
         point (_point)
+    {}
+
+    PathDesc (const WayPoint* _parent, const WayPoint* p) :
+        parent (_parent), point (p)
     {}
 
     PathDesc (const WayPoint* _parent, const WayPoint* p, float dist) :
@@ -99,10 +113,25 @@ struct PathDesc
 
 
 
+void Map::findWayPointsEdges ()
+{
+    for (auto& i : m_sectors)
+    {
+        i.second.connectWayPoints ();
+        for (auto& j : m_sectors)
+        {
+            if (&i != &j)
+            {
+                i.second.connectWayPoints (&j.second);
+            }
+        }
+    }
+}
+
 std::deque<Vector2f> Map::findWay (const WayPointID& departure, const WayPointID& target) const
 {
-    const WayPoint* departure_point (m_sectors.at (departure.m_map_id).getPoint (departure.m_id));
-    const WayPoint* target_point (m_sectors.at (target.m_map_id).getPoint (target.m_id));
+    const WayPoint* departure_point (m_sectors.at (departure.m_map_id).getWayPoint (departure.m_id));
+    const WayPoint* target_point (m_sectors.at (target.m_map_id).getWayPoint (target.m_id));
 
     std::map<float, PathDesc> opened_points;
     opened_points.insert ({ getDistance (departure_point->getPosition (), target_point->getPosition ()), departure_point });
@@ -116,9 +145,14 @@ std::deque<Vector2f> Map::findWay (const WayPointID& departure, const WayPointID
 
         auto edges (pending_point.point->getEdges ());
 
-        for (const WayPointID id : edges)
+        for (const WayPoint* current_point : edges)
         {
-            const WayPoint* current_point (m_sectors.at (id.m_map_id).getPoint (id.m_id));
+            if (current_point == target_point)
+            {
+                opened_points.insert ({ 0.0f, { pending_point.point, current_point } });
+                break;
+            }
+
             if (closed_points.find (current_point) == closed_points.end ())
             {
                 PathDesc desc (
@@ -153,7 +187,7 @@ std::deque<Vector2f> Map::findWay (const WayPointID& departure, const WayPointID
 float Map::getDistance (Vector2f p1, Vector2f p2)
 {
     Vector2f dist (p1 - p2);
-    return dist.x * dist.x + dist.y * dist.y;
+    return sqrt (dist.x * dist.x + dist.y * dist.y);
 }
 
 Vector2f Map::getWayStep (const WayPoint* p1, const WayPoint* p2)
@@ -164,4 +198,20 @@ Vector2f Map::getWayStep (const WayPoint* p1, const WayPoint* p2)
     Vector2f dist (end - start);
 
     return start + dist * p2->getRadius () / sqrt (dist.x * dist.x + dist.y * dist.y);
+}
+
+void Map::setRect (const PositionDesc& desc)
+{
+
+}
+
+void Map::draw (RenderTarget& target) const
+{
+    for (const auto& sector : m_sectors)
+        target.draw (sector.second);
+}
+
+bool Map::check_mouse (const int x, const int y)
+{
+    return true;
 }

@@ -83,6 +83,17 @@ Collision::State Collision::check (const Collision& collision) const
     return isPointInside (collision.m_points[0] + collision.m_position) ? State::INSIDE : State::OUTSIDE;
 }
 
+Collision::State Collision::check (const Point p1, const Point p2) const
+{
+    for (int i = 0; i < m_points.size (); ++i)
+    {
+        if (!segmentCollision (m_points[i], (i == m_points.size () - 1) ? m_points[0] : m_points[i + 1], p1, p2))
+            return State::INTERSECTION;
+    }
+
+    return State::OUTSIDE;
+}
+
 Collision::State Collision::check (const Point point) const
 {
     return isPointInside (point) ? State::INSIDE : State::OUTSIDE;
