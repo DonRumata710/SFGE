@@ -1,7 +1,8 @@
-/.vs/*
+*/.vs/*
 x64/
 Debug/
 Release/
-SFGE.VC.db
-SFGE.VC.VC.opendb
+*.VC.db
+*.VC.VC.opendb
 *.vcxproj.user
+*_vs/

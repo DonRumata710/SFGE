@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFGE_lib", "SFGE_lib\SFGE_lib.vcxproj", "{61B15F9E-0062-46CD-BB03-D4491741FB35}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFRPG_lib", "SFRPG_lib\SFRPG_lib.vcxproj", "{853830EB-175C-4F2F-89C2-0F827B05C376}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61B15F9E-0062-46CD-BB03-D4491741FB35} = {61B15F9E-0062-46CD-BB03-D4491741FB35}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFRPG_unittest", "SFRPG_unittest\SFRPG_unittest.vcxproj", "{602CA51E-99FF-456F-8AE0-C34D6FE2625A}"
 	ProjectSection(ProjectDependencies) = postProject

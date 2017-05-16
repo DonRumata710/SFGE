@@ -113,9 +113,9 @@ namespace sfge
         );
     }
 
-    sf::Vector2u RenderRect::getPosition () const
+    sf::Vector2i RenderRect::getPosition () const
     {
-        return sf::Vector2u (
+        return sf::Vector2i (
             m_arr[0].position.x,
             m_arr[0].position.y
         );
