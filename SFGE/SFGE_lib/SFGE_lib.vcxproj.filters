@@ -88,6 +88,9 @@
     <ClInclude Include="ResourceParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\ArchiveManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -158,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="Field.cpp">
       <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ArchiveManager.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
