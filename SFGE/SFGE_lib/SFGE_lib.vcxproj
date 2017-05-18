@@ -28,6 +28,7 @@
     <ClInclude Include="..\include\SFGE\Err.h" />
     <ClInclude Include="..\include\SFGE\Field.h" />
     <ClInclude Include="..\include\SFGE\File.h" />
+    <ClInclude Include="..\include\SFGE\FileInputStream.h" />
     <ClInclude Include="..\include\SFGE\Frame.h" />
     <ClInclude Include="..\include\SFGE\GEDevice.h" />
     <ClInclude Include="..\include\SFGE\GridBox.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\include\SFGE\ParticleSystem.h" />
     <ClInclude Include="..\include\SFGE\RenderRect.h" />
     <ClInclude Include="..\include\SFGE\ResourceManager.h" />
+    <ClInclude Include="..\include\SFGE\ResourceInputStream.h" />
     <ClInclude Include="..\include\SFGE\Slider.h" />
     <ClInclude Include="..\include\SFGE\SpriteDesc.h" />
     <ClInclude Include="..\include\SFGE\StackedWidget.h" />
@@ -58,6 +60,7 @@
     <ClCompile Include="Err.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="FileInputStream.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="GEDevice.cpp" />
     <ClCompile Include="GridBox.cpp" />

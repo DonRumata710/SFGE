@@ -27,41 +27,33 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "..\include\SFGE\FileInputStream.h"
 
 
-#include "ResourceInputStream.h"
-
-#include <SFML/System/MemoryInputStream.hpp>
+using namespace sfge;
 
 
-namespace sfge
+bool FileInputStream::open (const std::string& filename)
 {
+    return m_fileInputStream.open (filename);
+}
 
+Int64 FileInputStream::read (void* data, Int64 size)
+{
+    return m_fileInputStream.read (data, size);
+}
 
-    using sf::Int64;
+Int64 FileInputStream::seek (Int64 position)
+{
+    return m_fileInputStream.seek (position);
+}
 
+Int64 FileInputStream::tell ()
+{
+    return m_fileInputStream.tell ();
+}
 
-    /////////////////////////////////////////////////////////////////////
-    /// File - container for data read from file
-    /////////////////////////////////////////////////////////////////////
-    class File : public sf::MemoryInputStream
-    {
-    public:
-
-        /////////////////////////////////////////////////////////////////////
-        /// Default constructor - create empty file
-        /////////////////////////////////////////////////////////////////////
-        File (sf::InputStream* source);
-
-        /////////////////////////////////////////////////////////////////////
-        /// Destructor - dealloc memory
-        /////////////////////////////////////////////////////////////////////
-        ~File ();
-
-    private:
-        const char* m_data;
-    };
-
-
+Int64 FileInputStream::getSize ()
+{
+    return m_fileInputStream.getSize ();
 }

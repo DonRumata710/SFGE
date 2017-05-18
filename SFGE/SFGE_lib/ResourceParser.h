@@ -29,6 +29,9 @@
 
 #pragma once
 
+
+#include "ResourceInputStream.h"
+
 #include <string>
 #include <cstdint>
 
@@ -60,6 +63,8 @@ namespace sfge
         };
 
     public:
+        ResourceParser (ResourceInputStream* stream);
+
         bool parse_script (ResourceLoader* rm, const char* path);
 
     private:
@@ -76,11 +81,14 @@ namespace sfge
         void parse_effect        (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_music         (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_target        (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
-        void parse_particle      (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
+        void parse_particles      (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_distort       (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
         void parse_string_table  (ResourceLoader *rm, TextParser *tp, const char *name, const char* basename);
 
         void log_undefined_base_resource (const TextParser& tp, const std::string& name) const;
+
+    private:
+        ResourceInputStream* m_stream;
     };
 
 

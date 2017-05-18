@@ -89,7 +89,13 @@
       <Filter>ResourceManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\ArchiveManager.h">
-      <Filter>Common</Filter>
+      <Filter>InputStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\FileInputStream.h">
+      <Filter>InputStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\ResourceInputStream.h">
+      <Filter>InputStream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +169,10 @@
       <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="ArchiveManager.cpp">
-      <Filter>Common</Filter>
+      <Filter>InputStream</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInputStream.cpp">
+      <Filter>InputStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +187,9 @@
     </Filter>
     <Filter Include="GuiManagement">
       <UniqueIdentifier>{e5fdc29b-e77a-458a-b6fd-c5d4ef99917f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InputStream">
+      <UniqueIdentifier>{f615350d-f956-4723-8355-58b64afa3bb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

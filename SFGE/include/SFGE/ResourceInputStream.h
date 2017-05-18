@@ -30,37 +30,30 @@
 #pragma once
 
 
-#include "ResourceInputStream.h"
+#include <SFML/System/InputStream.hpp>
 
-#include <SFML/System/MemoryInputStream.hpp>
+#include <string>
 
 
 namespace sfge
 {
 
 
-    using sf::Int64;
-
-
     /////////////////////////////////////////////////////////////////////
-    /// File - container for data read from file
+    /// ResourceInputStream - this class provide interface for reading data from some external resources
     /////////////////////////////////////////////////////////////////////
-    class File : public sf::MemoryInputStream
+    class ResourceInputStream : public sf::InputStream
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
-        /// Default constructor - create empty file
+        /// open - open the stream from a file path
+        ///
+        /// @param filename - name of the file to open
+        ///
+        /// @return - true on success, false on error
         /////////////////////////////////////////////////////////////////////
-        File (sf::InputStream* source);
-
-        /////////////////////////////////////////////////////////////////////
-        /// Destructor - dealloc memory
-        /////////////////////////////////////////////////////////////////////
-        ~File ();
-
-    private:
-        const char* m_data;
+        virtual bool open (const std::string& filename) = 0;
     };
 
 

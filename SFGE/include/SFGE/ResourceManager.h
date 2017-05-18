@@ -35,6 +35,7 @@
 #include "ParticleSystem.h"
 #include "DistortionMesh.h"
 #include "StringTable.h"
+#include "ResourceInputStream.h"
 
 #include <SFML/Graphics/Rect.hpp>
 
@@ -47,6 +48,8 @@
 
 namespace sf
 {
+
+
     class Font;
     class Image;
     class Texture;
@@ -54,6 +57,8 @@ namespace sf
     class Sound;
     class SoundBuffer;
     class Music;
+
+
 }
 
 
@@ -89,20 +94,20 @@ namespace sfge
     class ResourceManager
     {
     public:
+
         /////////////////////////////////////////////////////////////////////
-        /// getInstance - get instance of created resource manager
+        /// getInstance - get instance of default resource manager
         /// 
-        /// Resource maanger should be created only once. Then you can use this
-        /// function to get pointer to it.
+        /// Default resource manager is used by GUI system.
         /// 
         /// @return pointer to device or nullptr if device wasn't created
         /////////////////////////////////////////////////////////////////////
         template<class Subclass = ResourceManager> static Subclass* getInstance ()
         {
-            if (!m_manager)
+            if (!m_default_manager)
                 runtime_error ("Attempt to obtain instance resource manager before creating");
 
-            return dynamic_cast<Subclass*> (m_manager);
+            return dynamic_cast<Subclass*> (m_default_manager);
         }
 
         /////////////////////////////////////////////////////////////////////
@@ -110,9 +115,23 @@ namespace sfge
         ///
         /// Create empty resource manager.
         ///
-        /// @param use_default_font use default font if custom font fails to load.
+        /// @param is_default - if true this manager will be used for GUI elements
         ///////////////////////////////////////////////////////////////////// 
-        explicit ResourceManager (bool use_default_font = true);
+        ResourceManager (bool is_default = false);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setResourceStream - set new place which contains resources
+        ///
+        /// @param stream - stream of resources
+        /////////////////////////////////////////////////////////////////////
+        void setResourceStream (std::unique_ptr<ResourceInputStream>& stream);
+
+        /////////////////////////////////////////////////////////////////////
+        /// useDefaultFont - set use default font or not
+        ///
+        /// @param use_default_font - use default font if custom font fails to load
+        ///////////////////////////////////////////////////////////////////// 
+        void useDefaultFont (bool use = true);
 
         /////////////////////////////////////////////////////////////////////
         /// loadScript - loading resources from script
@@ -237,6 +256,8 @@ namespace sfge
 
 
     protected:
+        std::unique_ptr<ResourceInputStream> m_stream;
+
         std::list<std::string> m_scripts;
 
         std::unordered_map<std::string, std::shared_ptr<const Font>>  m_fonts;
@@ -253,7 +274,7 @@ namespace sfge
 
         bool m_use_default_font;
 
-        static ResourceManager* m_manager;
+        static ResourceManager* m_default_manager;
     };
 
 

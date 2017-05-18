@@ -27,17 +27,18 @@
 /////////////////////////////////////////////////////////////////////
 
 
+#include "FileInputStream.h"
 #include "ResourceManager.h"
 #include "ResourceParser.h"
 #include "ResourceLoader.h"
+#include "Animation.h"
+#include "File.h"
+#include "Err.h"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-#include "Animation.h"
-#include "File.h"
-#include "Err.h"
 
 #include <algorithm>
 
@@ -46,26 +47,23 @@ namespace sfge
 {
 
 
-    ResourceManager* ResourceManager::m_manager (nullptr);
+    ResourceManager* ResourceManager::m_default_manager (nullptr);
 
 
-    ResourceManager::ResourceManager (bool use_default_font) :
-        m_use_default_font (use_default_font)
+    ResourceManager::ResourceManager (bool is_default) : m_stream (new FileInputStream ())
     {
-        if (!m_manager)
-            m_manager = this;
-        else
-            debug_message("Few resource manager was created!");
+        if (is_default)
+            m_default_manager = this;
     }
 
-
-    void ResourceManager::clear ()
+    void ResourceManager::setResourceStream (std::unique_ptr<ResourceInputStream>& stream)
     {
-        m_fonts.clear ();
-        m_images.clear ();
-        m_textures.clear ();
-        m_sprites.clear ();
-        m_animations.clear ();
+        m_stream.swap (stream);
+    }
+
+    void ResourceManager::useDefaultFont (bool use)
+    {
+        m_use_default_font = use;
     }
 
     bool ResourceManager::loadScript (const std::string& path)
@@ -80,8 +78,17 @@ namespace sfge
 
         m_scripts.push_back (path);
 
-        ResourceParser rp;
+        ResourceParser rp (m_stream.get ());
         return rp.parse_script ((ResourceLoader*) this, path.c_str ());
+    }
+
+    void ResourceManager::clear ()
+    {
+        m_fonts.clear ();
+        m_images.clear ();
+        m_textures.clear ();
+        m_sprites.clear ();
+        m_animations.clear ();
     }
 
 
@@ -228,7 +235,13 @@ namespace sfge
         }
 
         sf::Font* fnt (new sf::Font ());
-        fnt->loadFromFile (name);
+
+        m_stream->open (name);
+        auto file (std::make_shared<File> (m_stream.get ()));
+        addFile (name, file);
+        
+        if(!fnt->loadFromStream (*file))
+            return getFont ("Default");
 
         if (!fnt)
             return getFont ("Default");
@@ -249,7 +262,9 @@ namespace sfge
         }
 
         sf::Image* img (new sf::Image ());
-        img->loadFromFile (name);
+
+        m_stream->open (name);
+        img->loadFromStream (*m_stream);
 
         if (!img)
             return std::shared_ptr<const sf::Image> ();
@@ -268,7 +283,9 @@ namespace sfge
             return texture_iter->second;
 
         std::shared_ptr<sf::Texture> tex (std::make_shared<sf::Texture> ());
-        if (!tex->loadFromFile (name, area))
+
+        m_stream->open (name);
+        if (!tex->loadFromStream (*m_stream, area))
             return std::shared_ptr<sf::Texture> ();
 
         m_textures[name] = tex;
@@ -290,7 +307,9 @@ namespace sfge
         }
 
         std::shared_ptr<sf::Texture> tex (std::make_shared<sf::Texture> ());
-        if (!tex->loadFromFile (name, desc.rect))
+
+        m_stream->open (name);
+        if (!tex->loadFromStream (*m_stream, desc.rect))
             return std::unique_ptr<sf::Sprite> ();
 
         addTexture (name, tex);
@@ -314,7 +333,9 @@ namespace sfge
             return std::make_unique<Animation> (animation_iter->second);
 
         std::shared_ptr<sf::Texture> tex (std::make_shared<sf::Texture> ());
-        if (!tex->loadFromFile (name))
+
+        m_stream->open (name);
+        if (!tex->loadFromStream (*m_stream))
             return std::unique_ptr<Animation> ();
 
         desc.texture = tex;
@@ -334,7 +355,8 @@ namespace sfge
         if (file_iter != m_files.end ())
             return file_iter->second;
 
-        return std::shared_ptr<File> (new File (name.c_str ()));
+        m_stream->open (name);
+        return std::shared_ptr<File> (new File (m_stream.get ()));
     }
 
     std::shared_ptr<sf::Sound> ResourceManager::getSound (const std::string & name)
@@ -349,7 +371,8 @@ namespace sfge
         }
 
         sf::SoundBuffer sound_buffer;
-        if (!sound_buffer.loadFromFile (name))
+        m_stream->open (name);
+        if (!sound_buffer.loadFromStream (*m_stream))
             return std::shared_ptr<sf::Sound> ();
 
         std::shared_ptr<sf::Sound> sound (std::make_shared<sf::Sound> ());
@@ -357,7 +380,7 @@ namespace sfge
         return sound;
     }
 
-    std::shared_ptr<sf::Music> ResourceManager::getMusic (std::string & name)
+    std::shared_ptr<sf::Music> ResourceManager::getMusic (std::string& name)
     {
         auto iter = m_musics.find (name);
 
@@ -365,7 +388,11 @@ namespace sfge
             return iter->second;
 
         std::shared_ptr<sf::Music> music (std::make_shared<sf::Music> ());
-        if (!music->openFromFile (name))
+
+        m_stream->open (name);
+        auto file (std::make_shared<File> (m_stream.get ()));
+        addFile (name, file);
+        if (!music->openFromStream (*file))
             return std::shared_ptr<sf::Music> ();
 
         return music;
@@ -444,32 +471,10 @@ namespace sfge
     }
 
 
-
     void ResourceManager::setDefaultFont (std::shared_ptr<const sf::Font> font)
     {
         addFont ("Default", font);
     }
-
-
-    //std::shared_ptr<const sf::Font> ResourceManager::loadFont (const std::string & path) const
-    //{
-    //    auto font = std::make_shared<sf::Font> ();
-    //
-    //    if (!font->loadFromFile (path))
-    //        return std::shared_ptr<const sf::Font> ();
-    //
-    //    return font;
-    //}
-    
-    //std::shared_ptr<const sf::Image> ResourceManager::loadImage (const std::string & path) const
-    //{
-    //    auto image = std::make_shared<sf::Image> ();
-    //
-    //    if (!image->loadFromFile (path))
-    //        return std::shared_ptr<const sf::Image> ();
-    //
-    //    return image;
-    //}
 
 
 }

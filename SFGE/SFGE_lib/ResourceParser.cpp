@@ -210,27 +210,11 @@ namespace sfge
     class RepeateException
     {};
 
-
-    char* ResourceParser::load_script (const char* path, size_t* size)
-    {
-        std::ifstream data (path);
-
-        if (!data.is_open ()) return nullptr;
-
-        std::ostringstream buf;
-        buf << data.rdbuf ();
-        std::string str (buf.str ());
-
-        data.close ();
-
-        char* ptr (new char[str.size () + 1]);
-        std::memcpy (ptr, str.c_str (), str.size ());
-        ptr[str.size ()] = '\0';
-
-        return ptr;
-    }
-
     
+    ResourceParser::ResourceParser (ResourceInputStream* stream) : m_stream (stream)
+    {}
+
+
     bool ResourceParser::parse_script (ResourceLoader* rm, const char* path)
     {
         size_t size (0);
@@ -367,7 +351,7 @@ namespace sfge
                                 log_undefined_base_resource (tp, basename);
                                 basename[0] = '\0';
                             }
-                            parse_particle (rm, &tp, name, basename);
+                            parse_particles (rm, &tp, name, basename);
                             break;
                         case DISTORT:
                             if (rm->findDistortion (name)) throw RepeateException ();
@@ -426,6 +410,20 @@ namespace sfge
     }
 
 
+    char* ResourceParser::load_script (const char* path, size_t* size)
+    {
+        if (!m_stream->open (path)) return nullptr;
+
+        *size = m_stream->getSize ();
+
+        char* ptr (new char[*size + 1]);
+        m_stream->read (ptr, *size);
+        ptr[*size] = '\0';
+
+        return ptr;
+    }
+
+
     void ResourceParser::parse_font (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
         std::shared_ptr<sf::Font> font (std::make_shared<sf::Font> ());
@@ -435,9 +433,14 @@ namespace sfge
             switch (tp->getTokentype ())
             {
             case Token::TTPAR_FILENAME:
-                tp->getToken ();
-                tp->getToken ();
-                font->loadFromFile (tp->tknString ());
+                {
+                    tp->getToken ();
+                    tp->getToken ();
+                    m_stream->open (tp->tknString ());
+                    auto file (std::make_shared<File> (m_stream));
+                    rm->addFile (name, file);
+                    font->loadFromStream (*file);
+                }
                 break;
             default:
                 scriptSkipToNextParameter (tp, true);
@@ -459,7 +462,8 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                image->loadFromFile (tp->tknString ());
+                if (!m_stream->open (tp->tknString ()) || image->loadFromStream (*m_stream))
+                    debug_message ("Image wasn't loaded");
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -501,21 +505,22 @@ namespace sfge
                 tp->getToken ();
                 std::strcpy (path, tp->tknString ());
                 break;
-
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
 
-        if (!texture->loadFromFile (path, rect))
-            debug_message ("Texture wasn't loaded");
+        m_stream->open (path);
+        if (!texture->loadFromStream (*m_stream, rect))
+            debug_message ("Texture \"" + std::string (name) + "\" wasn't loaded");
         rm->addTexture (name, texture);
     }
 
     void ResourceParser::parse_sprite (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
         SpriteDesc sprite;
+        sprite.texture = std::make_shared<sf::Texture> ();
 
         char path[256] = { 0 };
 
@@ -550,16 +555,16 @@ namespace sfge
                 tp->getToken ();
                 sprite.hotspot.y = tp->tknFloat ();
                 break;
-
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
             }
         }
 
-        sprite.texture = std::make_shared<sf::Texture> ();
-        if (!sprite.texture->loadFromFile (path, sprite.rect))
+        m_stream->open (path);
+        if (!sprite.texture->loadFromStream (*m_stream, sprite.rect))
             debug_message ("Sprite wasn't loaded");
+
         rm->addTexture (name, sprite.texture);
         rm->addSprite (name, sprite);
     }
@@ -584,10 +589,11 @@ namespace sfge
             case Token::TTPAR_TEXTURE:
                 tp->getToken ();
                 tp->getToken ();
-                if (!animation.texture->loadFromFile (tp->tknString ()))
+
+                m_stream->open (tp->tknString ());
+                if (!animation.texture->loadFromStream (*m_stream))
                     debug_message ("Animation wasn't loaded");
                 break;
-
             case Token::TTPAR_HOTSPOT:
                 tp->getToken ();
                 tp->getToken ();
@@ -687,9 +693,9 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                rm->addFile (name, std::make_shared<File> (tp->tknString ()));
+                m_stream->open (tp->tknString ());
+                rm->addFile (name, std::make_shared<File> (m_stream));
                 break;
-
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -699,6 +705,7 @@ namespace sfge
 
     void ResourceParser::parse_effect (ResourceLoader * rm, TextParser * tp, const char * name, const char * basename)
     {
+        std::shared_ptr<sf::SoundBuffer> sound (std::make_shared<sf::SoundBuffer> ());
         char path[256] = { 0 };
 
         while (scriptSkipToNextParameter (tp, false))
@@ -717,14 +724,15 @@ namespace sfge
             }
         }
 
-        std::shared_ptr<sf::SoundBuffer> sound (std::make_shared<sf::SoundBuffer> ());
-        if (!sound->loadFromFile (path))
+        m_stream->open (tp->tknString ());
+        if (!sound->loadFromStream (*m_stream))
             debug_message ("Effect wasn't loaded");
         rm->addSound (name, sound);
     }
 
     void ResourceParser::parse_music (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
+        std::shared_ptr<sf::Music> music (std::make_shared<sf::Music> ());
         char path[256] = { 0 };
 
         while (scriptSkipToNextParameter (tp, false))
@@ -743,8 +751,10 @@ namespace sfge
             }
         }
 
-        std::shared_ptr<sf::Music> music (std::make_shared<sf::Music> ());
-        if (!music->openFromFile (path))
+        m_stream->open (tp->tknString ());
+        auto file (std::make_shared<File> (m_stream));
+        rm->addFile (name, file);
+        if (!music->openFromStream (*file))
             debug_message ("Music wasn't loaded");
     }
 
@@ -763,7 +773,7 @@ namespace sfge
         }
     }
 
-    void ResourceParser::parse_particle (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
+    void ResourceParser::parse_particles (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
 
         while (scriptSkipToNextParameter (tp, false))

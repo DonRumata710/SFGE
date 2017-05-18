@@ -30,114 +30,145 @@
 #include "ArchiveManager.h"
 #include "Err.h"
 
+#include <unzip.h>
+
 #include <memory>
 #include <sstream>
 #include <vector>
 
 
 using namespace sfge;
-using namespace minizip;
-
 
 
 class ZipEntry
 {
 public:
-    ZipEntry (const std::string& name, unsigned long long int compressed_size, unsigned long long int uncompressed_size, unsigned long dosdate)
-        : name (name), compressedSize (compressed_size), uncompressedSize (uncompressed_size), dosdate (dosdate)
-    {}
+    ZipEntry (unzFile& arch, const std::string& path, const std::string& password) : archive (arch)
+    {
+        int err = unzLocateFile (archive, path.c_str (), NULL);
+        if (err != UNZ_OK)
+        {
+            std::stringstream str;
+            str << "Error " << err << " opening internal file '" << path << "' in zip";
+            runtime_error (str.str ());
+            return;
+        }
+
+        unz_file_info64 file_info = { 0 };
+        char filename_inzip[256] = { 0 };
+
+        err = unzGetCurrentFileInfo64 (archive, &file_info, filename_inzip, sizeof (filename_inzip), NULL, 0, NULL, 0);
+        if (UNZ_OK != err)
+        {
+            std::stringstream str;
+            str << "Error " << err << " opening internal file '" << path << "' in zip";
+            runtime_error (str.str ());
+            return;
+        }
+
+        name = filename_inzip;
+        compressedSize = file_info.compressed_size;
+        uncompressedSize = file_info.uncompressed_size;
+        dosdate = file_info.dos_date;
+
+        err = unzOpenCurrentFilePassword (archive, password.c_str ());
+        if (err != UNZ_OK)
+        {
+            std::stringstream str;
+            str << "Error " << err << " opening internal file '" << name << "' in zip";
+            runtime_error (str.str ());
+            return;
+        }
+    }
+
+    ~ZipEntry ()
+    {
+        if (!valid ())
+        {
+            debug_message ("Close invalid inner zip file");
+            return;
+        }
+
+        int err = unzCloseCurrentFile (archive);
+        if (err != UNZ_OK)
+        {
+            std::stringstream str;
+            str << "Error " << err << " opening internal file '"
+                << name << "' in zip";
+
+            runtime_error (str.str ());
+        }
+    }
 
     bool valid () { return !name.empty (); }
 
-    std::string name, timestamp;
-    unsigned long long int compressedSize, uncompressedSize;
-    unsigned long dosdate;
+    uint64_t getSize () const
+    {
+        return uncompressedSize;
+    }
+
+private:
+    unzFile& archive;
+
+    std::string name;
+    uint64_t compressedSize = -1;
+    uint64_t uncompressedSize = -1;
+    uint32_t dosdate = -1;
 };
 
 
 
 struct ArchiveManager::Implement
 {
-    minizip::unzFile archive;
+    unzFile archive;
     std::unique_ptr<ZipEntry> entry;
+    std::string password;
 
 
     const Int64 WRITEBUFFERSIZE = 8192;
 
 
-    Implement (const std::string& _archive)
+    Implement (const std::string& _archive, const std::string& psw) : password (psw)
     {
         zlib_filefunc64_def ffunc;
         fill_fopen64_filefunc (&ffunc);
         archive = unzOpen2_64 (_archive.c_str (), &ffunc);
 
         if (!archive)
-            runtime_error ("File \"" + _archive + "\" wasn't opened");
+            runtime_error ("Archive \"" + _archive + "\" wasn't opened");
     }
 
-    bool open (const std::string& path, const std::string& password)
+    bool open (const std::string& path)
     {
-        if (locateEntry (path))
-        {
-            entry = currentEntryInfo ();
+        entry.reset (new ZipEntry (archive, path, password));
 
-            if (!entry->valid ())
-                return false;
+        if (!entry || !entry->valid ())
+            return false;
 
-            int err (unzOpenCurrentFilePassword (archive, password.c_str ()));
-            if (err != UNZ_OK)
-            {
-                std::stringstream str;
-                str << "Error " << err << " opening internal file '" << entry->name << "' in zip";
-                runtime_error (str.str ());
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    bool locateEntry (const std::string& name)
-    {
-        return unzLocateFile (archive, name.c_str (), NULL) == UNZ_OK;
-    }
-
-    std::unique_ptr<ZipEntry> currentEntryInfo ()
-    {
-        unz_file_info64 file_info = { 0 };
-        char filename_inzip[256] = { 0 };
-
-        int err = unzGetCurrentFileInfo64 (archive, &file_info, filename_inzip, sizeof (filename_inzip), NULL, 0, NULL, 0);
-        if (UNZ_OK != err)
-        {
-            runtime_error ("Error, couln't get the current entry info");
-            return nullptr;
-        }
-
-        return std::make_unique<ZipEntry> (std::string (filename_inzip), file_info.compressed_size, file_info.uncompressed_size, file_info.dos_date);
+        return true;
     }
 
     Int64 read (void* data, Int64 size)
     {
-        int ret (unzReadCurrentFile (archive, data, size));
-        
-        int err = unzCloseCurrentFile (archive);
-        if (err != UNZ_OK)
+        if (!entry || !entry->valid ())
         {
-            std::stringstream str;
-            str << "Error " << err << " opening internal file '"
-                << entry->name << "' in zip";
-
-            runtime_error (str.str ());
+            runtime_error ("No file has been opened");
+            return -1;
         }
 
+        int ret (unzReadCurrentFile (archive, data, size));
+        
         return ret;
     }
 
     Int64 seek (Int64 _position)
     {
+        if (!entry || !entry->valid ())
+        {
+            runtime_error ("No file has been opened");
+            return -1;
+        }
+
         unzSetOffset64 (archive, _position);
 
         return unzGetOffset64 (archive);
@@ -145,18 +176,31 @@ struct ArchiveManager::Implement
 
     Int64 tell ()
     {
+        if (!entry || !entry->valid ())
+        {
+            runtime_error ("No file has been opened");
+            return -1;
+        }
+
         return unzGetOffset64 (archive);
     }
 
     Int64 getSize ()
     {
-        return entry->uncompressedSize;
+        if (!entry || !entry->valid ())
+        {
+            runtime_error ("No file has been opened");
+            return -1;
+        }
+
+        return entry->getSize ();
     }
 };
 
 
 
-ArchiveManager::ArchiveManager (const std::string& archive) : m_impl (new Implement (archive))
+ArchiveManager::ArchiveManager (const std::string& archive, const std::string& password) :
+    m_impl (new Implement (archive, password))
 {}
 
 ArchiveManager::~ArchiveManager ()
@@ -167,9 +211,9 @@ ArchiveManager::~ArchiveManager ()
     m_impl = nullptr;
 }
 
-bool ArchiveManager::open (const std::string& path, const std::string& password)
+bool ArchiveManager::open (const std::string& path)
 {
-    return m_impl->open (path, password);
+    return m_impl->open (path);
 }
 
 Int64 ArchiveManager::read (void* data, Int64 size)

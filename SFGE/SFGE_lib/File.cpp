@@ -28,6 +28,7 @@
 
 
 #include "File.h"
+#include "Err.h"
 
 #include <fstream>
 #include <sstream>
@@ -38,48 +39,19 @@ namespace sfge
 {
 
 
-    File::File (const char* filename) : m_filename (filename)
-    {}
-
-    bool File::read ()
+    File::File (InputStream* source)
     {
-        std::ifstream data (m_filename);
+        Int64 size (source->getSize ());
 
-        if (!data.is_open ()) return false;
+        m_data = new const char[size];
 
-        std::ostringstream buf;
-        buf << data.rdbuf ();
-        std::string str (buf.str ());
-
-        data.close ();
-
-        m_size = str.size () + 1;
-        m_data.reset (new char[m_size]);
-        str.copy (m_data.get (), str.size (), 0);
-        m_data.get ()[str.size ()] = '\0';
-
-        return true;
+        open (m_data, size);
     }
 
-    void File::reset ()
+    File::~File ()
     {
-        m_data.reset ();
-        m_size = 0;
-    }
-
-    char* File::getData ()
-    {
-        return m_data.get ();
-    }
-
-    size_t File::getSize ()
-    {
-        return m_size;
-    }
-
-    File::operator bool () const
-    {
-        return m_size;
+        if (m_data)
+            delete (m_data);
     }
 
 
