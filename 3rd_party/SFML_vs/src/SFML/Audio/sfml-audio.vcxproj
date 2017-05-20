@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{6CDA1CD7-C7EB-3990-A266-22D9555B5BAB}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>sfml-audio</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\SFML\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sfml-audio.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sfml-audio-s-d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\SFML\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">sfml-audio.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">sfml-audio-s</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)..\SFML\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">sfml-audio.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">sfml-audio-s</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)..\SFML\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">sfml-audio.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">sfml-audio-s</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include;$(SolutionDir)..\SFML\src;$(SolutionDir)..\SFML\extlibs\headers\AL;$(SolutionDir)..\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>D:\Projects\SFGE\3rd_party\SFML_vs\lib\Debug\sfml-audio-s.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include;$(SolutionDir)..\SFML\src;$(SolutionDir)..\SFML\extlibs\headers\AL;$(SolutionDir)..\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ProgramDataBaseFileName>D:\Projects\SFGE\3rd_party\SFML_vs\lib\Release\sfml-audio-s.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include;$(SolutionDir)..\SFML\src;$(SolutionDir)..\SFML\extlibs\headers\AL;$(SolutionDir)..\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ProgramDataBaseFileName>D:\Projects\SFGE\3rd_party\SFML_vs\lib\MinSizeRel\sfml-audio-s.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include;$(SolutionDir)..\SFML\src;$(SolutionDir)..\SFML\extlibs\headers\AL;$(SolutionDir)..\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>D:\Projects\SFGE\3rd_party\SFML_vs\lib\RelWithDebInfo\sfml-audio-s.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;OV_EXCLUDE_STATIC_CALLBACKS;FLAC__NO_DLL;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\SFGE\3rd_party\SFML\include;D:\Projects\SFGE\3rd_party\SFML\src;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers\AL;D:\Projects\SFGE\3rd_party\SFML\extlibs\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/Projects/SFGE/3rd_party/SFML -BD:/Projects/SFGE/3rd_party/SFML_vs --check-stamp-file D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindOpenAL.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindVorbis.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindFLAC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/Projects/SFGE/3rd_party/SFML -BD:/Projects/SFGE/3rd_party/SFML_vs --check-stamp-file D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindOpenAL.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindVorbis.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindFLAC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/Projects/SFGE/3rd_party/SFML -BD:/Projects/SFGE/3rd_party/SFML_vs --check-stamp-file D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindOpenAL.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindVorbis.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindFLAC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/Projects/SFGE/3rd_party/SFML -BD:/Projects/SFGE/3rd_party/SFML_vs --check-stamp-file D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Projects/SFGE/3rd_party/SFML/src/SFML/Audio/CMakeLists.txt;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindOpenAL.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindVorbis.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\cmake\Modules\FindFLAC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CMakeParseArguments.cmake;D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Projects\SFGE\3rd_party\SFML_vs\src\SFML\Audio\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\ALCheck.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\AlResource.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\AudioDevice.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\Export.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\Listener.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\Music.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\Sound.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundBuffer.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundBufferRecorder.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\InputSoundFile.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\OutputSoundFile.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundRecorder.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundSource.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundStream.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundFileFactory.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundFileFactory.inl" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundFileReader.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderFlac.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderOgg.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderWav.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\include\SFML\Audio\SoundFileWriter.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterFlac.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterOgg.hpp" />
+    <ClInclude Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterWav.hpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\ALCheck.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\AlResource.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\AudioDevice.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\Listener.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\Music.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\Sound.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundBuffer.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundBufferRecorder.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\InputSoundFile.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\OutputSoundFile.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundRecorder.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundSource.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundStream.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileFactory.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderFlac.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderOgg.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileReaderWav.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterFlac.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterOgg.cpp" />
+    <ClCompile Include="D:\Projects\SFGE\3rd_party\SFML\src\SFML\Audio\SoundFileWriterWav.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:/Projects/SFGE/3rd_party/SFML_vs/ZERO_CHECK.vcxproj">
+      <Project>A0B9CC1D-0A02-3236-8A71-22BE6A0072AD</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Projects/SFGE/3rd_party/SFML_vs/src/SFML/System/sfml-system.vcxproj">
+      <Project>1F4075AE-3318-3529-A410-7CED428F6472</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
