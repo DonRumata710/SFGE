@@ -6,7 +6,7 @@ set(SOURCES
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
-link_directories(${SFML_ROOT}/lib)
+link_directories(${SFML_ROOT}/lib ${ZLIB_ROOT}/lib ${MINIZIP_ROOT}/lib)
 
 add_executable(${APPLICATION_NAME} ${SOURCES})
 

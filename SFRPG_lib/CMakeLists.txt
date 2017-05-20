@@ -5,9 +5,18 @@ set(SOURCES)
 set(HEADERS)
 
 set(CLASSES
+    Action
+    Actor
     Collision
-	Map
-	MapObject
+    DynamicObject
+    InteractiveObject
+    Map
+    MapManager
+    MapObject
+    MapSector
+    StaticObject
+    Way
+    WayPoint
 )
 
 set(PRIVATE_CLASSES

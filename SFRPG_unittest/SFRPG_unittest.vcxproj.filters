@@ -18,10 +18,10 @@
     <ClCompile Include="CollisionTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WayFindingTest.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="WaySearchTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

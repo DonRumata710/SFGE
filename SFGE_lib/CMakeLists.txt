@@ -6,11 +6,13 @@ set(HEADERS)
 
 set(CLASSES
     Animation
+	ArchiveManager
     Button
     CheckBox
     Err
     Field
     File
+	FileInputStream
     Frame
     GEDevice
     GridBox
@@ -37,6 +39,7 @@ set(UTILITY_HEADERS
     AnimationDesc
     DistortionMesh
     ParticleSystem
+    ResourceInputStream
     SpriteDesc
     StringTable
     Unicode
@@ -59,7 +62,7 @@ foreach(header ${UTILITY_HEADERS})
     LIST(APPEND HEADERS ${SFGE_INCLUDE_DIR}${header}.h)
 endforeach()
 
-include_directories(${SFGE_INCLUDE_DIR} ${SFML_ROOT}/include)
+include_directories(${SFGE_INCLUDE_DIR} ${SFML_ROOT}/include ${ZLIB_ROOT} ${MINIZIP_ROOT})
 add_definitions(-DSFML_STATIC)
 
 add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})
