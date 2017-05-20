@@ -14,12 +14,14 @@ macro(set_option var type default docstring)
     set(${var} ${${var}} CACHE ${type} ${docstring} FORCE)
 endmacro()
 
-set_option(SFML_ROOT STRING "${CMAKE_SOURCE_DIR}/../SFML" "Set SFML folder")
-set_option(CATCH_ROOT STRING "${CMAKE_SOURCE_DIR}/../Catch" "Set Catch folder")
+set_option(SFML_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/SFML" "Set SFML folder")
+set_option(CATCH_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/Catch" "Set Catch folder")
+set_option(ZLIB_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/zlib" "Set zlib folder")
+set_option(MINIZIP_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/minizip" "Set minizip folder")
 
 set(SFML_STATIC_LIBRARIES TRUE)
 
 add_subdirectory(SFGE_lib)
+add_subdirectory(SFGE_test_app)
 add_subdirectory(SFRPG_lib)
 add_subdirectory(SFRPG_unittest)
-add_subdirectory(TestApplication)

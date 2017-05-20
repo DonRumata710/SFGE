@@ -6,7 +6,7 @@
 	url = https://github.com/nmoinvaz/minizip 
 [submodule "zlib"]
 	path = 3rd_party/zlib
-	url = https://github.com/madler/zlib
+	url = https://github.com/madler/zlib 
 [submodule "SFML"]
 	path = 3rd_party/SFML
 	url = https://github.com/SFML/SFML
