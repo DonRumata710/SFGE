@@ -161,6 +161,8 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// setSwitch - set id of next GUI
         ///
+        /// Negative id means that window will be closed.
+        ///
         /// @param id - id of GUI
         /////////////////////////////////////////////////////////////////////
         void setSwitch (int id);
