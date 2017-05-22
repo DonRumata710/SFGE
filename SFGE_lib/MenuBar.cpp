@@ -115,7 +115,7 @@ bool MenuBar::check_key (const sf::Event::KeyEvent& e, const bool pressed)
     if (e.code == sf::Keyboard::Return && pressed)
     {
         call_check_key (m_items[m_active_item].second.get (), e, pressed);
-        if (!m_items[m_active_item].second->isVisible ())
+        if (!m_items[m_active_item].second->isShown ())
             choise_handle (m_active_item);
         return true;
     }
@@ -151,7 +151,7 @@ void MenuBar::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bo
         if (m_is_mouse_over_menu)
         {
             call_check_mouse_button (m_items[m_active_item].second.get (), e, pressed);
-            if (!m_items[m_active_item].second->isVisible ())
+            if (!m_items[m_active_item].second->isShown ())
                 choise_handle (m_active_item);
         }
 

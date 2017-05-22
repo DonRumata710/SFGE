@@ -58,14 +58,42 @@ namespace sfge
     class MenuBar : public iWidget, public Field
     {
     public:
+        /////////////////////////////////////////////////////////////////////
+        /// addItem - add new item with pull-down menu
+        ///
+        /// @param text - name of item
+        /// @param menu - pointer to pull-down menu
+        /////////////////////////////////////////////////////////////////////
         void addItem (const UString& text, std::shared_ptr<PullDownMenu> menu);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setView - set texture as background for menu bar
+        ///
+        /// @param texture - pointer to texture
+        /////////////////////////////////////////////////////////////////////
         void setView (std::shared_ptr<const Texture> texture);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setView - set background color
+        ///
+        /// @param color - color
+        /////////////////////////////////////////////////////////////////////
         void setView (Color color);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setItemView - set texture for all child menu items in a given view type
+        ///
+        /// @param texture - pointer to texture
+        /// @param view - type of view
+        /////////////////////////////////////////////////////////////////////
         void setItemView (std::shared_ptr<const Texture> texture, View view);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setItemView - set background color in a given view type
+        ///
+        /// @param color - color
+        /// @param view - type of view
+        /////////////////////////////////////////////////////////////////////
         void setItemView (Color color, View view);
 
     private:
