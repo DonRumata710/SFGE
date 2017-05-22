@@ -101,7 +101,7 @@ namespace sfge
             m_released_slider = slider;
             m_slider.setTexture (m_released_slider);
             break;
-        case View::FOCUSED:
+        case View::HOVER:
             m_focused_slider = slider;
             break;
         case View::PRESSED:
@@ -187,7 +187,7 @@ namespace sfge
         if (m_slider.contains (static_cast<float> (x), static_cast<float> (y)))
         {
             if (!m_is_pressed)
-                set_view (View::FOCUSED);
+                set_view (View::HOVER);
             else
             {
                 sf::Vector2i delta (x - m_mouse.x, y - m_mouse.y);
@@ -259,7 +259,7 @@ namespace sfge
         case View::PRESSED:
             if (m_pressed_slider) m_slider.setTexture (m_pressed_slider);
             break;
-        case View::FOCUSED:
+        case View::HOVER:
             if (m_focused_slider) m_slider.setTexture (m_focused_slider);
             break;
         case View::RELEASED:

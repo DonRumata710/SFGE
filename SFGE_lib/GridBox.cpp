@@ -149,7 +149,10 @@ void sfge::GridBox::draw (RenderTarget& target) const
     target.draw (m_background);
 
     for (auto w : m_widgets)
-        call_draw (w.second.widget.get (), target);
+    {
+        if (w.second.widget->isVisible ())
+            call_draw (w.second.widget.get (), target);
+    }
 }
 
 void sfge::GridBox::update (const float delta)

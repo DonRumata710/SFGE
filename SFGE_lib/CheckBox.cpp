@@ -47,7 +47,7 @@ namespace sfge
         m_state_changed = func;
     }
 
-    void CheckBox::attachView (const std::shared_ptr<const sf::Texture> tex, const ViewType type)
+    void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const ViewType type)
     {
         if (type == ViewType::BACKGROUND)
             m_background = tex;
@@ -55,9 +55,9 @@ namespace sfge
             m_flag = tex;
     }
 
-    void CheckBox::attachView (const std::string & tex, const ViewType view)
+    void CheckBox::setView (const std::string & tex, const ViewType view)
     {
-        attachView (ResourceManager::getInstance ()->findTexture (tex));
+        setView (ResourceManager::getInstance ()->findTexture (tex));
     }
 
     void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)
