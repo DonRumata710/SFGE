@@ -438,7 +438,7 @@ namespace sfge
                     tp->getToken ();
                     if (!m_stream->open (tp->tknString ()))
                     {
-                        debug_message ("File \"" + std::string (name) + "\" wasn't found");
+                        debug_message ("File \"" + std::string (tp->tknString ()) + "\" wasn't found");
                         return;
                     }
                     auto file (std::make_shared<File> (m_stream));
@@ -467,8 +467,10 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                if (!m_stream->open (tp->tknString ()) || image->loadFromStream (*m_stream))
-                    debug_message ("Image " + std::string (name) + "wasn't loaded");
+                if (!m_stream->open (tp->tknString ()))
+                    debug_message ("Image " + std::string (tp->tknString ()) + "wasn't found");
+                if (image->loadFromStream (*m_stream))
+                    debug_message ("Image " + std::string (tp->tknString ()) + "wasn't loaded");
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -518,7 +520,7 @@ namespace sfge
 
         m_stream->open (path);
         if (!texture->loadFromStream (*m_stream, rect))
-            debug_message ("Texture \"" + std::string (name) + "\" wasn't loaded");
+            debug_message ("Texture \"" + std::string (path) + "\" wasn't loaded");
         rm->addTexture (name, texture);
     }
 
@@ -566,9 +568,10 @@ namespace sfge
             }
         }
 
-        m_stream->open (path);
+        if (!m_stream->open (path))
+            debug_message ("Sprite \"" + std::string (path) + "\" wasn't found");
         if (!sprite.texture->loadFromStream (*m_stream, sprite.rect))
-            debug_message ("Sprite " + std::string (name) + "wasn't loaded");
+            debug_message ("Sprite \"" + std::string (path) + "\" wasn't loaded");
 
         rm->addTexture (name, sprite.texture);
         rm->addSprite (name, sprite);
@@ -595,9 +598,10 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
 
-                m_stream->open (tp->tknString ());
+                if (!m_stream->open (tp->tknString ()))
+                    debug_message ("Animation \"" + std::string (tp->tknString ()) + "\" wasn't found");
                 if (!animation.texture->loadFromStream (*m_stream))
-                    debug_message ("Animation \"" + std::string (name) + "\" wasn't loaded");
+                    debug_message ("Animation \"" + std::string (tp->tknString ()) + "\" wasn't loaded");
                 break;
             case Token::TTPAR_HOTSPOT:
                 tp->getToken ();
@@ -698,7 +702,8 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                m_stream->open (tp->tknString ());
+                if (!m_stream->open (tp->tknString ()))
+                    debug_message ("File \"" + std::string (tp->tknString ()) + "\" wasn't found");
                 rm->addFile (name, std::make_shared<File> (m_stream));
                 break;
             default:
@@ -717,7 +722,8 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                m_stream->open (tp->tknString ());
+                if (!m_stream->open (tp->tknString ()))
+                    debug_message ("Effect \"" + std::string (tp->tknString ()) + "\" wasn't found");
                 break;
 
             default:
@@ -735,7 +741,6 @@ namespace sfge
     void ResourceParser::parse_music (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
         std::shared_ptr<sf::Music> music (std::make_shared<sf::Music> ());
-        char path[256] = { 0 };
 
         while (scriptSkipToNextParameter (tp, false))
         {
@@ -744,7 +749,8 @@ namespace sfge
             case Token::TTPAR_FILENAME:
                 tp->getToken ();
                 tp->getToken ();
-                std::strcpy (path, tp->tknString ());
+                if (!m_stream->open (tp->tknString ()))
+                    debug_message ("Music \"" + std::string (tp->tknString ()) + "\" wasn't found");
                 break;
 
             default:
@@ -753,7 +759,6 @@ namespace sfge
             }
         }
 
-        m_stream->open (tp->tknString ());
         auto file (std::make_shared<File> (m_stream));
         rm->addFile (name, file);
         if (!music->openFromStream (*file))
