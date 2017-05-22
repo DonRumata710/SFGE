@@ -59,17 +59,17 @@ namespace sfge
         }
     }
 
-    void TextList::attachView (const std::shared_ptr<const sf::Texture> tex)
+    void TextList::setView (const std::shared_ptr<const sf::Texture> tex)
     {
         m_background.setTexture (tex);
     }
 
-    void TextList::attachView (const std::string & tex)
+    void TextList::setView (const std::string & tex)
     {
-        attachView (ResourceManager::getInstance ()->findTexture (tex));
+        setView (ResourceManager::getInstance ()->findTexture (tex));
     }
 
-    void TextList::attachView (const sf::Color color)
+    void TextList::setView (const sf::Color color)
     {
         m_background.setColor (color);
     }

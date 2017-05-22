@@ -44,6 +44,7 @@ namespace sfge
 {
 
 
+    using sf::Vector2f;
     using sf::Texture;
     using sf::Font;
     using sf::Color;
@@ -59,12 +60,7 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// EventType - enumeration of types of events
         /////////////////////////////////////////////////////////////////////
-        enum EventType : unsigned
-        {
-            PRESSED,    // button was pressed
-            FOCUSED,    // button was focused
-            RELEASED    // button was released
-        };
+        typedef View EventType;
 
         /////////////////////////////////////////////////////////////////////
         /// Default constructor to create button
@@ -80,20 +76,28 @@ namespace sfge
         void attachReaction (const std::function<void ()> func, const EventType e);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to button view
+        /// setView - attach texture to button view
         /// 
         /// @param tex - pointer to texture
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::shared_ptr<const Texture> tex, const EventType e = RELEASED);
+        void setView (const std::shared_ptr<const Texture> tex, const EventType e = EventType::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to button view
+        /// setView - attach texture to button view
         /// 
         /// @param tex - name of texture loaded to resource manager
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::string& tex, const EventType e = RELEASED);
+        void setView (const std::string& tex, const EventType e = EventType::RELEASED);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setView - attach texture to button view
+        /// 
+        /// @param color - color of button
+        /// @param e - event type after which texture will be used
+        /////////////////////////////////////////////////////////////////////
+        void setView (const Color color, const EventType e = EventType::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
         /// setText - set text to draw on the button
@@ -101,6 +105,13 @@ namespace sfge
         /// @param string - text on button
         /////////////////////////////////////////////////////////////////////
         void setText (const UString& string);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getTextWidth - get width of text placed on button
+        ///
+        /// @return - width of text in pixels
+        /////////////////////////////////////////////////////////////////////
+        Vector2f getTextSize () const;
 
         /////////////////////////////////////////////////////////////////////
         /// setFont set font, which will be drawn text
@@ -124,6 +135,13 @@ namespace sfge
         void setCharacterSize (unsigned size);
 
         /////////////////////////////////////////////////////////////////////
+        /// getCharacterSize - get size of text
+        ///
+        /// @return - size of characters in pixels
+        /////////////////////////////////////////////////////////////////////
+        unsigned getCharacterSize () const;
+
+        /////////////////////////////////////////////////////////////////////
         /// setTextColor - set color of text in widget
         /// 
         /// @param color - new color
@@ -139,16 +157,17 @@ namespace sfge
         virtual void check_mouse_button (const sf::Event::MouseButtonEvent&, const bool) override;
         virtual bool check_mouse (const int x, const int y) override;
 
-        void set_view (const unsigned type);
+        void set_view (const EventType type);
 
+    private:
         std::function<void ()> m_pressed;
         std::function<void ()> m_released;
 
-        std::shared_ptr<const sf::Texture> m_pressed_view;
-        std::shared_ptr<const sf::Texture> m_focused_view;
-        std::shared_ptr<const sf::Texture> m_released_view;
+        Panel m_pressed_view;
+        Panel m_hover_view;
+        Panel m_released_view;
 
-        Panel m_view;
+        Panel* m_view = &m_released_view;
         sf::Text m_text;
     };
 

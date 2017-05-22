@@ -33,6 +33,9 @@
 #include <SFGE/LineEdit.h>
 #include <SFGE/CheckBox.h>
 #include <SFGE/Label.h>
+#include <SFGE/MenuBar.h>
+#include <SFGE/MenuItem.h>
+#include <SFGE/PullDownMenu.h>
 #include <SFGE/GuiManager.h>
 #include <SFGE/GEDevice.h>
 
@@ -53,25 +56,55 @@ int main ()
     pGUIManager child_win (std::make_unique<GUIManager> (&device));
 
 
-    ResourceManager rm;
+    ResourceManager rm (true);
     if (!rm.loadScript ("media\\resources\\resources.cfg")) return 1;
 
+    rm.setDefaultFont (rm.getFont ("font.standart"));
 
+
+
+    std::shared_ptr<MenuItem> openWindowItem (std::make_shared<MenuItem> ());
+    openWindowItem->attachReaction ([&device]() { device.createWindow (1, "Select string", VideoMode (400, 400), Style::Default); }, Button::EventType::RELEASED);
+    openWindowItem->setText ("Open window");
+    openWindowItem->setFont (rm.getFont ("font.standart"));
+
+    std::shared_ptr<MenuItem> closeProgramItem (std::make_shared<MenuItem> ());
+    closeProgramItem->attachReaction ([&device]() { device.quit (); }, Button::EventType::RELEASED);
+    closeProgramItem->setText ("Exit");
+    closeProgramItem->setFont (rm.getFont ("font.standart"));
+
+
+    std::shared_ptr<PullDownMenu> program_control (std::make_shared<PullDownMenu> ());
+    program_control->addItem (openWindowItem);
+    program_control->addItem (closeProgramItem);
+
+
+    std::shared_ptr<MenuBar> menu_bar (std::make_shared<MenuBar> ());
+    menu_bar->setPosition (iWidget::Position::TOP | iWidget::Position::WIDTH, 0, 0);
+    menu_bar->setSize (800, 30);
+    menu_bar->addItem ("Program", program_control);
+    menu_bar->setView (Color (0x23F85A));
+    menu_bar->setItemView (rm.findTexture ("button.released"), iWidget::View::RELEASED);
+    menu_bar->setItemView (rm.findTexture ("button.hover"), iWidget::View::HOVER);
+    menu_bar->setItemView (rm.findTexture ("button.pressed"), iWidget::View::PRESSED);
+
+    
 
     std::shared_ptr<Label> text = (std::make_shared<Label> ());
     text->setString (" ");
     text->setFont (rm.getFont ("font.standart"));
-    text->setPosition (iWidget::Position::TOP | iWidget::Position::LEFT, 0, 0);
+    text->setPosition (iWidget::Position::TOP | iWidget::Position::LEFT, 0, 40);
     text->setCharacterSize (14);
 
 
 
     std::shared_ptr<Button> button (std::make_shared<Button> ());
     button->attachReaction ([&device]() { device.createWindow (1, "Select string", VideoMode (400, 400), sf::Style::Default); }, Button::EventType::RELEASED);
-    button->attachView (rm.findTexture ("button.released"), Button::RELEASED);
-    button->attachView (rm.findTexture ("button.pressed"), Button::PRESSED);
+    button->setView (rm.findTexture ("button.released"), Button::EventType::RELEASED);
+    button->setView (rm.findTexture ("button.hover"), Button::EventType::HOVER);
+    button->setView (rm.findTexture ("button.pressed"), Button::EventType::PRESSED);
     button->setPosition (iWidget::Position::HCENTER | iWidget::Position::VCENTER, 0, 0);
-    button->setText ("Open Window");
+    button->setText ("Open window");
     button->setFont (rm.getFont ("font.standart"));
     button->setSize (100, 50);
 
@@ -79,7 +112,7 @@ int main ()
 
     std::shared_ptr<LineEdit> line_edit (std::make_shared<LineEdit> ());
     line_edit->setSize (400, 20);
-    line_edit->attachView (sf::Color (32, 32, 32));
+    line_edit->setView (sf::Color (32, 32, 32));
     line_edit->setString ("Write here...");
     line_edit->setFont (rm.getFont ("font.standart"));
     line_edit->setPosition (iWidget::Position::TOP | iWidget::Position::HCENTER, 0, 120);
@@ -89,7 +122,7 @@ int main ()
 
     std::shared_ptr<TextList> text_list (std::make_shared<TextList> ());
     text_list->setSize (400, 100);
-    text_list->attachView (rm.findTexture ("text_list.background"));
+    text_list->setView (rm.findTexture ("text_list.background"));
     text_list->addString ("first item");
     text_list->addString ("second item");
     text_list->addString ("third item");
@@ -113,14 +146,14 @@ int main ()
 
     std::shared_ptr<CheckBox> check_box1 (std::make_shared<CheckBox> ());
     check_box1->setSize (50, 50);
-    check_box1->attachView (rm.getTexture ("checkbox.background"), CheckBox::BACKGROUND);
-    check_box1->attachView (rm.getTexture ("checkbox.flag"), CheckBox::FLAG);
+    check_box1->setView (rm.getTexture ("checkbox.background"), CheckBox::BACKGROUND);
+    check_box1->setView (rm.getTexture ("checkbox.flag"), CheckBox::FLAG);
     check_box1->setPosition (iWidget::Position::BOTTOM | iWidget::Position::HCENTER, 0, 0);
 
     std::shared_ptr<CheckBox> check_box2 (std::make_shared<CheckBox> ());
     check_box2->setSize (50, 50);
-    check_box2->attachView (rm.getTexture ("checkbox.background"), CheckBox::BACKGROUND);
-    check_box2->attachView (rm.getTexture ("checkbox.flag"), CheckBox::FLAG);
+    check_box2->setView (rm.getTexture ("checkbox.background"), CheckBox::BACKGROUND);
+    check_box2->setView (rm.getTexture ("checkbox.flag"), CheckBox::FLAG);
     check_box2->setPosition (iWidget::Position::BOTTOM | iWidget::Position::HCENTER, 0, 50);
 
 
@@ -134,6 +167,7 @@ int main ()
 
 
 
+    manager->addBackWidget (menu_bar);
     manager->addBackWidget (button);
     manager->addBackWidget (text);
     manager->addBackWidget (check_box1);

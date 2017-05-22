@@ -97,6 +97,15 @@
     <ClInclude Include="..\include\SFGE\ResourceInputStream.h">
       <Filter>InputStream</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\PullDownMenu.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MenuItem.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MenuBar.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -173,6 +182,12 @@
     </ClCompile>
     <ClCompile Include="FileInputStream.cpp">
       <Filter>InputStream</Filter>
+    </ClCompile>
+    <ClCompile Include="PullDownMenu.cpp">
+      <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuBar.cpp">
+      <Filter>GuiManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

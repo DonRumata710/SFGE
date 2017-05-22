@@ -99,25 +99,25 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         enum Position : int
         {
-            HCENTER = 0,
-            LEFT = 1,
-            RIGHT = 2,
-            WIDTH = 3,
-            VCENTER = 0,
-            TOP = 4,
-            BOTTOM = 8,
-            HEIGHT = 12,
+            HCENTER = 0,    // center horizontally
+            LEFT = 1,       // bind to the left
+            RIGHT = 2,      // bind to the right
+            WIDTH = 3,      // stretch in width
+            VCENTER = 0,    // center vertically
+            TOP = 4,        // bind to the top
+            BOTTOM = 8,     // bind to the bottom
+            HEIGHT = 12,    // stretch in height
         };
 
         /////////////////////////////////////////////////////////////////////
         /// Constructor - create frame for widget
         /////////////////////////////////////////////////////////////////////
-        Frame ();
+        Frame () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// Virtual destructor
         /////////////////////////////////////////////////////////////////////
-        virtual ~Frame ();
+        virtual ~Frame () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -127,6 +127,14 @@ namespace sfge
         /// @param y_offset - axial distance y between alignment object and widget
         /////////////////////////////////////////////////////////////////////
         void setPosition (const int position, const int x_offset, const int y_offset);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setPosition - set position widget on the screen
+        /// 
+        /// @param position describe alignment of the widget
+        /// @param offset - distance between alignment object and widget
+        /////////////////////////////////////////////////////////////////////
+        void setPosition (const int position, const Vector2i offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -144,12 +152,33 @@ namespace sfge
         void setPosition (const int x_offset, const int y_offset);
 
         /////////////////////////////////////////////////////////////////////
+        /// setPosition - set position widget on the screen
+        ///
+        /// @param offset - distance between alignment object and widget
+        /////////////////////////////////////////////////////////////////////
+        void setPosition (const Vector2i offset);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getPosition - get position of widget
+        ///
+        /// @return - position of widget
+        /////////////////////////////////////////////////////////////////////
+        Vector2i getPosition () const;
+
+        /////////////////////////////////////////////////////////////////////
         /// setSize - set size of widget
         /// 
         /// @param x - width od widget
         /// @param y - height of widget
         /////////////////////////////////////////////////////////////////////
         void setSize (const unsigned x, const unsigned y);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getSize - get size of widget
+        ///
+        /// @return - size of widget
+        /////////////////////////////////////////////////////////////////////
+        Vector2u getSize () const;
 
         /////////////////////////////////////////////////////////////////////
         /// setFieldParam - set size of window where widget is shown
@@ -165,6 +194,27 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         void setField (Field* field);
 
+        /////////////////////////////////////////////////////////////////////
+        /// getField - get parent field of this frame
+        ///
+        /// @return - parent field
+        /////////////////////////////////////////////////////////////////////
+        Field* getField () const;
+
+    protected:
+
+        /////////////////////////////////////////////////////////////////////
+        /// update_frame - function for reset sizes of widget
+        ///
+        /// This function call setRect with description of widget position
+        /////////////////////////////////////////////////////////////////////
+        void update_frame ();
+
+        /////////////////////////////////////////////////////////////////////
+        /// set_position
+        /////////////////////////////////////////////////////////////////////
+        void set_position ();
+
     private:
 
         /////////////////////////////////////////////////////////////////////
@@ -177,12 +227,7 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         virtual void setRect (const PositionDesc& desc) = 0;
 
-    protected:
-        void update_frame ();
-
     private:
-        void set_position ();
-
         Position m_alignment = Position (Position::HCENTER | Position::VCENTER);
         int m_x_offset = 0;
         int m_y_offset = 0;

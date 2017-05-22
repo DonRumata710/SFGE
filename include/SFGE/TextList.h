@@ -90,25 +90,25 @@ namespace sfge
         void attachReaction (const std::function<void ()> func, const EventType e);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to widget view
+        /// setView - attach texture to widget view
         /// 
         /// @param tex - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::shared_ptr<const Texture> tex);
+        void setView (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to widget view
+        /// setView - attach texture to widget view
         /// 
         /// @param tex - name texture
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::string& tex);
+        void setView (const std::string& tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - fill widget background by color
+        /// setView - fill widget background by color
         /// 
         /// @param color - color of background
         /////////////////////////////////////////////////////////////////////
-        void attachView (const Color color);
+        void setView (const Color color);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font of text in widget

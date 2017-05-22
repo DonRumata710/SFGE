@@ -62,17 +62,17 @@ namespace sfge
         }
     }
 
-    void LineEdit::attachView (const std::shared_ptr<const sf::Texture> tex)
+    void LineEdit::setView (const std::shared_ptr<const sf::Texture> tex)
     {
         m_background.setTexture (tex);
     }
 
-    void LineEdit::attachView (const std::string& tex)
+    void LineEdit::setView (const std::string& tex)
     {
-        attachView (ResourceManager::getInstance ()->findTexture (tex));
+        setView (ResourceManager::getInstance ()->findTexture (tex));
     }
 
-    void LineEdit::attachView (const sf::Color color)
+    void LineEdit::setView (const sf::Color color)
     {
         m_background.setColor (color);
     }

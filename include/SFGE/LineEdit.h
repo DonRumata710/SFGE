@@ -80,7 +80,7 @@ namespace sfge
         LineEdit ();
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - set texture as background
+        /// setView - set texture as background
         /// 
         /// @param tex - pointer to texture
         /// @param e - event type after which texture will be used
@@ -88,25 +88,25 @@ namespace sfge
         void attachReaction (const std::function<void ()> func, const EventType e);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to background
+        /// setView - attach texture to background
         /// 
         /// @param tex - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::shared_ptr<const Texture> tex);
+        void setView (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - attach texture to background
+        /// setView - attach texture to background
         /// 
         /// @param tex - texture name
         /////////////////////////////////////////////////////////////////////
-        void attachView (const std::string& tex);
+        void setView (const std::string& tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachView - fill bachground by color
+        /// setView - fill bachground by color
         /// 
         /// @param color - new color
         /////////////////////////////////////////////////////////////////////
-        void attachView (const Color color);
+        void setView (const Color color);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font to text in widget

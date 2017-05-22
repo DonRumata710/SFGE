@@ -31,17 +31,22 @@
 #include "Field.h"
 
 
-sfge::Frame::Frame ()
-{}
+using namespace sfge;
 
-sfge::Frame::~Frame ()
-{}
 
 void sfge::Frame::setPosition (const int position, const int x_offset, const int y_offset)
 {
     m_alignment = (Position) position;
     m_x_offset = x_offset;
     m_y_offset = y_offset;
+    set_position ();
+}
+
+void sfge::Frame::setPosition (const int position, const Vector2i offset)
+{
+    m_alignment = (Position) position;
+    m_x_offset = offset.x;
+    m_y_offset = offset.y;
     set_position ();
 }
 
@@ -58,11 +63,28 @@ void sfge::Frame::setPosition (const int x_offset, const int y_offset)
     set_position ();
 }
 
+void sfge::Frame::setPosition (const Vector2i offset)
+{
+    m_x_offset = offset.x;
+    m_y_offset = offset.y;
+    set_position ();
+}
+
+Vector2i Frame::getPosition () const
+{
+    return m_position;
+}
+
 void sfge::Frame::setSize (const unsigned x, const unsigned y)
 {
     m_width = x;
     m_height = y;
     set_position ();
+}
+
+Vector2u sfge::Frame::getSize () const
+{
+    return { m_width, m_height };
 }
 
 void sfge::Frame::setFieldParam (const PositionDesc& desc)
@@ -111,6 +133,11 @@ void sfge::Frame::setField (Field* field)
     m_field = field;
 }
 
+Field* sfge::Frame::getField () const
+{
+    return m_field;
+}
+
 void sfge::Frame::update_frame ()
 {
     setRect ({ m_position.x, m_position.y, m_width, m_height });
@@ -126,5 +153,4 @@ void sfge::Frame::set_position ()
 
     setFieldParam (size);
 }
-
 

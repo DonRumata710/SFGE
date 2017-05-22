@@ -132,7 +132,10 @@ namespace sfge
     void GEDevice::quit ()
     {
         for (auto wnd : m_active)
+        {
+            wnd.second->setSwitch (-1);
             wnd.second->leave ();
+        }
     }
 
 

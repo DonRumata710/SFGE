@@ -55,6 +55,7 @@ const sfge::PositionDesc& sfge::Field::getPositionDesc () const
 void sfge::Field::add_frame (Frame* frame)
 {
     m_frames.push_back (frame);
+    frame->setField (this);
     if (m_position.width)
         frame->setFieldParam (m_position);
 }
@@ -91,6 +92,8 @@ void sfge::Field::set_position (Vector2i position)
 void sfge::Field::set_position_desc (const PositionDesc& desc)
 {
     m_position = desc;
+    for (Frame* frame : m_frames)
+        frame->setFieldParam (m_position);
 }
 
 

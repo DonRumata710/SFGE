@@ -6,13 +6,14 @@ set(HEADERS)
 
 set(CLASSES
     Animation
-	ArchiveManager
+    ArchiveManager
     Button
     CheckBox
+    PullDownMenu
     Err
     Field
     File
-	FileInputStream
+    FileInputStream
     Frame
     GEDevice
     GridBox
@@ -38,6 +39,7 @@ set(PRIVATE_CLASSES
 set(UTILITY_HEADERS
     AnimationDesc
     DistortionMesh
+    MenuItem
     ParticleSystem
     ResourceInputStream
     SpriteDesc

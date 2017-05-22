@@ -36,8 +36,11 @@
     <ClInclude Include="..\include\SFGE\GuiManager.h" />
     <ClInclude Include="..\include\SFGE\Label.h" />
     <ClInclude Include="..\include\SFGE\LineEdit.h" />
+    <ClInclude Include="..\include\SFGE\MenuBar.h" />
+    <ClInclude Include="..\include\SFGE\MenuItem.h" />
     <ClInclude Include="..\include\SFGE\Panel.h" />
     <ClInclude Include="..\include\SFGE\ParticleSystem.h" />
+    <ClInclude Include="..\include\SFGE\PullDownMenu.h" />
     <ClInclude Include="..\include\SFGE\RenderRect.h" />
     <ClInclude Include="..\include\SFGE\ResourceManager.h" />
     <ClInclude Include="..\include\SFGE\ResourceInputStream.h" />
@@ -68,7 +71,9 @@
     <ClCompile Include="GuiManager.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LineEdit.cpp" />
+    <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="PullDownMenu.cpp" />
     <ClCompile Include="RenderRect.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

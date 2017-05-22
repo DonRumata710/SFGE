@@ -272,7 +272,7 @@ namespace sfge
         std::unordered_map<std::string, std::shared_ptr<DistortionMesh>> m_distortions;
         std::unordered_map<std::string, std::shared_ptr<StringTable>> m_string_tables;
 
-        bool m_use_default_font;
+        bool m_use_default_font = true;
 
         static ResourceManager* m_default_manager;
     };
