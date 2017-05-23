@@ -55,6 +55,10 @@ namespace sfge
 
         Map (std::unordered_map<uint32_t, MapSector>&& sectors);
 
+        void addSector (uint32_t id, MapSector& sector);
+
+        void eraseSector (uint32_t id);
+
         Way getWay (Vector2f departure, Vector2f target) const;
 
         MapSector* getSector (Vector2f position);

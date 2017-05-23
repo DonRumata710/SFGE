@@ -30,29 +30,26 @@
 #pragma once
 
 
+#include <SFGE/TextParser.h>
+
+#include <string>
+
+
 namespace sfge
 {
 
 
-    class Map;
+    class MapSector;
 
 
-    class MapManager
+    class MapParser
     {
     public:
-        static MapManager* getInstance ();
-
-        MapManager ();
-
-        ~MapManager ();
-
-        Map* getMap () const;
+        MapSector* loadMap (const std::string& path);
+        void saveMap (const std::string& path, const MapSector& map_sector);
 
     private:
-        Map* m_map;
-
-    private:
-        static MapManager* m_instance;
+        static const SemanticsDescription m_sem_desc;
     };
 
 

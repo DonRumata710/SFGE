@@ -27,33 +27,53 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "EditField.h"
+
+#include <SFRPG/MapSector.h>
+
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Panel.h>
+
+#include <vector>
 
 
-namespace sfge
+using namespace sfge;
+
+
+EditField::EditField ()
+{}
+
+EditField::~EditField ()
+{}
+
+void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
 {
+    MapSector map_sector;
 
+    std::vector<Panel> panels (width * height, ResourceManager::getInstance ()->findTexture ("tile.grass"));
 
-    class Map;
-
-
-    class MapManager
+    for (size_t i = 0; i < width; ++i)
     {
-    public:
-        static MapManager* getInstance ();
+        for (size_t j = 0; j < height; ++j)
+        {
+            panels[i * height + j].setPosition (tile_size * i, tile_size * j);
+            panels[i * height + j].setSize (tile_size, tile_size);
+        }
+    }
 
-        MapManager ();
+    map_sector.setTiles (panels);
 
-        ~MapManager ();
+    std::unordered_map<uint32_t, MapSector> sectors;
+    sectors.insert ({ 0,map_sector });
 
-        Map* getMap () const;
-
-    private:
-        Map* m_map;
-
-    private:
-        static MapManager* m_instance;
-    };
-
-
+    m_map.reset (new Map (sectors));
 }
+
+void EditField::loadMap ()
+{}
+
+void EditField::saveMap ()
+{}
+
+void EditField::closeMap ()
+{}

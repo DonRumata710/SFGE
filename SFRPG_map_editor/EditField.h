@@ -30,30 +30,23 @@
 #pragma once
 
 
-namespace sfge
+#include <SFRPG/Map.h>
+
+
+class EditField
 {
+public:
+    EditField ();
+    ~EditField ();
 
+    void createMap (float tile_size, uint32_t width, uint32_t height);
+    void loadMap ();
 
-    class Map;
+    void saveMap ();
 
+    void closeMap ();
 
-    class MapManager
-    {
-    public:
-        static MapManager* getInstance ();
+private:
+    std::unique_ptr<sfge::Map> m_map;
+};
 
-        MapManager ();
-
-        ~MapManager ();
-
-        Map* getMap () const;
-
-    private:
-        Map* m_map;
-
-    private:
-        static MapManager* m_instance;
-    };
-
-
-}

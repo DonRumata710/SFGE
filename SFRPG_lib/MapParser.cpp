@@ -27,33 +27,50 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include <MapParser.h>
 
 
-namespace sfge
+using namespace sfge;
+
+
+enum MapDescritpion : size_t
+{
+    MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
+    MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
+    MD_SECTOR,
+    MD_TILE,
+    MD_TILE_SIZE,
+    MD_TEXTURE,
+    MD_WIDTH,
+    MD_HEIGHT,
+    MD_MODEL
+};
+
+
+const SemanticsDescription MapParser::m_sem_desc = {
+    {
+        { ":",          MD_BASE },
+        { "=",          MD_EQUAL },
+        { "{",          MD_OPEN_BLOCK },
+        { "}",          MD_CLOSE_BLOCK },
+        { "Sector",     MD_SECTOR },
+        { "Tile",       MD_TILE },
+        { "tile_size",  MD_TILE_SIZE },
+        { "texture",    MD_TEXTURE },
+        { "width",      MD_WIDTH },
+        { "height",     MD_HEIGHT},
+        { "TileModel",  MD_MODEL }
+    },
+    MD_STRING,
+    MD_NUMBER,
+    MD_END
+};
+
+
+MapSector* MapParser::loadMap (const std::string& path)
 {
 
-
-    class Map;
-
-
-    class MapManager
-    {
-    public:
-        static MapManager* getInstance ();
-
-        MapManager ();
-
-        ~MapManager ();
-
-        Map* getMap () const;
-
-    private:
-        Map* m_map;
-
-    private:
-        static MapManager* m_instance;
-    };
-
-
 }
+
+void MapParser::saveMap (const std::string& path, const MapSector& map_sector)
+{}

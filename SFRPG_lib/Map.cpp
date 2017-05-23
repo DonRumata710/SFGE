@@ -49,6 +49,16 @@ Map::Map (std::unordered_map<uint32_t, MapSector>&& sectors) :
     findWayPointsEdges ();
 }
 
+void Map::addSector (uint32_t id, MapSector& sector)
+{
+    m_sectors.insert ({ id, sector });
+}
+
+void Map::eraseSector (uint32_t id)
+{
+    m_sectors.erase (id);
+}
+
 Way Map::getWay (Vector2f departure, Vector2f target) const
 {
     WayPointID departure_point;
