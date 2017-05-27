@@ -27,68 +27,56 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Label.h"
-#include "GuiManager.h"
-#include "ResourceManager.h"
-
-#include <SFML/Graphics/RenderTexture.hpp>
+#pragma once
 
 
-using namespace sfge;
+#include "MapSector.h"
+#include "TileDescription.h"
+
+#include <SFGE/ResourceInputStream.h>
+
+#include <SFML/System/Vector2.hpp>
+
+#include <vector>
+#include <memory>
 
 
-Label::Label ()
+namespace sfge
 {
-    m_text.setFillColor (Color::White);
-    m_text.setCharacterSize (14);
-}
 
-void Label::setString (const UString& text)
-{
-    m_text.setString (text);
-    update_frame ();
-}
 
-void Label::setFont (std::shared_ptr<const Font> font)
-{
-    m_text.setFont (*font);
-    update_frame ();
-}
+    using sf::Vector2u;
 
-void Label::setFont (const std::string& font)
-{
-    auto rm (ResourceManager::getInstance ());
-    if (rm)
-        setFont (rm->findFont (font));
-}
+    class Map;
+    class TextParser;
+    struct MapSegmentDesc;
+    struct SemanticsDescription;
 
-void Label::setCharacterSize (unsigned size)
-{
-    m_text.setCharacterSize (size);
-    update_frame ();
-}
 
-void Label::setTextColor (Color color)
-{
-    m_text.setFillColor (color);
-}
+    class MapLoader
+    {
+    public:
+        MapLoader (std::shared_ptr<ResourceInputStream> stream);
 
-void Label::setAlign (Align align)
-{
-    m_align = align;
-}
+        std::unordered_map<uint32_t, MapSegmentDesc> getSegmentDescriptions (const std::string& path);
 
-void Label::setRect (const PositionDesc& desc)
-{
-    m_text.setPosition (desc.x, desc.y);
-}
+        void loadMap (const std::vector<MapSegmentDesc*>& sectors);
 
-bool Label::check_mouse (const int x, const int y)
-{
-    return false;
-}
+    private:
+        const char* loadScript (const std::string& path);
 
-void Label::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_text);
+        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSegmentDesc>*);
+
+    private:
+        std::string m_map_name;
+        std::unordered_map<std::string, TileDesc> m_tile_models;
+
+        float m_tile_size = 1.0f;
+
+        std::shared_ptr<ResourceInputStream> m_file_stream;
+
+        static const SemanticsDescription m_sem_desc;
+    };
+
+
 }

@@ -27,68 +27,53 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Label.h"
-#include "GuiManager.h"
-#include "ResourceManager.h"
-
-#include <SFML/Graphics/RenderTexture.hpp>
+#pragma once
 
 
-using namespace sfge;
+#include "TileDescription.h"
+
+#include <unordered_map>
+#include <string>
 
 
-Label::Label ()
+namespace sfge
 {
-    m_text.setFillColor (Color::White);
-    m_text.setCharacterSize (14);
-}
 
-void Label::setString (const UString& text)
-{
-    m_text.setString (text);
-    update_frame ();
-}
 
-void Label::setFont (std::shared_ptr<const Font> font)
-{
-    m_text.setFont (*font);
-    update_frame ();
-}
+    class MapSector;
+    class Panel;
+    class TextParser;
 
-void Label::setFont (const std::string& font)
-{
-    auto rm (ResourceManager::getInstance ());
-    if (rm)
-        setFont (rm->findFont (font));
-}
 
-void Label::setCharacterSize (unsigned size)
-{
-    m_text.setCharacterSize (size);
-    update_frame ();
-}
+    enum MapDescritpion : size_t
+    {
+        MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
+        MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
+        MD_MAP,
+        MD_NAME, MD_TILE_SIZE,
+        MD_SECTOR,
+        MD_ID, MD_PATH, MD_POSITION, MD_SIZE,
+        MD_TILE,
+        MD_TEXTURE, MD_X, MD_Y, MD_WIDTH, MD_HEIGHT,
+        MD_MODEL
+    };
 
-void Label::setTextColor (Color color)
-{
-    m_text.setFillColor (color);
-}
 
-void Label::setAlign (Align align)
-{
-    m_align = align;
-}
+    class MapParser
+    {
+    public:
+        MapParser (const std::unordered_map<std::string, TileDesc>&);
 
-void Label::setRect (const PositionDesc& desc)
-{
-    m_text.setPosition (desc.x, desc.y);
-}
+        bool loadMapSector (TextParser* tp, MapSector* sector);
 
-bool Label::check_mouse (const int x, const int y)
-{
-    return false;
-}
+        bool loadTileModel (TextParser* tp);
 
-void Label::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_text);
+        Panel loadTile (TextParser* tp);
+
+    private:
+        std::unordered_map<std::string, TileDesc> m_models;
+        float m_tile_size = 1.0f;
+    };
+
+
 }

@@ -27,68 +27,23 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Label.h"
-#include "GuiManager.h"
-#include "ResourceManager.h"
-
-#include <SFML/Graphics/RenderTexture.hpp>
+#pragma once
 
 
-using namespace sfge;
+#include <cstdint>
+#include <string>
 
 
-Label::Label ()
+namespace sfge
 {
-    m_text.setFillColor (Color::White);
-    m_text.setCharacterSize (14);
-}
 
-void Label::setString (const UString& text)
-{
-    m_text.setString (text);
-    update_frame ();
-}
 
-void Label::setFont (std::shared_ptr<const Font> font)
-{
-    m_text.setFont (*font);
-    update_frame ();
-}
+    struct TileDesc
+    {
+        std::string texture;
+        uint32_t width = 1;
+        uint32_t height = 1;
+    };
 
-void Label::setFont (const std::string& font)
-{
-    auto rm (ResourceManager::getInstance ());
-    if (rm)
-        setFont (rm->findFont (font));
-}
 
-void Label::setCharacterSize (unsigned size)
-{
-    m_text.setCharacterSize (size);
-    update_frame ();
-}
-
-void Label::setTextColor (Color color)
-{
-    m_text.setFillColor (color);
-}
-
-void Label::setAlign (Align align)
-{
-    m_align = align;
-}
-
-void Label::setRect (const PositionDesc& desc)
-{
-    m_text.setPosition (desc.x, desc.y);
-}
-
-bool Label::check_mouse (const int x, const int y)
-{
-    return false;
-}
-
-void Label::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_text);
 }

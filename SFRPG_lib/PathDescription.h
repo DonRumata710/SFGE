@@ -30,48 +30,30 @@
 #pragma once
 
 
-#include "MapSector.h"
-
-#include <SFGE/Widget.h>
-
-#include <SFML/System/Vector2.hpp>
-
-#include <deque>
-
-
 namespace sfge
 {
 
 
-    using sf::Vector2f;
-
-    class Way;
+    class WayPoint;
 
 
-    class Map : public Drawable
+    struct PathDesc
     {
-    public:
-        Map (const std::unordered_map<uint32_t, MapSector>& sectors);
+        const WayPoint* point = nullptr;
+        const WayPoint* parent = nullptr;
+        float passed_dist = 0.0f;
 
-        Map (std::unordered_map<uint32_t, MapSector>&& sectors);
+        PathDesc (const WayPoint* _point) :
+            point (_point)
+        {}
 
-        Way getWay (Vector2f departure, Vector2f target) const;
+        PathDesc (const WayPoint* _parent, const WayPoint* p) :
+            parent (_parent), point (p)
+        {}
 
-        MapSector* getSector (Vector2f position);
-
-    private:
-        void findWayPointsEdges ();
-
-        std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
-
-        static float getDistance (Vector2f p1, Vector2f p2);
-
-        static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
-
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
-
-    private:
-        std::unordered_map<uint32_t, MapSector> m_sectors;
+        PathDesc (const WayPoint* _parent, const WayPoint* p, float dist) :
+            parent (_parent), point (p), passed_dist (dist)
+        {}
     };
 
 

@@ -27,68 +27,53 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Label.h"
-#include "GuiManager.h"
-#include "ResourceManager.h"
+#include "EditField.h"
 
-#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFRPG/MapSector.h>
+
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Panel.h>
+
+#include <vector>
 
 
 using namespace sfge;
 
 
-Label::Label ()
+EditField::EditField ()
+{}
+
+EditField::~EditField ()
+{}
+
+void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
 {
-    m_text.setFillColor (Color::White);
-    m_text.setCharacterSize (14);
+    MapSector map_sector;
+
+    std::vector<Panel> panels (width * height, ResourceManager::getInstance ()->findTexture ("tile.grass"));
+
+    for (size_t i = 0; i < width; ++i)
+    {
+        for (size_t j = 0; j < height; ++j)
+        {
+            panels[i * height + j].setPosition (tile_size * i, tile_size * j);
+            panels[i * height + j].setSize (tile_size, tile_size);
+        }
+    }
+
+    map_sector.setTiles (panels);
+
+    std::unordered_map<uint32_t, MapSector> sectors;
+    sectors.insert ({ 0,map_sector });
+
+    m_map.reset (new Map (sectors));
 }
 
-void Label::setString (const UString& text)
-{
-    m_text.setString (text);
-    update_frame ();
-}
+void EditField::loadMap ()
+{}
 
-void Label::setFont (std::shared_ptr<const Font> font)
-{
-    m_text.setFont (*font);
-    update_frame ();
-}
+void EditField::saveMap ()
+{}
 
-void Label::setFont (const std::string& font)
-{
-    auto rm (ResourceManager::getInstance ());
-    if (rm)
-        setFont (rm->findFont (font));
-}
-
-void Label::setCharacterSize (unsigned size)
-{
-    m_text.setCharacterSize (size);
-    update_frame ();
-}
-
-void Label::setTextColor (Color color)
-{
-    m_text.setFillColor (color);
-}
-
-void Label::setAlign (Align align)
-{
-    m_align = align;
-}
-
-void Label::setRect (const PositionDesc& desc)
-{
-    m_text.setPosition (desc.x, desc.y);
-}
-
-bool Label::check_mouse (const int x, const int y)
-{
-    return false;
-}
-
-void Label::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_text);
-}
+void EditField::closeMap ()
+{}

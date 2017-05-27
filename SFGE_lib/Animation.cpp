@@ -28,6 +28,7 @@
 
 
 #include "Animation.h"
+#include "ResourceManager.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
@@ -67,6 +68,13 @@ namespace sfge
             text.getSize ().x / n_col,
             text.getSize ().y / n_row
         ));
+    }
+
+    void Animation::setTexture (const std::string& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start)
+    {
+        auto rm (ResourceManager::getInstance ());
+        if (rm)
+            setTexture (*rm->findTexture (t), n_row, n_col, count, start);
     }
 
     void Animation::setMode (Mode mode)

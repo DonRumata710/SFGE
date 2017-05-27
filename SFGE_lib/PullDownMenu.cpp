@@ -53,16 +53,16 @@ void PullDownMenu::addItem (std::shared_ptr<MenuItem> item)
         item->setSize (Field::getSize ().x, item_height);
 }
 
-void PullDownMenu::setItemView (Color color, View view)
-{
-    for (auto item : m_items)
-        item->setView (color, (Button::EventType) view);
-}
-
 void PullDownMenu::setItemView (std::shared_ptr<const Texture> texture, View view)
 {
     for (auto item : m_items)
         item->setView (texture, (Button::EventType) view);
+}
+
+void PullDownMenu::setItemView (Color color, View view)
+{
+    for (auto item : m_items)
+        item->setView (color, (Button::EventType) view);
 }
 
 void PullDownMenu::setAutoHeight (bool auto_size)

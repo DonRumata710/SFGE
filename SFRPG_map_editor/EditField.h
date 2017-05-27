@@ -27,68 +27,26 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Label.h"
-#include "GuiManager.h"
-#include "ResourceManager.h"
-
-#include <SFML/Graphics/RenderTexture.hpp>
+#pragma once
 
 
-using namespace sfge;
+#include <SFRPG/Map.h>
 
 
-Label::Label ()
+class EditField
 {
-    m_text.setFillColor (Color::White);
-    m_text.setCharacterSize (14);
-}
+public:
+    EditField ();
+    ~EditField ();
 
-void Label::setString (const UString& text)
-{
-    m_text.setString (text);
-    update_frame ();
-}
+    void createMap (float tile_size, uint32_t width, uint32_t height);
+    void loadMap ();
 
-void Label::setFont (std::shared_ptr<const Font> font)
-{
-    m_text.setFont (*font);
-    update_frame ();
-}
+    void saveMap ();
 
-void Label::setFont (const std::string& font)
-{
-    auto rm (ResourceManager::getInstance ());
-    if (rm)
-        setFont (rm->findFont (font));
-}
+    void closeMap ();
 
-void Label::setCharacterSize (unsigned size)
-{
-    m_text.setCharacterSize (size);
-    update_frame ();
-}
+private:
+    std::unique_ptr<sfge::Map> m_map;
+};
 
-void Label::setTextColor (Color color)
-{
-    m_text.setFillColor (color);
-}
-
-void Label::setAlign (Align align)
-{
-    m_align = align;
-}
-
-void Label::setRect (const PositionDesc& desc)
-{
-    m_text.setPosition (desc.x, desc.y);
-}
-
-bool Label::check_mouse (const int x, const int y)
-{
-    return false;
-}
-
-void Label::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_text);
-}

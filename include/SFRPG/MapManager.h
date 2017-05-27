@@ -30,26 +30,60 @@
 #pragma once
 
 
+#include "MapSegmentDesc.h"
+
+#include <SFML/System/Vector2.hpp>
+
+#include <memory>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <deque>
+
+
 namespace sfge
 {
 
 
-    class Map;
+    using sf::Vector2f;
+
+    class ResourceInputStream;
+    class MapLoader;
+    class Way;
 
 
-    class MapManager
+    class MapManager : public Drawable
     {
     public:
         static MapManager* getInstance ();
 
-        MapManager ();
+        MapManager (std::shared_ptr<MapLoader>, const std::string& path);
+
+        MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors);
 
         ~MapManager ();
 
-        Map* getMap () const;
+        void lookMap (const std::vector<Vector2u>&);
+
+        Way getWay (Vector2f departure, Vector2f target) const;
+
+        MapSector* getSector (Vector2f position);
 
     private:
-        Map* m_map;
+        std::shared_ptr<MapLoader> m_loader;
+        std::unordered_map<uint32_t, MapSegmentDesc> m_sectors;
+        std::string m_map_path;
+
+    private:
+        void findWayPointsEdges ();
+
+        std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
+
+        static float getDistance (Vector2f p1, Vector2f p2);
+
+        static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
+
+        virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
         static MapManager* m_instance;

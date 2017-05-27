@@ -90,7 +90,9 @@ void sfge::GridBox::setBackground (std::shared_ptr<const sf::Texture> texture)
 
 void sfge::GridBox::setBackground (const std::string& texture)
 {
-    setBackground (ResourceManager::getInstance ()->findTexture (texture));
+    auto rm (ResourceManager::getInstance ());
+    if (rm)
+        setBackground (rm->findTexture (texture));
 }
 
 void sfge::GridBox::setBackground (sfge::Color color)

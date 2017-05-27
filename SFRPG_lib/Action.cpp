@@ -30,7 +30,6 @@
 #include "Action.h"
 #include "InteractiveObject.h"
 #include "MapManager.h"
-#include "Map.h"
 #include "MapSector.h"
 
 
@@ -74,6 +73,6 @@ void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
     {
         getActor ()->doAction (this);
 
-        getActor ()->attachToSector (MapManager::getInstance ()->getMap ()->getSector (target->getPosition ()));
+        getActor ()->attachToSector (MapManager::getInstance ()->getSector (target->getPosition ()));
     }
 }

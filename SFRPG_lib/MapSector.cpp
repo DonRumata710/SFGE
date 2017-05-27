@@ -45,6 +45,16 @@ void MapSector::setTiles (std::vector<Panel>&& tiles)
     m_tiles = std::move (tiles);
 }
 
+void sfge::MapSector::setName (const std::string& name)
+{
+    m_name = name;
+}
+
+std::string sfge::MapSector::getName () const
+{
+    return m_name;
+}
+
 void MapSector::setWayPoints (const std::vector<WayPoint>& way_points)
 {
     m_way_points = way_points;
