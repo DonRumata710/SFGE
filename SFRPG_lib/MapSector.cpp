@@ -67,6 +67,23 @@ void MapSector::setWayPoints (std::vector<WayPoint>&& way_points)
 
 void sfge::MapSector::setOffset (Vector2f offset)
 {
+    Vector2f move (offset - m_offset);
+
+    for (Panel& tile : m_tiles)
+        tile.move (move);
+    
+    for (auto object : m_objects)
+    {
+        Vector2f pos (object->getPosition ());
+	object->setPosition (pos + move);
+    }
+    
+    for (auto way_point : m_way_points)
+    {
+        Vector2f pos (way_point.getPosition ());
+	way_point.setPosition (pos + move);
+    }
+
     m_offset = offset;
 }
 
