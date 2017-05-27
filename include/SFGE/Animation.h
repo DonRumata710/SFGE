@@ -98,6 +98,17 @@ namespace sfge
         void setTexture (const Texture& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start = 0);
 
         /////////////////////////////////////////////////////////////////////
+        /// setTexture - set texture which containe views of animation
+        /// 
+        /// @param t - name of texture
+        /// @param n_row - number of rows in texture
+        /// @param n_col - number of columns in texture
+        /// @param count - number of views in animation
+        /// @param start - number of view on texture which is first for animation
+        /////////////////////////////////////////////////////////////////////
+        void setTexture (const std::string& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start = 0);
+
+        /////////////////////////////////////////////////////////////////////
         /// setMode - set mode of displaying of animation
         /// 
         /// @param mode - mode of displaying

@@ -44,22 +44,11 @@ namespace sfge
 
     Panel::Panel (const std::shared_ptr<const sf::Texture> tex)
     {
-        m_texture = tex;
+        setTexture (tex);
 
-        sf::Vector2u size (tex->getSize ());
-        m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
-        m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
-        m_arr[2].texCoords = sf::Vector2f (0.0, size.y);
-        m_arr[3].texCoords = sf::Vector2f (size.x, size.y);
-
-        m_arr[0].color = sf::Color (255, 255, 255);
-        m_arr[1].color = sf::Color (255, 255, 255);
-        m_arr[2].color = sf::Color (255, 255, 255);
-        m_arr[3].color = sf::Color (255, 255, 255);
-
-        m_arr[1].position.x = m_arr[0].position.x + size.x;
-        m_arr[2].position.y = m_arr[0].position.y + size.y;
-        m_arr[3].position = sf::Vector2f (m_arr[0].position.x + size.x, m_arr[0].position.y + size.y);
+        m_arr[1].position.x = m_arr[0].position.x + tex->getSize ().x;
+        m_arr[2].position.y = m_arr[0].position.y + tex->getSize ().y;
+        m_arr[3].position = sf::Vector2f (m_arr[0].position.x + tex->getSize ().x, m_arr[0].position.y + tex->getSize ().y);
     }
 
     void Panel::setTexture (const std::shared_ptr<const sf::Texture> tex)
@@ -78,16 +67,9 @@ namespace sfge
 
     void Panel::setTexture (const std::string& tex)
     {
-        m_texture = ResourceManager::getInstance ()->findTexture (tex);
-        sf::Vector2f size (m_texture->getSize ());
-        m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
-        m_arr[1].texCoords = sf::Vector2f (size.x, 0.0);
-        m_arr[2].texCoords = sf::Vector2f (0.0, size.y);
-        m_arr[3].texCoords = sf::Vector2f (size.x, size.y);
-        m_arr[0].color = sf::Color (255, 255, 255);
-        m_arr[1].color = sf::Color (255, 255, 255);
-        m_arr[2].color = sf::Color (255, 255, 255);
-        m_arr[3].color = sf::Color (255, 255, 255);
+        auto rm (ResourceManager::getInstance ());
+        if (rm)
+            setTexture (rm->findTexture (tex));
     }
 
     void Panel::setColor (const sf::Color color)

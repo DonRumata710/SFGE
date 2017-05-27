@@ -34,57 +34,61 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 
 
+using namespace sfge;
 
-sfge::Label::Label ()
+
+Label::Label ()
 {
     m_text.setFillColor (Color::White);
     m_text.setCharacterSize (14);
 }
 
-void sfge::Label::setString (const UString& text)
+void Label::setString (const UString& text)
 {
     m_text.setString (text);
     update_frame ();
 }
 
-void sfge::Label::setFont (std::shared_ptr<const Font> font)
+void Label::setFont (std::shared_ptr<const Font> font)
 {
     m_text.setFont (*font);
     update_frame ();
 }
 
-void sfge::Label::setFont (const std::string & font)
+void Label::setFont (const std::string& font)
 {
-    setFont (ResourceManager::getInstance ()->findFont (font));
+    auto rm (ResourceManager::getInstance ());
+    if (rm)
+        setFont (rm->findFont (font));
 }
 
-void sfge::Label::setCharacterSize (unsigned size)
+void Label::setCharacterSize (unsigned size)
 {
     m_text.setCharacterSize (size);
     update_frame ();
 }
 
-void sfge::Label::setTextColor (Color color)
+void Label::setTextColor (Color color)
 {
     m_text.setFillColor (color);
 }
 
-void sfge::Label::setAlign (Align align)
+void Label::setAlign (Align align)
 {
     m_align = align;
 }
 
-void sfge::Label::setRect (const PositionDesc& desc)
+void Label::setRect (const PositionDesc& desc)
 {
     m_text.setPosition (desc.x, desc.y);
 }
 
-bool sfge::Label::check_mouse (const int x, const int y)
+bool Label::check_mouse (const int x, const int y)
 {
     return false;
 }
 
-void sfge::Label::draw (sf::RenderTarget& target) const
+void Label::draw (sf::RenderTarget& target) const
 {
     target.draw (m_text);
 }

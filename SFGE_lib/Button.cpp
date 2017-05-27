@@ -81,7 +81,9 @@ namespace sfge
     
     void Button::setView (const std::string& tex, const EventType e)
     {
-        setView (ResourceManager::getInstance ()->findTexture (tex), e);
+        auto rm (ResourceManager::getInstance ());
+        if (rm)
+            setView (rm->findTexture (tex), e);
     }
 
     void Button::setView (const Color color, const EventType e)
@@ -121,7 +123,9 @@ namespace sfge
 
     void Button::setFont (const std::string& font)
     {
-        setFont (ResourceManager::getInstance ()->findFont (font));
+        auto rm (ResourceManager::getInstance ());
+        if (rm)
+            setFont (rm->findFont (font));
     }
 
     void Button::setCharacterSize (unsigned size)

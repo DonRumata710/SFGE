@@ -114,7 +114,9 @@ namespace sfge
 
     void Slider::attachSlider (const std::string& tex, const View view)
     {
-        attachSlider (ResourceManager::getInstance ()->findTexture (tex), view);
+        auto rm (ResourceManager::getInstance ());
+        if (rm)
+            attachSlider (rm->findTexture (tex), view);
     }
 
     void Slider::attachReaction (std::function<void ()> func, const EventType event_type)
