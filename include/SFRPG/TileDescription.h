@@ -27,52 +27,23 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Action.h"
-#include "InteractiveObject.h"
-#include "MapManager.h"
-#include "MapSector.h"
+#pragma once
 
 
-using namespace sfge;
+#include <cstdint>
+#include <string>
 
 
-iAction::iAction (InteractiveObject* actor, ActionID id) :
-    m_actor (actor),
-    m_id (id)
-{}
-
-iAction::ActionID iAction::getID () const
+namespace sfge
 {
-    return m_id;
-}
-
-InteractiveObject* iAction::getActor () const
-{
-    return m_actor;
-}
 
 
-CollisionAction::CollisionAction (InteractiveObject* actor) :
-    iAction (actor, DefaultAction::COLLISION_ACTION)
-{}
-
-void CollisionAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
-        getActor ()->doAction (this);
-}
-
-
-SectorLeavingAction::SectorLeavingAction (InteractiveObject* actor) :
-    iAction (actor, SECTOR_LEAVING_ACTION)
-{}
-
-void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
+    struct TileDesc
     {
-        getActor ()->doAction (this);
+        std::string texture;
+        uint32_t width = 1;
+        uint32_t height = 1;
+    };
 
-        getActor ()->attachToSector (MapManager::getInstance ()->getSector (target->getPosition ()));
-    }
+
 }

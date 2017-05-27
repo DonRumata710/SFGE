@@ -30,26 +30,30 @@
 #pragma once
 
 
-#include <SFGE/TextParser.h>
-
-#include <string>
-
-
 namespace sfge
 {
 
 
-    class MapSector;
+    class WayPoint;
 
 
-    class MapParser
+    struct PathDesc
     {
-    public:
-        MapSector* loadMap (const std::string& path);
-        void saveMap (const std::string& path, const MapSector& map_sector);
+        const WayPoint* point = nullptr;
+        const WayPoint* parent = nullptr;
+        float passed_dist = 0.0f;
 
-    private:
-        static const SemanticsDescription m_sem_desc;
+        PathDesc (const WayPoint* _point) :
+            point (_point)
+        {}
+
+        PathDesc (const WayPoint* _parent, const WayPoint* p) :
+            parent (_parent), point (p)
+        {}
+
+        PathDesc (const WayPoint* _parent, const WayPoint* p, float dist) :
+            parent (_parent), point (p), passed_dist (dist)
+        {}
     };
 
 

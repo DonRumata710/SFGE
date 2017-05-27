@@ -27,52 +27,32 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Action.h"
-#include "InteractiveObject.h"
-#include "MapManager.h"
+#pragma once
+
+
 #include "MapSector.h"
 
+#include <SFML/System/Vector2.hpp>
 
-using namespace sfge;
+#include <string>
+#include <cstdint>
+#include <memory>
 
 
-iAction::iAction (InteractiveObject* actor, ActionID id) :
-    m_actor (actor),
-    m_id (id)
-{}
-
-iAction::ActionID iAction::getID () const
+namespace sfge
 {
-    return m_id;
-}
-
-InteractiveObject* iAction::getActor () const
-{
-    return m_actor;
-}
 
 
-CollisionAction::CollisionAction (InteractiveObject* actor) :
-    iAction (actor, DefaultAction::COLLISION_ACTION)
-{}
-
-void CollisionAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
-        getActor ()->doAction (this);
-}
+    using sf::Vector2u;
 
 
-SectorLeavingAction::SectorLeavingAction (InteractiveObject* actor) :
-    iAction (actor, SECTOR_LEAVING_ACTION)
-{}
-
-void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
+    struct MapSegmentDesc
     {
-        getActor ()->doAction (this);
+        Vector2u pos;
+        Vector2u size;
+        std::string path;
+        std::unique_ptr<MapSector> sector;
+    };
 
-        getActor ()->attachToSector (MapManager::getInstance ()->getSector (target->getPosition ()));
-    }
+
 }

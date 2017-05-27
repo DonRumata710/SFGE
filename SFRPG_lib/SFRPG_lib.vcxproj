@@ -24,7 +24,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="InteractiveObject.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="MapParser.cpp" />
     <ClCompile Include="MapSector.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -39,14 +39,17 @@
     <ClInclude Include="..\include\SFRPG\Collision.h" />
     <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
     <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
-    <ClInclude Include="..\include\SFRPG\Map.h" />
-    <ClInclude Include="..\include\SFRPG\MapParser.h" />
+    <ClInclude Include="..\include\SFRPG\MapLoader.h" />
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\MapManager.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />
+    <ClInclude Include="..\include\SFRPG\MapSegmentDesc.h" />
     <ClInclude Include="..\include\SFRPG\StaticObject.h" />
+    <ClInclude Include="..\include\SFRPG\TileDescription.h" />
     <ClInclude Include="..\include\SFRPG\Way.h" />
     <ClInclude Include="..\include\SFRPG\WayPoint.h" />
+    <ClInclude Include="MapParser.h" />
+    <ClInclude Include="PathDescription.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{853830EB-175C-4F2F-89C2-0F827B05C376}</ProjectGuid>
@@ -101,11 +104,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>sfrpg-d</TargetName>
-    <OutDir>$(SolutionDir)lib</OutDir>
+    <OutDir>$(SolutionDir)lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>sfrpg</TargetName>
-    <OutDir>$(SolutionDir)lib</OutDir>
+    <OutDir>$(SolutionDir)lib\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

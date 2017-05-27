@@ -27,52 +27,56 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Action.h"
-#include "InteractiveObject.h"
-#include "MapManager.h"
+#pragma once
+
+
 #include "MapSector.h"
+#include "TileDescription.h"
+
+#include <SFGE/ResourceInputStream.h>
+
+#include <SFML/System/Vector2.hpp>
+
+#include <vector>
+#include <memory>
 
 
-using namespace sfge;
-
-
-iAction::iAction (InteractiveObject* actor, ActionID id) :
-    m_actor (actor),
-    m_id (id)
-{}
-
-iAction::ActionID iAction::getID () const
+namespace sfge
 {
-    return m_id;
-}
-
-InteractiveObject* iAction::getActor () const
-{
-    return m_actor;
-}
 
 
-CollisionAction::CollisionAction (InteractiveObject* actor) :
-    iAction (actor, DefaultAction::COLLISION_ACTION)
-{}
+    using sf::Vector2u;
 
-void CollisionAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
-        getActor ()->doAction (this);
-}
+    class Map;
+    class TextParser;
+    struct MapSegmentDesc;
+    struct SemanticsDescription;
 
 
-SectorLeavingAction::SectorLeavingAction (InteractiveObject* actor) :
-    iAction (actor, SECTOR_LEAVING_ACTION)
-{}
-
-void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
+    class MapLoader
     {
-        getActor ()->doAction (this);
+    public:
+        MapLoader (std::shared_ptr<ResourceInputStream> stream);
 
-        getActor ()->attachToSector (MapManager::getInstance ()->getSector (target->getPosition ()));
-    }
+        std::unordered_map<uint32_t, MapSegmentDesc> getSegmentDescriptions (const std::string& path);
+
+        void loadMap (const std::vector<MapSegmentDesc*>& sectors);
+
+    private:
+        const char* loadScript (const std::string& path);
+
+        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSegmentDesc>*);
+
+    private:
+        std::string m_map_name;
+        std::unordered_map<std::string, TileDesc> m_tile_models;
+
+        float m_tile_size = 1.0f;
+
+        std::shared_ptr<ResourceInputStream> m_file_stream;
+
+        static const SemanticsDescription m_sem_desc;
+    };
+
+
 }

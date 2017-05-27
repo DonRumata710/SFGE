@@ -30,52 +30,49 @@
 #pragma once
 
 
-#include "MapSector.h"
+#include "TileDescription.h"
 
-#include <SFGE/Widget.h>
-
-#include <SFML/System/Vector2.hpp>
-
-#include <deque>
+#include <unordered_map>
+#include <string>
 
 
 namespace sfge
 {
 
 
-    using sf::Vector2f;
+    class MapSector;
+    class Panel;
+    class TextParser;
 
-    class Way;
+
+    enum MapDescritpion : size_t
+    {
+        MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
+        MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
+        MD_MAP,
+        MD_NAME, MD_TILE_SIZE,
+        MD_SECTOR,
+        MD_ID, MD_PATH, MD_POSITION, MD_SIZE,
+        MD_TILE,
+        MD_TEXTURE, MD_X, MD_Y, MD_WIDTH, MD_HEIGHT,
+        MD_MODEL
+    };
 
 
-    class Map : public Drawable
+    class MapParser
     {
     public:
-        Map (const std::unordered_map<uint32_t, MapSector>& sectors);
+        MapParser (const std::unordered_map<std::string, TileDesc>&);
 
-        Map (std::unordered_map<uint32_t, MapSector>&& sectors);
+        bool loadMapSector (TextParser* tp, MapSector* sector);
 
-        void addSector (uint32_t id, MapSector& sector);
+        bool loadTileModel (TextParser* tp);
 
-        void eraseSector (uint32_t id);
-
-        Way getWay (Vector2f departure, Vector2f target) const;
-
-        MapSector* getSector (Vector2f position);
+        Panel loadTile (TextParser* tp);
 
     private:
-        void findWayPointsEdges ();
-
-        std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
-
-        static float getDistance (Vector2f p1, Vector2f p2);
-
-        static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
-
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
-
-    private:
-        std::unordered_map<uint32_t, MapSector> m_sectors;
+        std::unordered_map<std::string, TileDesc> m_models;
+        float m_tile_size = 1.0f;
     };
 
 

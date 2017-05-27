@@ -63,6 +63,10 @@ namespace sfge
 
         void setTiles (std::vector<Panel>&& tiles);
 
+        void setName (const std::string&);
+
+        std::string getName () const;
+
         void setWayPoints (const std::vector<WayPoint>& way_points);
 
         void setWayPoints (std::vector<WayPoint>&& way_points);
@@ -106,6 +110,8 @@ namespace sfge
 
         Vector2f m_offset;
         Vector2f m_size;
+
+        std::string m_name;
     };
 
 
