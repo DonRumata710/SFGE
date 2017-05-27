@@ -46,12 +46,15 @@ namespace sfge
     using sf::Vector2u;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapSegmentDesc - description of map sector
+    /////////////////////////////////////////////////////////////////////
     struct MapSegmentDesc
     {
-        Vector2u pos;
-        Vector2u size;
-        std::string path;
-        std::unique_ptr<MapSector> sector;
+        Vector2u pos;                           // position of sector
+        Vector2u size;                          // size of sector
+        std::string path;                       // path to file
+        std::unique_ptr<MapSector> sector;      // pointer to sector
     };
 
 

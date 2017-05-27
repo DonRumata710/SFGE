@@ -53,13 +53,34 @@ namespace sfge
     struct SemanticsDescription;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapLoader - class for loading map from file
+    /////////////////////////////////////////////////////////////////////
     class MapLoader
     {
     public:
+      
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param stream - source for loading file
+        /////////////////////////////////////////////////////////////////////
         MapLoader (std::shared_ptr<ResourceInputStream> stream);
 
+        /////////////////////////////////////////////////////////////////////
+        /// getSegmentDescriptions - get description of segments of current map
+        /// 
+        /// @param path - path to file of loading map
+        ///
+        /// @return list of segment descriptions
+        /////////////////////////////////////////////////////////////////////
         std::unordered_map<uint32_t, MapSegmentDesc> getSegmentDescriptions (const std::string& path);
 
+        /////////////////////////////////////////////////////////////////////
+        /// loadMap - load segments
+        ///
+        /// @param sectors - sectors which should be loaded
+        /////////////////////////////////////////////////////////////////////
         void loadMap (const std::vector<MapSegmentDesc*>& sectors);
 
     private:

@@ -52,21 +52,67 @@ namespace sfge
     class Way;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapManager - store and manage map sectors
+    /////////////////////////////////////////////////////////////////////
     class MapManager : public Drawable
     {
     public:
+      
+        /////////////////////////////////////////////////////////////////////
+        /// getInstance - get instance of created map manager
+        ///
+        /// @return - instance of map manager
+        /////////////////////////////////////////////////////////////////////
         static MapManager* getInstance ();
 
-        MapManager (std::shared_ptr<MapLoader>, const std::string& path);
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor for loading map from file system
+        ///
+        /// @param loader - map loader
+        /// @param path - path to the map
+        /////////////////////////////////////////////////////////////////////
+        MapManager (std::shared_ptr<MapLoader> loader, const std::string& path);
 
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor for created map
+        ///
+        /// @param sectors - description of sectors
+        /////////////////////////////////////////////////////////////////////
         MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors);
 
+        /////////////////////////////////////////////////////////////////////
+        /// Desctuctor
+        /////////////////////////////////////////////////////////////////////
         ~MapManager ();
 
-        void lookMap (const std::vector<Vector2u>&);
+        void lookMap (const std::vector<Vector2u>& points);
+        /////////////////////////////////////////////////////////////////////
+        /// lookMap - load all sectors which contain current areas
+        ///
+        /// This method describe the manager what sectors should be loaded to
+        /// the memory from resource files.
+        ///
+        /// @param areas - areas on the  map
+        /////////////////////////////////////////////////////////////////////
 
+        /////////////////////////////////////////////////////////////////////
+        /// getWay - find way from one point to another
+        ///
+        /// @param departure - departure point
+        /// @param target - target point
+        ///
+        /// @return way from one point to another
+        /////////////////////////////////////////////////////////////////////
         Way getWay (Vector2f departure, Vector2f target) const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// getSector - get sector of current point
+        ///
+        /// @param position - current point
+        ///
+        /// @return current sector
+        /////////////////////////////////////////////////////////////////////
         MapSector* getSector (Vector2f position);
 
     private:
