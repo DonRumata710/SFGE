@@ -69,10 +69,12 @@ void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
     m_map.reset (new Map (sectors));
 }
 
-void EditField::loadMap ()
-{}
+void EditField::loadMap (const std::string& path)
+{
+    m_map_manager.loadMap (path);
+}
 
-void EditField::saveMap ()
+void EditField::saveMap (const std::string& path)
 {}
 
 void EditField::closeMap ()

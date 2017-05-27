@@ -27,26 +27,34 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
-
-
 #include <SFRPG/MapManager.h>
+#include <SFRPG/MapSector.h>
+#include <SFRPG/MapLoader.h>
+
+#include <SFGE/ResourceManager.h>
+#include <SFGE/FileInputStream.h>
+
+#include <catch.hpp>
 
 
-class EditField
+using namespace sfge;
+
+
+TEST_CASE ("MapLoading")
 {
-public:
-    EditField ();
-    ~EditField ();
+    ResourceManager rm (true);
 
-    void createMap (float tile_size, uint32_t width, uint32_t height);
-    void loadMap (const std::string& path);
+    rm.getTexture ("grass.bmp");
 
-    void saveMap (const std::string& path);
+    std::shared_ptr<FileInputStream> file_stream (std::make_shared<FileInputStream> ());
 
-    void closeMap ();
+    std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (file_stream));
 
-private:
-    std::unique_ptr<sfge::MapManager> m_map;
-};
+    auto desc = loader->getSegmentDescriptions ("test_map.rmap");
 
+    REQUIRE (desc.size () == 1);
+
+    loader->loadMap ({ &desc[0] });
+
+    REQUIRE (desc[0].sector);
+}
