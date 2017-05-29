@@ -47,9 +47,9 @@ namespace sfge
 
 
     /////////////////////////////////////////////////////////////////////
-    /// MapSegmentDesc - description of map sector
+    /// MapSectorDesc - description of map sector
     /////////////////////////////////////////////////////////////////////
-    struct MapSegmentDesc
+    struct MapSectorDesc
     {
         Vector2u pos;                           // position of sector
         Vector2u size;                          // size of sector

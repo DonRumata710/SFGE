@@ -28,7 +28,7 @@
 
 
 #include "MapLoader.h"
-#include "MapSegmentDesc.h"
+#include "MapSectorDesc.h"
 #include "MapParser.h"
 
 #include <SFGE/TextParser.h>
@@ -67,11 +67,11 @@ MapLoader::MapLoader (std::shared_ptr<ResourceInputStream> stream)
     : m_file_stream (stream)
 {}
 
-std::unordered_map<uint32_t, MapSegmentDesc> MapLoader::getSegmentDescriptions (const std::string& path)
+std::unordered_map<uint32_t, MapSectorDesc> MapLoader::getSegmentDescriptions (const std::string& path)
 {
     TextParser* tp = new TextParser (loadScript (path), m_sem_desc);
 
-    std::unordered_map<uint32_t, MapSegmentDesc> sectors;
+    std::unordered_map<uint32_t, MapSectorDesc> sectors;
 
     tp->getToken ();
     size_t token (tp->getTokentype ());
@@ -99,9 +99,9 @@ std::unordered_map<uint32_t, MapSegmentDesc> MapLoader::getSegmentDescriptions (
     return sectors;
 }
 
-void MapLoader::loadMap (const std::vector<MapSegmentDesc*>& sectors)
+void MapLoader::loadMap (const std::vector<MapSectorDesc*>& sectors)
 {
-    for (MapSegmentDesc* sector_desc : sectors)
+    for (MapSectorDesc* sector_desc : sectors)
     {
         TextParser* tp = new TextParser (loadScript (sector_desc->path), m_sem_desc);
 
@@ -137,7 +137,8 @@ void MapLoader::loadMap (const std::vector<MapSegmentDesc*>& sectors)
 
 const char* MapLoader::loadScript (const std::string& path)
 {
-    m_file_stream->open (path);
+    if (!m_file_stream->open (path))
+        return nullptr;
 
     uint64_t size (m_file_stream->getSize ());
     char* data = new char[size];
@@ -146,7 +147,7 @@ const char* MapLoader::loadScript (const std::string& path)
     return data;
 }
 
-bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSegmentDesc>* sectors)
+bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>* sectors)
 {
     while (true)
     {

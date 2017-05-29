@@ -32,6 +32,7 @@
 
 #include "MapSector.h"
 #include "TileDescription.h"
+#include "MapSectorDesc.h"
 
 #include <SFGE/ResourceInputStream.h>
 
@@ -49,7 +50,6 @@ namespace sfge
 
     class Map;
     class TextParser;
-    struct MapSegmentDesc;
     struct SemanticsDescription;
 
 
@@ -74,19 +74,19 @@ namespace sfge
         ///
         /// @return list of segment descriptions
         /////////////////////////////////////////////////////////////////////
-        std::unordered_map<uint32_t, MapSegmentDesc> getSegmentDescriptions (const std::string& path);
+        std::unordered_map<uint32_t, MapSectorDesc> getSegmentDescriptions (const std::string& path);
 
         /////////////////////////////////////////////////////////////////////
         /// loadMap - load segments
         ///
         /// @param sectors - sectors which should be loaded
         /////////////////////////////////////////////////////////////////////
-        void loadMap (const std::vector<MapSegmentDesc*>& sectors);
+        void loadMap (const std::vector<MapSectorDesc*>& sectors);
 
     private:
         const char* loadScript (const std::string& path);
 
-        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSegmentDesc>*);
+        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>*);
 
     private:
         std::string m_map_name;

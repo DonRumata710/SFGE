@@ -29,8 +29,8 @@
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\MapLoader.h" />
     <ClInclude Include="MapParser.h" />
-    <ClInclude Include="..\include\SFRPG\MapSegmentDesc.h" />
     <ClInclude Include="..\include\SFRPG\TileDescription.h" />
     <ClInclude Include="PathDescription.h" />
+    <ClInclude Include="..\include\SFRPG\MapSectorDesc.h" />
   </ItemGroup>
 </Project>

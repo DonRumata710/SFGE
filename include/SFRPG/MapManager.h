@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include "MapSegmentDesc.h"
+#include "MapSectorDesc.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -80,7 +80,7 @@ namespace sfge
         ///
         /// @param sectors - description of sectors
         /////////////////////////////////////////////////////////////////////
-        MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors);
+        MapManager (std::unordered_map<uint32_t, MapSectorDesc>&& sectors);
 
         /////////////////////////////////////////////////////////////////////
         /// Desctuctor
@@ -117,11 +117,8 @@ namespace sfge
         MapSector* getSector (Vector2f position);
 
     private:
-        std::shared_ptr<MapLoader> m_loader;
-        std::unordered_map<uint32_t, MapSegmentDesc> m_sectors;
-        std::string m_map_path;
+        void setOffset (unsigned x, unsigned y);
 
-    private:
         void findWayPointsEdges ();
 
         std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
@@ -131,6 +128,12 @@ namespace sfge
         static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
 
         virtual void draw (RenderTarget& target, RenderStates states) const override;
+
+    private:
+        std::shared_ptr<MapLoader> m_loader;
+        std::unordered_map<uint32_t, MapSectorDesc> m_sectors;
+        std::string m_map_path;
+        Vector2u m_offset;
 
     private:
         static MapManager* m_instance;

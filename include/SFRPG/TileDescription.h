@@ -38,11 +38,14 @@ namespace sfge
 {
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// TileDesc - description of tile
+    /////////////////////////////////////////////////////////////////////
     struct TileDesc
     {
-        std::string texture;
-        uint32_t width = 1;
-        uint32_t height = 1;
+        std::string texture;    // texture name/path
+        uint32_t width = 1;     // width in cells
+        uint32_t height = 1;    // height in cells
     };
 
 

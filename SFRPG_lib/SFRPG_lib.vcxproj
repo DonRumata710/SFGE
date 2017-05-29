@@ -43,7 +43,7 @@
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\MapManager.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />
-    <ClInclude Include="..\include\SFRPG\MapSegmentDesc.h" />
+    <ClInclude Include="..\include\SFRPG\MapSectorDesc.h" />
     <ClInclude Include="..\include\SFRPG\StaticObject.h" />
     <ClInclude Include="..\include\SFRPG\TileDescription.h" />
     <ClInclude Include="..\include\SFRPG\Way.h" />

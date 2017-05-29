@@ -81,7 +81,7 @@ MapManager::MapManager (std::shared_ptr<MapLoader> loader, const std::string& pa
     m_sectors = m_loader->getSegmentDescriptions (m_map_path);
 }
 
-MapManager::MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors) :
+MapManager::MapManager (std::unordered_map<uint32_t, MapSectorDesc>&& sectors) :
     m_sectors (std::move(sectors))
 {}
 
@@ -92,9 +92,13 @@ MapManager::~MapManager ()
 
 void MapManager::lookMap (const std::vector<UintRect>& areas)
 {
-    std::vector<MapSegmentDesc*> sectors;
+    std::vector<MapSectorDesc*> sectors;
+    sf::Vector2<sf::Uint64> offset;
     for (const auto& area : areas)
     {
+        offset.x += (area.left + area.width) / 2.0;
+        offset.y += (area.top + area.height) / 2.0;
+
         for (auto& sector : m_sectors)
         {
             if (area.left < sector.second.pos.x + sector.second.size.x &&
@@ -108,6 +112,9 @@ void MapManager::lookMap (const std::vector<UintRect>& areas)
             }
         }
     }
+
+    setOffset (offset.x / areas.size (), offset.y / areas.size ());
+
     m_loader->loadMap (sectors);
 }
 
@@ -145,11 +152,23 @@ MapSector* MapManager::getSector (Vector2f position)
 {
     for (auto& map : m_sectors)
     {
-        if (map.second.sector->isObjectInSector (position))
+        if (map.second.sector && map.second.sector->isObjectInSector (position))
             return map.second.sector.get ();
     }
 
     return nullptr;
+}
+
+void MapManager::setOffset (unsigned x, unsigned y)
+{
+    for (auto& map : m_sectors)
+    {
+        if (map.second.sector)
+            map.second.sector->setOffset ({ x, y });
+    }
+
+    m_offset.x = x;
+    m_offset.y = y;
 }
 
 void MapManager::findWayPointsEdges ()
