@@ -50,7 +50,7 @@ namespace sfge
         MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
         MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
         MD_MAP,
-        MD_NAME, MD_TILE_SIZE,
+        MD_NAME,
         MD_SECTOR,
         MD_ID, MD_PATH, MD_POSITION, MD_SIZE,
         MD_TILE,
@@ -72,7 +72,6 @@ namespace sfge
 
     private:
         std::unordered_map<std::string, TileDesc> m_models;
-        float m_tile_size = 1.0f;
     };
 
 

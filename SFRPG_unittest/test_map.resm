@@ -1,7 +1,5 @@
 Sector
 {
- tile_size = 50
-
  Model grass
  {
   texture = "grass.bmp"

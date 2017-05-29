@@ -49,7 +49,6 @@ const SemanticsDescription MapLoader::m_sem_desc = {
         { "Sector",     MD_SECTOR },
         { "id",         MD_ID },
         { "path",       MD_PATH },
-        { "tile_size",  MD_TILE_SIZE },
         { "Model",      MD_MODEL },
         { "Tile",       MD_TILE },
         { "texture",    MD_TEXTURE },

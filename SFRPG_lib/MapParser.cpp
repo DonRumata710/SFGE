@@ -66,11 +66,6 @@ bool MapParser::loadMapSector (TextParser* tp, MapSector* sector)
 
         switch (token)
         {
-        case MD_TILE_SIZE:
-            tp->getToken ();
-            tp->getToken ();
-            m_tile_size = tp->tknFloat ();
-            break;
         case MD_NAME:
             tp->getToken ();
             tp->getToken ();
@@ -119,12 +114,12 @@ bool MapParser::loadTileModel (TextParser* tp)
             case MD_WIDTH:
                 tp->getToken ();
                 tp->getToken ();
-                tile->width = tp->tknInt () * m_tile_size;
+                tile->width = tp->tknInt ();
                 break;
             case MD_HEIGHT:
                 tp->getToken ();
                 tp->getToken ();
-                tile->height = tp->tknInt () * m_tile_size;
+                tile->height = tp->tknInt ();
                 break;
             default:
                 runtime_error ("Unexpected identifier in tile model description in line " + std::to_string (tp->getLine ()));
@@ -175,22 +170,22 @@ Panel MapParser::loadTile (TextParser* tp)
             case MD_X:
                 tp->getToken ();
                 tp->getToken ();
-                pos.x = tp->tknInt () * m_tile_size;
+                pos.x = tp->tknInt ();
                 break;
             case MD_Y:
                 tp->getToken ();
                 tp->getToken ();
-                pos.y = tp->tknInt () * m_tile_size;
+                pos.y = tp->tknInt ();
                 break;
             case MD_WIDTH:
                 tp->getToken ();
                 tp->getToken ();
-                size.x = tp->tknInt () * m_tile_size;
+                size.x = tp->tknInt ();
                 break;
             case MD_HEIGHT:
                 tp->getToken ();
                 tp->getToken ();
-                size.y = tp->tknInt () * m_tile_size;
+                size.y = tp->tknInt ();
                 break;
             default:
                 runtime_error ("Unexpected identifier in tile description in line " + std::to_string (tp->getLine ()));
