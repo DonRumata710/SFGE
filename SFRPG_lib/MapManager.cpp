@@ -90,12 +90,23 @@ MapManager::~MapManager ()
     m_instance = nullptr;
 }
 
-void MapManager::lookMap (const std::vector<Vector2u>& positions)
+void MapManager::lookMap (const std::vector<UintRect>& areas)
 {
     std::vector<MapSegmentDesc*> sectors;
-    for (auto position : positions)
+    for (const auto& area : areas)
     {
-        // TODO
+        for (auto& sector : m_sectors)
+        {
+            if (area.left < sector.second.pos.x + sector.second.size.x &&
+                area.top  < sector.second.pos.y + sector.second.size.y &&
+                area.left + area.width > sector.second.pos.x &&
+                area.top + area.height > sector.second.pos.y &&
+                !sector.second.sector
+            )
+            {
+                sectors.push_back (&sector.second);
+            }
+        }
     }
     m_loader->loadMap (sectors);
 }

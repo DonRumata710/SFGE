@@ -46,6 +46,7 @@ namespace sfge
 
 
     using sf::Vector2f;
+    typedef sf::Rect<uint32_t> UintRect;
 
     class ResourceInputStream;
     class MapLoader;
@@ -86,7 +87,6 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         ~MapManager ();
 
-        void lookMap (const std::vector<Vector2u>& points);
         /////////////////////////////////////////////////////////////////////
         /// lookMap - load all sectors which contain current areas
         ///
@@ -95,6 +95,7 @@ namespace sfge
         ///
         /// @param areas - areas on the  map
         /////////////////////////////////////////////////////////////////////
+        void lookMap (const std::vector<UintRect>& areas);
 
         /////////////////////////////////////////////////////////////////////
         /// getWay - find way from one point to another
