@@ -36,6 +36,7 @@
     <ClInclude Include="..\include\SFGE\GuiManager.h" />
     <ClInclude Include="..\include\SFGE\Label.h" />
     <ClInclude Include="..\include\SFGE\LineEdit.h" />
+    <ClInclude Include="..\include\SFGE\MemoryInputStream.h" />
     <ClInclude Include="..\include\SFGE\MenuBar.h" />
     <ClInclude Include="..\include\SFGE\MenuItem.h" />
     <ClInclude Include="..\include\SFGE\Panel.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="GuiManager.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LineEdit.cpp" />
+    <ClCompile Include="MemoryInputStream.cpp" />
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PullDownMenu.cpp" />

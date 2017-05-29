@@ -106,6 +106,9 @@
     <ClInclude Include="..\include\SFGE\MenuBar.h">
       <Filter>GuiManagement</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\MemoryInputStream.h">
+      <Filter>InputStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="MenuBar.cpp">
       <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryInputStream.cpp">
+      <Filter>InputStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,7 @@
 
 #include "Panel.h"
 #include "ResourceManager.h"
+#include "Err.h"
 
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -53,6 +54,12 @@ namespace sfge
 
     void Panel::setTexture (const std::shared_ptr<const sf::Texture> tex)
     {
+        if (!tex)
+        {
+            debug_message ("Panel got empty texture pointer");
+            return;
+        }
+
         m_texture = tex;
         sf::Vector2f size (tex->getSize ());
         m_arr[0].texCoords = sf::Vector2f (0.0, 0.0);
