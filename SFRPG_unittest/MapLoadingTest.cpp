@@ -32,7 +32,7 @@
 #include <SFRPG/MapLoader.h>
 
 #include <SFGE/ResourceManager.h>
-#include <SFGE/FileInputStream.h>
+#include <SFGE/MemoryInputStream.h>
 
 #include <catch.hpp>
 
@@ -40,21 +40,94 @@
 using namespace sfge;
 
 
-TEST_CASE ("MapLoading")
+const char map_desc[] = {
+    "Sector"
+    "{"
+    "Model grass"
+    "{"
+    "    texture = \"grass.bmp\""
+    "    width = 1"
+    "    height = 1"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 0"
+    "    y = 0"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 1"
+    "    y = 0"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 2"
+    "    y = 0"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 0"
+    "    y = 1"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 1"
+    "    y = 1"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 2"
+    "    y = 1"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 0"
+    "    y = 2"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 1"
+    "    y = 2"
+    "}"
+    "Tile: grass"
+    "{"
+    "    x = 2"
+    "    y = 2"
+    "}"
+    "}"
+};
+
+
+template <size_t N> std::vector<char> append_literal (const char (&str)[N])
+{
+    std::vector<char> v (strlen (str));
+    memcpy (v.data (), str, v.capacity ());
+    return v;
+}
+
+
+TEST_CASE ("Test loading map")
 {
     ResourceManager rm (true);
 
-    rm.getTexture ("grass.bmp");
+    std::vector<char> vec_map_desc (append_literal (map_desc));
+    std::unordered_map<std::string, std::vector<char>> map_file;
+    map_file.insert ({ "test_map.resm", vec_map_desc });
 
-    std::shared_ptr<FileInputStream> file_stream (std::make_shared<FileInputStream> ());
+    std::shared_ptr<MemoryInputStream> file_stream (std::make_shared<MemoryInputStream> (map_file));
 
     std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (file_stream));
 
-    auto desc = loader->getSegmentDescriptions ("test_map.rmap");
+    auto desc = loader->getSegmentDescriptions ("test_map.resm");
 
     REQUIRE (desc.size () == 1);
 
     loader->loadMap ({ &desc[0] });
+
+    REQUIRE (desc[0].sector);
+
+    REQUIRE (desc[0].pos.x == 0);
+    REQUIRE (desc[0].pos.y == 0);
 
     REQUIRE (desc[0].sector);
 }
