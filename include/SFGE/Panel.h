@@ -30,6 +30,8 @@
 #pragma once
 
 
+#include "Config.h"
+
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Rect.hpp>

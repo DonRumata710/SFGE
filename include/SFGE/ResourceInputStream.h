@@ -31,6 +31,7 @@
 
 
 #include <SFML/System/InputStream.hpp>
+#include "Config.h"
 
 #include <string>
 

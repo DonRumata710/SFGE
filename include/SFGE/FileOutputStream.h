@@ -31,7 +31,6 @@
 
 
 #include "Config.h"
-#include "ResourceInputStream.h"
 
 #include <string>
 
@@ -40,77 +39,59 @@ namespace sfge
 {
 
 
-    class File;
-
-
-    /////////////////////////////////////////////////////////////////////
-    /// ArchiveManager - this class provide interface for reading data from archives
-    /////////////////////////////////////////////////////////////////////
-    class ArchiveManager : public ResourceInputStream
+    class FileOutputStream final
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
-        /// Constructor - create archive manager and open archive
-        ///
-        /// @param archive - path to the archive
-        /// @param password - password for reading files
-        /////////////////////////////////////////////////////////////////////
-        ArchiveManager (const std::string& archive, const std::string& password);
-
-        /////////////////////////////////////////////////////////////////////
         /// Destructor
         /////////////////////////////////////////////////////////////////////
-        ~ArchiveManager ();
+        ~FileOutputStream ();
 
         /////////////////////////////////////////////////////////////////////
         /// open - open the stream from a file path
         ///
-        /// @param filename - name of the file to open
+        /// @param filename Name of the file to open
         ///
-        /// @return - true on success, false on error
+        /// @return True on success, false on error
         /////////////////////////////////////////////////////////////////////
-        virtual bool open (const std::string& path) override;
+        bool open (const std::string& filename);
 
         /////////////////////////////////////////////////////////////////////
-        /// read - read data from the stream
+        /// write - write data to the stream
         ///
-        /// After reading, the stream's reading position must be advanced by
-        /// the amount of bytes read.
+        /// @param data - buffer to copy the data
+        /// @param size - desired number of bytes to write
         ///
-        /// @param data Buffer where to copy the read data
-        /// @param size Desired number of bytes to read
-        ///
-        /// @return The number of bytes actually read, or -1 on error
+        /// @return - the number of bytes successfully written, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        virtual Int64 read (void* data, Int64 size) override;
+        Int64 write (const void* data, Int64 size);
 
         /////////////////////////////////////////////////////////////////////
         /// seek - change the current reading position
         ///
-        /// @param position The position to seek to, from the beginning
+        /// @param position - the position to seek to, from the beginning
         ///
-        /// @return The position actually sought to, or -1 on error
+        /// @return - the position actually sought to, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        virtual Int64 seek (Int64 position) override;
+        Int64 seek (Int64 position);
 
         /////////////////////////////////////////////////////////////////////
         /// tell - get the current reading position in the stream
         ///
-        /// @return The current position, or -1 on error.
+        /// @return The current position, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        virtual Int64 tell () override;
+        Int64 tell ();
 
         /////////////////////////////////////////////////////////////////////
-        /// getSize - this function return the size of the stream
+        /// getSize - return the size of the stream
         ///
         /// @return The total number of bytes available in the stream, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        virtual Int64 getSize () override;
+        Int64 getSize ();
 
     private:
-        struct Implement;
-        Implement* m_impl;
+        std::FILE* m_file = nullptr;
     };
 
 

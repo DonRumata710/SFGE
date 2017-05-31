@@ -50,6 +50,7 @@ namespace sfge
 
     class ResourceInputStream;
     class MapLoader;
+    class MapSaver;
     class Way;
 
 
@@ -96,6 +97,11 @@ namespace sfge
         /// @param areas - areas on the  map
         /////////////////////////////////////////////////////////////////////
         void lookMap (const std::vector<UintRect>& areas);
+
+        /////////////////////////////////////////////////////////////////////
+        /// save - save map
+        /////////////////////////////////////////////////////////////////////
+        bool save (MapSaver* saver);
 
         /////////////////////////////////////////////////////////////////////
         /// getWay - find way from one point to another

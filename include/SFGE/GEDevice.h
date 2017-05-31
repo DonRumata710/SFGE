@@ -30,6 +30,7 @@
 #pragma once
 
 
+#include "Config.h"
 #include "GuiManager.h"
 #include "Unicode.h"
 

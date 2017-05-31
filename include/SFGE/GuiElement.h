@@ -30,6 +30,7 @@
 #pragma once
 
 
+#include "Config.h"
 #include "Frame.h"
 
 #include <SFML/Graphics/Rect.hpp>

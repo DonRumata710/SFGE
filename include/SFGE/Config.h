@@ -30,45 +30,32 @@
 #pragma once
 
 
-#include "Config.h"
-#include "ResourceManager.h"
-#include "AnimationDesc.h"
-#include "SpriteDesc.h"
-#include "ParticleSystem.h"
-#include "DistortionMesh.h"
-#include "StringTable.h"
-
-#include <unordered_map>
-#include <list>
-#include <string>
-#include <memory>
-
-#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Config.hpp>
 
 
-namespace sf
-{
-    class Font;
-    class Image;
-    class Texture;
-    class Sprite;
-    class Sound;
-    class SoundBuffer;
-    class Music;
-}
+////////////////////////////////////////////////////////////
+// Define the SFML version
+////////////////////////////////////////////////////////////
+#define SFGE_VERSION_MAJOR 0
+#define SFGE_VERSION_MINOR 1
+#define SFGE_VERSION_PATCH 1
 
 
 namespace sfge
 {
-    
 
-    class ResourceLoader : public ResourceManager
-    {
-    public:
-        SpriteDesc findSprite (const std::string& name);
 
-        AnimationDesc findAnimation (const std::string& name);
-    };
+     using sf::Int8;
+     using sf::Uint8;
+
+     using sf::Int16;
+     using sf::Uint16;
+
+     using sf::Int32;
+     using sf::Uint32;
+
+     using sf::Int64;
+     using sf::Uint64;
 
 
 }

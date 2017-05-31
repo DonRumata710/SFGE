@@ -30,6 +30,7 @@
 #pragma once
 
 
+#include "Config.h"
 #include "AnimationDesc.h"
 #include "SpriteDesc.h"
 #include "ParticleSystem.h"

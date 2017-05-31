@@ -27,48 +27,64 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "FileOutputStream.h"
 
 
-#include "Config.h"
-#include "ResourceManager.h"
-#include "AnimationDesc.h"
-#include "SpriteDesc.h"
-#include "ParticleSystem.h"
-#include "DistortionMesh.h"
-#include "StringTable.h"
-
-#include <unordered_map>
-#include <list>
-#include <string>
-#include <memory>
-
-#include <SFML/Graphics/Rect.hpp>
+using namespace sfge;
 
 
-namespace sf
+FileOutputStream::~FileOutputStream ()
 {
-    class Font;
-    class Image;
-    class Texture;
-    class Sprite;
-    class Sound;
-    class SoundBuffer;
-    class Music;
+    if (m_file)
+        fclose (m_file);
 }
 
-
-namespace sfge
+bool FileOutputStream::open (const std::string& filename)
 {
-    
+    if (m_file)
+        fclose (m_file);
 
-    class ResourceLoader : public ResourceManager
+    m_file = fopen (filename.c_str (), "wb");
+
+    return m_file;
+}
+
+Int64 FileOutputStream::write (const void* data, Int64 size)
+{
+    if (m_file)
+        return std::fwrite (data, 1, static_cast<std::size_t>(size), m_file);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::seek (Int64 position)
+{
+    if (m_file)
+        return std::fseek (m_file, position, SEEK_SET);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::tell ()
+{
+    if (m_file)
+        return std::ftell (m_file);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::getSize ()
+{
+    if (m_file)
     {
-    public:
-        SpriteDesc findSprite (const std::string& name);
-
-        AnimationDesc findAnimation (const std::string& name);
-    };
-
-
+        Int64 position = tell ();
+        std::fseek (m_file, 0, SEEK_END);
+        Int64 size = tell ();
+        seek (position);
+        return size;
+    }
+    else
+    {
+        return -1;
+    }
 }

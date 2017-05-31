@@ -30,6 +30,9 @@
 #pragma once
 
 
+#include "Config.h"
+
+
 namespace sfge
 {
 

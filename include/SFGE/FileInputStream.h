@@ -30,6 +30,7 @@
 #pragma once
 
 
+#include "Config.h"
 #include "ResourceInputStream.h"
 
 #include <SFML/System/FileInputStream.hpp>
@@ -37,9 +38,6 @@
 
 namespace sfge
 {
-
-
-    using sf::Int64;
 
 
     /////////////////////////////////////////////////////////////////////

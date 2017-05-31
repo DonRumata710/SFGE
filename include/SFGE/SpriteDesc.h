@@ -30,6 +30,8 @@
 #pragma once
 
 
+#include "Config.h"
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
