@@ -211,7 +211,7 @@ namespace sfge
     {};
 
     
-    ResourceParser::ResourceParser (ResourceInputStream* stream) : m_stream (stream)
+    ResourceParser::ResourceParser (iResourceInputStream* stream) : m_stream (stream)
     {}
 
 

@@ -31,9 +31,11 @@
 
 
 #include "Config.h"
-#include "ResourceInputStream.h"
+#include "DataOutputStream.h"
+#include "MemoryInputStream.h"
 
-#include <SFML/System/FileInputStream.hpp>
+#include <unordered_map>
+#include <memory>
 
 
 namespace sfge
@@ -41,11 +43,15 @@ namespace sfge
 
 
     /////////////////////////////////////////////////////////////////////
-    /// FileInputStream - class for receiving interface to the file system
+    /// MemoryOutputStream - fake file output
     /////////////////////////////////////////////////////////////////////
-    class FileInputStream : public iResourceInputStream
+    class MemoryOutputStream final : public iDataOutputStream
     {
     public:
+        /////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        /////////////////////////////////////////////////////////////////////
+        MemoryOutputStream () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// open - open the stream from a file path
@@ -57,17 +63,14 @@ namespace sfge
         virtual bool open (const std::string& filename) override;
 
         /////////////////////////////////////////////////////////////////////
-        /// read - read data from the stream
+        /// write - write data to the stream
         ///
-        /// After reading, the stream's reading position must be
-        /// advanced by the amount of bytes read.
+        /// @param data - buffer to copy the data
+        /// @param size - desired number of bytes to write
         ///
-        /// @param data Buffer where to copy the read data
-        /// @param size Desired number of bytes to read
-        ///
-        /// @return - the number of bytes actually read, or -1 on error
+        /// @return - the number of bytes successfully written, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        virtual Int64 read (void* data, Int64 size) override;
+        virtual Int64 write (const void* data, Int64 size) override;
 
         /////////////////////////////////////////////////////////////////////
         /// seek - change the current reading position
@@ -92,8 +95,20 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         virtual Int64 getSize () override;
 
+        /////////////////////////////////////////////////////////////////////
+        /// getMemory - get written memory
+        /////////////////////////////////////////////////////////////////////
+        std::vector<char>& getMemory (const std::string& filename);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getFullData - get all written data as input stream
+        /////////////////////////////////////////////////////////////////////
+        std::shared_ptr<MemoryInputStream> getFullData () const;
+
     private:
-        sf::FileInputStream m_fileInputStream;
+        std::unordered_map<std::string, std::vector<char>> m_source_data;
+        std::string m_current;
+        size_t m_offset = 0;
     };
 
 

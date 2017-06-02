@@ -47,7 +47,7 @@ namespace sfge
     /////////////////////////////////////////////////////////////////////
     /// MemoryInputStream - fake file reader
     /////////////////////////////////////////////////////////////////////
-    class MemoryInputStream final : public ResourceInputStream
+    class MemoryInputStream final : public iResourceInputStream
     {
     public:
 

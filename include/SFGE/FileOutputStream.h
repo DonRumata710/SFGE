@@ -31,6 +31,7 @@
 
 
 #include "Config.h"
+#include "DataOutputStream.h"
 
 #include <string>
 
@@ -39,14 +40,14 @@ namespace sfge
 {
 
 
-    class FileOutputStream final
+    class FileOutputStream final : public iDataOutputStream
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
         /// Destructor
         /////////////////////////////////////////////////////////////////////
-        ~FileOutputStream ();
+        virtual ~FileOutputStream ();
 
         /////////////////////////////////////////////////////////////////////
         /// open - open the stream from a file path
@@ -55,7 +56,7 @@ namespace sfge
         ///
         /// @return True on success, false on error
         /////////////////////////////////////////////////////////////////////
-        bool open (const std::string& filename);
+        virtual bool open (const std::string& filename) override;
 
         /////////////////////////////////////////////////////////////////////
         /// write - write data to the stream
@@ -65,7 +66,7 @@ namespace sfge
         ///
         /// @return - the number of bytes successfully written, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        Int64 write (const void* data, Int64 size);
+        virtual Int64 write (const void* data, Int64 size) override;
 
         /////////////////////////////////////////////////////////////////////
         /// seek - change the current reading position
@@ -74,21 +75,21 @@ namespace sfge
         ///
         /// @return - the position actually sought to, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        Int64 seek (Int64 position);
+        virtual Int64 seek (Int64 position) override;
 
         /////////////////////////////////////////////////////////////////////
         /// tell - get the current reading position in the stream
         ///
         /// @return The current position, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        Int64 tell ();
+        virtual Int64 tell () override;
 
         /////////////////////////////////////////////////////////////////////
         /// getSize - return the size of the stream
         ///
         /// @return The total number of bytes available in the stream, or -1 on error
         /////////////////////////////////////////////////////////////////////
-        Int64 getSize ();
+        virtual Int64 getSize () override;
 
     private:
         std::FILE* m_file = nullptr;

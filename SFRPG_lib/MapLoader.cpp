@@ -63,7 +63,7 @@ const SemanticsDescription MapLoader::m_sem_desc = {
 };
 
 
-MapLoader::MapLoader (std::shared_ptr<ResourceInputStream> stream)
+MapLoader::MapLoader (std::shared_ptr<iResourceInputStream> stream)
     : m_file_stream (stream)
 {}
 

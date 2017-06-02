@@ -65,7 +65,7 @@ namespace sfge
         ///
         /// @param stream - source for loading file
         /////////////////////////////////////////////////////////////////////
-        MapLoader (std::shared_ptr<ResourceInputStream> stream);
+        MapLoader (std::shared_ptr<iResourceInputStream> stream);
 
         /////////////////////////////////////////////////////////////////////
         /// getSegmentDescriptions - get description of segments of current map
@@ -94,7 +94,7 @@ namespace sfge
 
         float m_tile_size = 1.0f;
 
-        std::shared_ptr<ResourceInputStream> m_file_stream;
+        std::shared_ptr<iResourceInputStream> m_file_stream;
 
         static const SemanticsDescription m_sem_desc;
     };

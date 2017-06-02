@@ -115,6 +115,12 @@
     <ClInclude Include="..\include\SFGE\Config.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\DataOutputStream.h">
+      <Filter>DataStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MemoryOutputStream.h">
+      <Filter>DataStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -202,6 +208,9 @@
       <Filter>DataStream</Filter>
     </ClCompile>
     <ClCompile Include="FileOutputStream.cpp">
+      <Filter>DataStream</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryOutputStream.cpp">
       <Filter>DataStream</Filter>
     </ClCompile>
   </ItemGroup>

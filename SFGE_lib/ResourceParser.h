@@ -64,7 +64,7 @@ namespace sfge
         };
 
     public:
-        ResourceParser (ResourceInputStream* stream);
+        ResourceParser (iResourceInputStream* stream);
 
         bool parse_script (ResourceLoader* rm, const char* path);
 
@@ -89,7 +89,7 @@ namespace sfge
         void log_undefined_base_resource (const TextParser& tp, const std::string& name) const;
 
     private:
-        ResourceInputStream* m_stream;
+        iResourceInputStream* m_stream;
     };
 
 

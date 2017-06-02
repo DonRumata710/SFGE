@@ -46,7 +46,7 @@ namespace sfge
     /////////////////////////////////////////////////////////////////////
     /// ArchiveManager - this class provide interface for reading data from archives
     /////////////////////////////////////////////////////////////////////
-    class ArchiveManager : public ResourceInputStream
+    class ArchiveManager : public iResourceInputStream
     {
     public:
 

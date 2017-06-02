@@ -48,7 +48,7 @@ namespace sfge
     using sf::Vector2f;
     typedef sf::Rect<uint32_t> UintRect;
 
-    class ResourceInputStream;
+    class iResourceInputStream;
     class MapLoader;
     class MapSaver;
     class Way;

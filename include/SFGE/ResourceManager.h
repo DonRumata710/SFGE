@@ -125,7 +125,7 @@ namespace sfge
         ///
         /// @param stream - stream of resources
         /////////////////////////////////////////////////////////////////////
-        void setResourceStream (std::unique_ptr<ResourceInputStream>& stream);
+        void setResourceStream (std::unique_ptr<iResourceInputStream>& stream);
 
         /////////////////////////////////////////////////////////////////////
         /// useDefaultFont - set use default font or not
@@ -257,7 +257,7 @@ namespace sfge
 
 
     protected:
-        std::unique_ptr<ResourceInputStream> m_stream;
+        std::unique_ptr<iResourceInputStream> m_stream;
 
         std::list<std::string> m_scripts;
 

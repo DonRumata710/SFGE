@@ -56,7 +56,7 @@ namespace sfge
             m_default_manager = this;
     }
 
-    void ResourceManager::setResourceStream (std::unique_ptr<ResourceInputStream>& stream)
+    void ResourceManager::setResourceStream (std::unique_ptr<iResourceInputStream>& stream)
     {
         m_stream.swap (stream);
     }
