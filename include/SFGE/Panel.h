@@ -55,6 +55,7 @@ namespace sfge
     using sf::Texture;
     using sf::Vector2f;
     using sf::FloatRect;
+    using sf::IntRect;
     using sf::Color;
     using sf::Vertex;
     using sf::RenderStates;
@@ -93,6 +94,11 @@ namespace sfge
         /// @param tex - name of new texture
         /////////////////////////////////////////////////////////////////////
         void setTexture (const std::string& tex);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getTexture - get texture of panel
+        /////////////////////////////////////////////////////////////////////
+        std::shared_ptr<const Texture> getTexture () const;
 
         /////////////////////////////////////////////////////////////////////
         /// setColor - fill panel by one color
@@ -175,6 +181,13 @@ namespace sfge
         /// @return true if the point is inside, false otherwise
         /////////////////////////////////////////////////////////////////////
         bool contains (const float x, const float y);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setTexCoord - set visible part of texture
+        ///
+        /// @param rect - position of visible part of texture
+        /////////////////////////////////////////////////////////////////////
+        void setTexCoord (const IntRect& rect);
 
     private:
         virtual void draw (RenderTarget& target, RenderStates states) const override;
