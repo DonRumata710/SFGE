@@ -29,6 +29,8 @@
 
 #pragma once
 
+
+#include "Config.h"
 #include "ResourceManager.h"
 #include "AnimationDesc.h"
 #include "SpriteDesc.h"
@@ -44,7 +46,6 @@
 #include <SFML/Graphics/Rect.hpp>
 
 
-
 namespace sf
 {
     class Font;
@@ -55,7 +56,6 @@ namespace sf
     class SoundBuffer;
     class Music;
 }
-
 
 
 namespace sfge

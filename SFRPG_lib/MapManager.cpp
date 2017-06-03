@@ -28,6 +28,8 @@
 
 
 #include "MapLoader.h"
+#include "SectorLoader.h"
+#include "MapSaver.h"
 #include "MapManager.h"
 #include "PathDescription.h"
 #include "Way.h"
@@ -69,35 +71,100 @@ MapManager* MapManager::getInstance ()
     return m_instance;
 }
 
-MapManager::MapManager (std::shared_ptr<MapLoader> loader, const std::string& path) :
-    m_loader (loader),
-    m_map_path (path)
+MapManager::MapManager ()
 {
-    if (m_instance)
-        critical_error ("Few map managers was created!");
-
-    m_instance = this;
-
-    m_sectors = m_loader->getSegmentDescriptions (m_map_path);
+    if (!m_instance)
+        m_instance = this;
+    else
+        debug_message ("Map manager was created few times");
 }
-
-MapManager::MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors) :
-    m_sectors (std::move(sectors))
-{}
 
 MapManager::~MapManager ()
 {
     m_instance = nullptr;
 }
 
-void MapManager::lookMap (const std::vector<Vector2u>& positions)
+void MapManager::setMapDescription (std::unordered_map<uint32_t, MapSectorDesc>&& sectors)
 {
-    std::vector<MapSegmentDesc*> sectors;
-    for (auto position : positions)
+    m_sectors = std::move (sectors);
+}
+
+void MapManager::setName (const std::string& name)
+{
+    m_name = name;
+}
+
+std::string MapManager::getName () const
+{
+    return m_name;
+}
+
+void MapManager::setLoader (std::unique_ptr<SectorLoader>& loader)
+{
+    m_loader.swap (loader);
+}
+
+void MapManager::lookMap (const std::vector<UintRect>& areas)
+{
+    std::vector<MapSectorDesc*> sectors;
+    sf::Vector2<sf::Uint64> offset;
+    for (const auto& area : areas)
     {
-        // TODO
+        offset.x += (Uint64 (area.left) + area.width) / 2;
+        offset.y += (area.top + area.height) / 2;
+
+        for (auto& sector : m_sectors)
+        {
+            if (area.left < sector.second.pos.x + sector.second.size.x &&
+                area.top  < sector.second.pos.y + sector.second.size.y &&
+                area.left + area.width > sector.second.pos.x &&
+                area.top + area.height > sector.second.pos.y &&
+                !sector.second.sector
+            )
+            {
+                sectors.push_back (&sector.second);
+            }
+        }
     }
-    m_loader->loadMap (sectors);
+
+    setOffset (offset.x / areas.size (), offset.y / areas.size ());
+
+    m_loader->loadSectors (sectors);
+}
+
+bool MapManager::save (MapSaver* saver)
+{
+    saver->save ("name", getName ());
+    for (auto& sector : m_sectors)
+    {
+        if (sector.second.path.empty ())
+            sector.second.path = sector.second.sector->getName () + ".ress";
+        if (sector.second.path.empty ())
+            sector.second.path = "sector-" + std::to_string (sector.first) + ".ress";
+        if (!saver->saveSectorDescription (sector.first, sector.second))
+        {
+            runtime_error ("Failed saving description of sector " + sector.second.sector->getName ());
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool MapManager::saveSectors (MapSaver * saver)
+{
+    for (const auto& sector : m_sectors)
+    {
+        if (!sector.second.sector) continue;
+
+        if (!saver->saveSector (sector.second.sector.get (), sector.second.path))
+        {
+            runtime_error ("Failed saving sector " + sector.second.sector->getName ());
+            return false;
+        }
+    }
+
+    return true;
 }
 
 Way MapManager::getWay (Vector2f departure, Vector2f target) const
@@ -134,11 +201,23 @@ MapSector* MapManager::getSector (Vector2f position)
 {
     for (auto& map : m_sectors)
     {
-        if (map.second.sector->isObjectInSector (position))
+        if (map.second.sector && map.second.sector->isObjectInSector (position))
             return map.second.sector.get ();
     }
 
     return nullptr;
+}
+
+void MapManager::setOffset (unsigned x, unsigned y)
+{
+    for (auto& map : m_sectors)
+    {
+        if (map.second.sector)
+            map.second.sector->setOffset ({ (float) x, (float) y });
+    }
+
+    m_offset.x = x;
+    m_offset.y = y;
 }
 
 void MapManager::findWayPointsEdges ()

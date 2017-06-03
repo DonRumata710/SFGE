@@ -25,10 +25,11 @@
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="InteractiveObject.cpp" />
     <ClCompile Include="MapLoader.cpp" />
-    <ClCompile Include="MapParser.cpp" />
+    <ClCompile Include="MapSaver.cpp" />
     <ClCompile Include="MapSector.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="SectorLoader.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Way.cpp" />
     <ClCompile Include="WayPoint.cpp" />
@@ -40,16 +41,16 @@
     <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
     <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
     <ClInclude Include="..\include\SFRPG\MapLoader.h" />
+    <ClInclude Include="..\include\SFRPG\MapSaver.h" />
     <ClInclude Include="..\include\SFRPG\MapSector.h" />
     <ClInclude Include="..\include\SFRPG\MapManager.h" />
     <ClInclude Include="..\include\SFRPG\MapObject.h" />
-    <ClInclude Include="..\include\SFRPG\MapSegmentDesc.h" />
+    <ClInclude Include="..\include\SFRPG\MapSectorDesc.h" />
     <ClInclude Include="..\include\SFRPG\StaticObject.h" />
-    <ClInclude Include="..\include\SFRPG\TileDescription.h" />
     <ClInclude Include="..\include\SFRPG\Way.h" />
     <ClInclude Include="..\include\SFRPG\WayPoint.h" />
-    <ClInclude Include="MapParser.h" />
     <ClInclude Include="PathDescription.h" />
+    <ClInclude Include="SectorLoader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{853830EB-175C-4F2F-89C2-0F827B05C376}</ProjectGuid>

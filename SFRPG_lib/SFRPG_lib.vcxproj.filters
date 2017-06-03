@@ -1,36 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="MapObject.cpp" />
-    <ClCompile Include="StaticObject.cpp" />
-    <ClCompile Include="DynamicObject.cpp" />
-    <ClCompile Include="InteractiveObject.cpp" />
-    <ClCompile Include="Action.cpp" />
-    <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Way.cpp" />
-    <ClCompile Include="WayPoint.cpp" />
-    <ClCompile Include="MapManager.cpp" />
-    <ClCompile Include="MapSector.cpp" />
-    <ClCompile Include="MapLoader.cpp" />
-    <ClCompile Include="MapParser.cpp" />
+    <ClCompile Include="MapLoader.cpp">
+      <Filter>MapSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSector.cpp">
+      <Filter>MapSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSaver.cpp">
+      <Filter>MapSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Way.cpp">
+      <Filter>WaySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WayPoint.cpp">
+      <Filter>WaySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>MapSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractiveObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>CollisionSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SectorLoader.cpp">
+      <Filter>MapSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\SFRPG\Collision.h" />
-    <ClInclude Include="..\include\SFRPG\MapObject.h" />
-    <ClInclude Include="..\include\SFRPG\StaticObject.h" />
-    <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
-    <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />
-    <ClInclude Include="..\include\SFRPG\Action.h" />
-    <ClInclude Include="..\include\SFRPG\Actor.h" />
-    <ClInclude Include="..\include\SFRPG\Way.h" />
-    <ClInclude Include="..\include\SFRPG\WayPoint.h" />
-    <ClInclude Include="..\include\SFRPG\MapManager.h" />
-    <ClInclude Include="..\include\SFRPG\MapSector.h" />
-    <ClInclude Include="..\include\SFRPG\MapLoader.h" />
-    <ClInclude Include="MapParser.h" />
-    <ClInclude Include="..\include\SFRPG\MapSegmentDesc.h" />
-    <ClInclude Include="..\include\SFRPG\TileDescription.h" />
-    <ClInclude Include="PathDescription.h" />
+    <ClInclude Include="..\include\SFRPG\MapLoader.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\MapSector.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\MapSaver.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\Way.h">
+      <Filter>WaySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\WayPoint.h">
+      <Filter>WaySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\MapManager.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\DynamicObject.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\Actor.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\Action.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\InteractiveObject.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\MapObject.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\MapSectorDesc.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PathDescription.h">
+      <Filter>WaySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\StaticObject.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFRPG\Collision.h">
+      <Filter>CollisionSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SectorLoader.h">
+      <Filter>MapSystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MapSystem">
+      <UniqueIdentifier>{4520adcf-6b05-4faf-ba49-3a225ba7a8d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WaySystem">
+      <UniqueIdentifier>{404a9de0-0412-4173-9fbb-21953f036594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{2bf07a78-11ce-491a-8191-1f0eb15c2d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionSystem">
+      <UniqueIdentifier>{ad672b4b-938d-4572-874d-7e44f6364430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

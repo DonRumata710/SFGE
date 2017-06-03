@@ -143,7 +143,7 @@ namespace sfge
 
         tokentype = semantics.string;
         for (i = 0;
-            *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r';
+            *script && (isalnum (*script) || *script == '_');
             i++
         )
         {

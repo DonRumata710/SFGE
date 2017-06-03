@@ -30,32 +30,32 @@
 #pragma once
 
 
-#include <SFML/System/InputStream.hpp>
-#include "Config.h"
+#include <SFML/Config.hpp>
 
-#include <string>
+
+////////////////////////////////////////////////////////////
+// Define the SFML version
+////////////////////////////////////////////////////////////
+#define SFGE_VERSION_MAJOR 0
+#define SFGE_VERSION_MINOR 1
+#define SFGE_VERSION_PATCH 1
 
 
 namespace sfge
 {
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// iResourceInputStream - this class provide interface for reading data from some external resources
-    /////////////////////////////////////////////////////////////////////
-    class iResourceInputStream : public sf::InputStream
-    {
-    public:
+     using sf::Int8;
+     using sf::Uint8;
 
-        /////////////////////////////////////////////////////////////////////
-        /// open - open the stream from a file path
-        ///
-        /// @param filename - name of the file to open
-        ///
-        /// @return - true on success, false on error
-        /////////////////////////////////////////////////////////////////////
-        virtual bool open (const std::string& filename) = 0;
-    };
+     using sf::Int16;
+     using sf::Uint16;
+
+     using sf::Int32;
+     using sf::Uint32;
+
+     using sf::Int64;
+     using sf::Uint64;
 
 
 }

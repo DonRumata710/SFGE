@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include "MapSegmentDesc.h"
+#include "MapSectorDesc.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -46,35 +46,114 @@ namespace sfge
 
 
     using sf::Vector2f;
+    typedef sf::Rect<uint32_t> UintRect;
 
-    class ResourceInputStream;
     class MapLoader;
+    class MapSaver;
+    class SectorLoader;
     class Way;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapManager - store and manage map sectors
+    /////////////////////////////////////////////////////////////////////
     class MapManager : public Drawable
     {
     public:
+      
+        /////////////////////////////////////////////////////////////////////
+        /// getInstance - get instance of created map manager
+        ///
+        /// @return - instance of map manager
+        /////////////////////////////////////////////////////////////////////
         static MapManager* getInstance ();
 
-        MapManager (std::shared_ptr<MapLoader>, const std::string& path);
+        /////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        /////////////////////////////////////////////////////////////////////
+        MapManager ();
 
-        MapManager (std::unordered_map<uint32_t, MapSegmentDesc>&& sectors);
-
+        /////////////////////////////////////////////////////////////////////
+        /// Desctuctor
+        /////////////////////////////////////////////////////////////////////
         ~MapManager ();
 
-        void lookMap (const std::vector<Vector2u>&);
+        /////////////////////////////////////////////////////////////////////
+        /// setMapDescription - set description of map
+        ///
+        /// @param - description of map sectors
+        /////////////////////////////////////////////////////////////////////
+        void setMapDescription (std::unordered_map<uint32_t, MapSectorDesc>&& sectors);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setName - set name of the map
+        ///
+        /// @param name - name of map
+        /////////////////////////////////////////////////////////////////////
+        void setName (const std::string& name);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getName - get name of map
+        ///
+        /// @return - name of map
+        /////////////////////////////////////////////////////////////////////
+        std::string getName () const;
+
+        /////////////////////////////////////////////////////////////////////
+        /// setLoader - set loader of map
+        ///
+        /// This map loader will load all sectors for map manager
+        ///
+        /// @param loader - pointer to loader
+        /////////////////////////////////////////////////////////////////////
+        void setLoader (std::unique_ptr<SectorLoader>& loader);
+
+        /////////////////////////////////////////////////////////////////////
+        /// lookMap - load all sectors which contain current areas
+        ///
+        /// This method describe the manager what sectors should be loaded to
+        /// the memory from resource files.
+        ///
+        /// @param areas - areas on the  map
+        /////////////////////////////////////////////////////////////////////
+        void lookMap (const std::vector<UintRect>& areas);
+
+        /////////////////////////////////////////////////////////////////////
+        /// save - save map
+        ///
+        /// @param saver - saver
+        /////////////////////////////////////////////////////////////////////
+        bool save (MapSaver* saver);
+
+        /////////////////////////////////////////////////////////////////////
+        /// saveSectors - save sectors
+        ///
+        /// @param saver - saver
+        /////////////////////////////////////////////////////////////////////
+        bool saveSectors (MapSaver* saver);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getWay - find way from one point to another
+        ///
+        /// @param departure - departure point
+        /// @param target - target point
+        ///
+        /// @return way from one point to another
+        /////////////////////////////////////////////////////////////////////
         Way getWay (Vector2f departure, Vector2f target) const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// getSector - get sector of current point
+        ///
+        /// @param position - current point
+        ///
+        /// @return current sector
+        /////////////////////////////////////////////////////////////////////
         MapSector* getSector (Vector2f position);
 
     private:
-        std::shared_ptr<MapLoader> m_loader;
-        std::unordered_map<uint32_t, MapSegmentDesc> m_sectors;
-        std::string m_map_path;
+        void setOffset (unsigned x, unsigned y);
 
-    private:
         void findWayPointsEdges ();
 
         std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
@@ -84,6 +163,13 @@ namespace sfge
         static Vector2f getWayStep (const WayPoint* p1, const WayPoint* p2);
 
         virtual void draw (RenderTarget& target, RenderStates states) const override;
+
+    private:
+        std::string m_name;
+        std::unique_ptr<SectorLoader> m_loader;
+        std::unordered_map<uint32_t, MapSectorDesc> m_sectors;
+        std::string m_map_path;
+        Vector2u m_offset;
 
     private:
         static MapManager* m_instance;

@@ -30,10 +30,12 @@
 #pragma once
 
 
+#include "Config.h"
 #include "GuiElement.h"
 #include "Frame.h"
 
 #include <SFML/System/Vector2.hpp>
+
 #include <functional>
 #include <memory>
 
@@ -69,12 +71,12 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// Default constructor - do nothing
         /////////////////////////////////////////////////////////////////////
-        iWidget () {}
+        iWidget () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// Destructor
         /////////////////////////////////////////////////////////////////////
-        virtual ~iWidget () {}
+        virtual ~iWidget () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// isVisible - check the visibility of widget

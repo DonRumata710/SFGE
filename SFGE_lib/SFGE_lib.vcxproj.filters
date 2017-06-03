@@ -89,13 +89,13 @@
       <Filter>ResourceManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\ArchiveManager.h">
-      <Filter>InputStream</Filter>
+      <Filter>DataStream</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\FileInputStream.h">
-      <Filter>InputStream</Filter>
+      <Filter>DataStream</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\ResourceInputStream.h">
-      <Filter>InputStream</Filter>
+      <Filter>DataStream</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\PullDownMenu.h">
       <Filter>GuiManagement</Filter>
@@ -105,6 +105,21 @@
     </ClInclude>
     <ClInclude Include="..\include\SFGE\MenuBar.h">
       <Filter>GuiManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MemoryInputStream.h">
+      <Filter>DataStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\FileOutputStream.h">
+      <Filter>DataStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Config.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\DataOutputStream.h">
+      <Filter>DataStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MemoryOutputStream.h">
+      <Filter>DataStream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,16 +193,25 @@
       <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="ArchiveManager.cpp">
-      <Filter>InputStream</Filter>
+      <Filter>DataStream</Filter>
     </ClCompile>
     <ClCompile Include="FileInputStream.cpp">
-      <Filter>InputStream</Filter>
+      <Filter>DataStream</Filter>
     </ClCompile>
     <ClCompile Include="PullDownMenu.cpp">
       <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="MenuBar.cpp">
       <Filter>GuiManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryInputStream.cpp">
+      <Filter>DataStream</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOutputStream.cpp">
+      <Filter>DataStream</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryOutputStream.cpp">
+      <Filter>DataStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,7 +227,7 @@
     <Filter Include="GuiManagement">
       <UniqueIdentifier>{e5fdc29b-e77a-458a-b6fd-c5d4ef99917f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="InputStream">
+    <Filter Include="DataStream">
       <UniqueIdentifier>{f615350d-f956-4723-8355-58b64afa3bb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

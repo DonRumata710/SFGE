@@ -28,24 +28,76 @@
 
 
 #include "MapSector.h"
+#include "MapSaver.h"
 #include "InteractiveObject.h"
 #include "Way.h"
+
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Err.h>
+
+#include <map>
 
 
 using namespace sfge;
 
 
-void MapSector::setTiles (const std::vector<Panel>& tiles)
+MapSector::MapSector (Vector2u size)
 {
-    m_tiles = tiles;
+    m_size = size;
+    m_tiles.assign (size.x * size.y, Panel ());
+    for (size_t i = 0; i < size.x; ++i)
+    {
+        for (size_t j = 0; j < size.y; ++j)
+        {
+            m_tiles[i + j * size.x].setPosition (i, j);
+            m_tiles[i + j * size.x].setSize (1.0, 1.0);
+        }
+    }
 }
 
-void MapSector::setTiles (std::vector<Panel>&& tiles)
+void MapSector::setTileSize (Uint32 size)
 {
-    m_tiles = std::move (tiles);
+    m_tile_size = size;
 }
 
-void sfge::MapSector::setName (const std::string& name)
+void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles)
+{
+    ResourceManager* rm (ResourceManager::getInstance ());
+
+    if (!rm)
+    {
+        debug_message ("No default resource manager");
+        return;
+    }
+
+    for (const auto tile : tiles)
+    {
+        std::shared_ptr<const Texture> tex (rm->findTexture (tile.second));
+
+        if (tex)
+        {
+            m_textures[tex.get ()] = tile.second;
+            
+            Uint32 width (tex->getSize ().x / m_tile_size);
+            Uint32 height (tex->getSize ().y / m_tile_size);
+
+            for (size_t i = 0; i < width; ++i)
+            {
+                for (size_t j = 0; j < height; ++j)
+                {
+                    Uint32 pos (tile.first + i + j * m_size.x);
+                    if (pos < m_tiles.size ())
+                    {
+                        m_tiles[pos].setTexture (tex);
+                        m_tiles[pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
+                    }
+                }
+            }
+        }
+    }
+}
+
+void MapSector::setName (const std::string& name)
 {
     m_name = name;
 }
@@ -67,6 +119,23 @@ void MapSector::setWayPoints (std::vector<WayPoint>&& way_points)
 
 void sfge::MapSector::setOffset (Vector2f offset)
 {
+    Vector2f move (offset - m_offset);
+
+    for (Panel& tile : m_tiles)
+        tile.move (move);
+    
+    for (auto object : m_objects)
+    {
+        Vector2f pos (object->getPosition ());
+	object->setPosition (pos + move);
+    }
+    
+    for (auto way_point : m_way_points)
+    {
+        Vector2f pos (way_point.getPosition ());
+	way_point.setPosition (pos + move);
+    }
+
     m_offset = offset;
 }
 
@@ -75,14 +144,28 @@ Vector2f MapSector::getOffset () const
     return m_offset;
 }
 
-void sfge::MapSector::setSize (Vector2f size)
-{
-    m_size = size;
-}
-
-Vector2f MapSector::getSize () const
+Vector2u MapSector::getSize () const
 {
     return m_size;
+}
+
+bool MapSector::save (MapSaver* saver)
+{
+    for (const Panel tile : m_tiles)
+    {
+        std::string texture;
+        if (tile.getTexture ())
+        {
+            texture = m_textures[tile.getTexture ().get ()];
+        }
+        if (!saver->saveTile (texture, { (Uint32) tile.getPosition ().x, (Uint32) tile.getPosition ().y }))
+        {
+            runtime_error ("Failed saving tile in pos x = " + std::to_string (tile.getPosition ().x) + " y = " + std::to_string (tile.getPosition ().y));
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool MapSector::checkMovement (InteractiveObject* moved_object)

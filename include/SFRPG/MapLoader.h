@@ -31,7 +31,7 @@
 
 
 #include "MapSector.h"
-#include "TileDescription.h"
+#include "MapSectorDesc.h"
 
 #include <SFGE/ResourceInputStream.h>
 
@@ -47,34 +47,46 @@ namespace sfge
 
     using sf::Vector2u;
 
-    class Map;
+    class MapManager;
     class TextParser;
-    struct MapSegmentDesc;
     struct SemanticsDescription;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapLoader - class for loading map from file
+    /////////////////////////////////////////////////////////////////////
     class MapLoader
     {
     public:
-        MapLoader (std::shared_ptr<ResourceInputStream> stream);
+      
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param stream - source for loading file
+        /////////////////////////////////////////////////////////////////////
+        MapLoader (iResourceInputStream* stream);
 
-        std::unordered_map<uint32_t, MapSegmentDesc> getSegmentDescriptions (const std::string& path);
-
-        void loadMap (const std::vector<MapSegmentDesc*>& sectors);
+        /////////////////////////////////////////////////////////////////////
+        /// loadMap - load map
+        ///
+        /// @param map - map manager
+        /// @param path - path where description of map can be found
+        /////////////////////////////////////////////////////////////////////
+        bool loadMap (MapManager* map, const std::string& path);
 
     private:
         const char* loadScript (const std::string& path);
 
-        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSegmentDesc>*);
+        std::string parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>*);
 
     private:
-        std::string m_map_name;
-        std::unordered_map<std::string, TileDesc> m_tile_models;
+        std::string m_path;
 
         float m_tile_size = 1.0f;
 
-        std::shared_ptr<ResourceInputStream> m_file_stream;
+        iResourceInputStream* m_file_stream;
 
+    private:
         static const SemanticsDescription m_sem_desc;
     };
 

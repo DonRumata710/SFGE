@@ -30,6 +30,7 @@
 #pragma once
 
 
+#include "Config.h"
 #include "ResourceInputStream.h"
 
 #include <string>
@@ -39,15 +40,13 @@ namespace sfge
 {
 
 
-    using sf::Int64;
-
     class File;
 
 
     /////////////////////////////////////////////////////////////////////
     /// ArchiveManager - this class provide interface for reading data from archives
     /////////////////////////////////////////////////////////////////////
-    class ArchiveManager : public ResourceInputStream
+    class ArchiveManager : public iResourceInputStream
     {
     public:
 

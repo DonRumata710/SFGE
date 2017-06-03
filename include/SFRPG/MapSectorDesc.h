@@ -30,19 +30,31 @@
 #pragma once
 
 
-#include <cstdint>
+#include "MapSector.h"
+
+#include <SFML/System/Vector2.hpp>
+
 #include <string>
+#include <cstdint>
+#include <memory>
 
 
 namespace sfge
 {
 
 
-    struct TileDesc
+    using sf::Vector2u;
+
+
+    /////////////////////////////////////////////////////////////////////
+    /// MapSectorDesc - description of map sector
+    /////////////////////////////////////////////////////////////////////
+    struct MapSectorDesc
     {
-        std::string texture;
-        uint32_t width = 1;
-        uint32_t height = 1;
+        Vector2u pos;                           // position of sector
+        Vector2u size;                          // size of sector
+        std::string path;                       // path to file
+        std::unique_ptr<MapSector> sector;      // pointer to sector
     };
 
 

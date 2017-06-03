@@ -27,34 +27,50 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
 
+#include "MapSectorDesc.h"
 
-#include <SFML/System/InputStream.hpp>
-#include "Config.h"
+#include <SFGE/ResourceInputStream.h>
 
-#include <string>
+#include <vector>
 
 
 namespace sfge
 {
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// iResourceInputStream - this class provide interface for reading data from some external resources
-    /////////////////////////////////////////////////////////////////////
-    class iResourceInputStream : public sf::InputStream
+    class TextParser;
+    struct SemanticsDescription;
+
+
+    class SectorLoader
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
-        /// open - open the stream from a file path
+        /// Constructor
         ///
-        /// @param filename - name of the file to open
-        ///
-        /// @return - true on success, false on error
+        /// @param stream - source for loading file
         /////////////////////////////////////////////////////////////////////
-        virtual bool open (const std::string& filename) = 0;
+        SectorLoader (iResourceInputStream* stream);
+        
+        /////////////////////////////////////////////////////////////////////
+        /// loadSectors - load sectors of map
+        ///
+        /// @param sectors - pointers to sectors which should be loaded
+        /////////////////////////////////////////////////////////////////////
+        void loadSectors (const std::vector<MapSectorDesc*>& sectors);
+
+    private:
+        bool loadMapSector (TextParser* tp, MapSector* sector);
+
+        std::pair<uint32_t, std::string> loadTile (TextParser* tp, Uint32 sector_width);
+
+    private:
+        iResourceInputStream* m_stream;
+
+    private:
+        static const SemanticsDescription m_sem_desc;
     };
 
 

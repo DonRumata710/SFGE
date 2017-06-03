@@ -24,11 +24,14 @@
     <ClInclude Include="..\include\SFGE\ArchiveManager.h" />
     <ClInclude Include="..\include\SFGE\Button.h" />
     <ClInclude Include="..\include\SFGE\CheckBox.h" />
+    <ClInclude Include="..\include\SFGE\Config.h" />
+    <ClInclude Include="..\include\SFGE\DataOutputStream.h" />
     <ClInclude Include="..\include\SFGE\DistortionMesh.h" />
     <ClInclude Include="..\include\SFGE\Err.h" />
     <ClInclude Include="..\include\SFGE\Field.h" />
     <ClInclude Include="..\include\SFGE\File.h" />
     <ClInclude Include="..\include\SFGE\FileInputStream.h" />
+    <ClInclude Include="..\include\SFGE\FileOutputStream.h" />
     <ClInclude Include="..\include\SFGE\Frame.h" />
     <ClInclude Include="..\include\SFGE\GEDevice.h" />
     <ClInclude Include="..\include\SFGE\GridBox.h" />
@@ -36,6 +39,8 @@
     <ClInclude Include="..\include\SFGE\GuiManager.h" />
     <ClInclude Include="..\include\SFGE\Label.h" />
     <ClInclude Include="..\include\SFGE\LineEdit.h" />
+    <ClInclude Include="..\include\SFGE\MemoryInputStream.h" />
+    <ClInclude Include="..\include\SFGE\MemoryOutputStream.h" />
     <ClInclude Include="..\include\SFGE\MenuBar.h" />
     <ClInclude Include="..\include\SFGE\MenuItem.h" />
     <ClInclude Include="..\include\SFGE\Panel.h" />
@@ -64,6 +69,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="FileInputStream.cpp" />
+    <ClCompile Include="FileOutputStream.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="GEDevice.cpp" />
     <ClCompile Include="GridBox.cpp" />
@@ -71,6 +77,8 @@
     <ClCompile Include="GuiManager.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LineEdit.cpp" />
+    <ClCompile Include="MemoryInputStream.cpp" />
+    <ClCompile Include="MemoryOutputStream.cpp" />
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PullDownMenu.cpp" />

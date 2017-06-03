@@ -33,7 +33,11 @@
 #include "Config.h"
 #include "ResourceInputStream.h"
 
-#include <SFML/System/FileInputStream.hpp>
+#include <SFML/System/MemoryInputStream.hpp>
+
+#include <unordered_map>
+#include <vector>
+#include <string>
 
 
 namespace sfge
@@ -41,18 +45,32 @@ namespace sfge
 
 
     /////////////////////////////////////////////////////////////////////
-    /// FileInputStream - class for receiving interface to the file system
+    /// MemoryInputStream - fake file reader
     /////////////////////////////////////////////////////////////////////
-    class FileInputStream : public iResourceInputStream
+    class MemoryInputStream final : public iResourceInputStream
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param source_data - list of fake files
+        /////////////////////////////////////////////////////////////////////
+        MemoryInputStream (const std::unordered_map<std::string, std::vector<char>>& source_data);
+
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param source_data - list of fake files
+        /////////////////////////////////////////////////////////////////////
+        MemoryInputStream (std::unordered_map<std::string, std::vector<char>>&& source_data);
+
+        /////////////////////////////////////////////////////////////////////
         /// open - open the stream from a file path
         ///
-        /// @param filename Name of the file to open
+        /// @param filename - name of the file to open
         ///
-        /// @return True on success, false on error
+        /// @return - true on success, false on error
         /////////////////////////////////////////////////////////////////////
         virtual bool open (const std::string& filename) override;
 
@@ -93,7 +111,8 @@ namespace sfge
         virtual Int64 getSize () override;
 
     private:
-        sf::FileInputStream m_fileInputStream;
+        std::unordered_map<std::string, std::vector<char>> m_source_data;
+        sf::MemoryInputStream m_stream;
     };
 
 

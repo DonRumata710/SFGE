@@ -27,35 +27,63 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "MemoryOutputStream.h"
 
 
-#include <SFML/System/InputStream.hpp>
-#include "Config.h"
-
-#include <string>
+using namespace sfge;
 
 
-namespace sfge
+bool MemoryOutputStream::open (const std::string& filename)
 {
+    m_current = filename;
+    m_offset = 0;
+    return true;
+}
 
+Int64 MemoryOutputStream::write (const void* data, Int64 size)
+{
+    if (m_current.empty ())
+        return -1;
 
-    /////////////////////////////////////////////////////////////////////
-    /// iResourceInputStream - this class provide interface for reading data from some external resources
-    /////////////////////////////////////////////////////////////////////
-    class iResourceInputStream : public sf::InputStream
-    {
-    public:
+    m_source_data[m_current].insert (m_source_data[m_current].begin () + m_offset, size, '\0');
 
-        /////////////////////////////////////////////////////////////////////
-        /// open - open the stream from a file path
-        ///
-        /// @param filename - name of the file to open
-        ///
-        /// @return - true on success, false on error
-        /////////////////////////////////////////////////////////////////////
-        virtual bool open (const std::string& filename) = 0;
-    };
+    std::memcpy (m_source_data[m_current].data () + m_offset, data, static_cast<std::size_t>(size));
+    m_offset += size;
 
+    return size;
+}
 
+Int64 MemoryOutputStream::seek (Int64 position)
+{
+    if (m_current.empty ())
+        return -1;
+
+    m_offset = position < m_source_data[m_current].size () ? position : m_source_data[m_current].size ();
+    return m_offset;
+}
+
+Int64 MemoryOutputStream::tell ()
+{
+    if (m_current.empty ())
+        return -1;
+
+    return m_offset;
+}
+
+Int64 MemoryOutputStream::getSize ()
+{
+    if (m_current.empty ())
+        return -1;
+
+    return m_source_data[m_current].size ();
+}
+
+std::vector<char>& sfge::MemoryOutputStream::getMemory (const std::string& filename)
+{
+    return m_source_data[filename];
+}
+
+std::shared_ptr<MemoryInputStream> MemoryOutputStream::getFullData () const
+{
+    return std::make_shared<MemoryInputStream> (m_source_data);
 }

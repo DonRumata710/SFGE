@@ -30,6 +30,8 @@
 #pragma once
 
 
+#include "Config.h"
+
 #include <SFML/System/Utf.hpp>
 #include <SFML/System/String.hpp>
 

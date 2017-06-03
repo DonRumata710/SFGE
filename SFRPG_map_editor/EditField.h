@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include <SFRPG/Map.h>
+#include <SFRPG/MapManager.h>
 
 
 class EditField
@@ -40,13 +40,12 @@ public:
     ~EditField ();
 
     void createMap (float tile_size, uint32_t width, uint32_t height);
-    void loadMap ();
+    void loadMap (const std::string& path);
 
-    void saveMap ();
+    void saveMap (const std::string& path);
 
     void closeMap ();
 
 private:
-    std::unique_ptr<sfge::Map> m_map;
+    std::unique_ptr<sfge::MapManager> m_map;
 };
-

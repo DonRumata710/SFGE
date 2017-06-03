@@ -44,57 +44,178 @@ namespace sfge
 {
 
 
+    using sf::Vector2u;
     using sf::Vector2f;
     using sf::RenderStates;
     using sf::Drawable;
 
+    class MapSaver;
     class InteractiveObject;
     class Way;
 
 
+    /////////////////////////////////////////////////////////////////////
+    /// MapSector - sector of map
+    ///
+    /// Big map consist of map sectors which can be loaded to memory or
+    /// unloaded from it.
+    /////////////////////////////////////////////////////////////////////
     class MapSector : public Drawable
     {
     public:
-        MapSector () = default;
+        /////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        ///
+        /// @param size - size of sector
+        /////////////////////////////////////////////////////////////////////
+        MapSector (Vector2u size);
 
+        /////////////////////////////////////////////////////////////////////
+        /// Destructor
+        /////////////////////////////////////////////////////////////////////
         ~MapSector () = default;
 
-        void setTiles (const std::vector<Panel>& tiles);
+        /////////////////////////////////////////////////////////////////////
+        /// setTileSize - set size of tile texture in pixels
+        ///
+        /// @param size - size
+        /////////////////////////////////////////////////////////////////////
+        void setTileSize (Uint32 size);
 
-        void setTiles (std::vector<Panel>&& tiles);
+        /////////////////////////////////////////////////////////////////////
+        /// setTiles - set tiles to sector
+        ///
+        /// @param tiles - tiles of sector
+        /////////////////////////////////////////////////////////////////////
+        void setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles);
 
-        void setName (const std::string&);
+        /////////////////////////////////////////////////////////////////////
+        /// setName - set name to the sector
+        ///
+        /// @param name - name of sector
+        /////////////////////////////////////////////////////////////////////
+        void setName (const std::string& name);
 
+        /////////////////////////////////////////////////////////////////////
+        /// getName - get name of sector
+        ///
+        /// @return - name of sector
+        /////////////////////////////////////////////////////////////////////
         std::string getName () const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// setWayPoints - set way points placed on this map sector
+        ///
+        /// @param way_points - list of way points
+        /////////////////////////////////////////////////////////////////////
         void setWayPoints (const std::vector<WayPoint>& way_points);
 
+        /////////////////////////////////////////////////////////////////////
+        /// setWayPoints - set way points placed on this map sector
+        ///
+        /// @param way_points - list of way points
+        /////////////////////////////////////////////////////////////////////
         void setWayPoints (std::vector<WayPoint>&& way_points);
         
+        /////////////////////////////////////////////////////////////////////
+        /// setOffset - set offset from ogigin place of sector
+        ///
+        /// @param offset - offset
+        /////////////////////////////////////////////////////////////////////
         void setOffset (Vector2f offset);
 
+        /////////////////////////////////////////////////////////////////////
+        /// getOffset - get offset of sector from current orgin
+        ///
+        /// Origin may be different from origin of using map.
+        ///
+        /// @return - sector offset
+        /////////////////////////////////////////////////////////////////////
         Vector2f getOffset () const;
 
-        void setSize (Vector2f size);
+        /////////////////////////////////////////////////////////////////////
+        /// getSize - get size of sector
+        ///
+        /// @return - size of map sector
+        /////////////////////////////////////////////////////////////////////
+        Vector2u getSize () const;
 
-        Vector2f getSize () const;
+        /////////////////////////////////////////////////////////////////////
+        /// save - save static elements of sector
+        ///
+        /// @param saver - saver
+        /////////////////////////////////////////////////////////////////////
+        bool save (MapSaver* saver);
 
+        /////////////////////////////////////////////////////////////////////
+        /// checkMovement - check can object stay on its new place or not
+        ///
+        /// @param object - map object
+        ///
+        /// @return - true if object can stay on its place, false otherwise
+        /////////////////////////////////////////////////////////////////////
         bool checkMovement (InteractiveObject* object);
 
+        /////////////////////////////////////////////////////////////////////
+        /// getNearestWayPoint - get nearest to position way point
+        ///
+        /// @param - position on map
+        ///
+        /// @return - ifd of nearest way point
+        /////////////////////////////////////////////////////////////////////
         uint32_t getNearestWayPoint (Vector2f pos) const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// getWayPoint - get way point by id
+        ///
+        /// @param id - id of way point
+        ///
+        /// @return - pointer to way point
+        /////////////////////////////////////////////////////////////////////
         const WayPoint* getWayPoint (uint32_t id) const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// attachObject - attach new object to sector
+        ///
+        /// @param object - map object
+        /////////////////////////////////////////////////////////////////////
         void attachObject (std::shared_ptr<MapObject> object);
 
+        /////////////////////////////////////////////////////////////////////
+        /// removeObject -  remove object from sector
+        ///
+        /// Object will not be destructed here.
+        ///
+        /// @param object - map object
+        /////////////////////////////////////////////////////////////////////
         void removeObject (const MapObject* object);
 
+        /////////////////////////////////////////////////////////////////////
+        /// isObjectInSector - check is object placed in this sector or not
+        ///
+        /// @param pos - position of object
+        ///
+        /// @return - true if object is in sector, false otherwise
+        /////////////////////////////////////////////////////////////////////
         bool isObjectInSector (Vector2f pos) const;
 
+        /////////////////////////////////////////////////////////////////////
+        /// connectWayPoints - create connections between way points of this sector
+        /////////////////////////////////////////////////////////////////////
         void connectWayPoints ();
 
+        /////////////////////////////////////////////////////////////////////
+        /// connectWayPoints - create connections between way points of two sectors
+        ///
+        /// @param map_sector - another sector
+        /////////////////////////////////////////////////////////////////////
         void connectWayPoints (MapSector* map_sector);
 
+        /////////////////////////////////////////////////////////////////////
+        /// attachNeighbours - find way points which has visual contack with current way point
+        ///
+        /// @param way_point - way point
+        /////////////////////////////////////////////////////////////////////
         void attachNeighbours (WayPoint* way_point) const;
 
     private:
@@ -103,13 +224,16 @@ namespace sfge
         bool checkPass (Vector2f p1, Vector2f p2) const;
 
     private:
+        std::unordered_map<const Texture*, std::string> m_textures;
         std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;
 
         std::vector<WayPoint> m_way_points;
 
         Vector2f m_offset;
-        Vector2f m_size;
+        Vector2u m_size;
+
+        Uint32 m_tile_size = 0.0f;
 
         std::string m_name;
     };

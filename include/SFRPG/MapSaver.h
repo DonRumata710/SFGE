@@ -30,13 +30,11 @@
 #pragma once
 
 
-#include "MapSector.h"
+#include <SFGE/DataOutputStream.h>
 
 #include <SFML/System/Vector2.hpp>
 
 #include <string>
-#include <cstdint>
-#include <memory>
 
 
 namespace sfge
@@ -45,13 +43,34 @@ namespace sfge
 
     using sf::Vector2u;
 
+    class MapManager;
+    class MapSector;
+    struct MapSectorDesc;
 
-    struct MapSegmentDesc
+
+    class MapSaver
     {
-        Vector2u pos;
-        Vector2u size;
-        std::string path;
-        std::unique_ptr<MapSector> sector;
+    public:
+        MapSaver (iDataOutputStream* output_stream);
+
+        bool saveMap (MapManager* manager, const std::string& path);
+
+        bool saveSectorDescription (Uint32 id, const MapSectorDesc& desc);
+
+        bool saveSector (MapSector*, const std::string& path);
+
+        bool saveTile (const std::string& texture, const Vector2u pos);
+
+        bool save (const std::string& name, const std::string& str);
+        bool save (const std::string& name, const Int64 val);
+        bool save (const std::string& name, const Uint64 val);
+        bool save (const std::string& name, const Int32 val);
+        bool save (const std::string& name, const Uint32 val);
+        bool save (const std::string& name, const double val);
+        bool save (const std::string& name, const bool val);
+
+    private:
+        iDataOutputStream* m_output_stream;
     };
 
 

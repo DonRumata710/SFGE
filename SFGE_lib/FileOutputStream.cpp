@@ -27,53 +27,64 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "FileOutputStream.h"
 
 
-#include "TileDescription.h"
-
-#include <unordered_map>
-#include <string>
+using namespace sfge;
 
 
-namespace sfge
+FileOutputStream::~FileOutputStream ()
 {
+    if (m_file)
+        fclose (m_file);
+}
 
+bool FileOutputStream::open (const std::string& filename)
+{
+    if (m_file)
+        fclose (m_file);
 
-    class MapSector;
-    class Panel;
-    class TextParser;
+    m_file = fopen (filename.c_str (), "wb");
 
+    return m_file;
+}
 
-    enum MapDescritpion : size_t
+Int64 FileOutputStream::write (const void* data, Int64 size)
+{
+    if (m_file)
+        return std::fwrite (data, 1, static_cast<std::size_t>(size), m_file);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::seek (Int64 position)
+{
+    if (m_file)
+        return std::fseek (m_file, position, SEEK_SET);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::tell ()
+{
+    if (m_file)
+        return std::ftell (m_file);
+    else
+        return -1;
+}
+
+Int64 FileOutputStream::getSize ()
+{
+    if (m_file)
     {
-        MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
-        MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
-        MD_MAP,
-        MD_NAME, MD_TILE_SIZE,
-        MD_SECTOR,
-        MD_ID, MD_PATH, MD_POSITION, MD_SIZE,
-        MD_TILE,
-        MD_TEXTURE, MD_X, MD_Y, MD_WIDTH, MD_HEIGHT,
-        MD_MODEL
-    };
-
-
-    class MapParser
+        Int64 position = tell ();
+        std::fseek (m_file, 0, SEEK_END);
+        Int64 size = tell ();
+        seek (position);
+        return size;
+    }
+    else
     {
-    public:
-        MapParser (const std::unordered_map<std::string, TileDesc>&);
-
-        bool loadMapSector (TextParser* tp, MapSector* sector);
-
-        bool loadTileModel (TextParser* tp);
-
-        Panel loadTile (TextParser* tp);
-
-    private:
-        std::unordered_map<std::string, TileDesc> m_models;
-        float m_tile_size = 1.0f;
-    };
-
-
+        return -1;
+    }
 }

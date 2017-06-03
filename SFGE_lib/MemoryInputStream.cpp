@@ -27,35 +27,49 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#include "MemoryInputStream.h"
 
 
-#include <SFML/System/InputStream.hpp>
-#include "Config.h"
-
-#include <string>
+using namespace sfge;
 
 
-namespace sfge
+MemoryInputStream::MemoryInputStream (const std::unordered_map<std::string, std::vector<char>>& source_data) :
+    m_source_data (source_data)
+{}
+
+MemoryInputStream::MemoryInputStream (std::unordered_map<std::string, std::vector<char>>&& source_data) :
+    m_source_data (std::move (source_data))
+{}
+
+bool MemoryInputStream::open (const std::string& filename)
 {
+    auto it (m_source_data.find (filename));
 
-
-    /////////////////////////////////////////////////////////////////////
-    /// iResourceInputStream - this class provide interface for reading data from some external resources
-    /////////////////////////////////////////////////////////////////////
-    class iResourceInputStream : public sf::InputStream
+    if (it != m_source_data.end ())
     {
-    public:
+        m_stream.open (it->second.data (), it->second.size ());
+        return true;
+    }
 
-        /////////////////////////////////////////////////////////////////////
-        /// open - open the stream from a file path
-        ///
-        /// @param filename - name of the file to open
-        ///
-        /// @return - true on success, false on error
-        /////////////////////////////////////////////////////////////////////
-        virtual bool open (const std::string& filename) = 0;
-    };
+    return false;
+}
 
+Int64 sfge::MemoryInputStream::read (void* data, Int64 size)
+{
+    return m_stream.read (data, size);
+}
 
+Int64 sfge::MemoryInputStream::seek (Int64 position)
+{
+    return m_stream.seek (position);
+}
+
+Int64 sfge::MemoryInputStream::tell ()
+{
+    return m_stream.tell ();
+}
+
+Int64 sfge::MemoryInputStream::getSize ()
+{
+    return m_stream.getSize ();
 }
