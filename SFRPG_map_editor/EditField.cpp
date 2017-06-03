@@ -30,8 +30,11 @@
 #include "EditField.h"
 
 #include <SFRPG/MapSector.h>
-#include <SFGE/FileInputStream.h>
+#include <SFRPG/MapLoader.h>
+#include <SFRPG/MapSaver.h>
 
+#include <SFGE/FileInputStream.h>
+#include <SFGE/FileOutputStream.h>
 #include <SFGE/ResourceManager.h>
 #include <SFGE/Panel.h>
 
@@ -49,36 +52,42 @@ EditField::~EditField ()
 
 void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
 {
-    std::vector<Panel> panels (width * height, ResourceManager::getInstance ()->findTexture ("tile.grass"));
+    std::vector<std::pair<Uint32, std::string>> tiles (width * height, { 0, "tile.grass" });
 
-    for (size_t i = 0; i < width; ++i)
+    for (size_t i = 0; i < height; ++i)
     {
-        for (size_t j = 0; j < height; ++j)
-        {
-            panels[i * height + j].setPosition (i, j);
-            panels[i * height + j].setSize (1.0f, 1.0f);
-        }
+        for (size_t j = 0; j < width; ++j)
+            tiles[i * width + j].first = i * width + j;
     }
 
-    std::unique_ptr<MapSector> map_sector (std::make_unique<MapSector> ());
-    map_sector->setTiles (panels);
+    std::unique_ptr<MapSector> map_sector (std::make_unique<MapSector> (Vector2u (width, height)));
+    map_sector->setTiles (tiles);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
     sectors.insert ({ 0, MapSectorDesc () });
     sectors[0].sector.swap (map_sector);
 
-    m_map.reset (new MapManager (std::move (sectors)));
+    m_map.reset (new MapManager ());
+    m_map->setName ("New map");
+    m_map->setMapDescription (std::move (sectors));
 }
 
 void EditField::loadMap (const std::string& path)
 {
-    std::shared_ptr<FileInputStream> stream (std::make_shared<FileInputStream> ());
-    std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (stream));
-    m_map.reset (new MapManager (loader, path));
+    std::shared_ptr<iResourceInputStream> stream (std::make_shared<FileInputStream> ());
+    std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (stream.get ()));
+    m_map.reset (new MapManager ());
+    loader->loadMap (m_map.get (), path);
 }
 
 void EditField::saveMap (const std::string& path)
-{}
+{
+    FileOutputStream stream;
+    MapSaver saver (&stream);
+    saver.saveMap (m_map.get (), path);
+}
 
 void EditField::closeMap ()
-{}
+{
+    m_map.reset ();
+}
