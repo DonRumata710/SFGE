@@ -60,6 +60,9 @@ const SemanticsDescription SectorLoader::m_sem_desc = {
         { "x",          MD_X },
         { "y",          MD_Y },
     },
+    {
+        '_'
+    },
     MD_STRING,
     MD_NUMBER,
     MD_END
