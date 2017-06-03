@@ -31,7 +31,6 @@
 
 
 #include "MapSector.h"
-#include "MapSectorDesc.h"
 
 #include <SFGE/ResourceInputStream.h>
 
@@ -49,6 +48,7 @@ namespace sfge
 
     class MapManager;
     class TextParser;
+    struct MapSectorDesc;
     struct SemanticsDescription;
 
 
