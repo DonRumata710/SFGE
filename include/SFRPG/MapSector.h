@@ -44,10 +44,12 @@ namespace sfge
 {
 
 
+    using sf::Vector2u;
     using sf::Vector2f;
     using sf::RenderStates;
     using sf::Drawable;
 
+    class MapSaver;
     class InteractiveObject;
     class Way;
 
@@ -63,8 +65,10 @@ namespace sfge
     public:
         /////////////////////////////////////////////////////////////////////
         /// Default constructor
+        ///
+        /// @param size - size of sector
         /////////////////////////////////////////////////////////////////////
-        MapSector () = default;
+        MapSector (Vector2u size);
 
         /////////////////////////////////////////////////////////////////////
         /// Destructor
@@ -72,25 +76,25 @@ namespace sfge
         ~MapSector () = default;
 
         /////////////////////////////////////////////////////////////////////
-        /// setTiles - set tiles to sector
+        /// setTileSize - set size of tile texture in pixels
         ///
-        /// @param tiles - tiles of sector
+        /// @param size - size
         /////////////////////////////////////////////////////////////////////
-        void setTiles (const std::vector<Panel>& tiles);
+        void setTileSize (Uint32 size);
 
         /////////////////////////////////////////////////////////////////////
         /// setTiles - set tiles to sector
         ///
         /// @param tiles - tiles of sector
         /////////////////////////////////////////////////////////////////////
-        void setTiles (std::vector<Panel>&& tiles);
+        void setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles);
 
         /////////////////////////////////////////////////////////////////////
         /// setName - set name to the sector
         ///
         /// @param name - name of sector
         /////////////////////////////////////////////////////////////////////
-        void setName (const std::string&  name);
+        void setName (const std::string& name);
 
         /////////////////////////////////////////////////////////////////////
         /// getName - get name of sector
@@ -129,14 +133,19 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         Vector2f getOffset () const;
 
-        void setSize (Vector2f size);
-
         /////////////////////////////////////////////////////////////////////
         /// getSize - get size of sector
         ///
-        /// @return - size of map_sector
+        /// @return - size of map sector
         /////////////////////////////////////////////////////////////////////
-        Vector2f getSize () const;
+        Vector2u getSize () const;
+
+        /////////////////////////////////////////////////////////////////////
+        /// save - save static elements of sector
+        ///
+        /// @param saver - saver
+        /////////////////////////////////////////////////////////////////////
+        bool save (MapSaver* saver);
 
         /////////////////////////////////////////////////////////////////////
         /// checkMovement - check can object stay on its new place or not
@@ -215,13 +224,16 @@ namespace sfge
         bool checkPass (Vector2f p1, Vector2f p2) const;
 
     private:
+        std::unordered_map<const Texture*, std::string> m_textures;
         std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;
 
         std::vector<WayPoint> m_way_points;
 
         Vector2f m_offset;
-        Vector2f m_size;
+        Vector2u m_size;
+
+        Uint32 m_tile_size = 0.0f;
 
         std::string m_name;
     };

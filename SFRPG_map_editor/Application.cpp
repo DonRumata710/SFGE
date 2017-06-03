@@ -45,27 +45,21 @@ Application::Application () :
 
     std::shared_ptr<MenuItem> file_create_item (std::make_shared<MenuItem> ());
     file_create_item->setText ("Create");
-    file_create_item->setFont (m_resource_manager.getFont ("font.standart"));
 
     std::shared_ptr<MenuItem> file_open_item (std::make_shared<MenuItem> ());
     file_open_item->setText ("Open");
-    file_open_item->setFont (m_resource_manager.getFont ("font.standart"));
     
     std::shared_ptr<MenuItem> file_save_item (std::make_shared<MenuItem> ());
     file_save_item->setText ("Save");
-    file_save_item->setFont (m_resource_manager.getFont ("font.standart"));
     
     std::shared_ptr<MenuItem> file_save_as_item (std::make_shared<MenuItem> ());
     file_save_as_item->setText ("Save as");
-    file_save_as_item->setFont (m_resource_manager.getFont ("font.standart"));
 
     std::shared_ptr<MenuItem> file_close_item (std::make_shared<MenuItem> ());
     file_close_item->setText ("Close");
-    file_close_item->setFont (m_resource_manager.getFont ("font.standart"));
     
     std::shared_ptr<MenuItem> program_close_item (std::make_shared<MenuItem> ());
     program_close_item->setText ("Exit");
-    program_close_item->setFont (m_resource_manager.getFont ("font.standart"));
     program_close_item->attachReaction ([this]() { m_device.quit (); }, Button::EventType::RELEASED);
     
     std::shared_ptr<PullDownMenu> program_control_menu (std::make_shared<PullDownMenu> ());

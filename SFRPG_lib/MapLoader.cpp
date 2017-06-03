@@ -29,7 +29,8 @@
 
 #include "MapLoader.h"
 #include "MapSectorDesc.h"
-#include "MapParser.h"
+#include "MapManager.h"
+#include "SectorLoader.h"
 
 #include <SFGE/TextParser.h>
 #include <SFGE/Err.h>
@@ -38,18 +39,29 @@
 using namespace sfge;
 
 
+enum MapDescritpion : size_t
+{
+    MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_EQUAL,
+    MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
+    MD_MAP,
+    MD_NAME,
+    MD_SECTOR,
+    MD_TILE_SIZE, MD_PATH, MD_SIZE,
+    MD_TILE,
+    MD_TEXTURE, MD_X, MD_Y, MD_WIDTH, MD_HEIGHT
+};
+
+
 const SemanticsDescription MapLoader::m_sem_desc = {
     {
-        { ":",          MD_BASE },
         { "=",          MD_EQUAL },
         { "{",          MD_OPEN_BLOCK },
         { "}",          MD_CLOSE_BLOCK },
         { "Map",        MD_MAP },
-        { "Name",       MD_NAME },
+        { "name",       MD_NAME },
         { "Sector",     MD_SECTOR },
-        { "id",         MD_ID },
+        { "tile_size",  MD_TILE_SIZE },
         { "path",       MD_PATH },
-        { "Model",      MD_MODEL },
         { "Tile",       MD_TILE },
         { "texture",    MD_TEXTURE },
         { "x",          MD_X },
@@ -63,12 +75,20 @@ const SemanticsDescription MapLoader::m_sem_desc = {
 };
 
 
-MapLoader::MapLoader (std::shared_ptr<iResourceInputStream> stream)
+MapLoader::MapLoader (iResourceInputStream* stream)
     : m_file_stream (stream)
 {}
 
-std::unordered_map<uint32_t, MapSectorDesc> MapLoader::getSegmentDescriptions (const std::string& path)
+bool MapLoader::loadMap (MapManager* manager, const std::string& path)
 {
+    if (!manager)
+    {
+        debug_message ("Empty map pointer was received in map loader");
+        return false;
+    }
+
+    manager->setLoader (std::make_unique<SectorLoader> (m_file_stream));
+
     TextParser* tp = new TextParser (loadScript (path), m_sem_desc);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
@@ -78,61 +98,57 @@ std::unordered_map<uint32_t, MapSectorDesc> MapLoader::getSegmentDescriptions (c
     if (token != MD_MAP && token != MD_SECTOR)
     {
         runtime_error ("Wrong file in map loading");
-        return sectors;
+        return false;
     }
 
     tp->getToken ();
     if (tp->getTokentype () != MD_OPEN_BLOCK)
     {
-        runtime_error ("Unexpected identifier in map description file");
-        return sectors;
+        runtime_error ("Unexpected identifier in map description file " + path);
+        return false;
     }
 
     if (token == MD_MAP)
-        parseMap (tp, &sectors);
+        manager->setName (parseMap (tp, &sectors));
     else
     {
-        sectors[0];
         sectors[0].path = path;
-    }
 
-    return sectors;
-}
-
-void MapLoader::loadMap (const std::vector<MapSectorDesc*>& sectors)
-{
-    for (MapSectorDesc* sector_desc : sectors)
-    {
-        TextParser* tp = new TextParser (loadScript (sector_desc->path), m_sem_desc);
+        do
+        {
+            tp->getToken ();
+            if (tp->getTokentype () == MD_END)
+            {
+                runtime_error ("Unexpected end of map description file " + path + " in line: " + std::to_string (tp->getLine ()));
+                return false;
+            }
+        }
+        while (tp->getTokentype () != MD_OPEN_BLOCK);
 
         while (true)
         {
-            MapParser parser (m_tile_models);
-
             tp->getToken ();
             size_t token (tp->getTokentype ());
+
+            if (token == MD_CLOSE_BLOCK)
+                break;
+
             switch (token)
             {
-            case MD_SECTOR:
-            {
-                std::unique_ptr<MapSector> sector (std::make_unique<MapSector> ());
-                if (!parser.loadMapSector (tp, sector.get ()))
-                    runtime_error ("Including script named " + std::string (tp->tknString ()) + " failed!");
-                sector_desc->sector.swap (sector);
+            case MD_NAME:
+                tp->getToken ();
+                tp->getToken ();
+                manager->setName (tp->tknString ());
                 break;
-            }
-            case MD_MODEL:
-                if (!parser.loadTileModel (tp))
-                    runtime_error ("Parsing model " + std::string (tp->tknString ()) + " failed!");
-                break;
-            case MD_END:
-                return;
             default:
-                runtime_error ("Error in map description in line " + std::to_string (tp->getLine ()));
-                return;
+                break;
             }
         }
     }
+
+    manager->setMapDescription (std::move (sectors));
+
+    return true;
 }
 
 const char* MapLoader::loadScript (const std::string& path)
@@ -143,12 +159,15 @@ const char* MapLoader::loadScript (const std::string& path)
     uint64_t size (m_file_stream->getSize ());
     char* data = new char[size];
     m_file_stream->read (data, size);
+    data[size - 1] = '\0';
 
     return data;
 }
 
-bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>* sectors)
+std::string MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>* sectors)
 {
+    std::string name;
+
     while (true)
     {
         tp->getToken ();
@@ -164,17 +183,28 @@ bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSector
         case MD_NAME:
             tp->getToken ();
             tp->getToken ();
-            m_map_name = tp->tknString ();
+            name = tp->tknString ();
             break;
         case MD_SECTOR:
         {
+            Uint32 sector_id (0);
+
+            tp->getToken ();
+            if (tp->getTokentype () == MD_NUMBER)
+                sector_id = tp->tknInt ();
+            else
+            {
+                runtime_error ("No sector id was found");
+                return "";
+            }
+
             do
             {
                 tp->getToken ();
                 if (tp->getTokentype () == MD_END)
                 {
                     runtime_error ("Unexpected end of map description file in line: " + std::to_string (tp->getLine ()));
-                    return false;
+                    return "";
                 }
             }
             while (tp->getTokentype () != MD_OPEN_BLOCK);
@@ -189,25 +219,36 @@ bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSector
 
                 switch (token)
                 {
-                case MD_ID:
-                    tp->getToken ();
-                    tp->getToken ();
-                    (*sectors)[tp->tknHex ()];
-                    break;
                 case MD_PATH:
                     tp->getToken ();
                     tp->getToken ();
-                    (*sectors)[tp->tknHex ()].path = tp->tknString ();
+                    (*sectors)[sector_id].path = tp->tknString ();
                     break;
+                case  MD_X:
+                    tp->getToken ();
+                    tp->getToken ();
+                    (*sectors)[sector_id].pos.x = tp->tknInt ();
+                    break;
+                case  MD_Y:
+                    tp->getToken ();
+                    tp->getToken ();
+                    (*sectors)[sector_id].pos.y = tp->tknInt ();
+                    break;
+                case  MD_WIDTH:
+                    tp->getToken ();
+                    tp->getToken ();
+                    (*sectors)[sector_id].size.x = tp->tknInt ();
+                    break;
+                case  MD_HEIGHT:
+                    tp->getToken ();
+                    tp->getToken ();
+                    (*sectors)[sector_id].size.y = tp->tknInt ();
+                    break;
+                case MD_END:
+                    runtime_error ("Unexpected end of description " + name + " in line " + std::to_string (tp->getLine ()));
+                    return "";
                 }
             }
-            break;
-        }
-        case MD_MODEL:
-        {
-            MapParser parser (m_tile_models);
-            if (!parser.loadTileModel (tp))
-                runtime_error ("Parsing model " + std::string (tp->tknString ()) + " failed!");
             break;
         }
         default:
@@ -216,5 +257,5 @@ bool MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSector
         }
     }
 
-    return true;
+    return name;
 }

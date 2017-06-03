@@ -27,22 +27,81 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "MapParser.h"
-#include "MapSector.h"
+#include "SectorLoader.h"
 
-#include <SFGE/Panel.h>
-#include <SFGE/TextParser.h>
-#include <SFGE/Err.h>
+#include "SFGE/TextParser.h"
+#include "SFGE/Err.h"
 
 
 using namespace sfge;
 
 
-MapParser::MapParser (const std::unordered_map<std::string, TileDesc>& ext_models) :
-    m_models (ext_models)
+enum SectorDescritpion : size_t
+{
+    MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_EQUAL,
+    MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
+    MD_SECTOR,
+    MD_NAME, MD_TILE_SIZE, MD_SIZE,
+    MD_TILE,
+    MD_TEXTURE, MD_X, MD_Y
+};
+
+
+const SemanticsDescription SectorLoader::m_sem_desc = {
+    {
+        { "=",          MD_EQUAL },
+        { "{",          MD_OPEN_BLOCK },
+        { "}",          MD_CLOSE_BLOCK },
+        { "Sector",     MD_SECTOR },
+        { "name",       MD_NAME },
+        { "tile_size",  MD_TILE_SIZE },
+        { "Tile",       MD_TILE },
+        { "texture",    MD_TEXTURE },
+        { "x",          MD_X },
+        { "y",          MD_Y },
+    },
+    MD_STRING,
+    MD_NUMBER,
+    MD_END
+};
+
+
+SectorLoader::SectorLoader (iResourceInputStream* stream) : m_stream (stream)
 {}
 
-bool MapParser::loadMapSector (TextParser* tp, MapSector* sector)
+void SectorLoader::loadSectors (const std::vector<MapSectorDesc*>& sectors)
+{
+    for (MapSectorDesc* sector_desc : sectors)
+    {
+        if (!m_stream->open (sector_desc->path))
+        {
+            runtime_error ("Failed loading map sector from file " + sector_desc->path);
+            break;
+        }
+
+        uint64_t size (m_stream->getSize ());
+        char* data = new char[size];
+        m_stream->read (data, size);
+        data[size - 1] = '\0';
+
+        TextParser* tp = new TextParser (data, m_sem_desc);
+
+        tp->getToken ();
+        if (tp->getTokentype () != MD_SECTOR)
+        {
+            runtime_error ("Wrong map sector description in file " + sector_desc->path);
+            return;
+        }
+
+        std::unique_ptr<MapSector> sector (std::make_unique<MapSector> (sector_desc->size));
+        if (!loadMapSector (tp, sector.get ()))
+            runtime_error ("Failed including named " + std::string (tp->tknString ()) + " failed!");
+        sector_desc->sector.swap (sector);
+        break;
+    }
+}
+
+bool SectorLoader::loadMapSector (TextParser* tp, MapSector* sector)
 {
     if (!sector)
         return false;
@@ -54,7 +113,9 @@ bool MapParser::loadMapSector (TextParser* tp, MapSector* sector)
         return false;
     }
 
-    std::vector<Panel> tiles;
+    Uint32 sector_width = sector->getSize ().x;
+
+    std::vector<std::pair<uint32_t, std::string>> tiles;
 
     while (true)
     {
@@ -70,15 +131,17 @@ bool MapParser::loadMapSector (TextParser* tp, MapSector* sector)
             tp->getToken ();
             tp->getToken ();
             sector->setName (tp->tknString ());
-        case MD_TILE:
-            tiles.push_back (loadTile (tp));
             break;
-        case MD_MODEL:
-            if (!loadTileModel (tp))
-                runtime_error ("Failed parsing tile model in line " + std::to_string (tp->getLine ()));
+        case MD_TILE_SIZE:
+            tp->getToken ();
+            tp->getToken ();
+            sector->setTileSize (tp->tknInt ());
+            break;
+        case MD_TILE:
+            tiles.push_back (loadTile (tp, sector_width));
             break;
         default:
-            runtime_error ("Unexpected identifier in segment description in line " + std::to_string(tp->getLine ()));
+            runtime_error ("Unexpected identifier in segment description in line " + std::to_string (tp->getLine ()));
             return false;
         }
     }
@@ -87,11 +150,11 @@ bool MapParser::loadMapSector (TextParser* tp, MapSector* sector)
     return true;
 }
 
-bool MapParser::loadTileModel (TextParser* tp)
+std::pair<uint32_t, std::string> SectorLoader::loadTile (TextParser* tp, Uint32 sector_width)
 {
     tp->getToken ();
-    std::string name = tp->tknString ();
-    TileDesc* tile (&m_models[name]);
+
+    std::pair<uint32_t, std::string> tile_desc;
 
     tp->getToken ();
     if (tp->getTokentype () == MD_OPEN_BLOCK)
@@ -109,92 +172,24 @@ bool MapParser::loadTileModel (TextParser* tp)
             case MD_TEXTURE:
                 tp->getToken ();
                 tp->getToken ();
-                tile->texture = tp->tknString ();
-                break;
-            case MD_WIDTH:
-                tp->getToken ();
-                tp->getToken ();
-                tile->width = tp->tknInt ();
-                break;
-            case MD_HEIGHT:
-                tp->getToken ();
-                tp->getToken ();
-                tile->height = tp->tknInt ();
-                break;
-            default:
-                runtime_error ("Unexpected identifier in tile model description in line " + std::to_string (tp->getLine ()));
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-Panel MapParser::loadTile (TextParser* tp)
-{
-    Panel tile;
-    tp->getToken ();
-
-    sfge::Vector2f pos;
-    sfge::Vector2f size;
-
-    if (tp->getTokentype () == MD_BASE)
-    {
-        tp->getToken ();
-        std::string base_model (tp->tknString ());
-        auto model (m_models[base_model]);
-        tile.setTexture (model.texture);
-        size.x = model.width;
-        size.y = model.height;
-    }
-
-    tp->getToken ();
-    if (tp->getTokentype () == MD_OPEN_BLOCK)
-    {
-        while (true)
-        {
-            tp->getToken ();
-            size_t token (tp->getTokentype ());
-
-            if (token == MD_CLOSE_BLOCK)
-                break;
-
-            switch (token)
-            {
-            case MD_TEXTURE:
-                tp->getToken ();
-                tp->getToken ();
-                tile.setTexture (tp->tknString ());
+                tile_desc.second = tp->tknString ();
                 break;
             case MD_X:
                 tp->getToken ();
                 tp->getToken ();
-                pos.x = tp->tknInt ();
+                tile_desc.first += tp->tknInt ();
                 break;
             case MD_Y:
                 tp->getToken ();
                 tp->getToken ();
-                pos.y = tp->tknInt ();
-                break;
-            case MD_WIDTH:
-                tp->getToken ();
-                tp->getToken ();
-                size.x = tp->tknInt ();
-                break;
-            case MD_HEIGHT:
-                tp->getToken ();
-                tp->getToken ();
-                size.y = tp->tknInt ();
+                tile_desc.first += tp->tknInt () * sector_width;
                 break;
             default:
                 runtime_error ("Unexpected identifier in tile description in line " + std::to_string (tp->getLine ()));
-                return false;
+                return std::pair<uint32_t, std::string> ();
             }
         }
     }
-    
-    tile.setPosition (pos);
-    tile.setSize (size);
-    return tile;
+
+    return tile_desc;
 }

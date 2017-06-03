@@ -27,51 +27,50 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
 
+#include "MapSectorDesc.h"
 
-#include "TileDescription.h"
+#include <SFGE/ResourceInputStream.h>
 
-#include <unordered_map>
-#include <string>
+#include <vector>
 
 
 namespace sfge
 {
 
 
-    class MapSector;
-    class Panel;
     class TextParser;
+    struct SemanticsDescription;
 
 
-    enum MapDescritpion : size_t
-    {
-        MD_NONE, MD_END, MD_NUMBER, MD_STRING, MD_BASE, MD_EQUAL,
-        MD_OPEN_BLOCK, MD_CLOSE_BLOCK,
-        MD_MAP,
-        MD_NAME,
-        MD_SECTOR,
-        MD_ID, MD_PATH, MD_POSITION, MD_SIZE,
-        MD_TILE,
-        MD_TEXTURE, MD_X, MD_Y, MD_WIDTH, MD_HEIGHT,
-        MD_MODEL
-    };
-
-
-    class MapParser
+    class SectorLoader
     {
     public:
-        MapParser (const std::unordered_map<std::string, TileDesc>&);
 
-        bool loadMapSector (TextParser* tp, MapSector* sector);
-
-        bool loadTileModel (TextParser* tp);
-
-        Panel loadTile (TextParser* tp);
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param stream - source for loading file
+        /////////////////////////////////////////////////////////////////////
+        SectorLoader (iResourceInputStream* stream);
+        
+        /////////////////////////////////////////////////////////////////////
+        /// loadSectors - load sectors of map
+        ///
+        /// @param sectors - pointers to sectors which should be loaded
+        /////////////////////////////////////////////////////////////////////
+        void loadSectors (const std::vector<MapSectorDesc*>& sectors);
 
     private:
-        std::unordered_map<std::string, TileDesc> m_models;
+        bool loadMapSector (TextParser* tp, MapSector* sector);
+
+        std::pair<uint32_t, std::string> loadTile (TextParser* tp, Uint32 sector_width);
+
+    private:
+        iResourceInputStream* m_stream;
+
+    private:
+        static const SemanticsDescription m_sem_desc;
     };
 
 

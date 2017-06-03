@@ -31,7 +31,6 @@
 
 
 #include "MapSector.h"
-#include "TileDescription.h"
 #include "MapSectorDesc.h"
 
 #include <SFGE/ResourceInputStream.h>
@@ -48,7 +47,7 @@ namespace sfge
 
     using sf::Vector2u;
 
-    class Map;
+    class MapManager;
     class TextParser;
     struct SemanticsDescription;
 
@@ -65,37 +64,29 @@ namespace sfge
         ///
         /// @param stream - source for loading file
         /////////////////////////////////////////////////////////////////////
-        MapLoader (std::shared_ptr<iResourceInputStream> stream);
+        MapLoader (iResourceInputStream* stream);
 
         /////////////////////////////////////////////////////////////////////
-        /// getSegmentDescriptions - get description of segments of current map
-        /// 
-        /// @param path - path to file of loading map
+        /// loadMap - load map
         ///
-        /// @return list of segment descriptions
+        /// @param map - map manager
+        /// @param path - path where description of map can be found
         /////////////////////////////////////////////////////////////////////
-        std::unordered_map<uint32_t, MapSectorDesc> getSegmentDescriptions (const std::string& path);
-
-        /////////////////////////////////////////////////////////////////////
-        /// loadMap - load segments
-        ///
-        /// @param sectors - sectors which should be loaded
-        /////////////////////////////////////////////////////////////////////
-        void loadMap (const std::vector<MapSectorDesc*>& sectors);
+        bool loadMap (MapManager* map, const std::string& path);
 
     private:
         const char* loadScript (const std::string& path);
 
-        bool parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>*);
+        std::string parseMap (TextParser* tp, std::unordered_map<uint32_t, MapSectorDesc>*);
 
     private:
-        std::string m_map_name;
-        std::unordered_map<std::string, TileDesc> m_tile_models;
+        std::string m_path;
 
         float m_tile_size = 1.0f;
 
-        std::shared_ptr<iResourceInputStream> m_file_stream;
+        iResourceInputStream* m_file_stream;
 
+    private:
         static const SemanticsDescription m_sem_desc;
     };
 

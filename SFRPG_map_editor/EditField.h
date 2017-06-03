@@ -49,4 +49,3 @@ public:
 private:
     std::unique_ptr<sfge::MapManager> m_map;
 };
-

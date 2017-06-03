@@ -30,7 +30,10 @@
 #pragma once
 
 
-#include <cstdint>
+#include <SFGE/DataOutputStream.h>
+
+#include <SFML/System/Vector2.hpp>
+
 #include <string>
 
 
@@ -38,14 +41,36 @@ namespace sfge
 {
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// TileDesc - description of tile
-    /////////////////////////////////////////////////////////////////////
-    struct TileDesc
+    using sf::Vector2u;
+
+    class MapManager;
+    class MapSector;
+    struct MapSectorDesc;
+
+
+    class MapSaver
     {
-        std::string texture;    // texture name/path
-        uint32_t width = 1;     // width in cells
-        uint32_t height = 1;    // height in cells
+    public:
+        MapSaver (iDataOutputStream* output_stream);
+
+        bool saveMap (MapManager* manager, const std::string& path);
+
+        bool saveSectorDescription (Uint32 id, const MapSectorDesc& desc);
+
+        bool saveSector (MapSector*, const std::string& path);
+
+        bool saveTile (const std::string& texture, const Vector2u pos);
+
+        bool save (const std::string& name, const std::string& str);
+        bool save (const std::string& name, const Int64 val);
+        bool save (const std::string& name, const Uint64 val);
+        bool save (const std::string& name, const Int32 val);
+        bool save (const std::string& name, const Uint32 val);
+        bool save (const std::string& name, const double val);
+        bool save (const std::string& name, const bool val);
+
+    private:
+        iDataOutputStream* m_output_stream;
     };
 
 

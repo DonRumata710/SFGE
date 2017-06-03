@@ -30,9 +30,11 @@
 #include <SFRPG/MapManager.h>
 #include <SFRPG/MapSector.h>
 #include <SFRPG/MapLoader.h>
+#include <SFRPG/MapSaver.h>
 
 #include <SFGE/ResourceManager.h>
 #include <SFGE/MemoryInputStream.h>
+#include <SFGE/MemoryOutputStream.h>
 
 #include <catch.hpp>
 
@@ -41,93 +43,127 @@ using namespace sfge;
 
 
 const char map_desc[] = {
-    "Sector"
+    "Sector\n"
+    "{\n"
+    "name=\"test map\""
+    "Tile\n"
+    "{\n"
+    "    x = 0\n"
+    "    y = 0\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 1\n"
+    "    y = 0\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 2\n"
+    "    y = 0\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 0\n"
+    "    y = 1\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 1\n"
+    "    y = 1\n"
+    "}\n"
+    "Tile\n"
     "{"
-    "Model grass"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 2\n"
+    "    y = 1\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 0\n"
+    "    y = 2\n"
+    "}\n"
+    "Tile\n"
     "{"
-    "    texture = \"grass.bmp\""
-    "    width = 1"
-    "    height = 1"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 0"
-    "    y = 0"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 1"
-    "    y = 0"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 2"
-    "    y = 0"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 0"
-    "    y = 1"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 1"
-    "    y = 1"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 2"
-    "    y = 1"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 0"
-    "    y = 2"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 1"
-    "    y = 2"
-    "}"
-    "Tile: grass"
-    "{"
-    "    x = 2"
-    "    y = 2"
-    "}"
-    "}"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 1\n"
+    "    y = 2\n"
+    "}\n"
+    "Tile\n"
+    "{\n"
+    "    texture = \"grass.bmp\"\n"
+    "    x = 2\n"
+    "    y = 2\n"
+    "}\n"
+    "}\n"
 };
 
 
 template <size_t N> std::vector<char> append_literal (const char (&str)[N])
 {
-    std::vector<char> v (strlen (str));
+    std::vector<char> v (strlen (str) + 1, '\0');
     memcpy (v.data (), str, v.capacity ());
     return v;
 }
 
 
-TEST_CASE ("Test loading map")
+TEST_CASE ("Test saving and loading map")
 {
     ResourceManager rm (true);
 
-    std::vector<char> vec_map_desc (append_literal (map_desc));
-    std::unordered_map<std::string, std::vector<char>> map_file;
-    map_file.insert ({ "test_map.resm", vec_map_desc });
+    size_t size = 100;
 
-    std::shared_ptr<MemoryInputStream> file_stream (std::make_shared<MemoryInputStream> (map_file));
+    std::vector<std::pair<Uint32, std::string>> tiles (size * size, { 0, "tile.grass" });
 
-    std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (file_stream));
+    for (size_t i = 0; i < size; ++i)
+    {
+        for (size_t j = 0; j < size; ++j)
+            tiles[i * size + j].first = i + j * size;
+    }
 
-    auto desc = loader->getSegmentDescriptions ("test_map.resm");
+    std::unique_ptr<MapSector> map_sector (std::make_unique<MapSector> (Vector2u (size, size)));
+    map_sector->setName ("test sector");
+    map_sector->setTiles (tiles);
 
-    REQUIRE (desc.size () == 1);
+    std::unordered_map<uint32_t, MapSectorDesc> sectors;
+    sectors.insert ({ 0, MapSectorDesc () });
+    sectors[0].sector.swap (map_sector);
+    sectors[0].size = sectors[0].sector->getSize ();
 
-    loader->loadMap ({ &desc[0] });
+    MemoryOutputStream stream;
+    MapSaver saver (&stream);
 
-    REQUIRE (desc[0].sector);
+    {
+        MapManager map;
+        map.setName ("test map");
+        map.setMapDescription (std::move (sectors));
 
-    REQUIRE (desc[0].pos.x == 0);
-    REQUIRE (desc[0].pos.y == 0);
+        REQUIRE (saver.saveMap (&map, "test1_map.resm"));
+    }
 
-    REQUIRE (desc[0].sector);
+    std::shared_ptr<MemoryInputStream> file_stream (stream.getFullData ());
+    auto sector1 = stream.getMemory ("test sector.ress");
+    
+    std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (file_stream.get ()));
+
+    {
+        MapManager new_map;
+
+        REQUIRE (loader->loadMap (&new_map, "test1_map.resm"));
+
+        REQUIRE (saver.saveMap (&new_map, "test2_map.resm"));
+    }
+
+    auto data1 = stream.getMemory ("test1_map.resm");
+    auto data2 = stream.getMemory ("test2_map.resm");
+
+    REQUIRE (data1 == data2);
+
+    auto sector2 = stream.getMemory ("test sector.ress");
+
+    REQUIRE (sector1 == sector2);
 }
