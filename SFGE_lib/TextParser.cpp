@@ -146,6 +146,12 @@ namespace sfge
             tokenvalue[i] = *script++;
 
         tokenvalue[i] = 0;
+
+        // Unexpected symbols
+
+        for (i = 0; *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r'; i++)
+            ++script;
+
         return tokentype;
     }
 
