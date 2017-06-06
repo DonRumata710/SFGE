@@ -56,13 +56,13 @@ void PullDownMenu::addItem (std::shared_ptr<MenuItem> item)
 void PullDownMenu::setItemView (std::shared_ptr<const Texture> texture, View view)
 {
     for (auto item : m_items)
-        item->setView (texture, (Button::EventType) view);
+        item->setView (texture, view);
 }
 
 void PullDownMenu::setItemView (Color color, View view)
 {
     for (auto item : m_items)
-        item->setView (color, (Button::EventType) view);
+        item->setView (color, view);
 }
 
 void PullDownMenu::setAutoHeight (bool auto_size)
@@ -171,10 +171,10 @@ bool PullDownMenu::check_key (const sf::Event::KeyEvent& e, const bool pressed)
 
 void PullDownMenu::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool pressed)
 {
-    if (!pressed && m_hover_item < m_items.size ())
+    if (m_hover_item < m_items.size ())
     {
         call_check_mouse_button (m_items[m_hover_item].get (), e, pressed);
-        collapse ();
+        if (!pressed) collapse ();
     }
 }
 

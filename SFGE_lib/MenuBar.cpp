@@ -67,7 +67,7 @@ void MenuBar::setItemView (std::shared_ptr<const Texture> texture, View view)
 {
     for (auto item : m_items)
     {
-        item.first->setView (texture, (Button::EventType) view);
+        item.first->setView (texture, view);
         item.second->setItemView (texture, view);
     }
 }
@@ -76,7 +76,7 @@ void MenuBar::setItemView (Color color, View view)
 {
     for (auto item : m_items)
     {
-        item.first->setView (color, (Button::EventType) view);
+        item.first->setView (color, view);
         item.second->setItemView (color, view);
     }
 }

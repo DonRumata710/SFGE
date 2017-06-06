@@ -50,21 +50,21 @@ namespace sfge
 
     void Button::attachReaction (const std::function<void ()> func, const EventType type)
     {
-        if (type == EventType::PRESSED) m_pressed = func;
+        if (type == PRESSED) m_pressed = func;
         else m_released = func;
     }
 
-    void Button::setView (const std::shared_ptr<const sf::Texture> view, const EventType type)
+    void Button::setView (const std::shared_ptr<const sf::Texture> view, const View type)
     {
         switch (type)
         {
-        case EventType::PRESSED:
+        case View::PRESSED:
             m_pressed_view.setTexture (view);
             break;
-        case EventType::HOVER:
+        case View::HOVER:
             m_hover_view.setTexture (view);
             break;
-        case EventType::RELEASED:
+        case View::RELEASED:
             m_released_view.setTexture (view);
             break;
         default:
@@ -79,24 +79,24 @@ namespace sfge
         }
     }
     
-    void Button::setView (const std::string& tex, const EventType e)
+    void Button::setView (const std::string& tex, const View e)
     {
         auto rm (ResourceManager::getInstance ());
         if (rm)
             setView (rm->findTexture (tex), e);
     }
 
-    void Button::setView (const Color color, const EventType e)
+    void Button::setView (const Color color, const View e)
     {
         switch (e)
         {
-        case EventType::PRESSED:
+        case View::PRESSED:
             m_pressed_view.setColor (color);
             break;
-        case EventType::HOVER:
+        case View::HOVER:
             m_hover_view.setColor (color);
             break;
-        case EventType::RELEASED:
+        case View::RELEASED:
             m_released_view.setColor (color);
             break;
         default:
@@ -156,7 +156,7 @@ namespace sfge
 
         sf::Vector2f size (m_text.getGlobalBounds ().width, m_text.getGlobalBounds ().height);
 
-        m_text.setPosition (desc.x + m_view->getSize ().x / 2 - size.x / 2, desc.y + m_view->getSize ().y / 2 - size.y / 2);
+        m_text.setPosition (desc.x + int64_t (m_view->getSize ().x / 2 - size.x / 2), desc.y + m_view->getSize ().y / 2 - size.y / 2);
     }
 
     void Button::draw (sf::RenderTarget& target) const
@@ -179,12 +179,12 @@ namespace sfge
     {
         if (pressed)
         {
-            set_view (EventType::PRESSED);
+            set_view (View::PRESSED);
             if (m_pressed) m_pressed ();
         }
         else
         {
-            set_view (EventType::RELEASED);
+            set_view (View::RELEASED);
             if (m_released) m_released ();
         }
     }
@@ -193,27 +193,27 @@ namespace sfge
     {
         if (m_view->contains (static_cast<float> (x), static_cast<float> (y)))
         {
-            set_view (EventType::HOVER);
+            set_view (View::HOVER);
             return true;
         }
         else
         {
-            set_view (EventType::RELEASED);
+            set_view (View::RELEASED);
             return false;
         }
     }
 
-    void Button::set_view (const EventType type)
+    void Button::set_view (const View type)
     {
         switch (type)
         {
-        case EventType::PRESSED:
+        case View::PRESSED:
             m_view = &m_pressed_view;
             break;
-        case EventType::HOVER:
-            m_view = &m_hover_view;
+        case View::HOVER:
+            if (m_view != &m_pressed_view) m_view = &m_hover_view;
             break;
-        case EventType::RELEASED:
+        case View::RELEASED:
             m_view = &m_released_view;
             break;
         default:
