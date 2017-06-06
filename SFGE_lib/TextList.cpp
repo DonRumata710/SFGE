@@ -109,18 +109,37 @@ namespace sfge
             float (m_offset + m_string_list.size () * (m_character_size + m_character_size / 4) + m_character_size / 8)
         );
         m_string_list.push_back (text);
+
+        redraw ();
     }
 
     void TextList::removeString (const UString& str)
     {
-        for (auto text = m_string_list.begin (); text != m_string_list.end (); ++text)
+        auto text = m_string_list.begin ();
+        for (; text != m_string_list.end (); ++text)
         {
             if ((*text)->getString () == str)
             {
-                m_string_list.erase (text);
-                return;
+                text = m_string_list.erase (text);
+                break;
             }
         }
+
+        for (; text != m_string_list.end (); ++text)
+        {
+            (*text)->setPosition (
+                float (m_character_size / 4),
+                float (m_offset + std::distance (m_string_list.begin (), text) * (m_character_size + m_character_size / 4) + m_character_size / 8)
+            );
+        }
+
+        redraw ();
+    }
+
+    void TextList::clear ()
+    {
+        m_string_list.clear ();
+        redraw ();
     }
 
     std::string TextList::getCurrent () const
