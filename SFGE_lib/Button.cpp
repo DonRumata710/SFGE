@@ -156,7 +156,7 @@ namespace sfge
 
         sf::Vector2f size (m_text.getGlobalBounds ().width, m_text.getGlobalBounds ().height);
 
-        m_text.setPosition (desc.x + int64_t (m_view->getSize ().x / 2 - size.x / 2), desc.y + m_view->getSize ().y / 2 - size.y / 2);
+        m_text.setPosition (desc.x + Int32 (m_view->getSize ().x / 2 - size.x / 2), desc.y + Int32 (m_view->getSize ().y / 2 - size.y / 2));
     }
 
     void Button::draw (sf::RenderTarget& target) const
