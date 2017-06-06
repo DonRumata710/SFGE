@@ -233,7 +233,7 @@ namespace sfge
         Vector2f m_offset;
         Vector2u m_size;
 
-        Uint32 m_tile_size = 0.0f;
+        Uint32 m_tile_size = 0;
 
         std::string m_name;
     };

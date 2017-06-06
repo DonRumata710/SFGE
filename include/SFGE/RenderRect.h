@@ -36,12 +36,6 @@
 #include <SFML/Graphics/Drawable.hpp>
 
 
-namespace sf
-{
-    class Color;
-}
-
-
 namespace sfge
 {
 
