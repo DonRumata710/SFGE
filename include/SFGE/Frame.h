@@ -50,10 +50,10 @@ namespace sfge
     /////////////////////////////////////////////////////////////////////
     struct PositionDesc
     {
-        int x = 0;              // right border of object
-        int y = 0;              // top border of object
-        unsigned width = 0;     // width of object
-        unsigned height = 0;    // height of object
+        Int32 x = 0;          // right border of object
+        Int32 y = 0;          // top border of object
+        Uint32 width = 0;     // width of object
+        Uint32 height = 0;    // height of object
 
         /////////////////////////////////////////////////////////////////////
         /// Default constructor

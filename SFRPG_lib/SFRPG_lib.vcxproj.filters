@@ -43,6 +43,9 @@
     <ClCompile Include="SectorLoader.cpp">
       <Filter>MapSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GraphicSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\SFRPG\MapLoader.h">
@@ -93,6 +96,9 @@
     <ClInclude Include="SectorLoader.h">
       <Filter>MapSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFRPG\Camera.h">
+      <Filter>GraphicSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MapSystem">
@@ -106,6 +112,9 @@
     </Filter>
     <Filter Include="CollisionSystem">
       <UniqueIdentifier>{ad672b4b-938d-4572-874d-7e44f6364430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicSystem">
+      <UniqueIdentifier>{9f49a963-c9ac-42d6-a5dd-02e6c6d60a07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

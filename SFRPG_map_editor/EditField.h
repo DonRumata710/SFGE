@@ -30,22 +30,17 @@
 #pragma once
 
 
-#include <SFRPG/MapManager.h>
+#include <SFRPG/Camera.h>
 
 
-class EditField
+class EditField : public sfge::Camera
 {
 public:
     EditField ();
+
     ~EditField ();
 
     void createMap (float tile_size, uint32_t width, uint32_t height);
-    void loadMap (const std::string& path);
-
-    void saveMap (const std::string& path);
 
     void closeMap ();
-
-private:
-    std::unique_ptr<sfge::MapManager> m_map;
 };

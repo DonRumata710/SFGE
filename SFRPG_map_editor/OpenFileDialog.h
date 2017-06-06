@@ -30,46 +30,25 @@
 #pragma once
 
 
-#include "Config.h"
-
-#include <SFML/Graphics/Vertex.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#include <SFGE/GuiManager.h>
+#include <SFGE/TextList.h>
 
 
-namespace sfge
+class Application;
+
+
+class OpenFileDialog
 {
+public:
+    OpenFileDialog (Application* parent);
 
+    void dirBrowse (const std::string& dir);
 
-    using sf::IntRect;
-    using sf::Vector2u;
-    using sf::Vertex;
-    using sf::RenderTarget;
-    using sf::RenderStates;
+    void handleChoise (const std::string& str);
 
+private:
+    Application* m_parent;
+    sfge::pGUIManager manager;
+    std::shared_ptr<sfge::TextList> text_list;
+};
 
-    class RenderRect : public sf::Drawable
-    {
-    public:
-        RenderRect ();
-        RenderRect (Vector2u);
-
-        void setPosition (const unsigned x, const unsigned y);
-        void setPosition (const Vector2u pos);
-        void setPosition (const IntRect pos);
-
-        void setSize (Vector2u size);
-        void setSize (unsigned x, unsigned y);
-
-        IntRect getRect () const;
-        Vector2u getPosition () const;
-        Vector2u getSize () const;
-
-        bool contains (const float x, const float y);
-
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
-
-        Vertex m_arr[4];
-    };
-
-
-}

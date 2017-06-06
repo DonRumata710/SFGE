@@ -30,46 +30,13 @@
 #pragma once
 
 
-#include "Config.h"
-
-#include <SFML/Graphics/Vertex.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 
-namespace sfge
-{
+using sf::Color;
 
 
-    using sf::IntRect;
-    using sf::Vector2u;
-    using sf::Vertex;
-    using sf::RenderTarget;
-    using sf::RenderStates;
-
-
-    class RenderRect : public sf::Drawable
-    {
-    public:
-        RenderRect ();
-        RenderRect (Vector2u);
-
-        void setPosition (const unsigned x, const unsigned y);
-        void setPosition (const Vector2u pos);
-        void setPosition (const IntRect pos);
-
-        void setSize (Vector2u size);
-        void setSize (unsigned x, unsigned y);
-
-        IntRect getRect () const;
-        Vector2u getPosition () const;
-        Vector2u getSize () const;
-
-        bool contains (const float x, const float y);
-
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
-
-        Vertex m_arr[4];
-    };
-
-
-}
+extern const Color BACKGROUND_COLOR;
+extern const Color MAIN_COLOR;
+extern const Color SECOND_COLOR;
+extern const Color HOVER_COLOR;

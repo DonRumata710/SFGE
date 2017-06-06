@@ -30,45 +30,51 @@
 #pragma once
 
 
-#include "Config.h"
+#include "MapManager.h"
 
-#include <SFML/Graphics/Vertex.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#include <SFGE/RenderRect.h>
+#include <SFGE/Widget.h>
+
+#include <SFML/Graphics/RenderTexture.hpp>
+
+#include <memory>
 
 
 namespace sfge
 {
 
 
-    using sf::IntRect;
     using sf::Vector2u;
-    using sf::Vertex;
-    using sf::RenderTarget;
-    using sf::RenderStates;
 
 
-    class RenderRect : public sf::Drawable
+    class Camera : public iWidget
     {
     public:
-        RenderRect ();
-        RenderRect (Vector2u);
+        Camera ();
 
-        void setPosition (const unsigned x, const unsigned y);
-        void setPosition (const Vector2u pos);
-        void setPosition (const IntRect pos);
+        void loadMap (const std::string& path);
 
-        void setSize (Vector2u size);
-        void setSize (unsigned x, unsigned y);
+        void saveMap (const std::string& path);
 
-        IntRect getRect () const;
-        Vector2u getPosition () const;
-        Vector2u getSize () const;
+    protected:
+        void setMap (std::shared_ptr<MapManager> map);
 
-        bool contains (const float x, const float y);
+        std::shared_ptr<MapManager> getMap ();
 
-        virtual void draw (RenderTarget& target, RenderStates states) const override;
+    private:
+        virtual void setRect (const PositionDesc& desc) override;
 
-        Vertex m_arr[4];
+        virtual bool check_mouse (const int x, const int y) override;
+
+        virtual void draw (sf::RenderTarget&) const override;
+
+        void redraw ();
+
+    private:
+        RenderRect m_render_rect;
+        sf::RenderTexture m_view;
+
+        std::shared_ptr<MapManager> m_map;
     };
 
 
