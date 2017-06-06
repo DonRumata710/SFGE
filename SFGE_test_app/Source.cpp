@@ -100,9 +100,9 @@ int main ()
 
     std::shared_ptr<Button> button (std::make_shared<Button> ());
     button->attachReaction ([&device]() { device.createWindow (1, "Select string", VideoMode (400, 400), sf::Style::Default); }, Button::EventType::RELEASED);
-    button->setView (rm.findTexture ("button.released"), Button::EventType::RELEASED);
-    button->setView (rm.findTexture ("button.hover"), Button::EventType::HOVER);
-    button->setView (rm.findTexture ("button.pressed"), Button::EventType::PRESSED);
+    button->setView (rm.findTexture ("button.released"), Button::View::RELEASED);
+    button->setView (rm.findTexture ("button.hover"), Button::View::HOVER);
+    button->setView (rm.findTexture ("button.pressed"), Button::View::PRESSED);
     button->setPosition (iWidget::Position::HCENTER | iWidget::Position::VCENTER, 0, 0);
     button->setText ("Open window");
     button->setFont (rm.getFont ("font.standart"));
