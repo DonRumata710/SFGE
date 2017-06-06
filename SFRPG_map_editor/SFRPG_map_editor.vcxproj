@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="EditField.h" />
     <ClInclude Include="OpenFileDialog.h" />
     <ClInclude Include="SaveFileDialog.h" />

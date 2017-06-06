@@ -30,6 +30,10 @@
 #pragma once
 
 
+#include "EditField.h"
+#include "OpenFileDialog.h"
+#include "SaveFileDialog.h"
+
 #include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 
@@ -42,8 +46,27 @@ public:
 
     int run ();
 
+    void setChoisedString (const std::string& str);
+
+    void openFileDialog ();
+    void saveFileDialog ();
+
 private:
     sfge::GEDevice m_device;
     sfge::ResourceManager m_resource_manager;
-};
+    
+    std::shared_ptr<EditField> m_editor;
 
+    std::unique_ptr<OpenFileDialog> m_file_select_window;
+    std::string m_string;
+
+    enum Action
+    {
+        NONE,
+        OPEN,
+        SAVE,
+        ADD_RESOURCES
+    };
+
+    Action m_last_action = NONE;
+};
