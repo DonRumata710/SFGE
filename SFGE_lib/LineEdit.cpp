@@ -40,8 +40,7 @@ namespace sfge
 {
 
 
-    LineEdit::LineEdit () :
-        m_texture (std::make_unique<sf::RenderTexture> ())
+    LineEdit::LineEdit ()
     {
         m_text.setCharacterSize (14);
         m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / 4), 0.0f);
@@ -166,7 +165,7 @@ namespace sfge
         m_outward_view.setPosition (desc.x, desc.y);
         m_outward_view.setSize (desc.width, desc.height);
 
-        m_texture->create (desc.width, desc.height);
+        m_texture.create (desc.width, desc.height);
         m_background.setSize (desc.width, desc.height);
         m_focus.setSize (0, desc.height);
 
@@ -291,7 +290,7 @@ namespace sfge
 
     void LineEdit::draw (sf::RenderTarget& target) const
     {
-        target.draw (m_outward_view, &m_texture->getTexture ());
+        target.draw (m_outward_view, &m_texture.getTexture ());
     }
 
     void LineEdit::update (const float delta)
@@ -308,12 +307,12 @@ namespace sfge
 
     void LineEdit::redraw ()
     {
-        m_texture->draw (m_background);
-        m_texture->draw (m_focus);
-        m_texture->draw (m_text);
-        m_texture->draw (m_line, 2, sf::PrimitiveType::Lines);
+        m_texture.draw (m_background);
+        m_texture.draw (m_focus);
+        m_texture.draw (m_text);
+        m_texture.draw (m_line, 2, sf::PrimitiveType::Lines);
 
-        m_texture->display ();
+        m_texture.display ();
     }
 
     unsigned LineEdit::get_width (const unsigned index) const

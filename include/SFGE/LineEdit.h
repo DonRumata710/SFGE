@@ -36,12 +36,12 @@
 #include "RenderRect.h"
 #include "Unicode.h"
 
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 
 namespace sf
 {
-    class RenderTexture;
     class Font;
     class Vertex;
 }
@@ -55,7 +55,6 @@ namespace sfge
     using sf::Color;
     using sf::Font;
     using sf::Texture;
-    using sf::RenderTexture;
     using sf::Vertex;
 
 
@@ -206,7 +205,7 @@ namespace sfge
 
         Vertex m_line[2];
 
-        std::unique_ptr<RenderTexture> m_texture;
+        sf::RenderTexture m_texture;
 
         bool m_is_pressed = false;
         float m_dc_timer = 0.0f;
