@@ -134,6 +134,13 @@ namespace sfge
         bool createWindow (const unsigned id, const UString& title, const VideoMode& vmode, const uint32_t style = Style::Default, const ContextSettings settings = ContextSettings ());
         
         /////////////////////////////////////////////////////////////////////
+        /// destroyWindow - destroy window
+        ///
+        /// @param window - name of window
+        /////////////////////////////////////////////////////////////////////
+        void destroyWindow (const UString& window);
+
+        /////////////////////////////////////////////////////////////////////
         /// addGuiManager - add GUI manager to device
         ///
         /// @param id - id of GUI manager

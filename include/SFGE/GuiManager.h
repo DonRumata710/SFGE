@@ -221,7 +221,7 @@ namespace sfge
 
         sf::Clock m_timer;
 
-        int m_switch = 0;
+        int m_switch = -1;
 
         Panel m_background;
 
