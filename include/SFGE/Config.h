@@ -38,7 +38,7 @@
 ////////////////////////////////////////////////////////////
 #define SFGE_VERSION_MAJOR 0
 #define SFGE_VERSION_MINOR 1
-#define SFGE_VERSION_PATCH 1
+#define SFGE_VERSION_PATCH 3
 
 
 namespace sfge

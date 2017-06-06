@@ -146,6 +146,11 @@ namespace sfge
     };
 
 
+    std::vector<char> string_elements =
+    {
+        '.',
+        '_'
+    };
 
 
     bool ResourceParser::scriptSkipToNextParameter (TextParser *tp, bool ignore)
@@ -231,6 +236,7 @@ namespace sfge
         desc.end_of_file = Token::TTEND;
         desc.number = Token::TTNUMBER;
         desc.string = Token::TTSTRING;
+        desc.string_elements = string_elements;
 
         TextParser tp (script, desc);
 

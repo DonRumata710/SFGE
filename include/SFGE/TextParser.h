@@ -54,6 +54,11 @@ namespace sfge
         std::unordered_map<std::string, const size_t> keytable;
 
         /////////////////////////////////////////////////////////////////////
+        /// string_elements - list of elements which can be part of unquoted string
+        /////////////////////////////////////////////////////////////////////
+        std::vector<char> string_elements;
+
+        /////////////////////////////////////////////////////////////////////
         /// string - code should be returned if parser found a string value
         /////////////////////////////////////////////////////////////////////
         size_t string;
@@ -145,6 +150,9 @@ namespace sfge
         /// @return - parsed value
         /////////////////////////////////////////////////////////////////////
         unsigned tknHex ();
+
+    private:
+        bool isString ();
 
     private:
         const SemanticsDescription& semantics;

@@ -66,6 +66,9 @@ const SemanticsDescription MapLoader::m_sem_desc = {
         { "width",      MD_WIDTH },
         { "height",     MD_HEIGHT }
     },
+    {
+        '_'
+    },
     MD_STRING,
     MD_NUMBER,
     MD_END

@@ -61,7 +61,11 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// EventType - enumeration of types of events
         /////////////////////////////////////////////////////////////////////
-        typedef View EventType;
+        enum EventType
+        {
+            PRESSED = View::PRESSED,
+            RELEASED = View::RELEASED
+        };
 
         /////////////////////////////////////////////////////////////////////
         /// Default constructor to create button
@@ -82,7 +86,7 @@ namespace sfge
         /// @param tex - pointer to texture
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::shared_ptr<const Texture> tex, const EventType e = EventType::RELEASED);
+        void setView (const std::shared_ptr<const Texture> tex, const View e = View::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to button view
@@ -90,7 +94,7 @@ namespace sfge
         /// @param tex - name of texture loaded to resource manager
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::string& tex, const EventType e = EventType::RELEASED);
+        void setView (const std::string& tex, const View e = View::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to button view
@@ -98,7 +102,7 @@ namespace sfge
         /// @param color - color of button
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const Color color, const EventType e = EventType::RELEASED);
+        void setView (const Color color, const View e = View::RELEASED);
 
         /////////////////////////////////////////////////////////////////////
         /// setText - set text to draw on the button
@@ -158,7 +162,7 @@ namespace sfge
         virtual void check_mouse_button (const sf::Event::MouseButtonEvent&, const bool) override;
         virtual bool check_mouse (const int x, const int y) override;
 
-        void set_view (const EventType type);
+        void set_view (const View type);
 
     private:
         std::function<void ()> m_pressed;

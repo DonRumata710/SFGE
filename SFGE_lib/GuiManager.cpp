@@ -84,6 +84,11 @@ namespace sfge
         setBackground (ResourceManager::getInstance ()->findTexture (texture));
     }
 
+    void GUIManager::setBackground (const Color& color)
+    {
+        m_background.setColor (color);
+    }
+
     void GUIManager::setFocusLocked (bool flag)
     {
         m_focus_locked = flag;

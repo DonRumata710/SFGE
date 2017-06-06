@@ -80,6 +80,12 @@ namespace sfge
         return true;
     }
 
+    void GEDevice::destroyWindow (const UString& str)
+    {
+        m_active[str]->setSwitch (-1);
+        m_active[str]->leave ();
+    }
+
     void GEDevice::addGuiManager (unsigned id, pGUIManager& gui)
     {
         m_managers.insert (std::pair<unsigned, pGUIManager> (id, nullptr));

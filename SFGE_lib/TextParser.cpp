@@ -142,14 +142,16 @@ namespace sfge
         // Unquoted string or hexadecimal number
 
         tokentype = semantics.string;
-        for (i = 0;
-            *script && (isalnum (*script) || *script == '_');
-            i++
-        )
-        {
+        for (i = 0; isString (); i++)
             tokenvalue[i] = *script++;
-        }
+
         tokenvalue[i] = 0;
+
+        // Unexpected symbols
+
+        for (i = 0; *script && *script != ' ' && *script != '\t' && *script != '\n' && *script != '\r'; i++)
+            ++script;
+
         return tokentype;
     }
 
@@ -207,6 +209,17 @@ namespace sfge
             dw = (dw << 4) | chr;
         }
         return dw;
+    }
+
+    bool TextParser::isString ()
+    {
+        for (char ch : semantics.string_elements)
+        {
+            if (*script == ch)
+                return true;
+        }
+
+        return *script && isalnum (*script);
     }
 
     bool TextParser::strtkcmp (const std::string& str, const char * mem)

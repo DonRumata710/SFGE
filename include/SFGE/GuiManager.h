@@ -54,6 +54,7 @@ namespace sfge
     using sf::Vector2u;
     using sf::RenderWindow;
     using sf::Texture;
+    using sf::Color;
 
     class GEDevice;
 
@@ -93,20 +94,25 @@ namespace sfge
         void addBackWidget (pWidget widget);
 
         /////////////////////////////////////////////////////////////////////
-        /// addWidget - add widget to the screen which is managed 
-        /// by current object
+        /// addWidget - set texture for background of screen
         ///
         /// @param texture - pointer to texture
         /////////////////////////////////////////////////////////////////////
         void setBackground (std::shared_ptr<const Texture> texture);
 
         /////////////////////////////////////////////////////////////////////
-        /// addWidget - add widget to the screen which is managed 
-        /// by current object
+        /// addWidget - set texture for background of screen
         ///
         /// @param pWidget - name of texture
         /////////////////////////////////////////////////////////////////////
         void setBackground (const std::string& texture);
+
+        /////////////////////////////////////////////////////////////////////
+        /// addWidget - set texture for background of screen
+        ///
+        /// @param pWidget - name of texture
+        /////////////////////////////////////////////////////////////////////
+        void setBackground (const Color& color);
 
         /////////////////////////////////////////////////////////////////////
         /// setFocusLocked - let focus move or not
@@ -215,7 +221,7 @@ namespace sfge
 
         sf::Clock m_timer;
 
-        int m_switch = 0;
+        int m_switch = -1;
 
         Panel m_background;
 
