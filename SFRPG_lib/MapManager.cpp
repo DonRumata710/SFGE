@@ -31,7 +31,6 @@
 #include "SectorLoader.h"
 #include "MapSaver.h"
 #include "MapManager.h"
-#include "PathDescription.h"
 #include "Way.h"
 
 #include <SFGE/Err.h>
@@ -40,7 +39,6 @@
 
 
 using namespace sfge;
-
 
 
 struct PathDesc
