@@ -76,8 +76,6 @@ namespace sfge
         std::shared_ptr<MapManager> m_map;
 
         RenderRect m_render_rect;
-        std::shared_ptr<sf::Texture> m_background;
-        std::vector<sf::Color> m_background_data;
         Panel m_panel;
         sf::RenderTexture m_view;
     };

@@ -41,15 +41,10 @@
 using namespace sfge;
 
 
-Camera::Camera () : m_background (std::make_shared<sf::Texture> ())
+Camera::Camera ()
 {
-    sf::View view (sf::FloatRect (0, 0, 36, 20));
-    m_view.setView (view);
-    m_background->create (36, 20);
-    m_background_data.assign (36 * 20, sf::Color::Black);
-    m_background->update (reinterpret_cast<uint8_t*> (m_background_data.data ()));
-    m_panel.setTexture (m_background);
-    m_view.draw (m_panel);
+    m_panel.setColor (sf::Color::Black);
+    m_panel.setSize (36.0f, 20.0f);
 }
 
 void Camera::loadMap (const std::string& path)
@@ -90,14 +85,20 @@ std::shared_ptr<MapManager> sfge::Camera::getMap ()
 
 void Camera::redraw ()
 {
+    m_view.draw (m_panel);
+
     if (m_map)
         m_view.draw (*m_map);
+
+    m_view.display ();
 }
 
 void Camera::setRect (const PositionDesc& desc)
 {
-    m_panel.setPosition (desc.x, desc.y);
-    m_panel.setSize (desc.width, desc.height);
+    m_view.create (desc.width, desc.height);
+    sf::View view (sf::FloatRect (0, 0, 36, 20));
+    m_view.setView (view);
+    redraw ();
 
     m_render_rect.setPosition (desc.x, desc.y);
     m_render_rect.setSize (desc.width, desc.height);
