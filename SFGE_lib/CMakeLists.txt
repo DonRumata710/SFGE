@@ -14,14 +14,18 @@ set(CLASSES
     Field
     File
     FileInputStream
+    FileOutputStream
     Frame
     GEDevice
     GridBox
-    GuiElement
     GuiManager
     Label
     LineEdit
+    MemoryInputStream
+    MemoryOutputStream
+    MenuBar
     Panel
+    PullDownMenu
     RenderRect
     ResourceManager
     Slider
@@ -38,7 +42,10 @@ set(PRIVATE_CLASSES
 
 set(UTILITY_HEADERS
     AnimationDesc
+    Config
+    DataOutputStream
     DistortionMesh
+    GuiElement
     MenuItem
     ParticleSystem
     ResourceInputStream

@@ -39,8 +39,8 @@ void PullDownMenu::addItem (std::shared_ptr<MenuItem> item)
     m_items.push_back (item);
     add_frame (item.get ());
     item->setPosition (TOP | LEFT);
-    
-    if (Field::getSize().x < item->getTextSize ().x)
+
+    if (Field::getSize ().x < item->getTextSize ().x)
         set_size (item->getTextSize ().x, 0);
 
     unsigned item_height (0);
@@ -101,15 +101,18 @@ void PullDownMenu::setRect (const PositionDesc& desc)
     if (m_items.empty ())
         return;
 
-    unsigned item_height (0);
+    uint32_t char_size (m_items[0]->getCharacterSize ());
+    uint32_t item_height (0);
     if (m_auto_size)
     {
-        item_height = m_items[0]->getCharacterSize () + m_items[0]->getCharacterSize () / 2;
+        item_height = char_size + char_size / 2;
+        uint32_t max_width (Field::getSize ().x);
         for (auto item : m_items)
         {
-            if (Field::getSize ().x < item->getTextSize ().x)
-                set_size (item->getTextSize ().x, 0);
+            if (max_width < item->getTextSize ().x + char_size)
+                max_width = item->getTextSize ().x + char_size;
         }
+        set_size (max_width, 0);
     }
     else
         item_height = desc.height / m_items.size ();

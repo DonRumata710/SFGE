@@ -3,6 +3,7 @@ set(APPLICATION_NAME SFRPG_unittest)
 
 set(TEST_FILES
     CollisionTest
+	MapLoadingTest
     WaySearchTest
     Main
 )

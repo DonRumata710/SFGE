@@ -34,97 +34,92 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-
-namespace sfge
-{
+using namespace sfge;
     
 
-    CheckBox::CheckBox ()
-    {}
+CheckBox::CheckBox ()
+{}
 
-    void CheckBox::attachReaction (const std::function<void ()> func)
+void CheckBox::attachReaction (const std::function<void ()> func)
+{
+    m_state_changed = func;
+}
+
+void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const ViewType type)
+{
+    if (type == ViewType::BACKGROUND)
+        m_background = tex;
+    else
+        m_flag = tex;
+}
+
+void CheckBox::setView (const std::string & tex, const ViewType view)
+{
+    setView (ResourceManager::getInstance ()->findTexture (tex));
+}
+
+void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)
+{
+    m_collisions.push_back (cb);
+}
+
+void CheckBox::setState (bool state)
+{
+    m_state = state;
+    if (m_state_changed) m_state_changed ();
+
+    if (state)
     {
-        m_state_changed = func;
+        for (std::shared_ptr<CheckBox> cb : m_collisions)
+            cb->setState (false);
     }
+}
 
-    void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const ViewType type)
-    {
-        if (type == ViewType::BACKGROUND)
-            m_background = tex;
-        else
-            m_flag = tex;
-    }
+bool CheckBox::getState () const
+{
+    return m_state;
+}
 
-    void CheckBox::setView (const std::string & tex, const ViewType view)
-    {
-        setView (ResourceManager::getInstance ()->findTexture (tex));
-    }
+void CheckBox::setRect (const PositionDesc& desc)
+{
+    m_background.setPosition (desc.x, desc.y);
 
-    void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)
-    {
-        m_collisions.push_back (cb);
-    }
+    sf::Vector2f pos (desc.x, desc.y);
 
-    void CheckBox::setState (bool state)
+    pos += m_background.getSize () / 2.0f - m_flag.getSize () / 2.0f;
+    m_flag.setPosition (pos);
+
+    m_background.setSize (desc.width, desc.height);
+}
+
+void CheckBox::draw (sf::RenderTarget& target) const
+{
+    target.draw (m_background);
+    if (m_state) target.draw (m_flag);
+}
+
+bool CheckBox::check_key (const sf::Event::KeyEvent& e, const bool pressed)
+{
+    if (e.code == sf::Keyboard::Return && pressed)
     {
-        m_state = state;
+        setState (!m_state);
         if (m_state_changed) m_state_changed ();
 
-        if (state)
-        {
-            for (std::shared_ptr<CheckBox> cb : m_collisions)
-                cb->setState (false);
-        }
+        return true;
     }
+    return false;
+}
 
-    bool CheckBox::getState () const
+void CheckBox::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool pressed)
+{
+    if (pressed)
     {
-        return m_state;
+        setState (!m_state);
+        if (m_state_changed) m_state_changed ();
     }
+}
 
-    void CheckBox::setRect (const PositionDesc& desc)
-    {
-        m_background.setPosition (desc.x, desc.y);
-
-        sf::Vector2f pos (desc.x, desc.y);
-
-        pos += m_background.getSize () / 2.0f - m_flag.getSize () / 2.0f;
-        m_flag.setPosition (pos);
-
-        m_background.setSize (desc.width, desc.height);
-    }
-
-    void CheckBox::draw (sf::RenderTarget& target) const
-    {
-        target.draw (m_background);
-        if (m_state) target.draw (m_flag);
-    }
-
-    bool CheckBox::check_key (const sf::Event::KeyEvent& e, const bool pressed)
-    {
-        if (e.code == sf::Keyboard::Return && pressed)
-        {
-            setState (!m_state);
-            if (m_state_changed) m_state_changed ();
-
-            return true;
-        }
-        return false;
-    }
-
-    void CheckBox::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool pressed)
-    {
-        if (pressed)
-        {
-            setState (!m_state);
-            if (m_state_changed) m_state_changed ();
-        }
-    }
-
-    bool CheckBox::check_mouse (const int x, const int y)
-    {
-        return m_background.contains (x, y);
-    }
-
-
+bool CheckBox::check_mouse (const int x, const int y)
+{
+    return m_background.contains (x, y);
 }

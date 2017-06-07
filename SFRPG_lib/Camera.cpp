@@ -35,14 +35,16 @@
 #include <SFGE/FileOutputStream.h>
 #include <SFGE/ResourceManager.h>
 
+#include <SFML/Graphics/Sprite.hpp>
+
 
 using namespace sfge;
 
 
 Camera::Camera ()
 {
-    sf::View view (sf::FloatRect (0, 0, 36, 20));
-    m_view.setView (view);
+    m_panel.setColor (sf::Color::Black);
+    m_panel.setSize (36.0f, 20.0f);
 }
 
 void Camera::loadMap (const std::string& path)
@@ -52,6 +54,8 @@ void Camera::loadMap (const std::string& path)
     setMap (std::make_shared<MapManager> ());
     if (!loader->loadMap (getMap ().get (), path))
         getMap ().reset ();
+
+    redraw ();
 }
 
 void Camera::saveMap (const std::string& path)
@@ -59,6 +63,14 @@ void Camera::saveMap (const std::string& path)
     FileOutputStream stream;
     MapSaver saver (&stream);
     saver.saveMap (getMap ().get (), path);
+}
+
+void Camera::closeMap ()
+{
+    m_map.reset ();
+    sf::Sprite sprite;
+    sprite.setColor (sf::Color::Black);
+    m_view.draw (sprite);
 }
 
 void Camera::setMap (std::shared_ptr<MapManager> map)
@@ -73,11 +85,21 @@ std::shared_ptr<MapManager> sfge::Camera::getMap ()
 
 void Camera::redraw ()
 {
-    m_view.draw (*m_map);
+    m_view.draw (m_panel);
+
+    if (m_map)
+        m_view.draw (*m_map);
+
+    m_view.display ();
 }
 
 void Camera::setRect (const PositionDesc& desc)
 {
+    m_view.create (desc.width, desc.height);
+    sf::View view (sf::FloatRect (0, 0, 36, 20));
+    m_view.setView (view);
+    redraw ();
+
     m_render_rect.setPosition (desc.x, desc.y);
     m_render_rect.setSize (desc.width, desc.height);
 }

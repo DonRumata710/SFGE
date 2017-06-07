@@ -141,9 +141,6 @@
     <ClCompile Include="GEDevice.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="GuiElement.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
     <ClCompile Include="GuiManager.cpp">
       <Filter>GuiManagement</Filter>
     </ClCompile>

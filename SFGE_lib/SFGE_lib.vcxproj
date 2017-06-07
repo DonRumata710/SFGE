@@ -73,7 +73,6 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="GEDevice.cpp" />
     <ClCompile Include="GridBox.cpp" />
-    <ClCompile Include="GuiElement.cpp" />
     <ClCompile Include="GuiManager.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LineEdit.cpp" />
