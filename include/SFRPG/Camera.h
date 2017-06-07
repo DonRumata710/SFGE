@@ -56,6 +56,8 @@ namespace sfge
 
         void saveMap (const std::string& path);
 
+        void closeMap ();
+
     protected:
         void setMap (std::shared_ptr<MapManager> map);
 
@@ -71,10 +73,13 @@ namespace sfge
         void redraw ();
 
     private:
-        RenderRect m_render_rect;
-        sf::RenderTexture m_view;
-
         std::shared_ptr<MapManager> m_map;
+
+        RenderRect m_render_rect;
+        std::shared_ptr<sf::Texture> m_background;
+        std::vector<sf::Color> m_background_data;
+        Panel m_panel;
+        sf::RenderTexture m_view;
     };
 
 

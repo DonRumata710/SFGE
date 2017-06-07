@@ -66,8 +66,3 @@ void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
     getMap ()->setName ("New map");
     getMap ()->setMapDescription (std::move (sectors));
 }
-
-void EditField::closeMap ()
-{
-    getMap ().reset ();
-}

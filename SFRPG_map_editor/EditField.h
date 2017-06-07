@@ -41,6 +41,4 @@ public:
     ~EditField ();
 
     void createMap (float tile_size, uint32_t width, uint32_t height);
-
-    void closeMap ();
 };
