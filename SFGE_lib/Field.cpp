@@ -31,28 +31,31 @@
 #include "Widget.h"
 
 
-sfge::Field::Field ()
+using namespace sfge;
+
+
+Field::Field ()
 {}
 
-sfge::Field::~Field ()
+Field::~Field ()
 {}
 
-sfge::Vector2i sfge::Field::getPosition () const
+Vector2i Field::getPosition () const
 {
     return { m_position.x, m_position.y };
 }
 
-sfge::Vector2u sfge::Field::getSize () const
+Vector2u Field::getSize () const
 {
     return { m_position.width, m_position.height };
 }
 
-const sfge::PositionDesc& sfge::Field::getPositionDesc () const
+const PositionDesc& Field::getPositionDesc () const
 {
     return m_position;
 }
 
-void sfge::Field::add_frame (Frame* frame)
+void Field::add_frame (Frame* frame)
 {
     m_frames.push_back (frame);
     frame->setField (this);
@@ -60,12 +63,12 @@ void sfge::Field::add_frame (Frame* frame)
         frame->setFieldParam (m_position);
 }
 
-void sfge::Field::remove_frame (Frame* frame)
+void Field::remove_frame (Frame* frame)
 {
     m_frames.erase (std::remove (m_frames.begin (), m_frames.end (), frame));
 }
 
-void sfge::Field::set_size (Vector2u size)
+void Field::set_size (Vector2u size)
 {
     m_position.width = size.x;
     m_position.height = size.y;
@@ -73,7 +76,7 @@ void sfge::Field::set_size (Vector2u size)
         frame->setFieldParam (m_position);
 }
 
-void sfge::Field::set_size (unsigned width, unsigned height)
+void Field::set_size (unsigned width, unsigned height)
 {
     m_position.width = width;
     m_position.height = height;
@@ -81,7 +84,7 @@ void sfge::Field::set_size (unsigned width, unsigned height)
         frame->setFieldParam (m_position);
 }
 
-void sfge::Field::set_position (Vector2i position)
+void Field::set_position (Vector2i position)
 {
     m_position.x = position.x;
     m_position.y = position.y;
@@ -89,7 +92,7 @@ void sfge::Field::set_position (Vector2i position)
         frame->setFieldParam (m_position);
 }
 
-void sfge::Field::set_position_desc (const PositionDesc& desc)
+void Field::set_position_desc (const PositionDesc& desc)
 {
     m_position = desc;
     for (Frame* frame : m_frames)
@@ -98,82 +101,82 @@ void sfge::Field::set_position_desc (const PositionDesc& desc)
 
 
 
-void sfge::Field::call_enter (iWidget* widget)
+void Field::call_enter (iWidget* widget)
 {
     widget->enter ();
 }
 
-void sfge::Field::call_leave (iWidget * widget)
+void Field::call_leave (iWidget * widget)
 {
     widget->leave ();
 }
 
-bool sfge::Field::call_is_done (iWidget * widget)
+bool Field::call_is_done (iWidget * widget)
 {
     return widget->is_done ();
 }
 
-void sfge::Field::call_draw (iWidget * widget, RenderTarget & target) const
+void Field::call_draw (iWidget * widget, RenderTarget & target) const
 {
     widget->draw (target);
 }
 
-void sfge::Field::call_update (iWidget * widget, const float delta)
+void Field::call_update (iWidget * widget, const float delta)
 {
     widget->update (delta);
 }
 
-bool sfge::Field::call_check_key (iWidget * widget, const Event::KeyEvent & e, const bool pressed)
+bool Field::call_check_key (iWidget * widget, const Event::KeyEvent & e, const bool pressed)
 {
     return widget->check_key (e, pressed);
 }
 
-void sfge::Field::call_check_text (iWidget * widget, const Event::TextEvent & e)
+void Field::call_check_text (iWidget * widget, const Event::TextEvent & e)
 {
     widget->check_text (e);
 }
 
-void sfge::Field::call_check_mouse_button (iWidget * widget, const Event::MouseButtonEvent & e, const bool pressed)
+void Field::call_check_mouse_button (iWidget * widget, const Event::MouseButtonEvent & e, const bool pressed)
 {
     widget->check_mouse_button (e, pressed);
 }
 
-void sfge::Field::call_check_wheel (iWidget * widget, const Event::MouseWheelScrollEvent & e)
+void Field::call_check_wheel (iWidget * widget, const Event::MouseWheelScrollEvent & e)
 {
     widget->check_wheel (e);
 }
 
-void sfge::Field::call_check_joystick_connect (iWidget * widget, const Event::JoystickConnectEvent & e, const bool connect)
+void Field::call_check_joystick_connect (iWidget * widget, const Event::JoystickConnectEvent & e, const bool connect)
 {
     widget->check_joystick_connect (e, connect);
 }
 
-void sfge::Field::call_check_joystick (iWidget * widget, const Event::JoystickMoveEvent & e)
+void Field::call_check_joystick (iWidget * widget, const Event::JoystickMoveEvent & e)
 {
     widget->check_joystick (e);
 }
 
-void sfge::Field::call_check_joystick_button (iWidget * widget, const Event::JoystickButtonEvent & e, const bool pressed)
+void Field::call_check_joystick_button (iWidget * widget, const Event::JoystickButtonEvent & e, const bool pressed)
 {
     widget->check_joystick_button (e, pressed);
 }
 
-void sfge::Field::call_check_touch (iWidget * widget, const Event::TouchEvent & e)
+void Field::call_check_touch (iWidget * widget, const Event::TouchEvent & e)
 {
     widget->check_touch (e);
 }
 
-void sfge::Field::call_check_sensor (iWidget * widget, const Event::SensorEvent & e)
+void Field::call_check_sensor (iWidget * widget, const Event::SensorEvent & e)
 {
     widget->check_sensor (e);
 }
 
-void sfge::Field::call_check_click (iWidget * widget)
+void Field::call_check_click (iWidget * widget)
 {
     widget->check_click ();
 }
 
-bool sfge::Field::call_check_mouse (iWidget * widget, const int x, const int y)
+bool Field::call_check_mouse (iWidget * widget, const int x, const int y)
 {
     return widget->check_mouse (x, y);
 }

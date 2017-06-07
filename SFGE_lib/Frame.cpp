@@ -34,7 +34,7 @@
 using namespace sfge;
 
 
-void sfge::Frame::setPosition (const int position, const int x_offset, const int y_offset)
+void Frame::setPosition (const int position, const int x_offset, const int y_offset)
 {
     m_alignment = (Position) position;
     m_x_offset = x_offset;
@@ -42,7 +42,7 @@ void sfge::Frame::setPosition (const int position, const int x_offset, const int
     set_position ();
 }
 
-void sfge::Frame::setPosition (const int position, const Vector2i offset)
+void Frame::setPosition (const int position, const Vector2i offset)
 {
     m_alignment = (Position) position;
     m_x_offset = offset.x;
@@ -50,20 +50,20 @@ void sfge::Frame::setPosition (const int position, const Vector2i offset)
     set_position ();
 }
 
-void sfge::Frame::setPosition (const int position)
+void Frame::setPosition (const int position)
 {
     m_alignment = (Position) position;
     set_position ();
 }
 
-void sfge::Frame::setPosition (const int x_offset, const int y_offset)
+void Frame::setPosition (const int x_offset, const int y_offset)
 {
     m_x_offset = x_offset;
     m_y_offset = y_offset;
     set_position ();
 }
 
-void sfge::Frame::setPosition (const Vector2i offset)
+void Frame::setPosition (const Vector2i offset)
 {
     m_x_offset = offset.x;
     m_y_offset = offset.y;
@@ -75,19 +75,19 @@ Vector2i Frame::getPosition () const
     return m_position;
 }
 
-void sfge::Frame::setSize (const unsigned x, const unsigned y)
+void Frame::setSize (const unsigned x, const unsigned y)
 {
     m_width = x;
     m_height = y;
     set_position ();
 }
 
-Vector2u sfge::Frame::getSize () const
+Vector2u Frame::getSize () const
 {
     return { m_width, m_height };
 }
 
-void sfge::Frame::setFieldParam (const PositionDesc& desc)
+void Frame::setFieldParam (const PositionDesc& desc)
 {
     m_position = { desc.x, desc.y };
 
@@ -128,22 +128,22 @@ void sfge::Frame::setFieldParam (const PositionDesc& desc)
     setRect ({ m_position.x, m_position.y, m_width, m_height });
 }
 
-void sfge::Frame::setField (Field* field)
+void Frame::setField (Field* field)
 {
     m_field = field;
 }
 
-Field* sfge::Frame::getField () const
+Field* Frame::getField () const
 {
     return m_field;
 }
 
-void sfge::Frame::update_frame ()
+void Frame::update_frame ()
 {
     setRect ({ m_position.x, m_position.y, m_width, m_height });
 }
 
-void sfge::Frame::set_position ()
+void Frame::set_position ()
 {
     if (!m_field) return;
 
