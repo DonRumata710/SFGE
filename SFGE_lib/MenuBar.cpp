@@ -91,8 +91,15 @@ void MenuBar::setRect (const PositionDesc& desc)
     if (m_items.empty ())
         return;
 
+    int32_t offset (0);
+
     for (auto item : m_items)
-        item.first->setSize (item.first->getTextSize ().x + item.first->getCharacterSize (), desc.height);
+    {
+        item.first->setPosition (offset, 0);
+        int32_t width (item.first->getTextSize ().x + item.first->getCharacterSize ());
+        offset += width;
+        item.first->setSize (width, desc.height);
+    }
 }
 
 void MenuBar::draw (RenderTarget& target) const
