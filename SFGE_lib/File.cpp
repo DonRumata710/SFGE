@@ -43,6 +43,12 @@ namespace sfge
     {
         Int64 size (source->getSize ());
 
+        if (size == -1)
+        {
+            runtime_error ("Failed accessing the file");
+            return;
+        }
+
         m_data = new char[size];
 
         source->read ((void*)m_data, size);
