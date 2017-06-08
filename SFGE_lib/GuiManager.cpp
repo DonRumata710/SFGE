@@ -212,16 +212,19 @@ namespace sfge
                 find_focus (e.key);
             break;
         case sf::Event::EventType::MouseMoved:
+        {
             m_over_widget = nullptr;
+            bool flag (true);
             for (auto widget = m_widgets.rbegin (); widget != m_widgets.rend (); ++widget)
             {
-                if (Field::call_check_mouse (widget->get (), e.mouseMove.x, e.mouseMove.y))
+                if (Field::call_check_mouse (widget->get (), e.mouseMove.x, e.mouseMove.y) && flag)
                 {
                     m_over_widget = *widget;
-                    break;
+                    flag = false;
                 }
             }
             break;
+        }
         case sf::Event::EventType::MouseWheelScrolled:
             if (m_over_widget && m_over_widget->isEnabled ())
                 Field::call_check_wheel (m_over_widget.get (), e.mouseWheelScroll);
