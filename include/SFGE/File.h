@@ -48,7 +48,7 @@ namespace sfge
     public:
 
         /////////////////////////////////////////////////////////////////////
-        /// Default constructor - create empty file
+        /// Default constructor - create file and read data from input stream
         /////////////////////////////////////////////////////////////////////
         File (sf::InputStream* source);
 
@@ -56,6 +56,13 @@ namespace sfge
         /// Destructor - dealloc memory
         /////////////////////////////////////////////////////////////////////
         ~File ();
+
+        /////////////////////////////////////////////////////////////////////
+        /// isOpen - check if file was already open or not
+        ///
+        /// @return true if file is successfully opened
+        /////////////////////////////////////////////////////////////////////
+        bool isOpen () const;
 
     private:
         char* m_data;

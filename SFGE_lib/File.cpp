@@ -62,5 +62,10 @@ namespace sfge
             delete (m_data);
     }
 
+    bool File::isOpen () const
+    {
+        return m_data;
+    }
+
 
 }

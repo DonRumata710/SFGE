@@ -449,8 +449,11 @@ namespace sfge
                     }
                     auto file (std::make_shared<File> (m_stream));
                     rm->addFile (name, file);
-                    if (!font->loadFromStream (*file))
-                        debug_message ("Font " + std::string(name) + " wasn't loaded");
+                    if (file->isOpen () && !font->loadFromStream (*file))
+                    {
+                        debug_message ("Font " + std::string (name) + " wasn't loaded");
+                        return;
+                    }
                 }
                 break;
             default:
@@ -474,9 +477,15 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
                 if (!m_stream->open (tp->tknString ()))
+                {
                     debug_message ("Image " + std::string (tp->tknString ()) + "wasn't found");
+                    return;
+                }
                 if (image->loadFromStream (*m_stream))
+                {
                     debug_message ("Image " + std::string (tp->tknString ()) + "wasn't loaded");
+                    return;
+                }
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;
@@ -524,9 +533,16 @@ namespace sfge
             }
         }
 
-        m_stream->open (path);
+        if (!m_stream->open (path))
+        {
+            runtime_error ("Texture file \"" + std::string (path) + "\" wasn't opened");
+            return;
+        }
         if (!texture->loadFromStream (*m_stream, rect))
+        {
             debug_message ("Texture \"" + std::string (path) + "\" wasn't loaded");
+            return;
+        }
         rm->addTexture (name, texture);
     }
 
@@ -575,9 +591,15 @@ namespace sfge
         }
 
         if (!m_stream->open (path))
+        {
             debug_message ("Sprite \"" + std::string (path) + "\" wasn't found");
+            return;
+        }
         if (!sprite.texture->loadFromStream (*m_stream, sprite.rect))
+        {
             debug_message ("Sprite \"" + std::string (path) + "\" wasn't loaded");
+            return;
+        }
 
         rm->addTexture (name, sprite.texture);
         rm->addSprite (name, sprite);
@@ -605,9 +627,15 @@ namespace sfge
                 tp->getToken ();
 
                 if (!m_stream->open (tp->tknString ()))
+                {
                     debug_message ("Animation \"" + std::string (tp->tknString ()) + "\" wasn't found");
+                    return;
+                }
                 if (!animation.texture->loadFromStream (*m_stream))
+                {
                     debug_message ("Animation \"" + std::string (tp->tknString ()) + "\" wasn't loaded");
+                    return;
+                }
                 break;
             case Token::TTPAR_HOTSPOT:
                 tp->getToken ();
@@ -709,7 +737,10 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
                 if (!m_stream->open (tp->tknString ()))
+                {
                     debug_message ("File \"" + std::string (tp->tknString ()) + "\" wasn't found");
+                    return;
+                }
                 rm->addFile (name, std::make_shared<File> (m_stream));
                 break;
             default:
@@ -729,7 +760,10 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
                 if (!m_stream->open (tp->tknString ()))
+                {
                     debug_message ("Effect \"" + std::string (tp->tknString ()) + "\" wasn't found");
+                    return;
+                }
                 break;
 
             default:
@@ -740,7 +774,10 @@ namespace sfge
 
         std::shared_ptr<sf::SoundBuffer> sound (std::make_shared<sf::SoundBuffer> ());
         if (!sound->loadFromStream (*m_stream))
+        {
             debug_message ("Effect \"" + std::string (name) + "\" wasn't loaded");
+            return;
+        }
         rm->addSound (name, sound);
     }
 
@@ -756,7 +793,10 @@ namespace sfge
                 tp->getToken ();
                 tp->getToken ();
                 if (!m_stream->open (tp->tknString ()))
+                {
                     debug_message ("Music \"" + std::string (tp->tknString ()) + "\" wasn't found");
+                    return;
+                }
                 break;
 
             default:
@@ -768,7 +808,10 @@ namespace sfge
         auto file (std::make_shared<File> (m_stream));
         rm->addFile (name, file);
         if (!music->openFromStream (*file))
+        {
             debug_message ("Music resource \"" + std::string (name) + "\" wasn't loaded");
+            return;
+        }
     }
 
     void ResourceParser::parse_target (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
