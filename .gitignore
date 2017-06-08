@@ -5,7 +5,7 @@ Release/
 *.VC.db
 *.VC.VC.opendb
 *.vcxproj.user
-/**/*_vs/*
-!*_vs/*.sln
-!*_vs/*.vcxproj
-!*_vs/*.vcxproj.filters
+/**/*_vs/**/*.*
+!/**/*_vs/**/*.sln
+!/**/*_vs/**/*.vcxproj
+!/**/*_vs/**/*.vcxproj.filters
