@@ -73,3 +73,20 @@ void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
 
     redraw ();
 }
+
+void EditField::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool pressed)
+{
+    if (e.button == sf::Mouse::Button::Left)
+        m_is_pressed = pressed;
+}
+
+bool EditField::check_mouse (const int x, const int y)
+{
+    if (m_is_pressed)
+        move (mapPixelToCoords ({ m_mouse.x - x, m_mouse.y - y }));
+
+    m_mouse.x = x;
+    m_mouse.y = y;
+
+    return true;
+}

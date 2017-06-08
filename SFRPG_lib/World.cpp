@@ -70,7 +70,7 @@ void World::closeMap ()
     m_map.reset ();
     sf::Sprite sprite;
     sprite.setColor (sf::Color::Black);
-    m_view.draw (sprite);
+    m_screen.draw (sprite);
 }
 
 void World::setMap (std::shared_ptr<MapManager> map)
@@ -85,19 +85,32 @@ std::shared_ptr<MapManager> sfge::World::getMap ()
 
 void World::redraw ()
 {
-    m_view.draw (m_panel);
+    m_screen.setView (m_view);
+    m_screen.draw (m_panel);
 
     if (m_map)
-        m_view.draw (*m_map);
+        m_screen.draw (*m_map);
 
-    m_view.display ();
+    m_screen.display ();
+}
+
+void World::move (Vector2f offset)
+{
+    m_panel.move (offset);
+    m_view.move (offset);
+    redraw ();
+}
+
+Vector2f World::mapPixelToCoords (Vector2i point)
+{
+    return m_screen.mapPixelToCoords (point);
 }
 
 void World::setRect (const PositionDesc& desc)
 {
-    m_view.create (desc.width, desc.height);
-    sf::View view (sf::FloatRect (0, 0, 16, 10));
-    m_view.setView (view);
+    m_screen.create (desc.width, desc.height);
+    m_view.reset (sf::FloatRect (0, 0, desc.width / 100, desc.height / 100));
+    m_screen.setView (m_view);
     redraw ();
 
     m_render_rect.setPosition (desc.x, desc.y);
@@ -111,5 +124,5 @@ bool World::check_mouse (const int x, const int y)
 
 void World::draw (sf::RenderTarget& target) const
 {
-    target.draw (m_render_rect, &m_view.getTexture ());
+    target.draw (m_render_rect, &m_screen.getTexture ());
 }
