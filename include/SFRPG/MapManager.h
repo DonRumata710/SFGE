@@ -46,6 +46,7 @@ namespace sfge
 
 
     using sf::Vector2f;
+    using sf::Vector2i;
     typedef sf::Rect<uint32_t> UintRect;
 
     class MapLoader;
@@ -152,7 +153,7 @@ namespace sfge
         MapSector* getSector (Vector2f position);
 
     private:
-        void setOffset (unsigned x, unsigned y);
+        void setOffset (int32_t x, int32_t y);
 
         void findWayPointsEdges ();
 
@@ -169,7 +170,7 @@ namespace sfge
         std::unique_ptr<SectorLoader> m_loader;
         std::unordered_map<uint32_t, MapSectorDesc> m_sectors;
         std::string m_map_path;
-        Vector2u m_offset;
+        Vector2i m_offset;
 
     private:
         static MapManager* m_instance;

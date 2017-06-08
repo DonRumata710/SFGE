@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Camera.h"
+#include "World.h"
 #include "MapLoader.h"
 #include "MapSaver.h"
 
@@ -41,13 +41,13 @@
 using namespace sfge;
 
 
-Camera::Camera ()
+World::World ()
 {
     m_panel.setColor (sf::Color::Black);
     m_panel.setSize (36.0f, 20.0f);
 }
 
-void Camera::loadMap (const std::string& path)
+void World::loadMap (const std::string& path)
 {
     std::shared_ptr<iResourceInputStream> stream (std::make_shared<FileInputStream> ());
     std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (stream.get ()));
@@ -58,58 +58,71 @@ void Camera::loadMap (const std::string& path)
     redraw ();
 }
 
-void Camera::saveMap (const std::string& path)
+void World::saveMap (const std::string& path)
 {
     FileOutputStream stream;
     MapSaver saver (&stream);
     saver.saveMap (getMap ().get (), path);
 }
 
-void Camera::closeMap ()
+void World::closeMap ()
 {
     m_map.reset ();
     sf::Sprite sprite;
     sprite.setColor (sf::Color::Black);
-    m_view.draw (sprite);
+    m_screen.draw (sprite);
 }
 
-void Camera::setMap (std::shared_ptr<MapManager> map)
+void World::setMap (std::shared_ptr<MapManager> map)
 {
     m_map = map;
 }
 
-std::shared_ptr<MapManager> sfge::Camera::getMap ()
+std::shared_ptr<MapManager> sfge::World::getMap ()
 {
     return m_map;
 }
 
-void Camera::redraw ()
+void World::redraw ()
 {
-    m_view.draw (m_panel);
+    m_screen.setView (m_view);
+    m_screen.draw (m_panel);
 
     if (m_map)
-        m_view.draw (*m_map);
+        m_screen.draw (*m_map);
 
-    m_view.display ();
+    m_screen.display ();
 }
 
-void Camera::setRect (const PositionDesc& desc)
+void World::move (Vector2f offset)
 {
-    m_view.create (desc.width, desc.height);
-    sf::View view (sf::FloatRect (0, 0, 36, 20));
-    m_view.setView (view);
+    m_panel.move (offset);
+    m_view.move (offset);
+    redraw ();
+}
+
+Vector2f World::mapPixelToCoords (Vector2i point)
+{
+    return m_screen.mapPixelToCoords (point);
+}
+
+void World::setRect (const PositionDesc& desc)
+{
+    m_screen.create (desc.width, desc.height);
+    m_view.reset (sf::FloatRect (0, 0, desc.width / 100, desc.height / 100));
+    m_screen.setView (m_view);
     redraw ();
 
     m_render_rect.setPosition (desc.x, desc.y);
     m_render_rect.setSize (desc.width, desc.height);
 }
 
-bool Camera::check_mouse (const int x, const int y)
+bool World::check_mouse (const int x, const int y)
 {
     return true;
 }
 
-void Camera::draw (sf::RenderTarget& target) const
+void World::draw (sf::RenderTarget& target) const
 {
-    target.draw (m_render_rect, &m_view.getTexture ());
+    target.draw (m_render_rect, &m_screen.getTexture ());
 }

@@ -30,15 +30,24 @@
 #pragma once
 
 
-#include <SFRPG/Camera.h>
+#include <SFRPG/World.h>
 
 
-class EditField : public sfge::Camera
+class EditField : public sfge::World
 {
 public:
     EditField ();
 
     ~EditField ();
 
-    void createMap (float tile_size, uint32_t width, uint32_t height);
+    void createMap (uint32_t width, uint32_t height, float tile_size = 0.0f);
+
+private:
+    virtual void check_mouse_button (const sf::Event::MouseButtonEvent&, const bool) override;
+
+    virtual bool check_mouse (const int x, const int y) override;
+
+private:
+    bool m_is_pressed = false;
+    sfge::Vector2i m_mouse;
 };

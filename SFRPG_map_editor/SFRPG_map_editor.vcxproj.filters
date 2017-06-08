@@ -48,4 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="media\resources\resources.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -43,7 +43,7 @@
     <ClCompile Include="SectorLoader.cpp">
       <Filter>MapSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="World.cpp">
       <Filter>GraphicSystem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,7 +96,7 @@
     <ClInclude Include="SectorLoader.h">
       <Filter>MapSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFRPG\Camera.h">
+    <ClInclude Include="..\include\SFRPG\World.h">
       <Filter>GraphicSystem</Filter>
     </ClInclude>
   </ItemGroup>

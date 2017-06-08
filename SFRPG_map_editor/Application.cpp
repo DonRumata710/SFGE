@@ -55,7 +55,7 @@ Application::Application () :
 
     std::shared_ptr<MenuItem> file_create_item (std::make_shared<MenuItem> ());
     file_create_item->setText ("Create");
-    file_create_item->attachReaction ([this]() { m_editor->createMap (128, 256, 256); }, Button::EventType::RELEASED);
+    file_create_item->attachReaction ([this]() { m_editor->createMap (256, 256, 512); }, Button::EventType::RELEASED);
 
     std::shared_ptr<MenuItem> file_open_item (std::make_shared<MenuItem> ());
     file_open_item->setText ("Open");

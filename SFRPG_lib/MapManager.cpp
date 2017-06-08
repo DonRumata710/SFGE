@@ -206,7 +206,7 @@ MapSector* MapManager::getSector (Vector2f position)
     return nullptr;
 }
 
-void MapManager::setOffset (unsigned x, unsigned y)
+void MapManager::setOffset (int32_t x, int32_t y)
 {
     for (auto& map : m_sectors)
     {

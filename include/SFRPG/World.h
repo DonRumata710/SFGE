@@ -45,12 +45,14 @@ namespace sfge
 
 
     using sf::Vector2u;
+    using sf::Vector2i;
+    using sf::Vector2f;
 
 
-    class Camera : public iWidget
+    class World : public iWidget
     {
     public:
-        Camera ();
+        World ();
 
         void loadMap (const std::string& path);
 
@@ -63,21 +65,26 @@ namespace sfge
 
         std::shared_ptr<MapManager> getMap ();
 
+        void redraw ();
+
+        void move (Vector2f offset);
+
+        Vector2f mapPixelToCoords (Vector2i point);
+
     private:
-        virtual void setRect (const PositionDesc& desc) override;
+        virtual void setRect (const PositionDesc& desc) override final;
 
         virtual bool check_mouse (const int x, const int y) override;
 
-        virtual void draw (sf::RenderTarget&) const override;
-
-        void redraw ();
+        virtual void draw (sf::RenderTarget&) const override final;
 
     private:
         std::shared_ptr<MapManager> m_map;
 
         RenderRect m_render_rect;
         Panel m_panel;
-        sf::RenderTexture m_view;
+        sf::View m_view;
+        sf::RenderTexture m_screen;
     };
 
 

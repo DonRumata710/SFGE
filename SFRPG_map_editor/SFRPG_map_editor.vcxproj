@@ -133,6 +133,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SaveFileDialog.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="media\resources\resources.cfg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

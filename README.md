@@ -13,7 +13,7 @@ Project works and was tested only on OS Windows for now.<br>
 To start using game engine you should download this project by command:<br>
 git clone --recursive https://github.com/DonRumata710/SFGE.git<br>
 Then you should build 3rd-party libraries in folder "3rd-party". You can use VS projects from folders called "*_vs" for this.<br>
-TestApplication is example of using library.<br>
+SFGE_test_app is example of using library.<br>
 
 ## Additional resources
 Also in example of project were used fonts [PT Sans](https://fonts.google.com/)<br>
