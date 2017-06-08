@@ -96,7 +96,7 @@ void World::redraw ()
 void World::setRect (const PositionDesc& desc)
 {
     m_view.create (desc.width, desc.height);
-    sf::View view (sf::FloatRect (0, 0, 36, 20));
+    sf::View view (sf::FloatRect (0, 0, 16, 10));
     m_view.setView (view);
     redraw ();
 

@@ -63,14 +63,14 @@ namespace sfge
 
         std::shared_ptr<MapManager> getMap ();
 
+        void redraw ();
+
     private:
         virtual void setRect (const PositionDesc& desc) override;
 
         virtual bool check_mouse (const int x, const int y) override;
 
         virtual void draw (sf::RenderTarget&) const override;
-
-        void redraw ();
 
     private:
         std::shared_ptr<MapManager> m_map;

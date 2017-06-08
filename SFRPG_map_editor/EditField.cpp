@@ -32,6 +32,7 @@
 #include <SFRPG/MapSector.h>
 
 #include <SFGE/Panel.h>
+#include <SFGE/ResourceManager.h>
 
 #include <vector>
 
@@ -45,8 +46,11 @@ EditField::EditField ()
 EditField::~EditField ()
 {}
 
-void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
+void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
 {
+    if (tile_size == 0.0f)
+        tile_size = ResourceManager::getInstance ()->getTexture ("tile.grass")->getSize ().x;
+
     std::vector<std::pair<Uint32, std::string>> tiles (width * height, { 0, "tile.grass" });
 
     for (size_t i = 0; i < height; ++i)
@@ -56,6 +60,7 @@ void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
     }
 
     std::unique_ptr<MapSector> map_sector (std::make_unique<MapSector> (Vector2u (width, height)));
+    map_sector->setTileSize (tile_size);
     map_sector->setTiles (tiles);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
@@ -65,4 +70,6 @@ void EditField::createMap (float tile_size, uint32_t width, uint32_t height)
     setMap (std::make_shared<MapManager> ());
     getMap ()->setName ("New map");
     getMap ()->setMapDescription (std::move (sectors));
+
+    redraw ();
 }
