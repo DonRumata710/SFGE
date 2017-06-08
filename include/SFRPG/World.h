@@ -47,10 +47,10 @@ namespace sfge
     using sf::Vector2u;
 
 
-    class Camera : public iWidget
+    class World : public iWidget
     {
     public:
-        Camera ();
+        World ();
 
         void loadMap (const std::string& path);
 

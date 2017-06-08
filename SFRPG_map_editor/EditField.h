@@ -30,10 +30,10 @@
 #pragma once
 
 
-#include <SFRPG/Camera.h>
+#include <SFRPG/World.h>
 
 
-class EditField : public sfge::Camera
+class EditField : public sfge::World
 {
 public:
     EditField ();

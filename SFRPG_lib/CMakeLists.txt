@@ -7,18 +7,18 @@ set(HEADERS)
 set(CLASSES
     Action
     Actor
-	Camera
     Collision
     DynamicObject
     InteractiveObject
     MapLoader
     MapManager
     MapObject
-	MapSaver
+    MapSaver
     MapSector
     StaticObject
     Way
     WayPoint
+    World
 )
 
 set(PRIVATE_CLASSES

@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="World.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="InteractiveObject.cpp" />
@@ -38,7 +38,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\SFRPG\Action.h" />
     <ClInclude Include="..\include\SFRPG\Actor.h" />
-    <ClInclude Include="..\include\SFRPG\Camera.h" />
+    <ClInclude Include="..\include\SFRPG\World.h" />
     <ClInclude Include="..\include\SFRPG\Collision.h" />
     <ClInclude Include="..\include\SFRPG\DynamicObject.h" />
     <ClInclude Include="..\include\SFRPG\InteractiveObject.h" />

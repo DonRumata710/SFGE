@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Camera.h"
+#include "World.h"
 #include "MapLoader.h"
 #include "MapSaver.h"
 
@@ -41,13 +41,13 @@
 using namespace sfge;
 
 
-Camera::Camera ()
+World::World ()
 {
     m_panel.setColor (sf::Color::Black);
     m_panel.setSize (36.0f, 20.0f);
 }
 
-void Camera::loadMap (const std::string& path)
+void World::loadMap (const std::string& path)
 {
     std::shared_ptr<iResourceInputStream> stream (std::make_shared<FileInputStream> ());
     std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (stream.get ()));
@@ -58,14 +58,14 @@ void Camera::loadMap (const std::string& path)
     redraw ();
 }
 
-void Camera::saveMap (const std::string& path)
+void World::saveMap (const std::string& path)
 {
     FileOutputStream stream;
     MapSaver saver (&stream);
     saver.saveMap (getMap ().get (), path);
 }
 
-void Camera::closeMap ()
+void World::closeMap ()
 {
     m_map.reset ();
     sf::Sprite sprite;
@@ -73,17 +73,17 @@ void Camera::closeMap ()
     m_view.draw (sprite);
 }
 
-void Camera::setMap (std::shared_ptr<MapManager> map)
+void World::setMap (std::shared_ptr<MapManager> map)
 {
     m_map = map;
 }
 
-std::shared_ptr<MapManager> sfge::Camera::getMap ()
+std::shared_ptr<MapManager> sfge::World::getMap ()
 {
     return m_map;
 }
 
-void Camera::redraw ()
+void World::redraw ()
 {
     m_view.draw (m_panel);
 
@@ -93,7 +93,7 @@ void Camera::redraw ()
     m_view.display ();
 }
 
-void Camera::setRect (const PositionDesc& desc)
+void World::setRect (const PositionDesc& desc)
 {
     m_view.create (desc.width, desc.height);
     sf::View view (sf::FloatRect (0, 0, 36, 20));
@@ -104,12 +104,12 @@ void Camera::setRect (const PositionDesc& desc)
     m_render_rect.setSize (desc.width, desc.height);
 }
 
-bool Camera::check_mouse (const int x, const int y)
+bool World::check_mouse (const int x, const int y)
 {
     return true;
 }
 
-void Camera::draw (sf::RenderTarget& target) const
+void World::draw (sf::RenderTarget& target) const
 {
     target.draw (m_render_rect, &m_view.getTexture ());
 }
