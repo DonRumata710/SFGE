@@ -72,11 +72,13 @@ namespace sfge
         Vector2f mapPixelToCoords (Vector2i point);
 
     private:
+        virtual void draw (sf::RenderTarget&) const override final;
+
+        virtual void update (const float delta) override final;
+
         virtual void setRect (const PositionDesc& desc) override final;
 
         virtual bool check_mouse (const int x, const int y) override;
-
-        virtual void draw (sf::RenderTarget&) const override final;
 
     private:
         std::shared_ptr<MapManager> m_map;

@@ -54,8 +54,6 @@ void World::loadMap (const std::string& path)
     setMap (std::make_shared<MapManager> ());
     if (!loader->loadMap (getMap ().get (), path))
         getMap ().reset ();
-
-    redraw ();
 }
 
 void World::saveMap (const std::string& path)
@@ -98,7 +96,6 @@ void World::move (Vector2f offset)
 {
     m_panel.move (offset);
     m_view.move (offset);
-    redraw ();
 }
 
 Vector2f World::mapPixelToCoords (Vector2i point)
@@ -106,12 +103,21 @@ Vector2f World::mapPixelToCoords (Vector2i point)
     return m_screen.mapPixelToCoords (point);
 }
 
+void World::draw (sf::RenderTarget& target) const
+{
+    target.draw (m_render_rect, &m_screen.getTexture ());
+}
+
+void World::update (const float delta)
+{
+    redraw ();
+}
+
 void World::setRect (const PositionDesc& desc)
 {
     m_screen.create (desc.width, desc.height);
     m_view.reset (sf::FloatRect (0, 0, desc.width / 100, desc.height / 100));
     m_screen.setView (m_view);
-    redraw ();
 
     m_render_rect.setPosition (desc.x, desc.y);
     m_render_rect.setSize (desc.width, desc.height);
@@ -120,9 +126,4 @@ void World::setRect (const PositionDesc& desc)
 bool World::check_mouse (const int x, const int y)
 {
     return true;
-}
-
-void World::draw (sf::RenderTarget& target) const
-{
-    target.draw (m_render_rect, &m_screen.getTexture ());
 }

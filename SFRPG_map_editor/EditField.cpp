@@ -83,7 +83,7 @@ void EditField::check_mouse_button (const sf::Event::MouseButtonEvent& e, const 
 bool EditField::check_mouse (const int x, const int y)
 {
     if (m_is_pressed)
-        move (mapPixelToCoords ({ m_mouse.x - x, m_mouse.y - y }));
+        move (mapPixelToCoords (m_mouse) - mapPixelToCoords ({ x, y }));
 
     m_mouse.x = x;
     m_mouse.y = y;
