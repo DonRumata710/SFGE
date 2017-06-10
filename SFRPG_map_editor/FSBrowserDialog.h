@@ -30,21 +30,26 @@
 #pragma once
 
 
-#include "FSBrowserDialog.h"
-
 #include <SFGE/GuiManager.h>
 #include <SFGE/TextList.h>
-#include <SFGE/LineEdit.h>
 
 
-class SaveFileDialog : public FSBrowserDialog
+class Application;
+
+
+class FSBrowserDialog
 {
 public:
-    SaveFileDialog (Application* parent);
+    FSBrowserDialog (Application* parent);
+
+    void dirBrowse (const std::string& dir);
+
+    void handleChoise (const std::string& str);
+
+protected:
+    Application* m_parent;
+    std::shared_ptr<sfge::TextList> text_list;
 
 private:
-    Application* m_parent;
-    sfge::pGUIManager manager;
-    std::shared_ptr<sfge::LineEdit> line_edit;
+    std::string m_current_dir = ".";
 };
-

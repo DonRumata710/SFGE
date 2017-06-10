@@ -27,24 +27,57 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#pragma once
-
-
 #include "FSBrowserDialog.h"
+#include "Common.h"
+#include "Application.h"
 
-#include <SFGE/GuiManager.h>
-#include <SFGE/TextList.h>
-#include <SFGE/LineEdit.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/Button.h>
+
+#include <filesystem>
+#include <deque>
 
 
-class SaveFileDialog : public FSBrowserDialog
+using namespace sfge;
+using namespace std::experimental::filesystem::v1;
+
+
+FSBrowserDialog::FSBrowserDialog (Application* parent) :
+    m_parent (parent)
+{}
+
+void FSBrowserDialog::dirBrowse (const std::string& dir)
 {
-public:
-    SaveFileDialog (Application* parent);
+    if (!exists (dir)) return;
 
-private:
-    Application* m_parent;
-    sfge::pGUIManager manager;
-    std::shared_ptr<sfge::LineEdit> line_edit;
-};
+    m_current_dir = dir;
 
+    std::deque<std::string> list;
+
+    for (auto& it : directory_iterator (dir))
+    {
+        if (is_directory (it.status ()))
+            list.push_front (it.path ().filename ().string ());
+        else
+            list.push_back (it.path ().filename ().string ());
+    }
+
+    list.push_front ("..");
+
+    text_list->clear ();
+    for (std::string str : list)
+        text_list->addString (str);
+}
+
+void FSBrowserDialog::handleChoise (const std::string& str)
+{
+    path choised_path (m_current_dir + "/" + str);
+    if (is_directory (choised_path))
+        dirBrowse (choised_path.string ());
+    else
+    {
+        m_parent->setChoisedString (choised_path.string ());
+        auto device (GEDevice::getInstance ());
+        device->destroyWindow ("Select file");
+    }
+}

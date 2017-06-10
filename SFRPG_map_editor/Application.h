@@ -31,8 +31,7 @@
 
 
 #include "EditField.h"
-#include "OpenFileDialog.h"
-#include "SaveFileDialog.h"
+#include "FSBrowserDialog.h"
 
 #include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
@@ -57,7 +56,7 @@ private:
     
     std::shared_ptr<EditField> m_editor;
 
-    std::unique_ptr<OpenFileDialog> m_file_select_window;
+    std::unique_ptr<FSBrowserDialog> m_file_select_window;
     std::string m_string;
 
     enum Action
