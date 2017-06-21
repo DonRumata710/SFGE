@@ -21,6 +21,8 @@ set_option(MINIZIP_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/minizip" "Set mini
 
 set(SFML_STATIC_LIBRARIES TRUE)
 
+add_subdirectory(3rd_party/zlib_build)
+add_subdirectory(3rd_party/minizip_build)
 add_subdirectory(SFGE_lib)
 add_subdirectory(SFGE_test_app)
 add_subdirectory(SFRPG_lib)

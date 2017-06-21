@@ -8,8 +8,9 @@ set(HEADER_FILES
 set(CLASSES
     Application
     EditField
-	OpenFileDialog
-	SaveFileDialog
+    FSBrowserDialog
+    OpenFileDialog
+    SaveFileDialog
 )
 
 set(SOURCE_FILES
@@ -42,7 +43,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED system window graphics audio)
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${APPLICATION_NAME} SFRPG SFGE ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+    target_link_libraries(${APPLICATION_NAME} SFRPG SFGE ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} minizip zlib)
 endif()
 
 if(WIN32)
