@@ -34,15 +34,13 @@
 #include <SFGE/GEDevice.h>
 #include <SFGE/Button.h>
 
-#include <filesystem>
 #include <deque>
 
 
 using namespace sfge;
-using namespace std::experimental::filesystem::v1;
 
 
-const const char* SAVE_FILE_DIALOG = "Save file";
+const char* SAVE_FILE_DIALOG = "Save file";
 
 
 SaveFileDialog::SaveFileDialog (Application* parent) :

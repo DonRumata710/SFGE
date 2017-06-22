@@ -19,7 +19,11 @@ set_option(CATCH_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/Catch" "Set Catch fo
 set_option(ZLIB_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/zlib" "Set zlib folder")
 set_option(MINIZIP_ROOT STRING "${CMAKE_SOURCE_DIR}/3rd_party/minizip" "Set minizip folder")
 
-set(SFML_STATIC_LIBRARIES TRUE)
+if (WIN32)
+    set(SFML_STATIC_LIBRARIES TRUE)
+else()
+    set(SFML_STATIC_LIBRARIES FALSE)
+endif()
 
 add_subdirectory(3rd_party/zlib_build)
 add_subdirectory(3rd_party/minizip_build)

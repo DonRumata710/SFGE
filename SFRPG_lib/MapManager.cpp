@@ -35,6 +35,7 @@
 
 #include <SFGE/Err.h>
 
+#include <cmath>
 #include <map>
 
 
@@ -97,7 +98,7 @@ std::string MapManager::getName () const
     return m_name;
 }
 
-void MapManager::setLoader (std::unique_ptr<SectorLoader>& loader)
+void MapManager::setLoader (std::unique_ptr<SectorLoader>&& loader)
 {
     m_loader.swap (loader);
 }
@@ -302,7 +303,7 @@ Vector2f MapManager::getWayStep (const WayPoint* p1, const WayPoint* p2)
 
     Vector2f dist (end - start);
 
-    return start + dist * p2->getRadius () / sqrt (dist.x * dist.x + dist.y * dist.y);
+    return start + dist * p2->getRadius () / static_cast<float> (sqrt (dist.x * dist.x + dist.y * dist.y));
 }
 
 void MapManager::draw (RenderTarget& target, RenderStates states) const

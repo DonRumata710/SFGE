@@ -41,6 +41,10 @@
 using namespace sfge;
 using namespace std::experimental::filesystem::v1;
 
+#ifndef WIN32
+using namespace std::experimental::filesystem::v1::__cxx11;
+#endif
+
 
 FSBrowserDialog::FSBrowserDialog (Application* parent) :
     m_parent (parent)

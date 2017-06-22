@@ -31,7 +31,7 @@
 
 #include "MapObject.h"
 
-#include <SFGE\Animation.h>
+#include <SFGE/Animation.h>
 
 
 namespace sfge

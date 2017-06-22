@@ -29,7 +29,7 @@
 
 #include "DynamicObject.h"
 
-#include <SFGE\ResourceManager.h>
+#include <SFGE/ResourceManager.h>
 
 
 using namespace sfge;

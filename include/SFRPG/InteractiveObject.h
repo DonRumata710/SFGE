@@ -33,7 +33,7 @@
 #include "MapObject.h"
 #include "Action.h"
 
-#include <SFGE\Animation.h>
+#include <SFGE/Animation.h>
 
 #include <functional>
 #include <unordered_map>
@@ -62,7 +62,7 @@ namespace sfge
 
         template<class Action, typename ...Args> void attachReaction (iAction::ActionID id_action, Args ...args)
         {
-            std::shared_ptr<iAction> action (new Action (this, args));
+            std::shared_ptr<iAction> action (new Action (this, args...));
             m_reactions[id_action] = action;
         }
 

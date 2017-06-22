@@ -64,7 +64,6 @@ void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
     map_sector->setTiles (tiles);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
-    sectors.insert ({ 0, MapSectorDesc () });
     sectors[0].sector.swap (map_sector);
 
     setMap (std::make_shared<MapManager> ());

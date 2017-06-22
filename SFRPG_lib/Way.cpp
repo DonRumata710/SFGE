@@ -29,6 +29,8 @@
 
 #include "Way.h"
 
+#include <cmath>
+
 
 using namespace sfge;
 

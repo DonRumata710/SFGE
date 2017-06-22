@@ -57,7 +57,7 @@ int main ()
 
 
     ResourceManager rm (true);
-    if (!rm.loadScript ("media\\resources\\resources.cfg")) return 1;
+    if (!rm.loadScript ("media/resources/resources.cfg")) return 1;
 
     rm.setDefaultFont (rm.getFont ("font.standart"));
 

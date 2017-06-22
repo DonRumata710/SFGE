@@ -29,6 +29,9 @@
 
 #include "WayPoint.h"
 
+#include <cmath>
+#include <cfloat>
+
 
 using namespace sfge;
 

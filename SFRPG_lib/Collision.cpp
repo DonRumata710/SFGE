@@ -29,6 +29,8 @@
 
 #include "Collision.h"
 
+#include <cstring>
+
 
 using namespace sfge;
 
