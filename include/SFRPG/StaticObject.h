@@ -32,7 +32,7 @@
 
 #include "MapObject.h"
 
-#include <SFGE\Panel.h>
+#include <SFGE/Panel.h>
 
 
 namespace sfge

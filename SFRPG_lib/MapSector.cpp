@@ -36,6 +36,7 @@
 #include <SFGE/Err.h>
 
 #include <map>
+#include <cfloat>
 
 
 using namespace sfge;

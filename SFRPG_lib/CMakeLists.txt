@@ -47,6 +47,10 @@ foreach(header ${UTILITY_HEADERS})
 endforeach()
 
 include_directories(${SFRPG_INCLUDE_DIR} ${SFGE_INCLUDE_DIR}  ${SFML_ROOT}/include)
-add_definitions(-DSFML_STATIC)
 
-add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})
+if(WIN32)
+    add_definitions(-DSFML_STATIC)
+    add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})
+else()
+    add_library(${LIBRARY_NAME} SHARED ${SOURCES} ${HEADERS})
+endif()

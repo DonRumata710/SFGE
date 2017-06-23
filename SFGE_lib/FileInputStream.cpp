@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "..\include\SFGE\FileInputStream.h"
+#include "../include/SFGE/FileInputStream.h"
 
 
 using namespace sfge;

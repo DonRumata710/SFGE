@@ -33,6 +33,7 @@
 #include <SFML\System\Vector2.hpp>
 
 #include <unordered_map>
+#include <vector>
 
 
 namespace sfge

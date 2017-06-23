@@ -107,7 +107,7 @@ namespace sfge
         ///
         /// @param loader - pointer to loader
         /////////////////////////////////////////////////////////////////////
-        void setLoader (std::unique_ptr<SectorLoader>& loader);
+        void setLoader (std::unique_ptr<SectorLoader>&& loader);
 
         /////////////////////////////////////////////////////////////////////
         /// lookMap - load all sectors which contain current areas

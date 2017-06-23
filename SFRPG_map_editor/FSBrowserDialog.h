@@ -27,57 +27,29 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "WayPoint.h"
-
-#include <cmath>
-#include <cfloat>
+#pragma once
 
 
-using namespace sfge;
+#include <SFGE/GuiManager.h>
+#include <SFGE/TextList.h>
 
 
-sfge::WayPointID::WayPointID (uint32_t map_id, uint32_t id) :
-    m_map_id (map_id), m_id (id)
-{}
+class Application;
 
 
-void WayPoint::assignEdges (const EdgeList& edges)
+class FSBrowserDialog
 {
-    m_neighbours.assign (edges.begin (), edges.end ());
-}
+public:
+    FSBrowserDialog (Application* parent);
 
-const WayPoint::EdgeList& WayPoint::getEdges () const
-{
-    return m_neighbours;
-}
+    void dirBrowse (const std::string& dir);
 
-void WayPoint::setPosition (Vector2f pos)
-{
-    m_position = pos;
-}
+    void handleChoise (const std::string& str);
 
-Vector2f WayPoint::getPosition () const
-{
-    return m_position;
-}
+protected:
+    Application* m_parent;
+    std::shared_ptr<sfge::TextList> text_list;
 
-void WayPoint::setRadius (float r)
-{
-    m_radius = r;
-}
-
-float WayPoint::getRadius () const
-{
-    return m_radius;
-}
-
-float WayPoint::checkArea (const Vector2f point) const
-{
-    Vector2f vec_dist (m_position - point);
-    float distance (sqrt (vec_dist.x * vec_dist.x + vec_dist.y * vec_dist.y));
-
-    if (distance < m_radius)
-        return distance;
-    else
-        return FLT_MAX;
-}
+private:
+    std::string m_current_dir = ".";
+};

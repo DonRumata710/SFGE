@@ -61,10 +61,10 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// EventType - enumeration of types of events
         /////////////////////////////////////////////////////////////////////
-        enum EventType
+        enum EventType : uint32_t
         {
-            PRESSED = View::PRESSED,
-            RELEASED = View::RELEASED
+            PRESSED = static_cast<uint32_t> (View::PRESSED),
+            RELEASED = static_cast<uint32_t> (View::RELEASED)
         };
 
         /////////////////////////////////////////////////////////////////////

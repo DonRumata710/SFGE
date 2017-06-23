@@ -32,8 +32,8 @@
 
 #include "Collision.h"
 
-#include <SFML\Graphics\RenderTarget.hpp>
-#include <SFML\Graphics\Drawable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 
 #include <string>
 

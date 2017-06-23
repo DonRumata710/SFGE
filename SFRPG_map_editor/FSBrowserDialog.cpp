@@ -27,57 +27,61 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "WayPoint.h"
+#include "FSBrowserDialog.h"
+#include "Common.h"
+#include "Application.h"
 
-#include <cmath>
-#include <cfloat>
+#include <SFGE/GEDevice.h>
+#include <SFGE/Button.h>
+
+#include <filesystem>
+#include <deque>
 
 
 using namespace sfge;
+using namespace std::experimental::filesystem::v1;
+
+#ifndef WIN32
+using namespace std::experimental::filesystem::v1::__cxx11;
+#endif
 
 
-sfge::WayPointID::WayPointID (uint32_t map_id, uint32_t id) :
-    m_map_id (map_id), m_id (id)
+FSBrowserDialog::FSBrowserDialog (Application* parent) :
+    m_parent (parent)
 {}
 
-
-void WayPoint::assignEdges (const EdgeList& edges)
+void FSBrowserDialog::dirBrowse (const std::string& dir)
 {
-    m_neighbours.assign (edges.begin (), edges.end ());
+    if (!exists (dir)) return;
+
+    m_current_dir = dir;
+
+    std::deque<std::string> list;
+
+    for (auto& it : directory_iterator (dir))
+    {
+        if (is_directory (it.status ()))
+            list.push_front (it.path ().filename ().string ());
+        else
+            list.push_back (it.path ().filename ().string ());
+    }
+
+    list.push_front ("..");
+
+    text_list->clear ();
+    for (std::string str : list)
+        text_list->addString (str);
 }
 
-const WayPoint::EdgeList& WayPoint::getEdges () const
+void FSBrowserDialog::handleChoise (const std::string& str)
 {
-    return m_neighbours;
-}
-
-void WayPoint::setPosition (Vector2f pos)
-{
-    m_position = pos;
-}
-
-Vector2f WayPoint::getPosition () const
-{
-    return m_position;
-}
-
-void WayPoint::setRadius (float r)
-{
-    m_radius = r;
-}
-
-float WayPoint::getRadius () const
-{
-    return m_radius;
-}
-
-float WayPoint::checkArea (const Vector2f point) const
-{
-    Vector2f vec_dist (m_position - point);
-    float distance (sqrt (vec_dist.x * vec_dist.x + vec_dist.y * vec_dist.y));
-
-    if (distance < m_radius)
-        return distance;
+    path choised_path (m_current_dir + "/" + str);
+    if (is_directory (choised_path))
+        dirBrowse (choised_path.string ());
     else
-        return FLT_MAX;
+    {
+        m_parent->setChoisedString (choised_path.string ());
+        auto device (GEDevice::getInstance ());
+        device->destroyWindow ("Select file");
+    }
 }

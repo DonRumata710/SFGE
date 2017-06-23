@@ -30,7 +30,7 @@
 #include "InteractiveObject.h"
 #include "MapSector.h"
 
-#include <SFGE\ResourceManager.h>
+#include <SFGE/ResourceManager.h>
 
 
 using namespace sfge;

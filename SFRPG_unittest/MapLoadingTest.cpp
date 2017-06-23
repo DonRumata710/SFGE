@@ -69,7 +69,6 @@ TEST_CASE ("Test saving and loading map")
     map_sector->setTiles (tiles);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
-    sectors.insert ({ 0, MapSectorDesc () });
     sectors[0].sector.swap (map_sector);
     sectors[0].size = sectors[0].sector->getSize ();
 

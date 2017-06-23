@@ -61,7 +61,7 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// View - enumeration of views of the widget
         /////////////////////////////////////////////////////////////////////
-        enum class View : unsigned
+        enum class View : uint32_t
         {
             RELEASED,
             HOVER,

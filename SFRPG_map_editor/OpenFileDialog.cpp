@@ -34,16 +34,17 @@
 #include <SFGE/GEDevice.h>
 #include <SFGE/Button.h>
 
-#include <filesystem>
 #include <deque>
 
 
 using namespace sfge;
-using namespace std::experimental::filesystem::v1;
+
+
+const char* OPEN_FILE_DIALOG = "Open file";
 
 
 OpenFileDialog::OpenFileDialog (Application* parent) :
-    m_parent (parent)
+    FSBrowserDialog (parent)
 {
     auto device (GEDevice::getInstance ());
     manager = std::make_unique<GUIManager> (device);
@@ -69,7 +70,7 @@ OpenFileDialog::OpenFileDialog (Application* parent) :
     button_cancel->setView (HOVER_COLOR, Button::View::HOVER);
     button_cancel->setView (SECOND_COLOR, Button::View::PRESSED);
     button_cancel->setText ("Cancel");
-    button_cancel->attachReaction ([this]() { handleChoise (""); }, Button::EventType::PRESSED);
+    button_cancel->attachReaction ([device]() { device->destroyWindow (OPEN_FILE_DIALOG); }, Button::EventType::PRESSED);
 
     std::shared_ptr<Button> button_ok (std::make_shared<Button> ());
     button_ok->setPosition (iWidget::Position::BOTTOM | iWidget::Position::RIGHT, 10, 10);
@@ -85,39 +86,5 @@ OpenFileDialog::OpenFileDialog (Application* parent) :
     manager->addBackWidget (button_ok);
 
     device->addGuiManager (1, manager);
-    device->createWindow (1, "Select file", sfge::VideoMode (400, 380));
-}
-
-void OpenFileDialog::dirBrowse (const std::string& dir)
-{
-    if (!exists (dir)) return;
-
-    std::deque<std::string> list;
-    
-    for (auto& it : directory_iterator (dir))
-    {
-        if (is_directory (it.status ()))
-            list.push_front (it.path ().filename ().string ());
-        else
-            list.push_back (it.path ().filename ().string ());
-    }
-
-    list.push_front ("..");
-
-    text_list->clear ();
-    for (std::string str : list)
-        text_list->addString (str);
-}
-
-void OpenFileDialog::handleChoise (const std::string& str)
-{
-    path choised_path (str);
-    if (is_directory (choised_path))
-        dirBrowse (str);
-    else
-    {
-        m_parent->setChoisedString (str);
-        auto device (GEDevice::getInstance ());
-        device->destroyWindow ("Select file");
-    }
+    device->createWindow (1, OPEN_FILE_DIALOG, sfge::VideoMode (400, 380));
 }

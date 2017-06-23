@@ -29,6 +29,8 @@
 
 #include "Common.h"
 #include "Application.h"
+#include "OpenFileDialog.h"
+#include "SaveFileDialog.h"
 
 #include <SFGE/MenuBar.h>
 #include <SFGE/PullDownMenu.h>
@@ -150,5 +152,5 @@ void Application::openFileDialog ()
 void Application::saveFileDialog ()
 {
     m_last_action = SAVE;
-    m_file_select_window = std::make_unique<OpenFileDialog> (this);
+    m_file_select_window = std::make_unique<SaveFileDialog> (this);
 }

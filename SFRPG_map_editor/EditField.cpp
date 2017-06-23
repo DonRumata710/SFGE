@@ -64,7 +64,6 @@ void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
     map_sector->setTiles (tiles);
 
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
-    sectors.insert ({ 0, MapSectorDesc () });
     sectors[0].sector.swap (map_sector);
 
     setMap (std::make_shared<MapManager> ());
@@ -83,7 +82,7 @@ void EditField::check_mouse_button (const sf::Event::MouseButtonEvent& e, const 
 bool EditField::check_mouse (const int x, const int y)
 {
     if (m_is_pressed)
-        move (mapPixelToCoords ({ m_mouse.x - x, m_mouse.y - y }));
+        move (mapPixelToCoords (m_mouse) - mapPixelToCoords ({ x, y }));
 
     m_mouse.x = x;
     m_mouse.y = y;
