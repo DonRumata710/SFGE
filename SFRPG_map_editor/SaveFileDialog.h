@@ -41,6 +41,7 @@ class SaveFileDialog : public FSBrowserDialog
 {
 public:
     SaveFileDialog (Application* parent);
+    virtual ~SaveFileDialog ();
 
 private:
     Application* m_parent;

@@ -81,9 +81,6 @@ namespace sfge
     class File;
 
 
-    void runtime_error (const std::string&);
-
-
     /////////////////////////////////////////////////////////////////////
     /// ResourceManager - class for control resources
     ///
@@ -95,30 +92,61 @@ namespace sfge
     class ResourceManager
     {
     public:
+        static const std::string DEFAULT;
 
         /////////////////////////////////////////////////////////////////////
-        /// getInstance - get instance of default resource manager
+        /// createInstance - create instance of resource manager
+        /// 
+        /// Use this function to have access to manager from any point of
+        /// program.
+        ///
+        /// @param manager_name - name of resource manager
+        /// @param is_default - manager will be available as default if true
+        ///
+        /// @return pointer to device or nullptr if device wasn't created
+        /////////////////////////////////////////////////////////////////////
+        template<class Subclass = ResourceManager> static std::shared_ptr<Subclass> createInstance (const std::string& manager_name, bool is_default = true)
+        {
+            std::shared_ptr<Subclass> rm (std::make_shared<Subclass> ());
+
+            if (m_managers.find (DEFAULT) == m_managers.end ())
+                m_managers[DEFAULT] = rm;
+            else
+                m_managers[manager_name] = rm;
+
+            return rm;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////
+        /// getInstance - get instance of resource manager
         /// 
         /// Default resource manager is used by GUI system.
+        ///
+        /// @param manager_name - name of manager
         /// 
         /// @return pointer to device or nullptr if device wasn't created
         /////////////////////////////////////////////////////////////////////
-        template<class Subclass = ResourceManager> static Subclass* getInstance ()
+        template<class Subclass = ResourceManager> static std::shared_ptr<Subclass> getInstance (const std::string& manager_name = DEFAULT)
         {
-            if (!m_default_manager)
-                runtime_error ("Attempt to obtain instance resource manager before creating");
+            auto it (m_managers.find (manager_name));
+            if (it == m_managers.end ())
+                return std::shared_ptr<Subclass> (m_managers[DEFAULT]);
 
-            return dynamic_cast<Subclass*> (m_default_manager);
+            return std::shared_ptr<Subclass> (it->second);
         }
 
         /////////////////////////////////////////////////////////////////////
         /// constructor
         ///
-        /// Create empty resource manager.
+        /// Create empty resource manager. If you create resource manager
+        /// without create function it will not be available from get
+        /// function.
         ///
         /// @param is_default - if true this manager will be used for GUI elements
         ///////////////////////////////////////////////////////////////////// 
-        ResourceManager (bool is_default = false);
+        ResourceManager ();
+
 
         /////////////////////////////////////////////////////////////////////
         /// setResourceStream - set new place which contains resources
@@ -275,7 +303,7 @@ namespace sfge
 
         bool m_use_default_font = true;
 
-        static ResourceManager* m_default_manager;
+        static std::unordered_map<std::string, std::weak_ptr<ResourceManager>> m_managers;
     };
 
 

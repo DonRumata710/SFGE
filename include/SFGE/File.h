@@ -65,7 +65,7 @@ namespace sfge
         bool isOpen () const;
 
     private:
-        char* m_data;
+        char* m_data = nullptr;
     };
 
 

@@ -88,3 +88,9 @@ OpenFileDialog::OpenFileDialog (Application* parent) :
     device->addGuiManager (1, manager);
     device->createWindow (1, OPEN_FILE_DIALOG, sfge::VideoMode (400, 380));
 }
+
+OpenFileDialog::~OpenFileDialog ()
+{
+    auto device (GEDevice::getInstance ());
+    device->destroyWindow (OPEN_FILE_DIALOG);
+}

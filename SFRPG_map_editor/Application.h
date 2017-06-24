@@ -52,7 +52,7 @@ public:
 
 private:
     sfge::GEDevice m_device;
-    sfge::ResourceManager m_resource_manager;
+    std::shared_ptr<sfge::ResourceManager> m_resource_manager;
     
     std::shared_ptr<EditField> m_editor;
 

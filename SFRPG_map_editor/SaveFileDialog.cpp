@@ -93,3 +93,9 @@ SaveFileDialog::SaveFileDialog (Application* parent) :
     device->addGuiManager (1, manager);
     device->createWindow (1, SAVE_FILE_DIALOG, sfge::VideoMode (400, 380));
 }
+
+SaveFileDialog::~SaveFileDialog ()
+{
+    auto device (GEDevice::getInstance ());
+    device->destroyWindow (SAVE_FILE_DIALOG);
+}

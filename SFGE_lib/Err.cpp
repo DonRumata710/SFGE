@@ -31,40 +31,35 @@
 
 #include <SFML/System/Err.hpp>
 
-#include <exception>
+
+using namespace sfge;
 
 
-namespace sfge
+Exception::Exception (const std::string & msg)
 {
+    msg.copy (m_message, msg.size (), 0);
+}
+
+char const* Exception::what () const noexcept
+{
+    return m_message;
+}
 
 
-    Exception::Exception (const std::string & msg)
-    {
-        msg.copy (m_message, msg.size (), 0);
-    }
+void log::log_critical_error (const std::string& file, const std::string& line, const std::string& message)
+{
+    sf::err () << file << " " << line << ": " << message << '\n';
+    throw Exception (message.c_str ());
+}
 
-    char const* Exception::what () const noexcept
-    {
-        return m_message;
-    }
+void log::log_runtime_error (const std::string& file, const std::string& line, const std::string& message)
+{
+    sf::err () << file << " " << line << ": " << message << '\n';
+}
 
-
-    void critical_error (const std::string& message)
-    {
-        sf::err () << message << '\n';
-        throw Exception (message.c_str ());
-    }
-
-    void runtime_error (const std::string & message)
-    {
-        sf::err () << message << '\n';
-    }
-
-    void debug_message (const std::string & message)
-    {
-    #ifdef _DEBUG
-        sf::err () << message << '\n';
-    #endif
-    }
-
+void log::log_debug_message (const std::string& file, const std::string& line, const std::string& message)
+{
+#ifdef _DEBUG
+    sf::err () << file << " " << line << ": " << message << '\n';
+#endif
 }

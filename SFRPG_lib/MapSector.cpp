@@ -63,7 +63,7 @@ void MapSector::setTileSize (Uint32 size)
 
 void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles)
 {
-    ResourceManager* rm (ResourceManager::getInstance ());
+    std::shared_ptr<ResourceManager> rm (ResourceManager::getInstance ());
 
     if (!rm)
     {

@@ -47,10 +47,10 @@ const Color HOVER_COLOR (0x21, 0x27, 0x67);
 
 
 Application::Application () :
-    m_resource_manager (true)
+    m_resource_manager (ResourceManager::createInstance (ResourceManager::DEFAULT))
 {
-    m_resource_manager.loadScript ("media\\resources\\resources.cfg");
-    m_resource_manager.setDefaultFont (m_resource_manager.getFont ("font.standart"));
+    m_resource_manager->loadScript ("media\\resources\\resources.cfg");
+    m_resource_manager->setDefaultFont (m_resource_manager->getFont ("font.standart"));
 
 
     /// File
@@ -84,6 +84,7 @@ Application::Application () :
     program_control_menu->addItem (file_open_item);
     program_control_menu->addItem (file_save_item);
     program_control_menu->addItem (file_save_as_item);
+    program_control_menu->addItem (file_close_item);
     program_control_menu->addItem (program_close_item);
 
 
@@ -137,7 +138,7 @@ void Application::setChoisedString (const std::string& str)
     else if (m_last_action == SAVE && !m_string.empty ())
         m_editor->saveMap (m_string);
     else if (m_last_action == ADD_RESOURCES && !m_string.empty ())
-        m_resource_manager.loadScript (m_string);
+        m_resource_manager->loadScript (m_string);
 
     m_file_select_window.reset ();
     m_last_action = NONE;

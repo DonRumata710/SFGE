@@ -40,6 +40,7 @@ class OpenFileDialog : public FSBrowserDialog
 {
 public:
     OpenFileDialog (Application* parent);
+    virtual ~OpenFileDialog ();
 
 private:
     sfge::pGUIManager manager;

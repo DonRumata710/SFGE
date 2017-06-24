@@ -41,6 +41,7 @@ Label::Label ()
 {
     m_text.setFillColor (Color::White);
     m_text.setCharacterSize (14);
+    m_text.setFont (*ResourceManager::getInstance ()->getFont (ResourceManager::DEFAULT));
 }
 
 void Label::setString (const UString& text)

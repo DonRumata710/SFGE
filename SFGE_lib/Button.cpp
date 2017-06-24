@@ -107,7 +107,7 @@ void Button::setText (const UString& string)
 {
     m_text.setString (string);
     if (!m_text.getFont ())
-        m_text.setFont (*ResourceManager::getInstance ()->getFont ("Default"));
+        m_text.setFont (*ResourceManager::getInstance ()->getFont (ResourceManager::DEFAULT));
 }
 
 Vector2f Button::getTextSize () const

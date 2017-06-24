@@ -33,6 +33,7 @@
 #include "Config.h"
 
 #include <string>
+#include <exception>
 
 
 namespace sfge
@@ -69,31 +70,49 @@ namespace sfge
     };
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// critical_error inform about some error which crash application
-    ///
-    /// Throw Exception after logging.
-    ///
-    /// @param message - description of error
-    /////////////////////////////////////////////////////////////////////
-    void critical_error (const std::string& message);
+    namespace log
+    {
 
-    /////////////////////////////////////////////////////////////////////
-    /// runtime_error inform about some error
-    ///
-    /// Write log about error.
-    ///
-    /// @param message - description of error
-    /////////////////////////////////////////////////////////////////////
-    void runtime_error (const std::string& message);
 
-    /////////////////////////////////////////////////////////////////////
-    /// debug_message inform about some event which can be importaint
-    /// for programmer
-    ///
-    /// @param message - description of error
-    /////////////////////////////////////////////////////////////////////
-    void debug_message (const std::string& message);
+        /////////////////////////////////////////////////////////////////////
+        /// critical_error inform about some error which crash application
+        ///
+        /// Throw Exception after logging.
+        ///
+        /// @param message - description of error
+        /////////////////////////////////////////////////////////////////////
+        void log_critical_error (const std::string& file, const std::string& line, const std::string& message);
+
+        /////////////////////////////////////////////////////////////////////
+        /// runtime_error inform about some error
+        ///
+        /// Write log about error.
+        ///
+        /// @param message - description of error
+        /////////////////////////////////////////////////////////////////////
+        void log_runtime_error (const std::string& file, const std::string& line, const std::string& message);
+
+        /////////////////////////////////////////////////////////////////////
+        /// debug_message inform about some event which can be importaint
+        /// for programmer
+        ///
+        /// @param message - description of error
+        /////////////////////////////////////////////////////////////////////
+        void log_debug_message (const std::string& file, const std::string& line, const std::string& message);
+
+
+    }
+
+
+#define critical_error(msg) log::log_critical_error(__FILE__, std::to_string (__LINE__), msg);
+
+#define runtime_error(msg) log::log_runtime_error(__FILE__, std::to_string ( __LINE__), msg);
+
+#ifdef _DEBUG
+#define debug_message(msg) log::log_debug_message(__FILE__, std::to_string (__LINE__), msg);
+#else
+#define debug_message(msg)
+#endif
 
 
 }

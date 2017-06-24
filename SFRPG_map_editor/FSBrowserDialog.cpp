@@ -79,9 +79,5 @@ void FSBrowserDialog::handleChoise (const std::string& str)
     if (is_directory (choised_path))
         dirBrowse (choised_path.string ());
     else
-    {
         m_parent->setChoisedString (choised_path.string ());
-        auto device (GEDevice::getInstance ());
-        device->destroyWindow ("Select file");
-    }
 }

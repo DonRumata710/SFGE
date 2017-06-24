@@ -41,6 +41,7 @@ class FSBrowserDialog
 {
 public:
     FSBrowserDialog (Application* parent);
+    virtual ~FSBrowserDialog () = default;
 
     void dirBrowse (const std::string& dir);
 
