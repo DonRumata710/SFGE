@@ -142,7 +142,7 @@ bool MapManager::save (MapSaver* saver)
             sector.second.path = "sector-" + std::to_string (sector.first) + ".ress";
         if (!saver->saveSectorDescription (sector.first, sector.second))
         {
-            runtime_error ("Failed saving description of sector " + sector.second.sector->getName ());
+            runtime_message ("Failed saving description of sector " + sector.second.sector->getName ());
             return false;
         }
     }
@@ -158,7 +158,7 @@ bool MapManager::saveSectors (MapSaver * saver)
 
         if (!saver->saveSector (sector.second.sector.get (), sector.second.path))
         {
-            runtime_error ("Failed saving sector " + sector.second.sector->getName ());
+            runtime_message ("Failed saving sector " + sector.second.sector->getName ());
             return false;
         }
     }

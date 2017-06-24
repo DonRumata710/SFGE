@@ -45,7 +45,7 @@ bool MapSaver::saveMap (MapManager* manager, const std::string& path)
 {
     if (!m_output_stream->open (path))
     {
-        runtime_error ("Can not save map to file " + path);
+        runtime_message ("Can not save map to file " + path);
         return false;
     }
 
@@ -106,7 +106,7 @@ bool MapSaver::saveSector (MapSector* sector, const std::string& path)
 {
     if (!m_output_stream->open (path))
     {
-        runtime_error ("Can not save sector to file " + path);
+        runtime_message ("Can not save sector to file " + path);
         return false;
     }
 

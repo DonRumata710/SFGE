@@ -98,7 +98,7 @@ namespace sfge
 
         //if ((m_string_list.size () + 1) * (m_character_size + m_character_size / 4) > m_outward_view.getSize ().y)
         //{
-        //    runtime_error ("Text list is overloaded.");
+        //    runtime_message ("Text list is overloaded.");
         //    return;
         //}
 

@@ -43,7 +43,7 @@ namespace sfge
     GEDevice::GEDevice ()
     {
         if (m_device)
-            critical_error ("Few game engine devices was created!");
+            critical_error ("Few game engine devices was created!", std::runtime_error);
 
         m_device = this;
     }
@@ -130,7 +130,7 @@ namespace sfge
         }
         catch (const std::exception& ex)
         {
-            runtime_error (ex.what ());
+            runtime_message (ex.what ());
         }
         return 0;
     }

@@ -156,7 +156,7 @@ namespace sfge
 
     void GUIManager::enter (std::unique_ptr<RenderWindow>& window)
     {
-        if (!window) critical_error ("GUI manager has got empty pointer to window!");
+        if (!window) critical_error ("GUI manager has got empty pointer to window!", std::runtime_error);
 
         m_state = State::ENTER;
         m_timer.restart ();

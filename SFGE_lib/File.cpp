@@ -48,7 +48,7 @@ namespace sfge
 
         if (size == -1)
         {
-            runtime_error ("Failed accessing the file");
+            runtime_message ("Failed accessing the file");
             return;
         }
 

@@ -64,7 +64,7 @@ void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column,
 {
     if (column >= m_columns || row >= m_rows)
     {
-        runtime_error ("Grid box is out of range");
+        runtime_message ("Grid box is out of range");
         return;
     }
 

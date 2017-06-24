@@ -161,7 +161,7 @@ bool MapSector::save (MapSaver* saver)
         }
         if (!saver->saveTile (texture, { (Uint32) tile.getPosition ().x, (Uint32) tile.getPosition ().y }))
         {
-            runtime_error ("Failed saving tile in pos x = " + std::to_string (tile.getPosition ().x) + " y = " + std::to_string (tile.getPosition ().y));
+            runtime_message ("Failed saving tile in pos x = " + std::to_string (tile.getPosition ().x) + " y = " + std::to_string (tile.getPosition ().y));
             return false;
         }
     }

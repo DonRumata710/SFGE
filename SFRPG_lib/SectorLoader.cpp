@@ -78,7 +78,7 @@ void SectorLoader::loadSectors (const std::vector<MapSectorDesc*>& sectors)
     {
         if (!m_stream->open (sector_desc->path))
         {
-            runtime_error ("Failed loading map sector from file " + sector_desc->path);
+            runtime_message ("Failed loading map sector from file " + sector_desc->path);
             break;
         }
 
@@ -92,13 +92,13 @@ void SectorLoader::loadSectors (const std::vector<MapSectorDesc*>& sectors)
         tp->getToken ();
         if (tp->getTokentype () != MD_SECTOR)
         {
-            runtime_error ("Wrong map sector description in file " + sector_desc->path);
+            runtime_message ("Wrong map sector description in file " + sector_desc->path);
             return;
         }
 
         std::unique_ptr<MapSector> sector (std::make_unique<MapSector> (sector_desc->size));
         if (!loadMapSector (tp, sector.get ()))
-            runtime_error ("Failed including named " + std::string (tp->tknString ()) + " failed!");
+            runtime_message ("Failed including named " + std::string (tp->tknString ()) + " failed!");
         sector_desc->sector.swap (sector);
         break;
     }
@@ -112,7 +112,7 @@ bool SectorLoader::loadMapSector (TextParser* tp, MapSector* sector)
     tp->getToken ();
     if (tp->getTokentype () != MD_OPEN_BLOCK)
     {
-        runtime_error ("Unexpected identifier instead '{' in line " + std::to_string (tp->getLine ()));
+        runtime_message ("Unexpected identifier instead '{' in line " + std::to_string (tp->getLine ()));
         return false;
     }
 
@@ -144,7 +144,7 @@ bool SectorLoader::loadMapSector (TextParser* tp, MapSector* sector)
             tiles.push_back (loadTile (tp, sector_width));
             break;
         default:
-            runtime_error ("Unexpected identifier in segment description in line " + std::to_string (tp->getLine ()));
+            runtime_message ("Unexpected identifier in segment description in line " + std::to_string (tp->getLine ()));
             return false;
         }
     }
@@ -188,7 +188,7 @@ std::pair<uint32_t, std::string> SectorLoader::loadTile (TextParser* tp, Uint32 
                 tile_desc.first += tp->tknInt () * sector_width;
                 break;
             default:
-                runtime_error ("Unexpected identifier in tile description in line " + std::to_string (tp->getLine ()));
+                runtime_message ("Unexpected identifier in tile description in line " + std::to_string (tp->getLine ()));
                 return std::pair<uint32_t, std::string> ();
             }
         }

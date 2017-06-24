@@ -70,7 +70,7 @@ namespace sfge
 
         if (font_iter != m_scripts.end ())
         {
-            runtime_error ("Resource script \"" + path + "\" was already read");
+            runtime_message ("Resource script \"" + path + "\" was already read");
             return true;
         }
 

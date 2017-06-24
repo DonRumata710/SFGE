@@ -181,14 +181,14 @@ namespace sfge
                 if (ignore)
                     return true;
 
-                runtime_error ("End of block missed");
+                runtime_message ("End of block missed");
                 return false;
             }
             // ≈сли допустимо рекурсивное включение структур, то этот блок нужно переписать
             if ((tp->getTokentype () <= Token::TTPAR__FIRST && tp->getTokentype () >= Token::TTPAR__LAST) || bToBeIgnored)
             {
                 bToBeIgnored = false;
-                runtime_error ("Unsupported resource parameter in line " + std::to_string (tp->getLine ()));
+                runtime_message ("Unsupported resource parameter in line " + std::to_string (tp->getLine ()));
                 do
                 {
                     tp->getToken ();
@@ -227,7 +227,7 @@ namespace sfge
 
         if (!script)
         {
-            runtime_error ("Loading script file " + std::string (path) + " failed");
+            runtime_message ("Loading script file " + std::string (path) + " failed");
             return false;
         }
 
@@ -251,7 +251,7 @@ namespace sfge
             {
                 tp.getToken ();
                 if (!parse_script (rm, tp.tknString ()))
-                    runtime_error ("Including script named " + std::string(tp.tknString ()) + " failed!");
+                    runtime_message ("Including script named " + std::string(tp.tknString ()) + " failed!");
             }
 
             else if (tp.getTokentype () > Token::TTRES__FIRST && tp.getTokentype () < Token::TTRES__LAST)
@@ -535,7 +535,7 @@ namespace sfge
 
         if (!m_stream->open (path))
         {
-            runtime_error ("Texture file \"" + std::string (path) + "\" wasn't opened");
+            runtime_message ("Texture file \"" + std::string (path) + "\" wasn't opened");
             return;
         }
         if (!texture->loadFromStream (*m_stream, rect))

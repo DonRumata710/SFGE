@@ -35,31 +35,7 @@
 using namespace sfge;
 
 
-Exception::Exception (const std::string & msg)
-{
-    msg.copy (m_message, msg.size (), 0);
-}
-
-char const* Exception::what () const noexcept
-{
-    return m_message;
-}
-
-
-void log::log_critical_error (const std::string& file, const std::string& line, const std::string& message)
+void log::log (const std::string& file, const std::string& line, const std::string& message)
 {
     sf::err () << file << " " << line << ": " << message << '\n';
-    throw Exception (message.c_str ());
-}
-
-void log::log_runtime_error (const std::string& file, const std::string& line, const std::string& message)
-{
-    sf::err () << file << " " << line << ": " << message << '\n';
-}
-
-void log::log_debug_message (const std::string& file, const std::string& line, const std::string& message)
-{
-#ifdef _DEBUG
-    sf::err () << file << " " << line << ": " << message << '\n';
-#endif
 }

@@ -40,78 +40,49 @@ namespace sfge
 {
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// Exception - class for convenient throwing of exceptions
-    /////////////////////////////////////////////////////////////////////
-    class Exception : public std::exception
-    {
-    public:
-      
-        /////////////////////////////////////////////////////////////////////
-        /// Constructor
-        /// 
-        /// Create exception object with message.
-        /// 
-        /// @param msg - description of exception
-        /////////////////////////////////////////////////////////////////////
-        Exception (const std::string& msg);
-
-        /////////////////////////////////////////////////////////////////////
-        /// what - get description of exception
-        /// 
-        /// Overridden method of std::exception.
-        /// 
-        /// @return description of exception
-        /////////////////////////////////////////////////////////////////////
-        virtual char const* what () const noexcept override;
-
-    private:
-        char* m_message = nullptr;
-    };
-
-
     namespace log
     {
 
 
         /////////////////////////////////////////////////////////////////////
-        /// critical_error inform about some error which crash application
+        /// log - write some information to ostream
         ///
-        /// Throw Exception after logging.
-        ///
+        /// @param file - file, where log was called
+        /// @param line - line, where log was called
         /// @param message - description of error
         /////////////////////////////////////////////////////////////////////
-        void log_critical_error (const std::string& file, const std::string& line, const std::string& message);
-
-        /////////////////////////////////////////////////////////////////////
-        /// runtime_error inform about some error
-        ///
-        /// Write log about error.
-        ///
-        /// @param message - description of error
-        /////////////////////////////////////////////////////////////////////
-        void log_runtime_error (const std::string& file, const std::string& line, const std::string& message);
-
-        /////////////////////////////////////////////////////////////////////
-        /// debug_message inform about some event which can be importaint
-        /// for programmer
-        ///
-        /// @param message - description of error
-        /////////////////////////////////////////////////////////////////////
-        void log_debug_message (const std::string& file, const std::string& line, const std::string& message);
+        void log (const std::string& file, const std::string& line, const std::string& message);
 
 
     }
 
 
-#define critical_error(msg) log::log_critical_error(__FILE__, std::to_string (__LINE__), msg);
+    /////////////////////////////////////////////////////////////////////
+    /// critical_error inform about some error and throw exception
+    ///
+    /// Throw Exception after logging.
+    ///
+    /// @param message - description of error
+    /// @param exception - type of exception
+    /////////////////////////////////////////////////////////////////////
+    #define critical_error(msg, exception) { log::log(__FILE__, std::to_string (__LINE__), msg); throw exception (msg); }
 
-#define runtime_error(msg) log::log_runtime_error(__FILE__, std::to_string ( __LINE__), msg);
+    /////////////////////////////////////////////////////////////////////
+    /// runtime_message - log some message
+    ///
+    /// @param message - description of error
+    /////////////////////////////////////////////////////////////////////
+    #define runtime_message(msg) log::log(__FILE__, std::to_string ( __LINE__), msg);
 
+    /////////////////////////////////////////////////////////////////////
+    /// debug_message inform about some event which can be importaint for debugging
+    ///
+    /// @param message - description of error
+    /////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
-#define debug_message(msg) log::log_debug_message(__FILE__, std::to_string (__LINE__), msg);
+    #define debug_message(msg) log::log(__FILE__, std::to_string (__LINE__), msg);
 #else
-#define debug_message(msg)
+    #define debug_message(msg)
 #endif
 
 
