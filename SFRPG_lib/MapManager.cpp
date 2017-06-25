@@ -62,30 +62,25 @@ struct PathDesc
 };
 
 
-MapManager* MapManager::m_instance (nullptr);
-
-
-MapManager* MapManager::getInstance ()
-{
-    return m_instance;
-}
-
 MapManager::MapManager ()
-{
-    if (!m_instance)
-        m_instance = this;
-    else
-        debug_message ("Map manager was created few times");
-}
+{}
 
 MapManager::~MapManager ()
-{
-    m_instance = nullptr;
-}
+{}
 
 void MapManager::setMapDescription (std::unordered_map<uint32_t, MapSectorDesc>&& sectors)
 {
     m_sectors = std::move (sectors);
+
+    for (auto& sector : m_sectors)
+    {
+        if (sector.second.sector)
+        {
+            sector.second.sector->setMapManager (this);
+            findWayPointsEdges (sector.second.sector.get ());
+        }
+    }
+
 }
 
 void MapManager::setName (const std::string& name)
@@ -129,6 +124,11 @@ void MapManager::lookMap (const std::vector<UintRect>& areas)
     setOffset (offset.x / areas.size (), offset.y / areas.size ());
 
     m_loader->loadSectors (sectors);
+    for (auto sector : sectors)
+    {
+        findWayPointsEdges (sector->sector.get ());
+        sector->sector->setMapManager (this);
+    }
 }
 
 bool MapManager::save (MapSaver* saver)
@@ -150,7 +150,7 @@ bool MapManager::save (MapSaver* saver)
     return true;
 }
 
-bool MapManager::saveSectors (MapSaver * saver)
+bool MapManager::saveSectors (MapSaver* saver)
 {
     for (const auto& sector : m_sectors)
     {
@@ -219,17 +219,17 @@ void MapManager::setOffset (int32_t x, int32_t y)
     m_offset.y = y;
 }
 
-void MapManager::findWayPointsEdges ()
+void MapManager::findWayPointsEdges (MapSector* sector)
 {
+    if (!sector)
+        return;
+
+    sector->connectWayPoints ();
     for (auto& i : m_sectors)
     {
-        i.second.sector->connectWayPoints ();
-        for (auto& j : m_sectors)
+        if (i.second.sector && sector != i.second.sector.get ())
         {
-            if (&i != &j)
-            {
-                i.second.sector->connectWayPoints (j.second.sector.get ());
-            }
+            sector->connectWayPoints (i.second.sector.get ());
         }
     }
 }

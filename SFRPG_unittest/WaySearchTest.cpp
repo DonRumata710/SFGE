@@ -39,12 +39,8 @@ using namespace sfge;
 
 
 TEST_CASE ("Edges finding")
-{/*
-    std::unordered_map<uint32_t, MapSector> sectors;
-
-    sectors.insert ({ 0, MapSector () });
-
-    sectors[0].setSize ({ 100, 100 });
+{
+    std::unordered_map<uint32_t, MapSectorDesc> sectors;
 
     std::vector<WayPoint> way_points;
 
@@ -66,7 +62,8 @@ TEST_CASE ("Edges finding")
     way_points[8].setPosition ({ 60.0, 40.0 });
     way_points[9].setPosition ({ 60.0, 50.0 });
 
-    sectors[0].setWayPoints (way_points);
+    sectors[0].sector = std::make_unique<MapSector> (Vector2u(100, 100));
+    sectors[0].sector->setWayPoints (way_points);
 
     std::shared_ptr<MapObject> obj (new StaticObject ());
 
@@ -79,9 +76,11 @@ TEST_CASE ("Edges finding")
 
     obj->setCollision (c1);
 
-    sectors[0].attachObject (obj);
+    sectors[0].sector->attachObject (obj);
 
-    MapManager map (sectors);
+    MapManager map;
+
+    map.setMapDescription (std::move (sectors));
 
     MapSector* sector (map.getSector ({ 1.0, 1.0 }));
     REQUIRE (sector);
@@ -90,7 +89,7 @@ TEST_CASE ("Edges finding")
     const WayPoint* point (sector->getWayPoint (id));
     REQUIRE (point);
     auto edges (point->getEdges ());
-    REQUIRE (edges.size () == 6);*/
+    REQUIRE (edges.size () == 6);
 }
 
 

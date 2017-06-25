@@ -116,7 +116,7 @@ void World::update (const float delta)
 void World::setRect (const PositionDesc& desc)
 {
     m_screen.create (desc.width, desc.height);
-    m_view.reset (sf::FloatRect (0, 0, desc.width / 100, desc.height / 100));
+    m_view.reset (sf::FloatRect (0.0f, 0.0f, static_cast<float> (desc.width / 100), static_cast<float> (desc.height / 100)));
     m_screen.setView (m_view);
 
     m_render_rect.setPosition (desc.x, desc.y);
