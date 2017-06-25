@@ -27,6 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
+#include "MapManager.h"
 #include "MapSector.h"
 #include "MapSaver.h"
 #include "InteractiveObject.h"
@@ -42,7 +43,7 @@
 using namespace sfge;
 
 
-MapSector::MapSector (Vector2u size)
+MapSector::MapSector (Vector2u size, MapManager* manager) : m_manager (manager)
 {
     m_size = size;
     m_tiles.assign (size.x * size.y, Panel ());
@@ -54,6 +55,11 @@ MapSector::MapSector (Vector2u size)
             m_tiles[i + j * size.x].setSize (1.0, 1.0);
         }
     }
+}
+
+void MapSector::setMapManager (MapManager* manager)
+{
+    m_manager = manager;
 }
 
 void MapSector::setTileSize (Uint32 size)
@@ -177,8 +183,11 @@ bool MapSector::checkMovement (InteractiveObject* moved_object)
         moved_object->getPosition ().y > m_offset.y + m_size.y
     )
     {
-        moved_object->runAction<SectorLeavingAction> (nullptr);
+        if (!m_manager)
+            critical_error ("Map manager wasn't set");
+
         removeObject (moved_object);
+        moved_object->attachToSector (m_manager->getSector (moved_object->getPosition ()));
     }
 
     for (auto object : m_objects)
