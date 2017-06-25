@@ -64,7 +64,7 @@ Application::Application () :
     file_open_item->attachReaction ([this]() { openFileDialog (); }, Button::EventType::RELEASED);
     
     std::shared_ptr<MenuItem> file_save_item (std::make_shared<MenuItem> ());
-    file_save_item->attachReaction ([this]() { m_editor->saveMap (m_string); }, Button::EventType::RELEASED);
+    file_save_item->attachReaction ([this]() { saveMap (); }, Button::EventType::RELEASED);
     file_save_item->setText ("Save");
     
     std::shared_ptr<MenuItem> file_save_as_item (std::make_shared<MenuItem> ());
@@ -142,6 +142,14 @@ void Application::setChoisedString (const std::string& str)
 
     m_file_select_window.reset ();
     m_last_action = NONE;
+}
+
+void Application::saveMap ()
+{
+    if (m_string.empty ())
+        m_string = "new_map";
+
+    m_editor->saveMap (m_string);
 }
 
 void Application::openFileDialog ()

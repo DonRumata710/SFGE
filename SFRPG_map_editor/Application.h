@@ -47,6 +47,7 @@ public:
 
     void setChoisedString (const std::string& str);
 
+    void saveMap ();
     void openFileDialog ();
     void saveFileDialog ();
 
