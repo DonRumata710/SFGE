@@ -28,6 +28,7 @@
 
 
 #include "Slider.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 #include "Err.h"
 
@@ -90,7 +91,9 @@ namespace sfge
 
     void Slider::attachBackground (const std::string& tex)
     {
-        attachBackground (ResourceManager::getInstance ()->findTexture (tex));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            attachBackground (rm->findTexture (tex));
     }
 
     void Slider::attachSlider (const std::shared_ptr<const sf::Texture> slider, const View view)
@@ -114,7 +117,7 @@ namespace sfge
 
     void Slider::attachSlider (const std::string& tex, const View view)
     {
-        auto rm (ResourceManager::getInstance ());
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
         if (rm)
             attachSlider (rm->findTexture (tex), view);
     }

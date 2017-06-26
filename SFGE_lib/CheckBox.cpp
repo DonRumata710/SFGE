@@ -29,6 +29,7 @@
 
 #include "CheckBox.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -55,7 +56,9 @@ void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const View
 
 void CheckBox::setView (const std::string & tex, const ViewType view)
 {
-    setView (ResourceManager::getInstance ()->findTexture (tex));
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm)
+        setView (rm->findTexture (tex));
 }
 
 void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)

@@ -29,6 +29,7 @@
 
 #include "GridBox.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 #include "Err.h"
 
@@ -90,7 +91,7 @@ void sfge::GridBox::setBackground (std::shared_ptr<const sf::Texture> texture)
 
 void sfge::GridBox::setBackground (const std::string& texture)
 {
-    auto rm (ResourceManager::getInstance ());
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setBackground (rm->findTexture (texture));
 }

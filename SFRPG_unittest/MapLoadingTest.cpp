@@ -52,7 +52,7 @@ template <size_t N> std::vector<char> append_literal (const char (&str)[N])
 
 TEST_CASE ("Test saving and loading map")
 {
-    std::shared_ptr<ResourceManager> rm (ResourceManager::createInstance ( "", true));
+    std::shared_ptr<ResourceManager> rm (std::make_shared<ResourceManager> ());
 
     size_t size = 100;
 

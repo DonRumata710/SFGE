@@ -92,50 +92,8 @@ namespace sfge
     class ResourceManager
     {
     public:
-        static const std::string DEFAULT;
-
-        /////////////////////////////////////////////////////////////////////
-        /// createInstance - create instance of resource manager
-        /// 
-        /// Use this function to have access to manager from any point of
-        /// program.
-        ///
-        /// @param manager_name - name of resource manager
-        /// @param is_default - manager will be available as default if true
-        ///
-        /// @return pointer to device or nullptr if device wasn't created
-        /////////////////////////////////////////////////////////////////////
-        template<class Subclass = ResourceManager> static std::shared_ptr<Subclass> createInstance (const std::string& manager_name, bool is_default = true)
-        {
-            std::shared_ptr<Subclass> rm (std::make_shared<Subclass> ());
-
-            if (m_managers.find (DEFAULT) == m_managers.end ())
-                m_managers[DEFAULT] = rm;
-            else
-                m_managers[manager_name] = rm;
-
-            return rm;
-        }
-
-
-        /////////////////////////////////////////////////////////////////////
-        /// getInstance - get instance of resource manager
-        /// 
-        /// Default resource manager is used by GUI system.
-        ///
-        /// @param manager_name - name of manager
-        /// 
-        /// @return pointer to device or nullptr if device wasn't created
-        /////////////////////////////////////////////////////////////////////
-        template<class Subclass = ResourceManager> static std::shared_ptr<Subclass> getInstance (const std::string& manager_name = DEFAULT)
-        {
-            auto it (m_managers.find (manager_name));
-            if (it == m_managers.end ())
-                return std::shared_ptr<Subclass> (m_managers[DEFAULT]);
-
-            return std::shared_ptr<Subclass> (it->second);
-        }
-
+        static const std::string DEFAULT;   /// default name for resource manager or resource
+        
         /////////////////////////////////////////////////////////////////////
         /// constructor
         ///

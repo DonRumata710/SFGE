@@ -56,11 +56,12 @@ int main ()
     pGUIManager child_win (std::make_unique<GUIManager> (&device));
 
 
-    std::shared_ptr<ResourceManager> rm (ResourceManager::createInstance ("Resource manager"));
+    std::shared_ptr<ResourceManager> rm (std::make_shared<ResourceManager> ());
     if (!rm->loadScript ("media/resources/resources.cfg")) return 1;
 
     rm->setDefaultFont (rm->getFont ("font.standart"));
 
+    device.setResourceManager (rm);
 
 
     std::shared_ptr<MenuItem> openWindowItem (std::make_shared<MenuItem> ());

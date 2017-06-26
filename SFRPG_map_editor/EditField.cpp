@@ -34,6 +34,7 @@
 #include <SFRPG/MapManager.h>
 
 #include <SFGE/Panel.h>
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 
 #include <vector>
@@ -50,8 +51,9 @@ EditField::~EditField ()
 
 void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
 {
-    if (tile_size == 0.0f)
-        tile_size = ResourceManager::getInstance ()->getTexture ("tile.grass")->getSize ().x;
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm && tile_size == 0.0f)
+        tile_size = rm->getTexture ("tile.grass")->getSize ().x;
 
     std::vector<std::pair<Uint32, std::string>> tiles (width * height, { 0, "tile.grass" });
 

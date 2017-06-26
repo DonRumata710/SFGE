@@ -47,11 +47,12 @@ const Color HOVER_COLOR (0x21, 0x27, 0x67);
 
 
 Application::Application () :
-    m_resource_manager (ResourceManager::createInstance (ResourceManager::DEFAULT))
+    m_resource_manager (std::make_shared<ResourceManager> ())
 {
     m_resource_manager->loadScript ("media\\resources\\resources.cfg");
     m_resource_manager->setDefaultFont (m_resource_manager->getFont ("font.standart"));
 
+    m_device.setResourceManager (m_resource_manager);
 
     /// File
 

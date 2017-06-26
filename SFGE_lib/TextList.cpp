@@ -29,6 +29,7 @@
 
 #include "TextList.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 #include "Err.h"
 
@@ -66,7 +67,9 @@ namespace sfge
 
     void TextList::setView (const std::string & tex)
     {
-        setView (ResourceManager::getInstance ()->findTexture (tex));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setView (rm->findTexture (tex));
     }
 
     void TextList::setView (const sf::Color color)
@@ -84,7 +87,9 @@ namespace sfge
 
     void TextList::setFont (const std::string& font)
     {
-        setFont (ResourceManager::getInstance ()->findFont (font));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setFont (rm->findFont (font));
     }
 
     void TextList::setCharacterSize (const unsigned size)

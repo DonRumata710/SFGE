@@ -48,7 +48,6 @@ namespace sfge
 
 
     const std::string ResourceManager::DEFAULT ("default");
-    std::unordered_map<std::string, std::weak_ptr<ResourceManager>> ResourceManager::m_managers;
 
 
     ResourceManager::ResourceManager () : m_stream (new FileInputStream ())

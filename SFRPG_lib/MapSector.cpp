@@ -33,6 +33,7 @@
 #include "InteractiveObject.h"
 #include "Way.h"
 
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 #include <SFGE/Err.h>
 
@@ -69,8 +70,14 @@ void MapSector::setTileSize (Uint32 size)
 
 void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles)
 {
-    std::shared_ptr<ResourceManager> rm (ResourceManager::getInstance ());
+    auto device (GEDevice::getInstance ());
+    if (!device)
+    {
+        debug_message ("Game engine device was not created");
+        return;
+    }
 
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (!rm)
     {
         debug_message ("No default resource manager");

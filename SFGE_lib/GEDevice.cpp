@@ -31,121 +31,119 @@
 #include "Err.h"
 
 
-namespace sfge
+using namespace sfge;
+
+
+const std::string GEDevice::SYSTEM_RESOURCES ("system");
+
+GEDevice* GEDevice::m_device (nullptr);
+
+
+GEDevice* GEDevice::getInstance ()
 {
+    return m_device;
+}
 
+GEDevice::GEDevice ()
+{
+    if (m_device)
+        critical_error ("Few game engine devices was created!", std::runtime_error);
 
-    GEDevice* GEDevice::getInstance ()
+    m_device = this;
+}
+
+GEDevice::~GEDevice ()
+{
+    m_device = nullptr;
+}
+
+void GEDevice::setResourceManager (std::shared_ptr<ResourceManager> resources, const std::string name)
+{
+    m_resource_managers[name] = resources;
+}
+
+std::shared_ptr<ResourceManager> GEDevice::getResourceManager (const std::string name)
+{
+    return m_resource_managers[name].lock ();
+}
+
+bool GEDevice::createWindow (
+    const unsigned gui_id,
+    const UString& title,
+    const VideoMode& mode,
+    const uint32_t style,
+    const ContextSettings context
+)
+{
+    auto manager (m_managers.find (gui_id));
+    if (manager == m_managers.end ()) return false;
+
+    m_active.insert ({ title, m_managers[gui_id].get () });
+    auto window (std::make_unique<RenderWindow> (mode, title, style));
+    m_managers[gui_id]->enter (window);
+    return true;
+}
+
+void GEDevice::destroyWindow (const UString& str)
+{
+    m_active[str]->setSwitch (-1);
+    m_active[str]->leave ();
+}
+
+void GEDevice::addGuiManager (unsigned id, pGUIManager& gui)
+{
+    m_managers.insert (std::pair<unsigned, pGUIManager> (id, nullptr));
+    m_managers[id].swap (gui);
+}
+
+GUIManager* GEDevice::getGUIManager (unsigned id)
+{
+    return m_managers[id].get ();
+}
+
+int GEDevice::run ()
+{
+    try
     {
-        return m_device;
-    }
-
-    GEDevice::GEDevice ()
-    {
-        if (m_device)
-            critical_error ("Few game engine devices was created!", std::runtime_error);
-
-        m_device = this;
-    }
-
-    GEDevice::~GEDevice ()
-    {
-        m_device = nullptr;
-    }
-
-    void GEDevice::setResourceManager (std::shared_ptr<ResourceManager> resources)
-    {
-        m_resource_manager = resources;
-    }
-
-    std::shared_ptr<ResourceManager> GEDevice::getResourceManager ()
-    {
-        return m_resource_manager;
-    }
-
-    bool GEDevice::createWindow (
-        const unsigned gui_id,
-        const UString& title,
-        const VideoMode& mode,
-        const uint32_t style,
-        const ContextSettings context
-    )
-    {
-        auto manager (m_managers.find (gui_id));
-        if (manager == m_managers.end ()) return false;
-
-        m_active.insert ({ title, m_managers[gui_id].get () });
-        auto window (std::make_unique<RenderWindow> (mode, title, style));
-        m_managers[gui_id]->enter (window);
-        return true;
-    }
-
-    void GEDevice::destroyWindow (const UString& str)
-    {
-        m_active[str]->setSwitch (-1);
-        m_active[str]->leave ();
-    }
-
-    void GEDevice::addGuiManager (unsigned id, pGUIManager& gui)
-    {
-        m_managers.insert (std::pair<unsigned, pGUIManager> (id, nullptr));
-        m_managers[id].swap (gui);
-    }
-
-    GUIManager* GEDevice::getGUIManager (unsigned id)
-    {
-        return m_managers[id].get ();
-    }
-
-    int GEDevice::run ()
-    {
-        try
+        while (!m_active.empty ())
         {
-            while (!m_active.empty ())
+            for (auto iter = m_active.begin (); iter != m_active.end (); ++iter)
             {
-                for (auto iter = m_active.begin (); iter != m_active.end (); ++iter)
+                if (!iter->second->update ())
                 {
-                    if (!iter->second->update ())
+                    int id (iter->second->getSwitch ());
+                    if (id >= 0 && m_managers[id].get () != iter->second)
                     {
-                        int id (iter->second->getSwitch ());
-                        if (id >= 0 && m_managers[id].get () != iter->second)
-                        {
-                            UString window (iter->first);
-                            sfge::GUIManager* manager (iter->second);
-                            m_active[window] = m_managers[id].get ();
-                            m_managers[id]->enter (manager->getWindow ());
-                            break;
-                        }
-                        else if (id == -1)
-                        {
-                            iter->second->getWindow ()->close ();
-                            m_active.erase (iter);
-                            break;
-                        }
+                        UString window (iter->first);
+                        sfge::GUIManager* manager (iter->second);
+                        m_active[window] = m_managers[id].get ();
+                        m_managers[id]->enter (manager->getWindow ());
+                        break;
                     }
-
-                    iter->second->draw ();
+                    else if (id == -1)
+                    {
+                        iter->second->getWindow ()->close ();
+                        m_active.erase (iter);
+                        break;
+                    }
                 }
+
+                iter->second->draw ();
             }
         }
-        catch (const std::exception& ex)
-        {
-            runtime_message (ex.what ());
-        }
-        return 0;
     }
-
-    void GEDevice::quit ()
+    catch (const std::exception& ex)
     {
-        for (auto wnd : m_active)
-        {
-            wnd.second->setSwitch (-1);
-            wnd.second->leave ();
-        }
+        runtime_message (ex.what ());
     }
+    return 0;
+}
 
-
-    GEDevice* GEDevice::m_device (nullptr);
-
-
+void GEDevice::quit ()
+{
+    for (auto wnd : m_active)
+    {
+        wnd.second->setSwitch (-1);
+        wnd.second->leave ();
+    }
 }

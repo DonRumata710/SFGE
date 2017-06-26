@@ -29,6 +29,7 @@
 
 #include "LineEdit.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 #include "Err.h"
 
@@ -68,7 +69,9 @@ namespace sfge
 
     void LineEdit::setView (const std::string& tex)
     {
-        setView (ResourceManager::getInstance ()->findTexture (tex));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setView (rm->findTexture (tex));
     }
 
     void LineEdit::setView (const sf::Color color)
@@ -84,7 +87,9 @@ namespace sfge
 
     void LineEdit::setFont (const std::string& font)
     {
-        setFont (ResourceManager::getInstance ()->findFont (font));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setFont (rm->findFont (font));
     }
 
     void LineEdit::setCharacterSize (const unsigned size)

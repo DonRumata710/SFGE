@@ -81,7 +81,9 @@ namespace sfge
 
     void GUIManager::setBackground (const std::string& texture)
     {
-        setBackground (ResourceManager::getInstance ()->findTexture (texture));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setBackground (rm->findTexture (texture));
     }
 
     void GUIManager::setBackground (const Color& color)

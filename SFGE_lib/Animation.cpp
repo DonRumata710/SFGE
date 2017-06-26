@@ -28,6 +28,7 @@
 
 
 #include "Animation.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 
 #include <SFML/Graphics/Texture.hpp>
@@ -72,7 +73,7 @@ namespace sfge
 
     void Animation::setTexture (const std::string& t, unsigned n_row, unsigned n_col, unsigned count, unsigned start)
     {
-        auto rm (ResourceManager::getInstance ());
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
         if (rm)
             setTexture (*rm->findTexture (t), n_row, n_col, count, start);
     }

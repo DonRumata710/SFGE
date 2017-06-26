@@ -28,6 +28,7 @@
 
 
 #include "Panel.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 #include "Err.h"
 
@@ -79,7 +80,7 @@ void Panel::setTexture (const std::shared_ptr<const sf::Texture> tex)
 
 void Panel::setTexture (const std::string& tex)
 {
-    auto rm (ResourceManager::getInstance ());
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setTexture (rm->findTexture (tex));
 }

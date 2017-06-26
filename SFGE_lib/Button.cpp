@@ -30,12 +30,14 @@
 #include "Button.h"
 #include "Animation.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
+#include "Err.h"
+
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include "Err.h"
 
 
 using namespace sfge;
@@ -80,7 +82,7 @@ void Button::setView (const std::shared_ptr<const sf::Texture> view, const View 
 
 void Button::setView (const std::string& tex, const View e)
 {
-    auto rm (ResourceManager::getInstance ());
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setView (rm->findTexture (tex), e);
 }
@@ -106,8 +108,9 @@ void Button::setView (const Color color, const View e)
 void Button::setText (const UString& string)
 {
     m_text.setString (string);
-    if (!m_text.getFont ())
-        m_text.setFont (*ResourceManager::getInstance ()->getFont (ResourceManager::DEFAULT));
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (!m_text.getFont () && rm)
+        m_text.setFont (*rm->getFont (ResourceManager::DEFAULT));
 }
 
 Vector2f Button::getTextSize () const
@@ -122,7 +125,7 @@ void Button::setFont (std::shared_ptr<const Font> font)
 
 void Button::setFont (const std::string& font)
 {
-    auto rm (ResourceManager::getInstance ());
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setFont (rm->findFont (font));
 }
