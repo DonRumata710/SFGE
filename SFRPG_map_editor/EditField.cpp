@@ -29,7 +29,9 @@
 
 #include "EditField.h"
 
+#include <SFRPG/MapSectorDesc.h>
 #include <SFRPG/MapSector.h>
+#include <SFRPG/MapManager.h>
 
 #include <SFGE/Panel.h>
 #include <SFGE/ResourceManager.h>

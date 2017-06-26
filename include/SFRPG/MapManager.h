@@ -159,7 +159,7 @@ namespace sfge
         virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
-        std::string m_name;
+        std::string m_name = "map";
         std::unique_ptr<SectorLoader> m_loader;
         std::unordered_map<uint32_t, MapSectorDesc> m_sectors;
         std::string m_map_path;

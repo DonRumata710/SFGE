@@ -30,8 +30,7 @@
 #pragma once
 
 
-#include "MapManager.h"
-
+#include <SFGE/Panel.h>
 #include <SFGE/RenderRect.h>
 #include <SFGE/Widget.h>
 
@@ -47,6 +46,8 @@ namespace sfge
     using sf::Vector2u;
     using sf::Vector2i;
     using sf::Vector2f;
+
+    class MapManager;
 
 
     class World : public iWidget
@@ -79,6 +80,8 @@ namespace sfge
         virtual void setRect (const PositionDesc& desc) override final;
 
         virtual bool check_mouse (const int x, const int y) override;
+
+        std::string getMapName (const std::string& path) const;
 
     private:
         std::shared_ptr<MapManager> m_map;

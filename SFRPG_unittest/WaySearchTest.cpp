@@ -38,7 +38,7 @@
 using namespace sfge;
 
 
-TEST_CASE ("Edges finding")
+TEST_CASE ("Test way finding")
 {
     std::unordered_map<uint32_t, MapSectorDesc> sectors;
 
@@ -62,7 +62,7 @@ TEST_CASE ("Edges finding")
     way_points[8].setPosition ({ 60.0, 40.0 });
     way_points[9].setPosition ({ 60.0, 50.0 });
 
-    sectors[0].sector = std::make_unique<MapSector> (Vector2u(100, 100));
+    sectors[0].sector = std::make_unique<MapSector> (Vector2u (100, 100));
     sectors[0].sector->setWayPoints (way_points);
 
     std::shared_ptr<MapObject> obj (new StaticObject ());
@@ -90,53 +90,6 @@ TEST_CASE ("Edges finding")
     REQUIRE (point);
     auto edges (point->getEdges ());
     REQUIRE (edges.size () == 6);
-}
-
-
-TEST_CASE ("Test way finding")
-{/*
-    std::unordered_map<uint32_t, MapSector> sectors;
-
-    sectors.insert ({ 0, MapSector () });
-
-    sectors[0].setSize ({ 100, 100 });
-    
-    std::vector<WayPoint> way_points;
-
-    way_points.assign (10, WayPoint ());
-
-    for (auto& point : way_points)
-    {
-        point.setRadius (8.0);
-    }
-
-    way_points[0].setPosition ({ 10.0, 10.0 });
-    way_points[1].setPosition ({ 20.0, 10.0 });
-    way_points[2].setPosition ({ 30.0, 10.0 });
-    way_points[3].setPosition ({ 40.0, 10.0 });
-    way_points[4].setPosition ({ 50.0, 10.0 });
-    way_points[5].setPosition ({ 60.0, 10.0 });
-    way_points[6].setPosition ({ 60.0, 20.0 });
-    way_points[7].setPosition ({ 60.0, 30.0 });
-    way_points[8].setPosition ({ 60.0, 40.0 });
-    way_points[9].setPosition ({ 60.0, 50.0 });
-
-    sectors[0].setWayPoints (way_points);
-
-    std::shared_ptr<MapObject> obj (new StaticObject ());
-
-    Collision c1;
-
-    Circuit points1;
-    points1.assign ({ { 20.0, 20.0 }, { 50.0, 20.0 }, { 50.0, 50.0 }, { 20.0, 50.0 } });
-
-    c1.setPoints (points1);
-
-    obj->setCollision (c1);
-
-    sectors[0].attachObject (obj);
-
-    MapManager map (sectors);
 
     Vector2f position (5.0, 10.0);
     Vector2f target (60.0, 55.0);
@@ -149,5 +102,5 @@ TEST_CASE ("Test way finding")
     for (size_t i = 0; i < 100; ++i)
         position += way.getMovingVector (position, 1.0);
 
-    REQUIRE (position == target);*/
+    REQUIRE (position == target);
 }
