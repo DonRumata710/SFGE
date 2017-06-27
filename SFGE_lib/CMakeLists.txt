@@ -30,6 +30,7 @@ set(CLASSES
     ResourceManager
     Slider
     StackedWidget
+    StringTable
     TextList
     TextParser
     Widget
@@ -50,7 +51,6 @@ set(UTILITY_HEADERS
     ParticleSystem
     ResourceInputStream
     SpriteDesc
-    StringTable
     Unicode
 )
 

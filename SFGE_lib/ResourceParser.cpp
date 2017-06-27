@@ -861,12 +861,22 @@ namespace sfge
 
     void ResourceParser::parse_string_table (ResourceLoader* rm, TextParser* tp, const char* name, const char* basename)
     {
-
         while (scriptSkipToNextParameter (tp, false))
         {
             switch (tp->getTokentype ())
             {
-
+            case TTPAR_FILENAME:
+            {
+                tp->getToken ();
+                tp->getToken ();
+                if (!m_stream->open (tp->tknString ()))
+                {
+                    debug_message ("String table \"" + std::string (tp->tknString ()) + "\" wasn't found");
+                    return;
+                }
+                auto file (std::make_shared<File> (m_stream));
+                rm->addStringTable (name, std::make_shared<StringTable> (*file));
+            }
             default:
                 scriptSkipToNextParameter (tp, true);
                 break;

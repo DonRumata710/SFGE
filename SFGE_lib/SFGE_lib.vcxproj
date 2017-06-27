@@ -87,6 +87,7 @@
     <ClCompile Include="ResourceParser.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="StackedWidget.cpp" />
+    <ClCompile Include="StringTable.cpp" />
     <ClCompile Include="TextList.cpp" />
     <ClCompile Include="TextParser.cpp" />
     <ClCompile Include="Widget.cpp" />

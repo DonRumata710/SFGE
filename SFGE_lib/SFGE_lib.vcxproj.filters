@@ -210,6 +210,9 @@
     <ClCompile Include="MemoryOutputStream.cpp">
       <Filter>DataStream</Filter>
     </ClCompile>
+    <ClCompile Include="StringTable.cpp">
+      <Filter>ResourceManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
