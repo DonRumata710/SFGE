@@ -256,7 +256,7 @@ void sfge::GridBox::resize_widgets ()
             );
 
             m_widgets[i * m_columns + j].widget->setSize (
-                width * (m_widgets[i * m_columns + j].size && 0xFFFF) - m_space,
+                width * (m_widgets[i * m_columns + j].size & 0xFFFF) - m_space,
                 height * (m_widgets[i * m_columns + j].size >> 16) - m_space
             );
         }

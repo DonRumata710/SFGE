@@ -117,8 +117,8 @@ namespace sfge
     {
         m_string += str;
         m_text.setString (m_string);
-        m_line[0].position.x = m_text.getLocalBounds ().width + m_text.getCharacterSize () / 4;
-        m_line[1].position.x = m_text.getLocalBounds ().width + m_text.getCharacterSize () / 4;
+        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
+        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -128,8 +128,8 @@ namespace sfge
     {
         m_string = str;
         m_text.setString (str);
-        m_line[0].position.x = m_text.getLocalBounds ().width + m_text.getCharacterSize () / 4;
-        m_line[1].position.x = m_text.getLocalBounds ().width + m_text.getCharacterSize () / 4;
+        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
+        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -183,8 +183,8 @@ namespace sfge
 
     void LineEdit::enter ()
     {
-        m_line[0].position.y = float ((m_background.getSize ().y - m_text.getCharacterSize ()) / 2);
-        m_line[1].position.y = float (m_text.getCharacterSize () + m_text.getCharacterSize () / 4);
+        m_line[0].position.y = static_cast<float> ((m_background.getSize ().y - m_text.getCharacterSize ()) / 2);
+        m_line[1].position.y = static_cast<float> (m_text.getCharacterSize () + m_text.getCharacterSize () / 4);
         set_focus_pos (0);
     }
 
@@ -343,7 +343,7 @@ namespace sfge
             m_line[0].position.x = static_cast<float> (m_background.getSize ().x);
             m_line[1].position.x = static_cast<float> (m_background.getSize ().x);
         }
-        else if (m_line[0].position.x < m_text.getCharacterSize () / 4)
+        else if (m_line[0].position.x < static_cast<float> (m_text.getCharacterSize () / 4))
         {
             m_text.move (m_text.getCharacterSize () / 4 - m_line[0].position.x, 0);
             m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / 4);

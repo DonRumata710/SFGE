@@ -180,9 +180,7 @@ namespace sfge
         std::unordered_map<UString, GUIManager*> m_active;
 
         std::unordered_map<std::string, std::weak_ptr<ResourceManager>> m_resource_managers;
-
-        int m_next;
-
+        
         static GEDevice* m_device;
     };
 
