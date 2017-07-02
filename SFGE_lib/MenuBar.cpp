@@ -38,14 +38,20 @@
 using namespace sfge;
 
 
+MenuBar::MenuBar ()
+{
+    m_style.setPosition (Position::TOP | Position::LEFT);
+}
+
 void MenuBar::addItem (const UString& text, std::shared_ptr<PullDownMenu> menu)
 {
     std::shared_ptr<MenuItem> item (std::make_shared<MenuItem> ());
     item->setText (text);
-    item->setPosition (Position::TOP | Position::LEFT);
+    m_style.attach (item.get ());
 
     menu->setPosition (Position::TOP | Position::LEFT);
     menu->collapse ();
+    menu->setItemStyle (m_style);
 
     m_items.push_back ({ item, menu });
 
@@ -53,31 +59,24 @@ void MenuBar::addItem (const UString& text, std::shared_ptr<PullDownMenu> menu)
     add_frame (menu.get ());
 }
 
-void MenuBar::setView (std::shared_ptr<const Texture> texture)
+void MenuBar::setBackground (std::shared_ptr<const Texture> texture)
 {
     m_view.setTexture (texture);
 }
 
-void MenuBar::setView (Color color)
+void MenuBar::setBackground (const Color& color)
 {
     m_view.setColor (color);
 }
 
-void MenuBar::setItemView (std::shared_ptr<const Texture> texture, View view)
+void MenuBar::setItemStyle (const WidgetStyle& style)
 {
+    m_style = style;
+    m_style.setPosition (Position::TOP | Position::LEFT);
     for (auto item : m_items)
     {
-        item.first->setView (texture, view);
-        item.second->setItemView (texture, view);
-    }
-}
-
-void MenuBar::setItemView (Color color, View view)
-{
-    for (auto item : m_items)
-    {
-        item.first->setView (color, view);
-        item.second->setItemView (color, view);
+        style.attach (item.first.get ());
+        item.second->setItemStyle (style);
     }
 }
 

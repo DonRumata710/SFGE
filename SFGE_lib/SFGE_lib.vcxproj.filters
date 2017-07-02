@@ -121,6 +121,9 @@
     <ClInclude Include="..\include\SFGE\MemoryOutputStream.h">
       <Filter>DataStream</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\WidgetStyle.h">
+      <Filter>GuiManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -212,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="StringTable.cpp">
       <Filter>ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetStyle.cpp">
+      <Filter>GuiManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

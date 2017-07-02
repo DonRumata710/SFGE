@@ -53,7 +53,7 @@ SaveFileDialog::SaveFileDialog (Application* parent) :
     text_list = std::make_shared<TextList> ();
     text_list->setPosition (iWidget::Position::TOP | iWidget::Position::HCENTER, 0, 10);
     text_list->setSize (380, 270);
-    text_list->setView (MAIN_COLOR);
+    text_list->setBackground (MAIN_COLOR);
     text_list->attachReaction ([this]() { handleChoise (text_list->getCurrent ()); }, TextList::EventType::ITEM_SELECTED);
     text_list->attachReaction ([this]() { line_edit->setString (text_list->getCurrent ()); }, TextList::EventType::FOCUS_CHANGED);
     text_list->setFont ("font.standart");

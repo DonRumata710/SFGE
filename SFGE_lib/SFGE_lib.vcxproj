@@ -37,6 +37,7 @@
     <ClInclude Include="..\include\SFGE\GridBox.h" />
     <ClInclude Include="..\include\SFGE\GuiElement.h" />
     <ClInclude Include="..\include\SFGE\GuiManager.h" />
+    <ClInclude Include="..\include\SFGE\WidgetStyle.h" />
     <ClInclude Include="..\include\SFGE\Label.h" />
     <ClInclude Include="..\include\SFGE\LineEdit.h" />
     <ClInclude Include="..\include\SFGE\MemoryInputStream.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="GEDevice.cpp" />
     <ClCompile Include="GridBox.cpp" />
     <ClCompile Include="GuiManager.cpp" />
+    <ClCompile Include="WidgetStyle.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LineEdit.cpp" />
     <ClCompile Include="MemoryInputStream.cpp" />

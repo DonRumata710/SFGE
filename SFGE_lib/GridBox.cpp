@@ -37,11 +37,13 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
+using namespace sfge;
 
-sfge::GridBox::GridBox ()
+
+GridBox::GridBox ()
 {}
 
-void sfge::GridBox::setRect (const PositionDesc& desc)
+void GridBox::setRect (const PositionDesc& desc)
 {
     set_position_desc (desc);
 
@@ -51,17 +53,17 @@ void sfge::GridBox::setRect (const PositionDesc& desc)
     resize_widgets ();
 }
 
-void sfge::GridBox::setRowsCount (unsigned rows)
+void GridBox::setRowsCount (unsigned rows)
 {
     m_rows = rows;
 }
 
-void sfge::GridBox::setColumnsCount (unsigned columns)
+void GridBox::setColumnsCount (unsigned columns)
 {
     m_columns = columns;
 }
 
-void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsigned row)
+void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsigned row)
 {
     if (column >= m_columns || row >= m_rows)
     {
@@ -74,7 +76,7 @@ void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column,
     add_frame (widget.get ());
 }
 
-void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsigned row, unsigned sec_column, unsigned sec_row)
+void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsigned row, unsigned sec_column, unsigned sec_row)
 {
     if (column >= m_columns || row >= m_rows || sec_column >= m_columns || sec_row >= m_rows) return;
 
@@ -84,24 +86,24 @@ void sfge::GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column,
     add_frame (widget.get ());
 }
 
-void sfge::GridBox::setBackground (std::shared_ptr<const sf::Texture> texture)
+void GridBox::setBackground (std::shared_ptr<const sf::Texture> texture)
 {
     m_background.setTexture (texture);
 }
 
-void sfge::GridBox::setBackground (const std::string& texture)
+void GridBox::setBackground (const std::string& texture)
 {
     auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setBackground (rm->findTexture (texture));
 }
 
-void sfge::GridBox::setBackground (sfge::Color color)
+void GridBox::setBackground (const Color& color)
 {
     m_background.setColor (color);
 }
 
-void sfge::GridBox::closeWidget (iWidget* widget)
+void GridBox::closeWidget (iWidget* widget)
 {
     for (auto w : m_widgets)
     {
@@ -113,31 +115,31 @@ void sfge::GridBox::closeWidget (iWidget* widget)
     }
 }
 
-void sfge::GridBox::setSpacing (unsigned space)
+void GridBox::setSpacing (unsigned space)
 {
     m_space = space;
     resize_widgets ();
 }
 
-void sfge::GridBox::setBorderOffset (unsigned offset)
+void GridBox::setBorderOffset (unsigned offset)
 {
     m_border_offset = offset;
     resize_widgets ();
 }
 
-void sfge::GridBox::enter ()
+void GridBox::enter ()
 {
     for (auto w : m_widgets)
         call_enter (w.second.widget.get ());
 }
 
-void sfge::GridBox::leave ()
+void GridBox::leave ()
 {
     for (auto w : m_widgets)
         call_leave (w.second.widget.get ());
 }
 
-bool sfge::GridBox::is_done ()
+bool GridBox::is_done ()
 {
     for (auto w : m_widgets)
     {
@@ -147,7 +149,7 @@ bool sfge::GridBox::is_done ()
     return true;
 }
 
-void sfge::GridBox::draw (RenderTarget& target) const
+void GridBox::draw (RenderTarget& target) const
 {
     target.draw (m_background);
 
@@ -158,13 +160,13 @@ void sfge::GridBox::draw (RenderTarget& target) const
     }
 }
 
-void sfge::GridBox::update (const float delta)
+void GridBox::update (const float delta)
 {
     for (auto w : m_widgets)
         call_update (w.second.widget.get (), delta);
 }
 
-bool sfge::GridBox::check_key (const Event::KeyEvent& e, const bool pressed)
+bool GridBox::check_key (const Event::KeyEvent& e, const bool pressed)
 {
     for (auto w : m_widgets)
     {
@@ -174,61 +176,61 @@ bool sfge::GridBox::check_key (const Event::KeyEvent& e, const bool pressed)
     return false;
 }
 
-void sfge::GridBox::check_text (const Event::TextEvent& e)
+void GridBox::check_text (const Event::TextEvent& e)
 {
     for (auto w : m_widgets)
         call_check_text (w.second.widget.get (), e);
 }
 
-void sfge::GridBox::check_mouse_button (const Event::MouseButtonEvent& e, const bool pressed)
+void GridBox::check_mouse_button (const Event::MouseButtonEvent& e, const bool pressed)
 {
     for (auto w : m_widgets)
         call_check_mouse_button (w.second.widget.get (), e, pressed);
 }
 
-void sfge::GridBox::check_wheel (const Event::MouseWheelScrollEvent& e)
+void GridBox::check_wheel (const Event::MouseWheelScrollEvent& e)
 {
     for (auto w : m_widgets)
         call_check_wheel (w.second.widget.get (), e);
 }
 
-void sfge::GridBox::check_joystick_connect (const Event::JoystickConnectEvent& e, const bool connect)
+void GridBox::check_joystick_connect (const Event::JoystickConnectEvent& e, const bool connect)
 {
     for (auto w : m_widgets)
        call_check_joystick_connect (w.second.widget.get (), e, connect);
 }
 
-void sfge::GridBox::check_joystick (const Event::JoystickMoveEvent& e)
+void GridBox::check_joystick (const Event::JoystickMoveEvent& e)
 {
     for (auto w : m_widgets)
         call_check_joystick (w.second.widget.get (), e);
 }
 
-void sfge::GridBox::check_joystick_button (const Event::JoystickButtonEvent& e, const bool pressed)
+void GridBox::check_joystick_button (const Event::JoystickButtonEvent& e, const bool pressed)
 {
     for (auto w : m_widgets)
         call_check_joystick_button (w.second.widget.get (), e, pressed);
 }
 
-void sfge::GridBox::check_touch (const Event::TouchEvent& e)
+void GridBox::check_touch (const Event::TouchEvent& e)
 {
     for (auto w : m_widgets)
         call_check_touch (w.second.widget.get (), e);
 }
 
-void sfge::GridBox::check_sensor (const Event::SensorEvent& e)
+void GridBox::check_sensor (const Event::SensorEvent& e)
 {
     for (auto w : m_widgets)
         call_check_sensor (w.second.widget.get (), e);
 }
 
-void sfge::GridBox::check_click ()
+void GridBox::check_click ()
 {
     for (auto w : m_widgets)
         call_check_click (w.second.widget.get ());
 }
 
-bool sfge::GridBox::check_mouse (const int x, const int y)
+bool GridBox::check_mouse (const int x, const int y)
 {
     for (auto w : m_widgets)
     {
@@ -238,7 +240,7 @@ bool sfge::GridBox::check_mouse (const int x, const int y)
     return false;
 }
 
-void sfge::GridBox::resize_widgets ()
+void GridBox::resize_widgets ()
 {
     unsigned width  ((m_background.getSize ().x - m_border_offset * 2) / m_columns);
     unsigned height ((m_background.getSize ().y - m_border_offset * 2) / m_rows);

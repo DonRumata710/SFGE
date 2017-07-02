@@ -54,8 +54,8 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         enum ViewType
         {
-            BACKGROUND,     // background of widget
-            FLAG            // view of toggle
+            BACKGROUND = View::RELEASED,   // background of widget
+            FLAG = View::PRESSED           // view of toggle
         };
 
         /////////////////////////////////////////////////////////////////////

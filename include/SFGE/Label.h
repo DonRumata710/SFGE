@@ -92,7 +92,7 @@ namespace sfge
         ///
         /// @parameter font - pointer to font
         /////////////////////////////////////////////////////////////////////
-        void setFont (std::shared_ptr<const Font> font);
+        void setFont (const std::shared_ptr<const Font> font);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont set font, which will be drawn text
@@ -106,7 +106,7 @@ namespace sfge
         ///
         /// @parameter size - size of characters in pixels
         /////////////////////////////////////////////////////////////////////
-        void setCharacterSize (unsigned size);
+        void setCharacterSize (const unsigned size);
 
         /////////////////////////////////////////////////////////////////////
         /// setTextColor - set color of text in widget

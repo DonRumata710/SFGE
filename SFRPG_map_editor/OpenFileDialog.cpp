@@ -53,7 +53,7 @@ OpenFileDialog::OpenFileDialog (Application* parent) :
     text_list = std::make_shared<TextList> ();
     text_list->setPosition (iWidget::Position::TOP | iWidget::Position::HCENTER, 0, 10);
     text_list->setSize (380, 300);
-    text_list->setView (MAIN_COLOR);
+    text_list->setBackground (MAIN_COLOR);
     text_list->setFont ("font.standart");
 
     text_list->attachReaction (

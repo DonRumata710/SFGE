@@ -87,7 +87,7 @@ void Button::setView (const std::string& tex, const View e)
         setView (rm->findTexture (tex), e);
 }
 
-void Button::setView (const Color color, const View e)
+void Button::setView (const Color& color, const View e)
 {
     switch (e)
     {

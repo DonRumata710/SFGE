@@ -41,10 +41,13 @@ namespace sfge
 {
 
 
+    const static uint32_t TEXT_OFFSET = 4;
+
+
     LineEdit::LineEdit ()
     {
         m_text.setCharacterSize (14);
-        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / 4), 0.0f);
+        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET), 0.0f);
 
         setTextColor (sf::Color::White);
     }
@@ -74,7 +77,7 @@ namespace sfge
             setView (rm->findTexture (tex));
     }
 
-    void LineEdit::setView (const sf::Color color)
+    void LineEdit::setView (const sf::Color& color)
     {
         m_background.setColor (color);
     }
@@ -117,8 +120,8 @@ namespace sfge
     {
         m_string += str;
         m_text.setString (m_string);
-        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
-        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
+        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
+        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -128,8 +131,8 @@ namespace sfge
     {
         m_string = str;
         m_text.setString (str);
-        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
-        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / 4);
+        m_line[0].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
+        m_line[1].position.x = m_text.getLocalBounds ().width + static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -152,9 +155,9 @@ namespace sfge
     {
         m_text.setString ("");
         m_string.clear ();
-        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / 4), static_cast<float> (m_text.getPosition ().y));
-        m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
-        m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
+        m_text.setPosition (static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET), static_cast<float> (m_text.getPosition ().y));
+        m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
+        m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
 
         redraw ();
         if (m_string_changed) m_string_changed ();
@@ -174,7 +177,7 @@ namespace sfge
         m_background.setSize (desc.width, desc.height);
         m_focus.setSize (0, desc.height);
 
-        m_text.setPosition (float (m_text.getCharacterSize () / 4), float ((desc.height - m_text.getCharacterSize ()) / 2));
+        m_text.setPosition (float (m_text.getCharacterSize () / TEXT_OFFSET), float ((desc.height - m_text.getCharacterSize ()) / 2));
         m_line[0].position.y = float ((desc.height - m_text.getCharacterSize ()) / 2);
         m_line[1].position.y = float ((desc.height - m_text.getCharacterSize ()) / 2 + m_text.getCharacterSize ());
 
@@ -262,7 +265,7 @@ namespace sfge
 
     void LineEdit::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool is_pressed)
     {
-        unsigned x (e.x - m_outward_view.getPosition ().x - static_cast<int>(m_text.getCharacterSize ()) / 4);
+        unsigned x (e.x - m_outward_view.getPosition ().x - static_cast<int>(m_text.getCharacterSize ()) / TEXT_OFFSET);
         if (is_pressed && e.button == sf::Mouse::Button::Left)
         {
             unsigned width (0);
@@ -334,8 +337,8 @@ namespace sfge
 
     void LineEdit::set_focus_pos (int x)
     {
-        m_line[0].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / 4);
-        m_line[1].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / 4);
+        m_line[0].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / TEXT_OFFSET);
+        m_line[1].position.x = static_cast<float> (x + (int) m_text.getCharacterSize () / TEXT_OFFSET);
 
         if (m_line[0].position.x > m_background.getSize ().x)
         {
@@ -343,11 +346,11 @@ namespace sfge
             m_line[0].position.x = static_cast<float> (m_background.getSize ().x);
             m_line[1].position.x = static_cast<float> (m_background.getSize ().x);
         }
-        else if (m_line[0].position.x < static_cast<float> (m_text.getCharacterSize () / 4))
+        else if (m_line[0].position.x < static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET))
         {
-            m_text.move (m_text.getCharacterSize () / 4 - m_line[0].position.x, 0);
-            m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
-            m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / 4);
+            m_text.move (m_text.getCharacterSize () / TEXT_OFFSET - m_line[0].position.x, 0);
+            m_line[0].position.x = static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
+            m_line[1].position.x = static_cast<float> (m_text.getCharacterSize () / TEXT_OFFSET);
         }
 
         redraw ();

@@ -43,26 +43,34 @@ void PullDownMenu::addItem (std::shared_ptr<MenuItem> item)
     if (Field::getSize ().x < item->getTextSize ().x)
         set_size (item->getTextSize ().x, 0);
 
+    if (m_auto_size)
+    {
+        m_style.setSize (Field::getSize ().x, m_items[0]->getCharacterSize () + m_items[0]->getCharacterSize () / 2);
+        m_style.attach (item.get ());
+    }
+    else
+    {
+        m_style.setSize (Field::getSize ().x, Frame::getSize ().y / m_items.size ());
+        for (auto item : m_items)
+            m_style.attach (item.get ());
+    }
+}
+
+void PullDownMenu::setItemStyle (const WidgetStyle& style)
+{
+    m_style = style;
+    m_style.setPosition (TOP | LEFT);
+
     unsigned item_height (0);
     if (m_auto_size)
         item_height = m_items[0]->getCharacterSize () + m_items[0]->getCharacterSize () / 2;
     else
         item_height = Frame::getSize ().y / m_items.size ();
 
-    for (auto item : m_items)
-        item->setSize (Field::getSize ().x, item_height);
-}
+    m_style.setSize (Field::getSize ().x, item_height);
 
-void PullDownMenu::setItemView (std::shared_ptr<const Texture> texture, View view)
-{
     for (auto item : m_items)
-        item->setView (texture, view);
-}
-
-void PullDownMenu::setItemView (Color color, View view)
-{
-    for (auto item : m_items)
-        item->setView (color, view);
+        style.attach (item.get ());
 }
 
 void PullDownMenu::setAutoHeight (bool auto_size)
@@ -115,7 +123,7 @@ void PullDownMenu::setRect (const PositionDesc& desc)
         set_size (max_width, 0);
     }
     else
-        item_height = desc.height / m_items.size ();
+        item_height = static_cast<uint32_t> (desc.height / m_items.size ());
     
     for (auto item : m_items)
         item->setSize (Field::getSize ().x, item_height);

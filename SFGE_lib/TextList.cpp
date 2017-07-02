@@ -58,19 +58,19 @@ void TextList::attachReaction (const std::function<void ()> func, const EventTyp
     }
 }
 
-void TextList::setView (const std::shared_ptr<const sf::Texture> tex)
+void TextList::setBackground (const std::shared_ptr<const sf::Texture> tex)
 {
     m_background.setTexture (tex);
 }
 
-void TextList::setView (const std::string & tex)
+void TextList::setBackground (const std::string& tex)
 {
     auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
-        setView (rm->findTexture (tex));
+        setBackground (rm->findTexture (tex));
 }
 
-void TextList::setView (const sf::Color color)
+void TextList::setBackground (const sf::Color& color)
 {
     m_background.setColor (color);
 }
@@ -98,12 +98,6 @@ void TextList::setCharacterSize (const unsigned size)
 void TextList::addString (const UString& str)
 {
     if (str.isEmpty ()) return;
-
-    //if ((m_string_list.size () + 1) * (m_character_size + m_character_size / 4) > m_outward_view.getSize ().y)
-    //{
-    //    runtime_message ("Text list is overloaded.");
-    //    return;
-    //}
 
     auto text (std::make_shared<sf::Text> (str, *m_font));
     text->setCharacterSize (m_character_size);

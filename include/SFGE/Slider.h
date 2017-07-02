@@ -127,20 +127,20 @@ namespace sfge
         void attachBackground (const std::string& tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// attachSlider - set texture to some of views of slider indicator
+        /// setView - set texture to some of views of slider indicator
         /// 
         /// @param tex - new texture
         /// @param view - type of indicator view
         /////////////////////////////////////////////////////////////////////
-        void attachSlider (const std::shared_ptr<const Texture> tex, const View view = View::RELEASED);
+        virtual void setView (const std::shared_ptr<const Texture> tex, const View view = View::RELEASED) override;
 
         /////////////////////////////////////////////////////////////////////
-        /// attachSlider - set texture to some of views of slider indicator
+        /// setView - set texture to some of views of slider indicator
         /// 
         /// @param tex - texture name
         /// @param view - type of indicator view
         /////////////////////////////////////////////////////////////////////
-        void attachSlider (const std::string& tex, const View view = View::RELEASED);
+        virtual void setView (const std::string& tex, const View view = View::RELEASED) override;
 
         /////////////////////////////////////////////////////////////////////
         /// attachReaction - attach function to handle some event

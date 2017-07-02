@@ -35,6 +35,7 @@
 #include <SFGE/MenuBar.h>
 #include <SFGE/PullDownMenu.h>
 #include <SFGE/MenuItem.h>
+#include <SFGE/WidgetStyle.h>
 
 
 using namespace sfge;
@@ -98,6 +99,12 @@ Application::Application () :
     std::shared_ptr<PullDownMenu> resource_control_menu (std::make_shared<PullDownMenu> ());
     resource_control_menu->addItem (resource_add_item);
 
+
+    /// Editing
+
+    //
+
+
     
     std::shared_ptr<MenuBar> menu_bar (std::make_shared<MenuBar> ());
     menu_bar->setPosition (iWidget::Position::TOP | iWidget::Position::WIDTH, 0, 0);
@@ -105,9 +112,12 @@ Application::Application () :
     menu_bar->addItem ("File", program_control_menu);
     menu_bar->addItem ("Resources", resource_control_menu);
     menu_bar->setView (MAIN_COLOR);
-    menu_bar->setItemView (SECOND_COLOR, iWidget::View::RELEASED);
-    menu_bar->setItemView (HOVER_COLOR, iWidget::View::HOVER);
-    menu_bar->setItemView (MAIN_COLOR, iWidget::View::PRESSED);
+
+    WidgetStyle style;
+    style.setView (SECOND_COLOR, iWidget::View::RELEASED);
+    style.setView (HOVER_COLOR, iWidget::View::HOVER);
+    style.setView (MAIN_COLOR, iWidget::View::PRESSED);
+    menu_bar->setItemStyle (style);
 
     m_editor = std::make_shared<EditField> ();
     m_editor->setSize (1000, 800);

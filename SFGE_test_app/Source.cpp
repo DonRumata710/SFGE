@@ -38,6 +38,7 @@
 #include <SFGE/PullDownMenu.h>
 #include <SFGE/GuiManager.h>
 #include <SFGE/GEDevice.h>
+#include <SFGE/WidgetStyle.h>
 
 #include <SFGE/Panel.h>
 
@@ -84,11 +85,14 @@ int main ()
     menu_bar->setPosition (iWidget::Position::TOP | iWidget::Position::WIDTH, 0, 0);
     menu_bar->setSize (800, 30);
     menu_bar->addItem ("Program", program_control);
-    menu_bar->setView (Color (0x23F85A));
-    menu_bar->setItemView (rm->findTexture ("button.released"), iWidget::View::RELEASED);
-    menu_bar->setItemView (rm->findTexture ("button.hover"), iWidget::View::HOVER);
-    menu_bar->setItemView (rm->findTexture ("button.pressed"), iWidget::View::PRESSED);
+    menu_bar->setBackground (Color (0x23F85A));
 
+    WidgetStyle style;
+    style.setView (rm->findTexture ("button.released"), iWidget::View::RELEASED);
+    style.setView (rm->findTexture ("button.hover"), iWidget::View::HOVER);
+    style.setView (rm->findTexture ("button.pressed"), iWidget::View::PRESSED);
+
+    menu_bar->setItemStyle (style);
     
 
     std::shared_ptr<Label> text = (std::make_shared<Label> ());
@@ -123,7 +127,7 @@ int main ()
 
     std::shared_ptr<TextList> text_list (std::make_shared<TextList> ());
     text_list->setSize (400, 100);
-    text_list->setView (rm->findTexture ("text_list.background"));
+    text_list->setBackground (rm->findTexture ("text_list.background"));
     text_list->addString ("first item");
     text_list->addString ("second item");
     text_list->addString ("third item");
