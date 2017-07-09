@@ -114,7 +114,7 @@ namespace sfge
     private:
         std::vector<std::shared_ptr<MenuItem>> m_items;
 
-        WidgetStyle m_style;
+        WidgetStyle m_style = { TOP | LEFT };
 
         size_t m_hover_item = SIZE_MAX;
         size_t m_active_item = SIZE_MAX;

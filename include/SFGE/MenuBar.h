@@ -59,10 +59,6 @@ namespace sfge
     class MenuBar : public iWidget, public Field
     {
     public:
-        /////////////////////////////////////////////////////////////////////
-        /// Default constructor
-        /////////////////////////////////////////////////////////////////////
-        MenuBar ();
 
         /////////////////////////////////////////////////////////////////////
         /// addItem - add new item with pull-down menu
@@ -114,7 +110,7 @@ namespace sfge
 
         Panel m_view;
 
-        WidgetStyle m_style;
+        WidgetStyle m_style = { Position::TOP | Position::LEFT };
     };
 
 

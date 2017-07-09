@@ -60,6 +60,18 @@ namespace sfge
         WidgetStyle () = default;
 
         /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @paran position - widget position
+        /////////////////////////////////////////////////////////////////////
+        WidgetStyle (const iWidget::Position position);
+
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        /////////////////////////////////////////////////////////////////////
+        WidgetStyle (const Frame::Position position, const int x_offset, const int y_offset);
+
+        /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to style set
         /// 
         /// @param tex - pointer to texture
@@ -111,7 +123,7 @@ namespace sfge
         /// @param x_offset - axial distance x between alignment object and widget
         /// @param y_offset - axial distance y between alignment object and widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position, const int x_offset, const int y_offset);
+        void setPosition (const Frame::Position position, const int x_offset, const int y_offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -119,14 +131,14 @@ namespace sfge
         /// @param position describe alignment of the widget
         /// @param offset - distance between alignment object and widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position, const Vector2i offset);
+        void setPosition (const Frame::Position position, const Vector2i offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
         /// 
         /// @param position - alignment of the widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position);
+        void setPosition (const Frame::Position position);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -183,7 +195,7 @@ namespace sfge
         std::shared_ptr<const Font> m_font;
         unsigned m_font_size = 0;
 
-        Frame::Position m_alignment = Frame::Position (Frame::Position::HCENTER | Frame::Position::VCENTER);
+        Frame::Position m_alignment = Frame::Position::HCENTER | Frame::Position::VCENTER;
         int m_x_offset = 0;
         int m_y_offset = 0;
         Vector2i m_position;

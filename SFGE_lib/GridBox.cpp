@@ -40,19 +40,6 @@
 using namespace sfge;
 
 
-GridBox::GridBox ()
-{}
-
-void GridBox::setRect (const PositionDesc& desc)
-{
-    set_position_desc (desc);
-
-    m_background.setPosition (desc.x, desc.y);
-    m_background.setSize (desc.width, desc.height);
-
-    resize_widgets ();
-}
-
 void GridBox::setRowsCount (unsigned rows)
 {
     m_rows = rows;
@@ -72,7 +59,7 @@ void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsig
     }
 
     m_widgets[row * m_columns + column] = widget;
-    widget->setPosition (Position::TOP | Position::LEFT);
+    m_style.attach (widget.get ());
     add_frame (widget.get ());
 }
 
@@ -82,7 +69,7 @@ void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsig
 
     m_widgets[row * m_columns + column] = widget;
     m_widgets[row * m_columns + column].size = ((column - sec_column) & 0xFFFF) | ((row - sec_row) << 16);
-    widget->setPosition (Position::TOP | Position::LEFT);
+    m_style.attach (widget.get ());
     add_frame (widget.get ());
 }
 
@@ -103,15 +90,20 @@ void GridBox::setBackground (const Color& color)
     m_background.setColor (color);
 }
 
+void GridBox::setItemStyle (const WidgetStyle& style)
+{
+    m_style = style;
+    m_style.setPosition (Position::LEFT | Position::TOP);
+    for (auto widget : m_widgets)
+        m_style.attach (widget.second.widget.get ());
+}
+
 void GridBox::closeWidget (iWidget* widget)
 {
     for (auto w : m_widgets)
     {
         if (w.second.widget.get () == widget)
-        {
             call_leave (widget);
-            m_widgets.erase (w.first);
-        }
     }
 }
 
@@ -124,6 +116,16 @@ void GridBox::setSpacing (unsigned space)
 void GridBox::setBorderOffset (unsigned offset)
 {
     m_border_offset = offset;
+    resize_widgets ();
+}
+
+void GridBox::setRect (const PositionDesc& desc)
+{
+    set_position_desc (desc);
+
+    m_background.setPosition (desc.x, desc.y);
+    m_background.setSize (desc.width, desc.height);
+
     resize_widgets ();
 }
 

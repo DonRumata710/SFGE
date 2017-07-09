@@ -35,6 +35,16 @@
 using namespace sfge;
 
 
+WidgetStyle::WidgetStyle (const Frame::Position position)
+{
+    setPosition (position);
+}
+
+WidgetStyle::WidgetStyle (const Frame::Position position, const int x_offset, const int y_offset)
+{
+    setPosition (position, x_offset, y_offset);
+}
+
 void WidgetStyle::setView (const std::shared_ptr<const Texture> tex, const iWidget::View e)
 {
     m_textures.push_back ({ e, tex });
@@ -64,14 +74,14 @@ void WidgetStyle::setFont (std::shared_ptr<const Font> font)
     m_font = font;
 }
 
-void sfge::WidgetStyle::setFont (const std::string & font)
+void WidgetStyle::setFont (const std::string & font)
 {
     auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         m_font = rm->findFont (font);
 }
 
-void WidgetStyle::setPosition (const int position, const int x_offset, const int y_offset)
+void WidgetStyle::setPosition (const Frame::Position position, const int x_offset, const int y_offset)
 {
     m_alignment = (Frame::Position) position;
     m_x_offset = x_offset;
@@ -79,7 +89,7 @@ void WidgetStyle::setPosition (const int position, const int x_offset, const int
     m_position_changed = true;
 }
 
-void WidgetStyle::setPosition (const int position, const Vector2i offset)
+void WidgetStyle::setPosition (const Frame::Position position, const Vector2i offset)
 {
     m_alignment = (Frame::Position) position;
     m_x_offset = offset.x;
@@ -87,7 +97,7 @@ void WidgetStyle::setPosition (const int position, const Vector2i offset)
     m_position_changed = true;
 }
 
-void WidgetStyle::setPosition (const int position)
+void WidgetStyle::setPosition (const Frame::Position position)
 {
     m_alignment = (Frame::Position) position;
     m_position_changed = true;

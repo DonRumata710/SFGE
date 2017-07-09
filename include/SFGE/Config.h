@@ -32,6 +32,8 @@
 
 #include <SFML/Config.hpp>
 
+#include <cstdint>
+
 
 ////////////////////////////////////////////////////////////
 // Define the SFML version

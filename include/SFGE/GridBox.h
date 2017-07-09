@@ -34,6 +34,7 @@
 #include "Widget.h"
 #include "Panel.h"
 #include "Field.h"
+#include "WidgetStyle.h"
 
 #include <unordered_map>
 
@@ -71,7 +72,7 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// Default constructor
         /////////////////////////////////////////////////////////////////////
-        GridBox ();
+        GridBox () = default;
         
         /////////////////////////////////////////////////////////////////////
         /// setRowsCount - set count of rows in grid
@@ -131,6 +132,13 @@ namespace sfge
         void setBackground (const Color& color);
 
         /////////////////////////////////////////////////////////////////////
+        /// setItemStyle - set style of items in widget
+        ///
+        /// @param style - style
+        /////////////////////////////////////////////////////////////////////
+        void setItemStyle (const WidgetStyle& style);
+
+        /////////////////////////////////////////////////////////////////////
         /// closeWidget - close widget contained in this grid
         /// 
         /// @param widget - widget to close
@@ -173,10 +181,9 @@ namespace sfge
         virtual void check_click () override;
         virtual bool check_mouse (const int x, const int y) override;
 
-
         void resize_widgets ();
 
-
+    private:
         struct WidgetDescription
         {
             std::shared_ptr<iWidget> widget;
@@ -205,6 +212,8 @@ namespace sfge
 
         unsigned m_space = 0;
         unsigned m_border_offset = 0;
+
+        WidgetStyle m_style = { Position::LEFT | Position::TOP };
     };
 
 

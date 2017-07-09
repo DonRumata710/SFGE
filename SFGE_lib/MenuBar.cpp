@@ -38,11 +38,6 @@
 using namespace sfge;
 
 
-MenuBar::MenuBar ()
-{
-    m_style.setPosition (Position::TOP | Position::LEFT);
-}
-
 void MenuBar::addItem (const UString& text, std::shared_ptr<PullDownMenu> menu)
 {
     std::shared_ptr<MenuItem> item (std::make_shared<MenuItem> ());

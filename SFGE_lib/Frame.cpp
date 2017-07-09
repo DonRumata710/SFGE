@@ -34,25 +34,25 @@
 using namespace sfge;
 
 
-void Frame::setPosition (const int position, const int x_offset, const int y_offset)
+void Frame::setPosition (const Frame::Position position, const int x_offset, const int y_offset)
 {
-    m_alignment = (Position) position;
+    m_alignment = position;
     m_x_offset = x_offset;
     m_y_offset = y_offset;
     set_position ();
 }
 
-void Frame::setPosition (const int position, const Vector2i offset)
+void Frame::setPosition (const Frame::Position position, const Vector2i offset)
 {
-    m_alignment = (Position) position;
+    m_alignment = position;
     m_x_offset = offset.x;
     m_y_offset = offset.y;
     set_position ();
 }
 
-void Frame::setPosition (const int position)
+void Frame::setPosition (const Frame::Position position)
 {
-    m_alignment = (Position) position;
+    m_alignment = position;
     set_position ();
 }
 
@@ -154,3 +154,7 @@ void Frame::set_position ()
     setFieldParam (size);
 }
 
+Frame::Position sfge::operator|(const Frame::Position p1, const Frame::Position p2)
+{
+    return Frame::Position (uint32_t (p1) | uint32_t (p2));
+}
