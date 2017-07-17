@@ -7,12 +7,6 @@
     <ClInclude Include="..\include\SFGE\AnimationDesc.h">
       <Filter>GraphicManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFGE\Button.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\CheckBox.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\SFGE\Err.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -22,26 +16,8 @@
     <ClInclude Include="..\include\SFGE\DistortionMesh.h">
       <Filter>GraphicManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFGE\Frame.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\SFGE\GEDevice.h">
       <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\GridBox.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\GuiElement.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\GuiManager.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\Label.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\LineEdit.h">
-      <Filter>GuiManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\Panel.h">
       <Filter>GraphicManagement</Filter>
@@ -58,29 +34,14 @@
     <ClInclude Include="..\include\SFGE\TextParser.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFGE\Slider.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\SFGE\SpriteDesc.h">
       <Filter>GraphicManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\StackedWidget.h">
-      <Filter>GuiManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SFGE\StringTable.h">
       <Filter>ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFGE\TextList.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\SFGE\Unicode.h">
       <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\Widget.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\Field.h">
-      <Filter>GuiManagement</Filter>
     </ClInclude>
     <ClInclude Include="ResourceLoader.h">
       <Filter>ResourceManagement</Filter>
@@ -97,15 +58,6 @@
     <ClInclude Include="..\include\SFGE\ResourceInputStream.h">
       <Filter>DataStream</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SFGE\PullDownMenu.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\MenuItem.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SFGE\MenuBar.h">
-      <Filter>GuiManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\SFGE\MemoryInputStream.h">
       <Filter>DataStream</Filter>
     </ClInclude>
@@ -121,8 +73,62 @@
     <ClInclude Include="..\include\SFGE\MemoryOutputStream.h">
       <Filter>DataStream</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SFGE\Button.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\CheckBox.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\GridBox.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MenuItem.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Label.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\LineEdit.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\MenuBar.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Slider.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\PullDownMenu.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\TextList.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\StackedWidget.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Field.h">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Frame.h">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\GuiElement.h">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\GuiManager.h">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\Widget.h">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\ItemList.h">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\SFGE\WidgetStyle.h">
-      <Filter>GuiManagement</Filter>
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SFGE\WidgetCollection.h">
+      <Filter>GuiManagement\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,23 +141,8 @@
     <ClCompile Include="File.cpp">
       <Filter>ResourceManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckBox.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
     <ClCompile Include="GEDevice.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiManager.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Label.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="LineEdit.cpp">
-      <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>GraphicManagement</Filter>
@@ -165,44 +156,17 @@
     <ClCompile Include="ResourceParser.cpp">
       <Filter>ResourceManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Slider.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="TextList.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
     <ClCompile Include="TextParser.cpp">
       <Filter>ResourceManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Widget.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="StackedWidget.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="GridBox.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>ResourceManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Frame.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="ArchiveManager.cpp">
       <Filter>DataStream</Filter>
     </ClCompile>
     <ClCompile Include="FileInputStream.cpp">
       <Filter>DataStream</Filter>
-    </ClCompile>
-    <ClCompile Include="PullDownMenu.cpp">
-      <Filter>GuiManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuBar.cpp">
-      <Filter>GuiManagement</Filter>
     </ClCompile>
     <ClCompile Include="MemoryInputStream.cpp">
       <Filter>DataStream</Filter>
@@ -216,8 +180,56 @@
     <ClCompile Include="StringTable.cpp">
       <Filter>ResourceManagement</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GridBox.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="LineEdit.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuBar.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="PullDownMenu.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="StackedWidget.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="TextList.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiManager.cpp">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
+    </ClCompile>
     <ClCompile Include="WidgetStyle.cpp">
-      <Filter>GuiManagement</Filter>
+      <Filter>GuiManagement\WidgetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetCollection.cpp">
+      <Filter>GuiManagement\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +247,12 @@
     </Filter>
     <Filter Include="DataStream">
       <UniqueIdentifier>{f615350d-f956-4723-8355-58b64afa3bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiManagement\Widgets">
+      <UniqueIdentifier>{b7c11c57-bd71-4258-8574-663cb5b91f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiManagement\WidgetSystem">
+      <UniqueIdentifier>{8890a21a-1f46-4e5c-92ee-ef5af348994b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

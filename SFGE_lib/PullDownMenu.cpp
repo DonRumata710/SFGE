@@ -43,13 +43,16 @@ void PullDownMenu::addItem (std::shared_ptr<MenuItem> item)
         set_size (item->getTextSize ().x, 0);
 
     if (m_auto_size)
+    {
         m_style.setSize (Field::getSize ().x, m_items[0]->getCharacterSize () + m_items[0]->getCharacterSize () / 2);
-    else
-        m_style.setSize (Field::getSize ().x, Frame::getSize ().y / m_items.size ());
-
-    m_style.attach (item.get ());
-    for (auto item : m_items)
         m_style.attach (item.get ());
+    }
+    else
+    {
+        m_style.setSize (Field::getSize ().x, Frame::getSize ().y / m_items.size ());
+        for (auto item : m_items)
+            m_style.attach (item.get ());
+    }
 }
 
 void PullDownMenu::setItemStyle (const WidgetStyle& style)

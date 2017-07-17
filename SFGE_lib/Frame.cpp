@@ -34,7 +34,7 @@
 using namespace sfge;
 
 
-void Frame::setPosition (const Frame::Position position, const int x_offset, const int y_offset)
+void Frame::setPosition (const Frame::Position position, const int32_t x_offset, const int32_t y_offset)
 {
     m_alignment = position;
     m_x_offset = x_offset;
@@ -56,7 +56,7 @@ void Frame::setPosition (const Frame::Position position)
     set_position ();
 }
 
-void Frame::setPosition (const int x_offset, const int y_offset)
+void Frame::setPosition (const int32_t x_offset, const int32_t y_offset)
 {
     m_x_offset = x_offset;
     m_y_offset = y_offset;
@@ -75,7 +75,7 @@ Vector2i Frame::getPosition () const
     return m_position;
 }
 
-void Frame::setSize (const unsigned x, const unsigned y)
+void Frame::setSize (const uint32_t x, const uint32_t y)
 {
     m_width = x;
     m_height = y;
