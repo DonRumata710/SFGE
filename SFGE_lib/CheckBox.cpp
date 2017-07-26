@@ -36,49 +36,70 @@
 
 
 using namespace sfge;
-    
 
-CheckBox::CheckBox ()
-{}
 
-void CheckBox::attachReaction (const std::function<void ()> func)
+void CheckBox::attachReaction (const std::function<void (State)> func)
 {
     m_state_changed = func;
 }
 
-void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const ViewType type)
+void CheckBox::setView (const std::shared_ptr<const sf::Texture> tex, const View view)
 {
-    if (type == ViewType::BACKGROUND)
-        m_background = tex;
-    else
-        m_flag = tex;
+    switch (view)
+    {
+    case View::RELEASED:
+        m_background.setTexture (tex);
+        break;
+    case View::HOVER:
+        m_hover.setTexture (tex);
+        break;
+    case View::PRESSED:
+        m_flag.setTexture (tex);
+        break;
+    }
 }
 
-void CheckBox::setView (const std::string & tex, const ViewType view)
+void CheckBox::setView (const std::string& tex, const View view)
 {
     auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
-        setView (rm->findTexture (tex));
+        setView (rm->findTexture (tex), view);
 }
 
-void CheckBox::addCollision (std::shared_ptr<CheckBox> cb)
+void CheckBox::setView (const Color& color, const View view)
+{
+    switch (view)
+    {
+    case View::RELEASED:
+        m_background.setColor (color);
+        break;
+    case View::HOVER:
+        m_hover.setColor (color);
+        break;
+    case View::PRESSED:
+        m_flag.setColor (color);
+        break;
+    }
+}
+
+void CheckBox::addCollision (const std::shared_ptr<CheckBox> cb)
 {
     m_collisions.push_back (cb);
 }
 
-void CheckBox::setState (bool state)
+void CheckBox::setState (const State state)
 {
-    m_state = state;
-    if (m_state_changed) m_state_changed ();
-
-    if (state)
+    if (state ==  State::CHECKED)
     {
         for (std::shared_ptr<CheckBox> cb : m_collisions)
-            cb->setState (false);
+            if (cb.get () != this) cb->setState (State::UNCHECKED);
     }
+
+    m_state = state;
+    if (m_state_changed) m_state_changed (m_state);
 }
 
-bool CheckBox::getState () const
+CheckBox::State CheckBox::getState () const
 {
     return m_state;
 }
@@ -86,27 +107,27 @@ bool CheckBox::getState () const
 void CheckBox::setRect (const PositionDesc& desc)
 {
     m_background.setPosition (desc.x, desc.y);
-
-    sf::Vector2f pos (desc.x, desc.y);
-
-    pos += m_background.getSize () / 2.0f - m_flag.getSize () / 2.0f;
-    m_flag.setPosition (pos);
+    m_hover.setPosition (desc.x, desc.y);
+    m_flag.setPosition (desc.x, desc.y);
 
     m_background.setSize (desc.width, desc.height);
+    m_hover.setSize (desc.width, desc.height);
+    m_flag.setSize (desc.width, desc.height);
 }
 
 void CheckBox::draw (sf::RenderTarget& target) const
 {
-    target.draw (m_background);
-    if (m_state) target.draw (m_flag);
+    target.draw (*m_active);
+    if (m_state == State::CHECKED)
+        target.draw (m_flag);
 }
 
 bool CheckBox::check_key (const sf::Event::KeyEvent& e, const bool pressed)
 {
     if (e.code == sf::Keyboard::Return && pressed)
     {
-        setState (!m_state);
-        if (m_state_changed) m_state_changed ();
+        setState (m_state == State::CHECKED ? State::UNCHECKED : State::CHECKED);
+        if (m_state_changed) m_state_changed (m_state);
 
         return true;
     }
@@ -117,12 +138,21 @@ void CheckBox::check_mouse_button (const sf::Event::MouseButtonEvent& e, const b
 {
     if (pressed)
     {
-        setState (!m_state);
-        if (m_state_changed) m_state_changed ();
+        setState (m_state == State::CHECKED ? State::UNCHECKED : State::CHECKED);
+        if (m_state_changed) m_state_changed (m_state);
     }
 }
 
 bool CheckBox::check_mouse (const int x, const int y)
 {
-    return m_background.contains (x, y);
+    if (m_background.contains (x, y))
+    {
+        m_active = &m_hover;
+        return true;
+    }
+    else
+    {
+        m_active = &m_background;
+        return false;
+    }
 }

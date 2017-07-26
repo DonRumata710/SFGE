@@ -48,27 +48,25 @@ namespace sfge
     class CheckBox : public iWidget
     {
     public:
-      
-        /////////////////////////////////////////////////////////////////////
-        /// ViewType - enumeration of types of view which widget use
-        /////////////////////////////////////////////////////////////////////
-        enum ViewType
-        {
-            BACKGROUND = View::RELEASED,   // background of widget
-            FLAG = View::PRESSED           // view of toggle
-        };
 
         /////////////////////////////////////////////////////////////////////
-        /// Default constructor
+        /// State - enum of states of checkbox
+        ///
+        /// Tristate is unused for now
         /////////////////////////////////////////////////////////////////////
-        CheckBox ();
+        enum class State
+        {
+            CHECKED,
+            TRISTATE,   // unused for now
+            UNCHECKED
+        };
 
         /////////////////////////////////////////////////////////////////////
         /// attachReaction - attach reaction to changing value
         /// 
         /// @param func - event handler
         /////////////////////////////////////////////////////////////////////
-        void attachReaction (const std::function<void ()> func);
+        void attachReaction (const std::function<void (State)> func);
 
         /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to some view of widget
@@ -76,7 +74,7 @@ namespace sfge
         /// @param tex - new texture
         /// @param view - view which will use texture
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::shared_ptr<const Texture> tex, const ViewType view = ViewType::BACKGROUND);
+        void setView (const std::shared_ptr<const Texture> tex, const View view) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to some view of widget
@@ -84,7 +82,15 @@ namespace sfge
         /// @param tex - name of texture loaded to resource manager
         /// @param view - view which will use texture
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::string& tex, const ViewType view = ViewType::BACKGROUND);
+        void setView (const std::string& tex, const View view) override;
+
+        /////////////////////////////////////////////////////////////////////
+        /// setView - attach texture to some view of widget
+        /// 
+        /// @param color - color of view
+        /// @param view - view which will use texture
+        /////////////////////////////////////////////////////////////////////
+        void setView (const Color& color, const View view) override;
 
         /////////////////////////////////////////////////////////////////////
         /// addCollision - add check box which can't be set on in same time 
@@ -92,22 +98,21 @@ namespace sfge
         /// 
         /// @param cb - other check box
         /////////////////////////////////////////////////////////////////////
-        void addCollision (std::shared_ptr<CheckBox> cb);
-
+        void addCollision (const std::shared_ptr<CheckBox> cb);
 
         /////////////////////////////////////////////////////////////////////
         /// setState - set check box on or off
         /// 
         /// @param state - true to turn on, false to turn off
         /////////////////////////////////////////////////////////////////////
-        void setState (bool state);
+        void setState (const State state);
 
         /////////////////////////////////////////////////////////////////////
         /// getState - check is checkbox turned on or off
         /// 
         /// @return true if turn on, false if turn off
         /////////////////////////////////////////////////////////////////////
-        bool getState () const;
+        State getState () const;
 
     private:
         virtual void setRect (const PositionDesc& desc) override;
@@ -118,15 +123,18 @@ namespace sfge
         virtual bool check_mouse (const int x, const int y) override;
 
 
-        std::function<void ()> m_state_changed;
+        std::function<void (State)> m_state_changed;
 
 
         Panel m_background;
+        Panel m_hover;
         Panel m_flag;
+
+        Panel* m_active = &m_background;
 
         std::vector<std::shared_ptr<CheckBox>> m_collisions;
 
-        bool m_state = false;
+        State m_state = State::UNCHECKED;
     };
 
 
