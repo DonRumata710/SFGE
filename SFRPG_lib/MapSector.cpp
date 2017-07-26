@@ -108,6 +108,50 @@ void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& t
                 }
             }
         }
+        else
+        {
+            runtime_message ("Texture was not found");
+        }
+    }
+}
+
+void MapSector::setTileTexture (Vector2u pos, const std::string& texture_name)
+{
+    auto device (GEDevice::getInstance ());
+    if (!device)
+    {
+        debug_message ("Game engine device was not created");
+        return;
+    }
+
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (!rm)
+    {
+        debug_message ("No default resource manager");
+        return;
+    }
+
+    std::shared_ptr<const Texture> tex (rm->findTexture (texture_name));
+
+    if (tex)
+    {
+        m_textures[tex.get ()] = texture_name;
+
+        Uint32 width (tex->getSize ().x / m_tile_size);
+        Uint32 height (tex->getSize ().y / m_tile_size);
+
+        for (size_t i = 0; i < width; ++i)
+        {
+            for (size_t j = 0; j < height; ++j)
+            {
+                Uint32 pos (i + pos.x + (j + pos.y) * m_size.x);
+                if (pos < m_tiles.size ())
+                {
+                    m_tiles[pos].setTexture (tex);
+                    m_tiles[pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
+                }
+            }
+        }
     }
 }
 

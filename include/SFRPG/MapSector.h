@@ -99,6 +99,11 @@ namespace sfge
         void setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles);
 
         /////////////////////////////////////////////////////////////////////
+        /// setTileTexture - set texture of tile
+        /////////////////////////////////////////////////////////////////////
+        void setTileTexture (Vector2u pos, const std::string& texture);
+
+        /////////////////////////////////////////////////////////////////////
         /// setName - set name to the sector
         ///
         /// @param name - name of sector

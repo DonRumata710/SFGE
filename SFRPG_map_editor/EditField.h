@@ -36,11 +36,22 @@
 class EditField : public sfge::World
 {
 public:
+    enum Action
+    {
+        ARROW,
+        TILE,
+        BRUSH
+    };
+
     EditField ();
 
     ~EditField ();
 
     void createMap (uint32_t width, uint32_t height, float tile_size = 0.0f);
+
+    void setAction (Action action);
+
+    void setTexture (const std::string& texture);
 
 private:
     virtual void check_mouse_button (const sf::Event::MouseButtonEvent&, const bool) override;
@@ -50,4 +61,8 @@ private:
 private:
     bool m_is_pressed = false;
     sfge::Vector2i m_mouse;
+
+    Action m_action = ARROW;
+
+    std::string m_texture;
 };
