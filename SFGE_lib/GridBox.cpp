@@ -105,8 +105,8 @@ void GridBox::resizeWidgets ()
                 continue;
 
             m_widgets[i * m_columns + j].widget->setPosition (
-                getSpace () / 2 + Frame::getPosition ().x + getBorederOffset () + width * j,
-                getSpace () / 2 + Frame::getPosition ().y + getBorederOffset () + height * i
+                getSpace () / 2 + getBorederOffset () + width * j,
+                getSpace () / 2 + getBorederOffset () + height * i
             );
 
             m_widgets[i * m_columns + j].widget->setSize (

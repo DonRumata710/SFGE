@@ -207,16 +207,16 @@ void iWidgetCollection::check_click ()
 
 bool iWidgetCollection::check_mouse (const int x, const int y)
 {
-    bool flag = false;
+    m_hovered_widget = nullptr;
     iWidget* widget (nullptr);
-    forEach ([this, &flag, x, y, &widget](iWidget* w) {
+    forEach ([this, x, y, &widget](iWidget* w) {
         if (call_check_mouse (w, x, y))
         {
             widget = w;
-            flag = true;
-            return false;
+            m_hovered_widget = w;
+            return true;
         }
         return true;
     });
-    return flag;
+    return m_hovered_widget != nullptr;
 }
