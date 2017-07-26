@@ -32,6 +32,7 @@
 #include <SFGE/TextList.h>
 #include <SFGE/LineEdit.h>
 #include <SFGE/CheckBox.h>
+#include <SFGE/GridBox.h>
 #include <SFGE/Label.h>
 #include <SFGE/MenuBar.h>
 #include <SFGE/MenuItem.h>
@@ -121,7 +122,7 @@ int main ()
     line_edit->setString ("Write here...");
     line_edit->setFont (rm->getFont ("font.standart"));
     line_edit->setPosition (iWidget::Position::TOP | iWidget::Position::HCENTER, 0, 120);
-    line_edit->attachReaction ([line_edit, text]() {text->setString (line_edit->getString ()); }, LineEdit::EventType::STRING_CHANGED);
+    line_edit->attachReaction ([line_edit, text]() { text->setString (line_edit->getString ()); }, LineEdit::EventType::STRING_CHANGED);
 
 
 
@@ -149,22 +150,59 @@ int main ()
 
 
 
-    std::shared_ptr<CheckBox> check_box1 (std::make_shared<CheckBox> ());
-    check_box1->setSize (50, 50);
-    check_box1->setView (rm->getTexture ("checkbox.background"), CheckBox::BACKGROUND);
-    check_box1->setView (rm->getTexture ("checkbox.flag"), CheckBox::FLAG);
-    check_box1->setPosition (iWidget::Position::BOTTOM | iWidget::Position::HCENTER, 0, 0);
+    std::shared_ptr<CheckBox> check_box_1 (std::make_shared<CheckBox> ());
+    check_box_1->setView (rm->getTexture ("checkbox.background"), CheckBox::View::RELEASED);
+    check_box_1->setView (rm->getTexture ("checkbox.background"), CheckBox::View::HOVER);
+    check_box_1->setView (rm->getTexture ("checkbox.flag"), CheckBox::View::PRESSED);
+    check_box_1->attachReaction ([text](CheckBox::State state) {
+        if (state == CheckBox::State::CHECKED) text->setString ("1st checkbox is on");
+    });
 
-    std::shared_ptr<CheckBox> check_box2 (std::make_shared<CheckBox> ());
-    check_box2->setSize (50, 50);
-    check_box2->setView (rm->getTexture ("checkbox.background"), CheckBox::BACKGROUND);
-    check_box2->setView (rm->getTexture ("checkbox.flag"), CheckBox::FLAG);
-    check_box2->setPosition (iWidget::Position::BOTTOM | iWidget::Position::HCENTER, 0, 50);
+    std::shared_ptr<CheckBox> check_box_2 (std::make_shared<CheckBox> ());
+    check_box_2->setView (rm->getTexture ("checkbox.background"), CheckBox::View::RELEASED);
+    check_box_2->setView (rm->getTexture ("checkbox.background"), CheckBox::View::HOVER);
+    check_box_2->setView (rm->getTexture ("checkbox.flag"), CheckBox::View::PRESSED);
+    check_box_2->attachReaction ([text](CheckBox::State state) {
+        if (state == CheckBox::State::CHECKED) text->setString ("2nd checkbox is on");
+    });
+
+    std::shared_ptr<CheckBox> check_box_3 (std::make_shared<CheckBox> ());
+    check_box_3->setView (rm->getTexture ("checkbox.background"), CheckBox::View::RELEASED);
+    check_box_3->setView (rm->getTexture ("checkbox.background"), CheckBox::View::HOVER);
+    check_box_3->setView (rm->getTexture ("checkbox.flag"), CheckBox::View::PRESSED);
+    check_box_3->attachReaction ([text](CheckBox::State state) {
+        if (state == CheckBox::State::CHECKED) text->setString ("3rd checkbox is on");
+    });
+
+    std::shared_ptr<CheckBox> check_box_4 (std::make_shared<CheckBox> ());
+    check_box_4->setView (rm->getTexture ("checkbox.background"), CheckBox::View::RELEASED);
+    check_box_4->setView (rm->getTexture ("checkbox.background"), CheckBox::View::HOVER);
+    check_box_4->setView (rm->getTexture ("checkbox.flag"), CheckBox::View::PRESSED);
+    check_box_4->attachReaction ([text](CheckBox::State state) {
+        if (state == CheckBox::State::CHECKED) text->setString ("4th checkbox is on");
+    });
 
 
-    check_box1->addCollision (check_box2);
-    check_box2->addCollision (check_box1);
+    check_box_1->addCollision (check_box_2);
+    check_box_1->addCollision (check_box_3);
+    check_box_2->addCollision (check_box_1);
+    check_box_2->addCollision (check_box_4);
+    check_box_3->addCollision (check_box_1);
+    check_box_3->addCollision (check_box_4);
+    check_box_4->addCollision (check_box_2);
+    check_box_4->addCollision (check_box_3);
 
+
+    std::shared_ptr<GridBox> gridbox (std::make_shared<GridBox>());
+    gridbox->setRowsCount (2);
+    gridbox->setColumnsCount (2);
+    gridbox->setPosition (iWidget::BOTTOM | iWidget::LEFT, 0, 0);
+    gridbox->setSize (200, 200);
+
+    gridbox->addWidget (check_box_1, 0, 0);
+    gridbox->addWidget (check_box_2, 0, 1);
+    gridbox->addWidget (check_box_3, 1, 0);
+    gridbox->addWidget (check_box_4, 1, 1);
 
 
     child_win->addBackWidget (text_list);
@@ -175,8 +213,7 @@ int main ()
     manager->addBackWidget (menu_bar);
     manager->addBackWidget (button);
     manager->addBackWidget (text);
-    manager->addBackWidget (check_box1);
-    manager->addBackWidget (check_box2);
+    manager->addBackWidget (gridbox);
     manager->setBackground (rm->findTexture ("background.menu"));
 
 
