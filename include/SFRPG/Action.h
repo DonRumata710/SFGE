@@ -76,13 +76,4 @@ namespace sfge
     };
 
 
-    class SectorLeavingAction : public iAction
-    {
-    public:
-        SectorLeavingAction (InteractiveObject* actor);
-
-        virtual void doAction (InteractiveObject* target = nullptr) override;
-    };
-
-
 }

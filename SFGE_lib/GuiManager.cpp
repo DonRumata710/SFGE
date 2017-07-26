@@ -81,7 +81,9 @@ namespace sfge
 
     void GUIManager::setBackground (const std::string& texture)
     {
-        setBackground (ResourceManager::getInstance ()->findTexture (texture));
+        auto rm (GEDevice::getInstance ()->getResourceManager ());
+        if (rm)
+            setBackground (rm->findTexture (texture));
     }
 
     void GUIManager::setBackground (const Color& color)
@@ -156,7 +158,7 @@ namespace sfge
 
     void GUIManager::enter (std::unique_ptr<RenderWindow>& window)
     {
-        if (!window) critical_error ("GUI manager has got empty pointer to window!");
+        if (!window) critical_error ("GUI manager has got empty pointer to window!", std::runtime_error);
 
         m_state = State::ENTER;
         m_timer.restart ();

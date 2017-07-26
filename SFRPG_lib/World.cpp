@@ -28,6 +28,7 @@
 
 
 #include "World.h"
+#include "MapManager.h"
 #include "MapLoader.h"
 #include "MapSaver.h"
 
@@ -52,7 +53,7 @@ void World::loadMap (const std::string& path)
     std::shared_ptr<iResourceInputStream> stream (std::make_shared<FileInputStream> ());
     std::shared_ptr<MapLoader> loader (std::make_shared<MapLoader> (stream.get ()));
     setMap (std::make_shared<MapManager> ());
-    if (!loader->loadMap (getMap ().get (), path))
+    if (!loader->loadMap (getMap ().get (), getMapName (path)))
         getMap ().reset ();
 }
 
@@ -60,7 +61,8 @@ void World::saveMap (const std::string& path)
 {
     FileOutputStream stream;
     MapSaver saver (&stream);
-    saver.saveMap (getMap ().get (), path);
+
+    saver.saveMap (getMap ().get (), getMapName (path));
 }
 
 void World::closeMap ()
@@ -116,7 +118,7 @@ void World::update (const float delta)
 void World::setRect (const PositionDesc& desc)
 {
     m_screen.create (desc.width, desc.height);
-    m_view.reset (sf::FloatRect (0, 0, desc.width / 100, desc.height / 100));
+    m_view.reset (sf::FloatRect (0.0f, 0.0f, static_cast<float> (desc.width / 100), static_cast<float> (desc.height / 100)));
     m_screen.setView (m_view);
 
     m_render_rect.setPosition (desc.x, desc.y);
@@ -126,4 +128,17 @@ void World::setRect (const PositionDesc& desc)
 bool World::check_mouse (const int x, const int y)
 {
     return true;
+}
+
+std::string World::getMapName (const std::string & path) const
+{
+    std::string name (path);
+
+    if (name.empty ())
+        name = m_map->getName ();
+
+    if (name.rfind (".resm") != name.size () - 5)
+        name += ".resm";
+
+    return name;
 }

@@ -31,41 +31,87 @@
 
 
 #include "Config.h"
-#include "ResourceInputStream.h"
+#include "WidgetCollection.h"
+#include "WidgetStyle.h"
 
-#include <SFML/System/MemoryInputStream.hpp>
+#include <vector>
 
 
 namespace sfge
 {
 
 
+    using sf::Vector2u;
+
+
     /////////////////////////////////////////////////////////////////////
-    /// File - container for data read from file
+    /// ItemList - container for widgets
+    ///
+    /// ItemList place widgets in vertical or horizontal line.
     /////////////////////////////////////////////////////////////////////
-    class File : public sf::MemoryInputStream
+    class ItemList : public iWidgetCollection
     {
     public:
 
         /////////////////////////////////////////////////////////////////////
-        /// Default constructor - create file and read data from input stream
+        /// EventType - enumeration of types of events
         /////////////////////////////////////////////////////////////////////
-        File (sf::InputStream* source);
+        enum EventType
+        {
+            FOCUS_CHANGED,
+            ITEM_SELECTED
+        };
 
         /////////////////////////////////////////////////////////////////////
-        /// Destructor - dealloc memory
+        /// Orientation - orientation of widget
         /////////////////////////////////////////////////////////////////////
-        ~File ();
+        enum Orientation
+        {
+            VERTICAL,
+            HORIZONTAL
+        };
 
         /////////////////////////////////////////////////////////////////////
-        /// isOpen - check if file was already open or not
+        /// addWidget - add widget to list
+        /// 
+        /// @param widget - pointer to widget
+        /// @param column - place of widget
+        /////////////////////////////////////////////////////////////////////
+        void addWidget (std::shared_ptr<iWidget> widget, size_t index);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setOrientation - set orientation of widget
         ///
-        /// @return true if file is successfully opened
+        /// @param orientation - orientation
         /////////////////////////////////////////////////////////////////////
-        bool isOpen () const;
+        void setOrientation (Orientation orientation);
+
+        /////////////////////////////////////////////////////////////////////
+        /// closeWidget - close widget contained in this grid
+        /// 
+        /// @param widget - widget to close
+        /////////////////////////////////////////////////////////////////////
+        virtual void eraseWidget (iWidget* widget) override;
 
     private:
-        char* m_data = nullptr;
+        virtual bool check_key (const Event::KeyEvent& e, const bool pressed) override;
+        virtual void check_wheel (const Event::MouseWheelScrollEvent& e) override;
+
+        virtual void forEach (std::function<bool (iWidget*)> function) const = 0;
+        void resizeWidgets ();
+
+    private:
+        std::vector<std::shared_ptr<iWidget>> m_widgets;
+        WidgetStyle m_style = { Position::LEFT | Position::TOP };
+
+        Panel m_background;
+
+        unsigned m_space = 0;
+        unsigned m_border_offset = 0;
+
+        Orientation m_orientation = VERTICAL;
+
+        size_t m_current_item = SIZE_MAX;
     };
 
 

@@ -29,9 +29,12 @@
 
 #include "EditField.h"
 
+#include <SFRPG/MapSectorDesc.h>
 #include <SFRPG/MapSector.h>
+#include <SFRPG/MapManager.h>
 
 #include <SFGE/Panel.h>
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 
 #include <vector>
@@ -48,8 +51,9 @@ EditField::~EditField ()
 
 void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
 {
-    if (tile_size == 0.0f)
-        tile_size = ResourceManager::getInstance ()->getTexture ("tile.grass")->getSize ().x;
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm && tile_size == 0.0f)
+        tile_size = rm->getTexture ("tile.grass")->getSize ().x;
 
     std::vector<std::pair<Uint32, std::string>> tiles (width * height, { 0, "tile.grass" });
 
@@ -73,10 +77,33 @@ void EditField::createMap (uint32_t width, uint32_t height, float tile_size)
     redraw ();
 }
 
+void EditField::setAction (Action action)
+{
+    m_action = action;
+}
+
+void EditField::setTexture (const std::string & texture)
+{
+    m_texture = texture;
+}
+
 void EditField::check_mouse_button (const sf::Event::MouseButtonEvent& e, const bool pressed)
 {
     if (e.button == sf::Mouse::Button::Left)
-        m_is_pressed = pressed;
+    {
+        auto mouse_coord (mapPixelToCoords ({ e.x, e.y }));
+        switch (m_action)
+        {
+        case ARROW:
+            m_is_pressed = pressed;
+            break;
+        case TILE:
+            getMap ()->getSector (mouse_coord)->setTileTexture ({ static_cast<uint32_t> (mouse_coord.x), static_cast<uint32_t> (mouse_coord .y) }, m_texture);
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 bool EditField::check_mouse (const int x, const int y)

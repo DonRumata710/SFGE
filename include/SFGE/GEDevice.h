@@ -78,6 +78,8 @@ namespace sfge
     class GEDevice
     {
     public:
+        static const std::string SYSTEM_RESOURCES;
+
         /////////////////////////////////////////////////////////////////////
         /// getInstance - get instance of created device
         /// 
@@ -101,16 +103,22 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         /// setResourceManager - add resource manager to device
         ///
+        /// Note that GEDevice will not store resource manager if no one uses
+        /// it.
+        ///
         /// @param resources - pointer to resource manager
+        /// @param name - name of resource manager
         /////////////////////////////////////////////////////////////////////
-        void setResourceManager (std::shared_ptr<ResourceManager> resources);
+        void setResourceManager (std::shared_ptr<ResourceManager> resources, const std::string name = SYSTEM_RESOURCES);
 
         /////////////////////////////////////////////////////////////////////
         /// getResourceManager - get resource manager of GE device
         /// 
+        /// @param name - name of resource manager
+        ///
         /// @return pointer to resource manager
         /////////////////////////////////////////////////////////////////////
-        std::shared_ptr<ResourceManager> getResourceManager ();
+        std::shared_ptr<ResourceManager> getResourceManager (const std::string name = SYSTEM_RESOURCES);
 
         /////////////////////////////////////////////////////////////////////
         /// createWindow create window and show it
@@ -171,10 +179,8 @@ namespace sfge
         std::unordered_map<unsigned, pGUIManager> m_managers;
         std::unordered_map<UString, GUIManager*> m_active;
 
-        std::shared_ptr<ResourceManager> m_resource_manager;
-
-        int m_next;
-
+        std::unordered_map<std::string, std::weak_ptr<ResourceManager>> m_resource_managers;
+        
         static GEDevice* m_device;
     };
 

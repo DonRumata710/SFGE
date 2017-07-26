@@ -27,11 +27,13 @@
 /////////////////////////////////////////////////////////////////////
 
 
+#include "MapManager.h"
 #include "MapSector.h"
 #include "MapSaver.h"
 #include "InteractiveObject.h"
 #include "Way.h"
 
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 #include <SFGE/Err.h>
 
@@ -42,7 +44,7 @@
 using namespace sfge;
 
 
-MapSector::MapSector (Vector2u size)
+MapSector::MapSector (Vector2u size, MapManager* manager) : m_manager (manager)
 {
     m_size = size;
     m_tiles.assign (size.x * size.y, Panel ());
@@ -56,6 +58,11 @@ MapSector::MapSector (Vector2u size)
     }
 }
 
+void MapSector::setMapManager (MapManager* manager)
+{
+    m_manager = manager;
+}
+
 void MapSector::setTileSize (Uint32 size)
 {
     m_tile_size = size;
@@ -63,8 +70,14 @@ void MapSector::setTileSize (Uint32 size)
 
 void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles)
 {
-    ResourceManager* rm (ResourceManager::getInstance ());
+    auto device (GEDevice::getInstance ());
+    if (!device)
+    {
+        debug_message ("Game engine device was not created");
+        return;
+    }
 
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (!rm)
     {
         debug_message ("No default resource manager");
@@ -92,6 +105,50 @@ void MapSector::setTiles (const std::vector<std::pair<uint32_t, std::string>>& t
                         m_tiles[pos].setTexture (tex);
                         m_tiles[pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
                     }
+                }
+            }
+        }
+        else
+        {
+            runtime_message ("Texture was not found");
+        }
+    }
+}
+
+void MapSector::setTileTexture (Vector2u pos, const std::string& texture_name)
+{
+    auto device (GEDevice::getInstance ());
+    if (!device)
+    {
+        debug_message ("Game engine device was not created");
+        return;
+    }
+
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (!rm)
+    {
+        debug_message ("No default resource manager");
+        return;
+    }
+
+    std::shared_ptr<const Texture> tex (rm->findTexture (texture_name));
+
+    if (tex)
+    {
+        m_textures[tex.get ()] = texture_name;
+
+        Uint32 width (tex->getSize ().x / m_tile_size);
+        Uint32 height (tex->getSize ().y / m_tile_size);
+
+        for (size_t i = 0; i < width; ++i)
+        {
+            for (size_t j = 0; j < height; ++j)
+            {
+                Uint32 pos (i + pos.x + (j + pos.y) * m_size.x);
+                if (pos < m_tiles.size ())
+                {
+                    m_tiles[pos].setTexture (tex);
+                    m_tiles[pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
                 }
             }
         }
@@ -161,7 +218,7 @@ bool MapSector::save (MapSaver* saver)
         }
         if (!saver->saveTile (texture, { (Uint32) tile.getPosition ().x, (Uint32) tile.getPosition ().y }))
         {
-            runtime_error ("Failed saving tile in pos x = " + std::to_string (tile.getPosition ().x) + " y = " + std::to_string (tile.getPosition ().y));
+            runtime_message ("Failed saving tile in pos x = " + std::to_string (tile.getPosition ().x) + " y = " + std::to_string (tile.getPosition ().y));
             return false;
         }
     }
@@ -177,8 +234,11 @@ bool MapSector::checkMovement (InteractiveObject* moved_object)
         moved_object->getPosition ().y > m_offset.y + m_size.y
     )
     {
-        moved_object->runAction<SectorLeavingAction> (nullptr);
+        if (!m_manager)
+            critical_error ("Map manager wasn't set");
+
         removeObject (moved_object);
+        moved_object->attachToSector (m_manager->getSector (moved_object->getPosition ()));
     }
 
     for (auto object : m_objects)

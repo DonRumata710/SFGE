@@ -35,6 +35,7 @@
 #include <SFGE/MenuBar.h>
 #include <SFGE/PullDownMenu.h>
 #include <SFGE/MenuItem.h>
+#include <SFGE/WidgetStyle.h>
 
 
 using namespace sfge;
@@ -47,11 +48,12 @@ const Color HOVER_COLOR (0x21, 0x27, 0x67);
 
 
 Application::Application () :
-    m_resource_manager (true)
+    m_resource_manager (std::make_shared<ResourceManager> ())
 {
-    m_resource_manager.loadScript ("media\\resources\\resources.cfg");
-    m_resource_manager.setDefaultFont (m_resource_manager.getFont ("font.standart"));
+    m_resource_manager->loadScript ("media\\resources\\resources.cfg");
+    m_resource_manager->setDefaultFont (m_resource_manager->getFont ("font.standart"));
 
+    m_device.setResourceManager (m_resource_manager);
 
     /// File
 
@@ -64,7 +66,7 @@ Application::Application () :
     file_open_item->attachReaction ([this]() { openFileDialog (); }, Button::EventType::RELEASED);
     
     std::shared_ptr<MenuItem> file_save_item (std::make_shared<MenuItem> ());
-    file_save_item->attachReaction ([this]() { m_editor->saveMap (m_string); }, Button::EventType::RELEASED);
+    file_save_item->attachReaction ([this]() { saveMap (); }, Button::EventType::RELEASED);
     file_save_item->setText ("Save");
     
     std::shared_ptr<MenuItem> file_save_as_item (std::make_shared<MenuItem> ());
@@ -84,6 +86,7 @@ Application::Application () :
     program_control_menu->addItem (file_open_item);
     program_control_menu->addItem (file_save_item);
     program_control_menu->addItem (file_save_as_item);
+    program_control_menu->addItem (file_close_item);
     program_control_menu->addItem (program_close_item);
 
 
@@ -96,6 +99,12 @@ Application::Application () :
     std::shared_ptr<PullDownMenu> resource_control_menu (std::make_shared<PullDownMenu> ());
     resource_control_menu->addItem (resource_add_item);
 
+
+    /// Editing
+
+    //
+
+
     
     std::shared_ptr<MenuBar> menu_bar (std::make_shared<MenuBar> ());
     menu_bar->setPosition (iWidget::Position::TOP | iWidget::Position::WIDTH, 0, 0);
@@ -103,9 +112,12 @@ Application::Application () :
     menu_bar->addItem ("File", program_control_menu);
     menu_bar->addItem ("Resources", resource_control_menu);
     menu_bar->setView (MAIN_COLOR);
-    menu_bar->setItemView (SECOND_COLOR, iWidget::View::RELEASED);
-    menu_bar->setItemView (HOVER_COLOR, iWidget::View::HOVER);
-    menu_bar->setItemView (MAIN_COLOR, iWidget::View::PRESSED);
+
+    WidgetStyle style;
+    style.setView (SECOND_COLOR, iWidget::View::RELEASED);
+    style.setView (HOVER_COLOR, iWidget::View::HOVER);
+    style.setView (MAIN_COLOR, iWidget::View::PRESSED);
+    menu_bar->setItemStyle (style);
 
     m_editor = std::make_shared<EditField> ();
     m_editor->setSize (1000, 800);
@@ -137,10 +149,18 @@ void Application::setChoisedString (const std::string& str)
     else if (m_last_action == SAVE && !m_string.empty ())
         m_editor->saveMap (m_string);
     else if (m_last_action == ADD_RESOURCES && !m_string.empty ())
-        m_resource_manager.loadScript (m_string);
+        m_resource_manager->loadScript (m_string);
 
     m_file_select_window.reset ();
     m_last_action = NONE;
+}
+
+void Application::saveMap ()
+{
+    if (m_string.empty ())
+        m_string = "new_map";
+
+    m_editor->saveMap (m_string);
 }
 
 void Application::openFileDialog ()

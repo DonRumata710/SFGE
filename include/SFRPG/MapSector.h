@@ -49,6 +49,7 @@ namespace sfge
     using sf::RenderStates;
     using sf::Drawable;
 
+    class MapManager;
     class MapSaver;
     class InteractiveObject;
     class Way;
@@ -67,13 +68,21 @@ namespace sfge
         /// Default constructor
         ///
         /// @param size - size of sector
+        /// @param manager - map manager
         /////////////////////////////////////////////////////////////////////
-        MapSector (Vector2u size);
+        MapSector (Vector2u size, MapManager* manager = nullptr);
 
         /////////////////////////////////////////////////////////////////////
         /// Destructor
         /////////////////////////////////////////////////////////////////////
         ~MapSector () = default;
+
+        /////////////////////////////////////////////////////////////////////
+        /// setMapManager - set manager of map where this sector placed
+        ///
+        /// @param manager - map manager
+        /////////////////////////////////////////////////////////////////////
+        void setMapManager (MapManager* manager);
 
         /////////////////////////////////////////////////////////////////////
         /// setTileSize - set size of tile texture in pixels
@@ -88,6 +97,11 @@ namespace sfge
         /// @param tiles - tiles of sector
         /////////////////////////////////////////////////////////////////////
         void setTiles (const std::vector<std::pair<uint32_t, std::string>>& tiles);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setTileTexture - set texture of tile
+        /////////////////////////////////////////////////////////////////////
+        void setTileTexture (Vector2u pos, const std::string& texture);
 
         /////////////////////////////////////////////////////////////////////
         /// setName - set name to the sector
@@ -224,6 +238,8 @@ namespace sfge
         bool checkPass (Vector2f p1, Vector2f p2) const;
 
     private:
+        MapManager* m_manager;
+
         std::unordered_map<const Texture*, std::string> m_textures;
         std::vector<Panel> m_tiles;
         std::vector<std::shared_ptr<MapObject>> m_objects;

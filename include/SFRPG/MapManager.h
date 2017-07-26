@@ -61,13 +61,6 @@ namespace sfge
     class MapManager : public Drawable
     {
     public:
-      
-        /////////////////////////////////////////////////////////////////////
-        /// getInstance - get instance of created map manager
-        ///
-        /// @return - instance of map manager
-        /////////////////////////////////////////////////////////////////////
-        static MapManager* getInstance ();
 
         /////////////////////////////////////////////////////////////////////
         /// Default constructor
@@ -155,7 +148,7 @@ namespace sfge
     private:
         void setOffset (int32_t x, int32_t y);
 
-        void findWayPointsEdges ();
+        void findWayPointsEdges (MapSector* sector);
 
         std::deque<Vector2f> findWay (const WayPointID& departure, const WayPointID& target) const;
 
@@ -166,14 +159,11 @@ namespace sfge
         virtual void draw (RenderTarget& target, RenderStates states) const override;
 
     private:
-        std::string m_name;
+        std::string m_name = "map";
         std::unique_ptr<SectorLoader> m_loader;
         std::unordered_map<uint32_t, MapSectorDesc> m_sectors;
         std::string m_map_path;
         Vector2i m_offset;
-
-    private:
-        static MapManager* m_instance;
     };
 
 

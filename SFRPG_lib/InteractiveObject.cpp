@@ -30,6 +30,7 @@
 #include "InteractiveObject.h"
 #include "MapSector.h"
 
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 
 
@@ -43,7 +44,9 @@ void InteractiveObject::setAnimation (std::unique_ptr<Animation> animation)
 
 void InteractiveObject::setAnimation (const std::string& animation)
 {
-    setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm)
+        setAnimation (rm->findAnimation (animation));
 }
 
 void InteractiveObject::draw (RenderTarget& target, RenderStates states) const

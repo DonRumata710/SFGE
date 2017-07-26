@@ -81,9 +81,6 @@ namespace sfge
     class File;
 
 
-    void runtime_error (const std::string&);
-
-
     /////////////////////////////////////////////////////////////////////
     /// ResourceManager - class for control resources
     ///
@@ -95,30 +92,19 @@ namespace sfge
     class ResourceManager
     {
     public:
-
-        /////////////////////////////////////////////////////////////////////
-        /// getInstance - get instance of default resource manager
-        /// 
-        /// Default resource manager is used by GUI system.
-        /// 
-        /// @return pointer to device or nullptr if device wasn't created
-        /////////////////////////////////////////////////////////////////////
-        template<class Subclass = ResourceManager> static Subclass* getInstance ()
-        {
-            if (!m_default_manager)
-                runtime_error ("Attempt to obtain instance resource manager before creating");
-
-            return dynamic_cast<Subclass*> (m_default_manager);
-        }
-
+        static const std::string DEFAULT;   /// default name for resource manager or resource
+        
         /////////////////////////////////////////////////////////////////////
         /// constructor
         ///
-        /// Create empty resource manager.
+        /// Create empty resource manager. If you create resource manager
+        /// without create function it will not be available from get
+        /// function.
         ///
         /// @param is_default - if true this manager will be used for GUI elements
         ///////////////////////////////////////////////////////////////////// 
-        ResourceManager (bool is_default = false);
+        ResourceManager ();
+
 
         /////////////////////////////////////////////////////////////////////
         /// setResourceStream - set new place which contains resources
@@ -275,7 +261,7 @@ namespace sfge
 
         bool m_use_default_font = true;
 
-        static ResourceManager* m_default_manager;
+        static std::unordered_map<std::string, std::weak_ptr<ResourceManager>> m_managers;
     };
 
 

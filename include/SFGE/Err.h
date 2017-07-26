@@ -33,67 +33,57 @@
 #include "Config.h"
 
 #include <string>
+#include <exception>
 
 
 namespace sfge
 {
 
 
-    /////////////////////////////////////////////////////////////////////
-    /// Exception - class for convenient throwing of exceptions
-    /////////////////////////////////////////////////////////////////////
-    class Exception : public std::exception
+    namespace log
     {
-    public:
-      
-        /////////////////////////////////////////////////////////////////////
-        /// Constructor
-        /// 
-        /// Create exception object with message.
-        /// 
-        /// @param msg - description of exception
-        /////////////////////////////////////////////////////////////////////
-        Exception (const std::string& msg);
+
 
         /////////////////////////////////////////////////////////////////////
-        /// what - get description of exception
-        /// 
-        /// Overridden method of std::exception.
-        /// 
-        /// @return description of exception
+        /// log - write some information to ostream
+        ///
+        /// @param file - file, where log was called
+        /// @param line - line, where log was called
+        /// @param message - description of error
         /////////////////////////////////////////////////////////////////////
-        virtual char const* what () const noexcept override;
+        void log (const std::string& file, const std::string& line, const std::string& message);
 
-    private:
-        char* m_message = nullptr;
-    };
+
+    }
 
 
     /////////////////////////////////////////////////////////////////////
-    /// critical_error inform about some error which crash application
+    /// critical_error inform about some error and throw exception
     ///
     /// Throw Exception after logging.
     ///
     /// @param message - description of error
+    /// @param exception - type of exception
     /////////////////////////////////////////////////////////////////////
-    void critical_error (const std::string& message);
+    #define critical_error(msg, exception) { log::log(__FILE__, std::to_string (__LINE__), msg); throw exception (msg); }
 
     /////////////////////////////////////////////////////////////////////
-    /// runtime_error inform about some error
-    ///
-    /// Write log about error.
+    /// runtime_message - log some message
     ///
     /// @param message - description of error
     /////////////////////////////////////////////////////////////////////
-    void runtime_error (const std::string& message);
+    #define runtime_message(msg) log::log(__FILE__, std::to_string ( __LINE__), msg);
 
     /////////////////////////////////////////////////////////////////////
-    /// debug_message inform about some event which can be importaint
-    /// for programmer
+    /// debug_message inform about some event which can be importaint for debugging
     ///
     /// @param message - description of error
     /////////////////////////////////////////////////////////////////////
-    void debug_message (const std::string& message);
+#ifdef _DEBUG
+    #define debug_message(msg) log::log(__FILE__, std::to_string (__LINE__), msg);
+#else
+    #define debug_message(msg)
+#endif
 
 
 }

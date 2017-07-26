@@ -29,6 +29,7 @@
 
 #include "Label.h"
 #include "GuiManager.h"
+#include "GEDevice.h"
 #include "ResourceManager.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -41,6 +42,9 @@ Label::Label ()
 {
     m_text.setFillColor (Color::White);
     m_text.setCharacterSize (14);
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm)
+        m_text.setFont (*rm->getFont (ResourceManager::DEFAULT));
 }
 
 void Label::setString (const UString& text)
@@ -57,7 +61,7 @@ void Label::setFont (std::shared_ptr<const Font> font)
 
 void Label::setFont (const std::string& font)
 {
-    auto rm (ResourceManager::getInstance ());
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
     if (rm)
         setFont (rm->findFont (font));
 }

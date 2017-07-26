@@ -31,9 +31,8 @@
 
 
 #include "Config.h"
-#include "Widget.h"
-#include "Panel.h"
-#include "Field.h"
+#include "WidgetCollection.h"
+#include "WidgetStyle.h"
 
 #include <unordered_map>
 
@@ -64,15 +63,10 @@ namespace sfge
     /// 
     /// This widget can contain another widgets.
     /////////////////////////////////////////////////////////////////////
-    class GridBox : public iWidget, public Field
+    class GridBox : public iWidgetCollection
     {
     public:
 
-        /////////////////////////////////////////////////////////////////////
-        /// Default constructor
-        /////////////////////////////////////////////////////////////////////
-        GridBox ();
-        
         /////////////////////////////////////////////////////////////////////
         /// setRowsCount - set count of rows in grid
         /// 
@@ -110,73 +104,18 @@ namespace sfge
         void addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsigned row, unsigned sec_column, unsigned sec_row);
 
         /////////////////////////////////////////////////////////////////////
-        /// setBackground - set texture of background
-        /// 
-        /// @param texture - pointer to texture
-        /////////////////////////////////////////////////////////////////////
-        void setBackground (std::shared_ptr<const Texture> texture);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setBackground - set texture of background
-        /// 
-        /// @param texture - name of texture loaded to resource manager
-        /////////////////////////////////////////////////////////////////////
-        void setBackground (const std::string& texture);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setBackground - set color of background
-        /// 
-        /// @param color - color of background
-        /////////////////////////////////////////////////////////////////////
-        void setBackground (Color color);
-
-        /////////////////////////////////////////////////////////////////////
         /// closeWidget - close widget contained in this grid
         /// 
         /// @param widget - widget to close
         /////////////////////////////////////////////////////////////////////
-        void closeWidget (iWidget* widget);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setSpacing - set space between widgets
-        /// 
-        /// @param space - space
-        /////////////////////////////////////////////////////////////////////
-        void setSpacing (unsigned space);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setFrameOffset - set offset between widgets and borders of widget
-        /// 
-        /// @param offset - space between widgets and borders
-        /////////////////////////////////////////////////////////////////////
-        void setBorderOffset (unsigned offset);
+        virtual void eraseWidget (iWidget* widget) override;
 
     private:
-        virtual void setRect (const PositionDesc& desc) override;
+        virtual void forEach (std::function<bool (iWidget*)> function) const override;
 
-        virtual void enter () override;
-        virtual void leave () override;
-        virtual bool is_done () override;
+        virtual void resizeWidgets () override;
 
-        virtual void draw (RenderTarget& target) const override;
-        virtual void update (const float delta) override;
-
-        virtual bool check_key (const Event::KeyEvent& e, const bool pressed) override;
-        virtual void check_text (const Event::TextEvent& e) override;
-        virtual void check_mouse_button (const Event::MouseButtonEvent& e, const bool pressed) override;
-        virtual void check_wheel (const Event::MouseWheelScrollEvent& e) override;
-        virtual void check_joystick_connect (const Event::JoystickConnectEvent& e, const bool connect) override;
-        virtual void check_joystick (const Event::JoystickMoveEvent& e) override;
-        virtual void check_joystick_button (const Event::JoystickButtonEvent& e, const bool pressed) override;
-        virtual void check_touch (const Event::TouchEvent& e) override;
-        virtual void check_sensor (const Event::SensorEvent& e) override;
-        virtual void check_click () override;
-        virtual bool check_mouse (const int x, const int y) override;
-
-
-        void resize_widgets ();
-
-
+    private:
         struct WidgetDescription
         {
             std::shared_ptr<iWidget> widget;
@@ -200,11 +139,6 @@ namespace sfge
         unsigned m_columns = 0;
 
         std::unordered_map<unsigned, WidgetDescription> m_widgets;
-
-        Panel m_background;
-
-        unsigned m_space = 0;
-        unsigned m_border_offset = 0;
     };
 
 

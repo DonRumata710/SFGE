@@ -54,25 +54,13 @@ namespace sfge
         /////////////////////////////////////////////////////////////////////
         std::unordered_map<std::string, const size_t> keytable;
 
-        /////////////////////////////////////////////////////////////////////
-        /// string_elements - list of elements which can be part of unquoted string
-        /////////////////////////////////////////////////////////////////////
-        std::vector<char> string_elements;
+        std::vector<char> string_elements;  /// string_elements - list of elements which can be part of unquoted string
 
-        /////////////////////////////////////////////////////////////////////
-        /// string - code should be returned if parser found a string value
-        /////////////////////////////////////////////////////////////////////
-        size_t string;
+        size_t string;                      /// string - code should be returned if parser found a string value
 
-        /////////////////////////////////////////////////////////////////////
-        /// number - code should be returned if parser found a number
-        /////////////////////////////////////////////////////////////////////
-        size_t number;
+        size_t number;                      /// code should be returned if parser found a number
 
-        /////////////////////////////////////////////////////////////////////
-        /// end_of_file - code should be returned if parser came to the end of script
-        /////////////////////////////////////////////////////////////////////
-        size_t end_of_file;
+        size_t end_of_file;                 /// end_of_file - code should be returned if parser came to the end of script
     };
 
 

@@ -41,9 +41,9 @@ class SaveFileDialog : public FSBrowserDialog
 {
 public:
     SaveFileDialog (Application* parent);
+    virtual ~SaveFileDialog ();
 
 private:
-    Application* m_parent;
     sfge::pGUIManager manager;
     std::shared_ptr<sfge::LineEdit> line_edit;
 };

@@ -86,7 +86,7 @@ namespace sfge
         /// @param tex - pointer to texture
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::shared_ptr<const Texture> tex, const View e = View::RELEASED);
+        void setView (const std::shared_ptr<const Texture> tex, const View view = View::RELEASED) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setView - attach texture to button view
@@ -94,15 +94,15 @@ namespace sfge
         /// @param tex - name of texture loaded to resource manager
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::string& tex, const View e = View::RELEASED);
+        void setView (const std::string& tex, const View view = View::RELEASED) override;
 
         /////////////////////////////////////////////////////////////////////
-        /// setView - attach texture to button view
+        /// setView - set color to button view
         /// 
         /// @param color - color of button
         /// @param e - event type after which texture will be used
         /////////////////////////////////////////////////////////////////////
-        void setView (const Color color, const View e = View::RELEASED);
+        void setView (const Color& color, const View view = View::RELEASED) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setText - set text to draw on the button
@@ -123,21 +123,21 @@ namespace sfge
         ///
         /// @parameter font - pointer to font
         /////////////////////////////////////////////////////////////////////
-        void setFont (std::shared_ptr<const Font> font);
+        void setFont (const std::shared_ptr<const Font> font) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setFont set font, which will be drawn text
         ///
         /// @parameter font - name of font loaded to resource manager
         /////////////////////////////////////////////////////////////////////
-        void setFont (const std::string& font);
+        void setFont (const std::string& font) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setCharacterSize set size of text
         ///
         /// @parameter size - size of characters in pixels
         /////////////////////////////////////////////////////////////////////
-        void setCharacterSize (unsigned size);
+        void setCharacterSize (const unsigned size) override;
 
         /////////////////////////////////////////////////////////////////////
         /// getCharacterSize - get size of text

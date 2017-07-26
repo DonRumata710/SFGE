@@ -52,7 +52,7 @@ template <size_t N> std::vector<char> append_literal (const char (&str)[N])
 
 TEST_CASE ("Test saving and loading map")
 {
-    ResourceManager rm (true);
+    std::shared_ptr<ResourceManager> rm (std::make_shared<ResourceManager> ());
 
     size_t size = 100;
 
@@ -61,7 +61,7 @@ TEST_CASE ("Test saving and loading map")
     for (size_t i = 0; i < size; ++i)
     {
         for (size_t j = 0; j < size; ++j)
-            tiles[i * size + j].first = i + j * size;
+            tiles[i * size + j].first = static_cast<Uint32> (i + j * size);
     }
 
     std::unique_ptr<MapSector> map_sector (std::make_unique<MapSector> (Vector2u (size, size)));

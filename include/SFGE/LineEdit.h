@@ -38,12 +38,16 @@
 
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 
 namespace sf
 {
-    class Font;
+
+
     class Vertex;
+
+
 }
 
 
@@ -106,7 +110,7 @@ namespace sfge
         /// 
         /// @param color - new color
         /////////////////////////////////////////////////////////////////////
-        void setView (const Color color);
+        void setView (const Color& color);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font to text in widget

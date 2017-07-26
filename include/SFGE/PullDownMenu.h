@@ -33,6 +33,7 @@
 #include "Config.h"
 #include "Widget.h"
 #include "Field.h"
+#include "WidgetStyle.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -67,23 +68,18 @@ namespace sfge
         void addItem (std::shared_ptr<MenuItem>);
 
         /////////////////////////////////////////////////////////////////////
-        /// setItemView - set texture for all child menu items in a given view type
+        /// setItemStyle - set style for all child menu items
         ///
-        /// @param texture - pointer to texture
-        /// @param view - type of view
+        /// @param style - style description
         /////////////////////////////////////////////////////////////////////
-        void setItemView (std::shared_ptr<const Texture> texture, View view);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setItemView - set background color in a given view type
-        ///
-        /// @param color - color
-        /// @param view - type of view
-        /////////////////////////////////////////////////////////////////////
-        void setItemView (Color color, View view);
+        void setItemStyle (const WidgetStyle& style);
 
         /////////////////////////////////////////////////////////////////////
         /// setAutoHeight - set calc width automatically or not
+        ///
+        /// Automatic height will change height of widget if some item was
+        /// added, otherwise height of items will be calculated from height
+        /// of widget.
         /// 
         /// @param auto_size - widget will calc its width by max content if true
         /////////////////////////////////////////////////////////////////////
@@ -117,6 +113,8 @@ namespace sfge
 
     private:
         std::vector<std::shared_ptr<MenuItem>> m_items;
+
+        WidgetStyle m_style = { TOP | LEFT };
 
         size_t m_hover_item = SIZE_MAX;
         size_t m_active_item = SIZE_MAX;

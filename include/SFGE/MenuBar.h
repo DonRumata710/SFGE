@@ -35,9 +35,9 @@
 #include "Field.h"
 #include "Panel.h"
 #include "Unicode.h"
+#include "WidgetStyle.h"
 
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Texture.hpp>
 
 #include <vector>
 
@@ -59,6 +59,7 @@ namespace sfge
     class MenuBar : public iWidget, public Field
     {
     public:
+
         /////////////////////////////////////////////////////////////////////
         /// addItem - add new item with pull-down menu
         ///
@@ -72,14 +73,14 @@ namespace sfge
         ///
         /// @param texture - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void setView (std::shared_ptr<const Texture> texture);
+        void setBackground (std::shared_ptr<const Texture> texture);
 
         /////////////////////////////////////////////////////////////////////
         /// setView - set background color
         ///
         /// @param color - color
         /////////////////////////////////////////////////////////////////////
-        void setView (Color color);
+        void setBackground (const Color& color);
 
         /////////////////////////////////////////////////////////////////////
         /// setItemView - set texture for all child menu items in a given view type
@@ -87,15 +88,7 @@ namespace sfge
         /// @param texture - pointer to texture
         /// @param view - type of view
         /////////////////////////////////////////////////////////////////////
-        void setItemView (std::shared_ptr<const Texture> texture, View view);
-
-        /////////////////////////////////////////////////////////////////////
-        /// setItemView - set background color in a given view type
-        ///
-        /// @param color - color
-        /// @param view - type of view
-        /////////////////////////////////////////////////////////////////////
-        void setItemView (Color color, View view);
+        void setItemStyle (const WidgetStyle& style);
 
     private:
         virtual void setRect (const PositionDesc& desc) override;
@@ -116,6 +109,8 @@ namespace sfge
         bool m_is_mouse_over_menu = false;
 
         Panel m_view;
+
+        WidgetStyle m_style = { Position::TOP | Position::LEFT };
     };
 
 

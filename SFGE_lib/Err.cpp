@@ -31,40 +31,11 @@
 
 #include <SFML/System/Err.hpp>
 
-#include <exception>
+
+using namespace sfge;
 
 
-namespace sfge
+void log::log (const std::string& file, const std::string& line, const std::string& message)
 {
-
-
-    Exception::Exception (const std::string & msg)
-    {
-        msg.copy (m_message, msg.size (), 0);
-    }
-
-    char const* Exception::what () const noexcept
-    {
-        return m_message;
-    }
-
-
-    void critical_error (const std::string& message)
-    {
-        sf::err () << message << '\n';
-        throw Exception (message.c_str ());
-    }
-
-    void runtime_error (const std::string & message)
-    {
-        sf::err () << message << '\n';
-    }
-
-    void debug_message (const std::string & message)
-    {
-    #ifdef _DEBUG
-        sf::err () << message << '\n';
-    #endif
-    }
-
+    sf::err () << file << " " << line << ": " << message << '\n';
 }

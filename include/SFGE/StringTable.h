@@ -31,6 +31,10 @@
 
 
 #include "Config.h"
+#include "Unicode.h"
+#include "File.h"
+
+#include <unordered_map>
 
 
 namespace sfge
@@ -39,10 +43,49 @@ namespace sfge
 
     /////////////////////////////////////////////////////////////////////
     /// StringTable - class for manipulating strings
-    ///
-    /// Nuff said.
     /////////////////////////////////////////////////////////////////////
-    class StringTable {};
+    class StringTable
+    {
+    public:
+        /////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        /////////////////////////////////////////////////////////////////////
+        StringTable () = default;
+
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param file - file with strings description
+        /////////////////////////////////////////////////////////////////////
+        StringTable (File& file);
+
+        /////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// @param string_table - list of strings with their names
+        /////////////////////////////////////////////////////////////////////
+        StringTable (std::unordered_map<std::string, UString>&& string_table);
+
+        /////////////////////////////////////////////////////////////////////
+        /// addString - add string to the table
+        ///
+        /// @param name - identifier of string
+        /// @param str - unicode string
+        /////////////////////////////////////////////////////////////////////
+        void addString (const std::string& name, const UString& str);
+
+        /////////////////////////////////////////////////////////////////////
+        /// getString - get string by name
+        ///
+        /// @param name - name of string
+        ///
+        /// @return string
+        /////////////////////////////////////////////////////////////////////
+        UString getString (const std::string& name);
+
+    private:
+        std::unordered_map<std::string, UString> m_string_table;
+    };
 
 
 }

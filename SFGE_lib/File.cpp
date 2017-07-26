@@ -41,11 +41,14 @@ namespace sfge
 
     File::File (InputStream* source)
     {
+        if (!source)
+            return;
+
         Int64 size (source->getSize ());
 
         if (size == -1)
         {
-            runtime_error ("Failed accessing the file");
+            runtime_message ("Failed accessing the file");
             return;
         }
 

@@ -35,17 +35,22 @@
 #include "Frame.h"
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 #include <functional>
 #include <memory>
-
 
 
 namespace sfge
 {
 
 
-
+    using sf::Texture;
+    using sf::Color;
+    using sf::Font;
+    
     class GUIManager;
 
 
@@ -124,6 +129,51 @@ namespace sfge
         /// @param flag - describe is widget enabled
         /////////////////////////////////////////////////////////////////////
         void setEnabled (bool flag);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setView - attach texture to widget view
+        /// 
+        /// @param tex - pointer to texture
+        /// @param e - event type after which texture will be used
+        /////////////////////////////////////////////////////////////////////
+        virtual void setView (const std::shared_ptr<const Texture> tex, const View view = View::RELEASED) {}
+
+        /////////////////////////////////////////////////////////////////////
+        /// setView - attach texture to widget view
+        /// 
+        /// @param tex - name of texture loaded to resource manager
+        /// @param e - event type after which texture will be used
+        /////////////////////////////////////////////////////////////////////
+        virtual void setView (const std::string& tex, const View view = View::RELEASED) {}
+
+        /////////////////////////////////////////////////////////////////////
+        /// setView - set color to widget view
+        /// 
+        /// @param color - color of button
+        /// @param e - event type after which texture will be used
+        /////////////////////////////////////////////////////////////////////
+        virtual void setView (const Color& color, const View view = View::RELEASED) {}
+
+        /////////////////////////////////////////////////////////////////////
+        /// setCharacterSize set size of text
+        ///
+        /// @parameter size - size of characters in pixels
+        /////////////////////////////////////////////////////////////////////
+        virtual void setCharacterSize (const unsigned size) {}
+
+        /////////////////////////////////////////////////////////////////////
+        /// setFont set font, which will be drawn text
+        ///
+        /// @parameter font - pointer to font
+        /////////////////////////////////////////////////////////////////////
+        virtual void setFont (const std::shared_ptr<const Font> font) {}
+
+        /////////////////////////////////////////////////////////////////////
+        /// setFont set font, which will be drawn text
+        ///
+        /// @parameter font - name of font
+        /////////////////////////////////////////////////////////////////////
+        virtual void setFont (const std::string& font) {}
 
     private:
         bool m_visible = true;

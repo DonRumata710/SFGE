@@ -29,20 +29,23 @@
 
 #include "DynamicObject.h"
 
+#include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
 
 
 using namespace sfge;
 
 
-void sfge::DynamicObject::setAnimation (std::unique_ptr<Animation> animation)
+void DynamicObject::setAnimation (std::unique_ptr<Animation> animation)
 {
     m_animation.swap (animation);
 }
 
-void sfge::DynamicObject::setAnimation (const std::string & animation)
+void DynamicObject::setAnimation (const std::string & animation)
 {
-    setAnimation (ResourceManager::getInstance ()->findAnimation (animation));
+    auto rm (GEDevice::getInstance ()->getResourceManager ());
+    if (rm)
+        setAnimation (rm->findAnimation (animation));
 }
 
 void DynamicObject::draw (RenderTarget& target, RenderStates states) const

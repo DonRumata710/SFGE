@@ -47,14 +47,11 @@ namespace sfge
 {
 
 
-    ResourceManager* ResourceManager::m_default_manager (nullptr);
+    const std::string ResourceManager::DEFAULT ("default");
 
 
-    ResourceManager::ResourceManager (bool is_default) : m_stream (new FileInputStream ())
-    {
-        if (is_default)
-            m_default_manager = this;
-    }
+    ResourceManager::ResourceManager () : m_stream (new FileInputStream ())
+    {}
 
     void ResourceManager::setResourceStream (std::unique_ptr<iResourceInputStream>& stream)
     {
@@ -72,7 +69,7 @@ namespace sfge
 
         if (font_iter != m_scripts.end ())
         {
-            runtime_error ("Resource script \"" + path + "\" was already read");
+            runtime_message ("Resource script \"" + path + "\" was already read");
             return true;
         }
 
@@ -221,7 +218,7 @@ namespace sfge
             return font_iter->second;
         }
 
-        if (name == "Default")
+        if (name == DEFAULT)
         {
             if (m_use_default_font)
             {
@@ -241,10 +238,10 @@ namespace sfge
         addFile (name, file);
         
         if(!fnt->loadFromStream (*file))
-            return getFont ("Default");
+            return getFont (DEFAULT);
 
         if (!fnt)
-            return getFont ("Default");
+            return getFont (DEFAULT);
 
         std::shared_ptr<const sf::Font> font (fnt);
 
@@ -473,7 +470,7 @@ namespace sfge
 
     void ResourceManager::setDefaultFont (std::shared_ptr<const sf::Font> font)
     {
-        addFont ("Default", font);
+        addFont (DEFAULT, font);
     }
 
 

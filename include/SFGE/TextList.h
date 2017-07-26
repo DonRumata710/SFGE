@@ -91,32 +91,32 @@ namespace sfge
         void attachReaction (const std::function<void ()> func, const EventType e);
 
         /////////////////////////////////////////////////////////////////////
-        /// setView - attach texture to widget view
+        /// setBackground - attach texture to widget view
         /// 
         /// @param tex - pointer to texture
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::shared_ptr<const Texture> tex);
+        void setBackground (const std::shared_ptr<const Texture> tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// setView - attach texture to widget view
+        /// setBackground - attach texture to widget view
         /// 
         /// @param tex - name texture
         /////////////////////////////////////////////////////////////////////
-        void setView (const std::string& tex);
+        void setBackground (const std::string& tex);
 
         /////////////////////////////////////////////////////////////////////
-        /// setView - fill widget background by color
+        /// setBackground - fill widget background by color
         /// 
         /// @param color - color of background
         /////////////////////////////////////////////////////////////////////
-        void setView (const Color color);
+        void setBackground (const Color& color);
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font of text in widget
         /// 
         /// @param font - pointer to font
         /////////////////////////////////////////////////////////////////////
-        void setFont (const std::shared_ptr<const Font> font);
+        void setFont (const std::shared_ptr<const Font> font) override;
 
         /////////////////////////////////////////////////////////////////////
         /// setFont - set font of text in widget

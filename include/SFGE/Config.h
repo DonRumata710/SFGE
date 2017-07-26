@@ -32,12 +32,14 @@
 
 #include <SFML/Config.hpp>
 
+#include <cstdint>
+
 
 ////////////////////////////////////////////////////////////
 // Define the SFML version
 ////////////////////////////////////////////////////////////
 #define SFGE_VERSION_MAJOR 0
-#define SFGE_VERSION_MINOR 2
+#define SFGE_VERSION_MINOR 3
 #define SFGE_VERSION_PATCH 0
 
 

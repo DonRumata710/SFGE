@@ -50,7 +50,7 @@ public:
         {
             std::stringstream str;
             str << "Error " << err << " opening internal file '" << path << "' in zip";
-            runtime_error (str.str ());
+            runtime_message (str.str ());
             return;
         }
 
@@ -62,7 +62,7 @@ public:
         {
             std::stringstream str;
             str << "Error " << err << " opening internal file '" << path << "' in zip";
-            runtime_error (str.str ());
+            runtime_message (str.str ());
             return;
         }
 
@@ -76,7 +76,7 @@ public:
         {
             std::stringstream str;
             str << "Error " << err << " opening internal file '" << name << "' in zip";
-            runtime_error (str.str ());
+            runtime_message (str.str ());
             return;
         }
     }
@@ -96,7 +96,7 @@ public:
             str << "Error " << err << " opening internal file '"
                 << name << "' in zip";
 
-            runtime_error (str.str ());
+            runtime_message (str.str ());
         }
     }
 
@@ -135,7 +135,7 @@ struct ArchiveManager::Implement
         archive = unzOpen2_64 (_archive.c_str (), &ffunc);
 
         if (!archive)
-            runtime_error ("Archive \"" + _archive + "\" wasn't opened");
+            runtime_message ("Archive \"" + _archive + "\" wasn't opened");
     }
 
     bool open (const std::string& path)
@@ -152,7 +152,7 @@ struct ArchiveManager::Implement
     {
         if (!entry || !entry->valid ())
         {
-            runtime_error ("No file has been opened");
+            runtime_message ("No file has been opened");
             return -1;
         }
 
@@ -165,7 +165,7 @@ struct ArchiveManager::Implement
     {
         if (!entry || !entry->valid ())
         {
-            runtime_error ("No file has been opened");
+            runtime_message ("No file has been opened");
             return -1;
         }
 
@@ -178,7 +178,7 @@ struct ArchiveManager::Implement
     {
         if (!entry || !entry->valid ())
         {
-            runtime_error ("No file has been opened");
+            runtime_message ("No file has been opened");
             return -1;
         }
 
@@ -189,7 +189,7 @@ struct ArchiveManager::Implement
     {
         if (!entry || !entry->valid ())
         {
-            runtime_error ("No file has been opened");
+            runtime_message ("No file has been opened");
             return -1;
         }
 

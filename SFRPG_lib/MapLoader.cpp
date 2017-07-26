@@ -97,14 +97,14 @@ bool MapLoader::loadMap (MapManager* manager, const std::string& path)
     size_t token (tp->getTokentype ());
     if (token != MD_MAP && token != MD_SECTOR)
     {
-        runtime_error ("Wrong file in map loading");
+        runtime_message ("Wrong file in map loading");
         return false;
     }
 
     tp->getToken ();
     if (tp->getTokentype () != MD_OPEN_BLOCK)
     {
-        runtime_error ("Unexpected identifier in map description file " + path);
+        runtime_message ("Unexpected identifier in map description file " + path);
         return false;
     }
 
@@ -119,7 +119,7 @@ bool MapLoader::loadMap (MapManager* manager, const std::string& path)
             tp->getToken ();
             if (tp->getTokentype () == MD_END)
             {
-                runtime_error ("Unexpected end of map description file " + path + " in line: " + std::to_string (tp->getLine ()));
+                runtime_message ("Unexpected end of map description file " + path + " in line: " + std::to_string (tp->getLine ()));
                 return false;
             }
         }
@@ -194,7 +194,7 @@ std::string MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, Ma
                 sector_id = tp->tknInt ();
             else
             {
-                runtime_error ("No sector id was found");
+                runtime_message ("No sector id was found");
                 return "";
             }
 
@@ -203,7 +203,7 @@ std::string MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, Ma
                 tp->getToken ();
                 if (tp->getTokentype () == MD_END)
                 {
-                    runtime_error ("Unexpected end of map description file in line: " + std::to_string (tp->getLine ()));
+                    runtime_message ("Unexpected end of map description file in line: " + std::to_string (tp->getLine ()));
                     return "";
                 }
             }
@@ -245,14 +245,14 @@ std::string MapLoader::parseMap (TextParser* tp, std::unordered_map<uint32_t, Ma
                     (*sectors)[sector_id].size.y = tp->tknInt ();
                     break;
                 case MD_END:
-                    runtime_error ("Unexpected end of description " + name + " in line " + std::to_string (tp->getLine ()));
+                    runtime_message ("Unexpected end of description " + name + " in line " + std::to_string (tp->getLine ()));
                     return "";
                 }
             }
             break;
         }
         default:
-            runtime_error ("Unexpected identifier in map description file in line: " + std::to_string (tp->getLine ()));
+            runtime_message ("Unexpected identifier in map description file in line: " + std::to_string (tp->getLine ()));
             break;
         }
     }

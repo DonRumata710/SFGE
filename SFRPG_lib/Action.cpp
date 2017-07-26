@@ -61,18 +61,3 @@ void CollisionAction::doAction (InteractiveObject* target)
     if (getActor ())
         getActor ()->doAction (this);
 }
-
-
-SectorLeavingAction::SectorLeavingAction (InteractiveObject* actor) :
-    iAction (actor, SECTOR_LEAVING_ACTION)
-{}
-
-void sfge::SectorLeavingAction::doAction (InteractiveObject* target)
-{
-    if (getActor ())
-    {
-        getActor ()->doAction (this);
-
-        getActor ()->attachToSector (MapManager::getInstance ()->getSector (target->getPosition ()));
-    }
-}

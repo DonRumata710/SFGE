@@ -50,10 +50,10 @@ namespace sfge
     /////////////////////////////////////////////////////////////////////
     struct PositionDesc
     {
-        Int32 x = 0;          // right border of object
-        Int32 y = 0;          // top border of object
-        Uint32 width = 0;     // width of object
-        Uint32 height = 0;    // height of object
+        int32_t x = 0;        // right border of object
+        int32_t y = 0;        // top border of object
+        uint32_t width = 0;   // width of object
+        uint32_t height = 0;  // height of object
 
         /////////////////////////////////////////////////////////////////////
         /// Default constructor
@@ -68,7 +68,7 @@ namespace sfge
         /// @param width - width of widget
         /// @param height - height of widget
         /////////////////////////////////////////////////////////////////////
-        PositionDesc (int _x, int _y, unsigned _width, unsigned _height) :
+        PositionDesc (int32_t _x, int32_t _y, uint32_t _width, uint32_t _height) :
             x (_x), y (_y), width (_width), height (_height)
         {}
 
@@ -99,7 +99,7 @@ namespace sfge
         /// alignment object. Location of widget will be measured from this
         /// object.
         /////////////////////////////////////////////////////////////////////
-        enum Position : int
+        enum Position : uint32_t
         {
             HCENTER = 0,    // center horizontally
             LEFT = 1,       // bind to the left
@@ -111,15 +111,6 @@ namespace sfge
             HEIGHT = 12,    // stretch in height
         };
 
-        /////////////////////////////////////////////////////////////////////
-        /// Constructor - create frame for widget
-        /////////////////////////////////////////////////////////////////////
-        Frame () = default;
-
-        /////////////////////////////////////////////////////////////////////
-        /// Virtual destructor
-        /////////////////////////////////////////////////////////////////////
-        virtual ~Frame () = default;
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -128,7 +119,7 @@ namespace sfge
         /// @param x_offset - axial distance x between alignment object and widget
         /// @param y_offset - axial distance y between alignment object and widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position, const int x_offset, const int y_offset);
+        void setPosition (const Frame::Position position, const int32_t x_offset, const int32_t y_offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -136,14 +127,14 @@ namespace sfge
         /// @param position describe alignment of the widget
         /// @param offset - distance between alignment object and widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position, const Vector2i offset);
+        void setPosition (const Frame::Position position, const Vector2i offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
         /// 
         /// @param position - alignment of the widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int position);
+        void setPosition (const Frame::Position position);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -151,7 +142,7 @@ namespace sfge
         /// @param x_offset - axial distance x between alignment object and widget
         /// @param y_offset - axial distance y between alignment object and widget
         /////////////////////////////////////////////////////////////////////
-        void setPosition (const int x_offset, const int y_offset);
+        void setPosition (const int32_t x_offset, const int32_t y_offset);
 
         /////////////////////////////////////////////////////////////////////
         /// setPosition - set position widget on the screen
@@ -173,7 +164,7 @@ namespace sfge
         /// @param x - width od widget
         /// @param y - height of widget
         /////////////////////////////////////////////////////////////////////
-        void setSize (const unsigned x, const unsigned y);
+        void setSize (const uint32_t x, const uint32_t y);
 
         /////////////////////////////////////////////////////////////////////
         /// getSize - get size of widget
@@ -230,17 +221,20 @@ namespace sfge
         virtual void setRect (const PositionDesc& desc) = 0;
 
     private:
-        Position m_alignment = Position (Position::HCENTER | Position::VCENTER);
-        int m_x_offset = 0;
-        int m_y_offset = 0;
+        Position m_alignment = Position (uint32_t (Position::HCENTER) | uint32_t (Position::VCENTER));
+        int32_t m_x_offset = 0;
+        int32_t m_y_offset = 0;
 
         Vector2i m_position;
 
-        unsigned m_width = 0;
-        unsigned m_height = 0;
+        uint32_t m_width = 0;
+        uint32_t m_height = 0;
 
         Field* m_field = nullptr;
     };
+
+
+    Frame::Position operator| (const Frame::Position p1, const Frame::Position p2);
 
 
 }
