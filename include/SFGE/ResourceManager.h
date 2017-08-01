@@ -114,13 +114,6 @@ namespace sfge
         void setResourceStream (std::unique_ptr<iResourceInputStream>& stream);
 
         /////////////////////////////////////////////////////////////////////
-        /// useDefaultFont - set use default font or not
-        ///
-        /// @param use_default_font - use default font if custom font fails to load
-        ///////////////////////////////////////////////////////////////////// 
-        void useDefaultFont (bool use = true);
-
-        /////////////////////////////////////////////////////////////////////
         /// loadScript - loading resources from script
         ///
         /// @param path - path to the script
@@ -128,6 +121,20 @@ namespace sfge
         /// @returm - true if resources loaded successfuly, false otherwise
         /////////////////////////////////////////////////////////////////////
         bool loadScript (const std::string& path);
+
+        /////////////////////////////////////////////////////////////////////
+        /// setDefaultFont - set font to use as default
+        /// 
+        /// @param font - pointer to font
+        /////////////////////////////////////////////////////////////////////
+        void setDefaultFont (std::shared_ptr<const sf::Font> font);
+
+        /////////////////////////////////////////////////////////////////////
+        /// useDefaultFont - set use default font or not
+        ///
+        /// @param use_default_font - use default font if custom font fails to load
+        ///////////////////////////////////////////////////////////////////// 
+        void useDefaultFont (bool use = true);
 
         /////////////////////////////////////////////////////////////////////
         /// clear - remove all resources from manager
@@ -235,11 +242,49 @@ namespace sfge
 
 
         /////////////////////////////////////////////////////////////////////
-        /// setDefaultFont - set font to use as default
-        /// 
-        /// @param font - pointer to font
+        /// typedefs of resources lists
         /////////////////////////////////////////////////////////////////////
-        void setDefaultFont (std::shared_ptr<const sf::Font> font);
+
+        typedef std::unordered_map<std::string, std::shared_ptr<const Font>>  FontList;
+        typedef std::unordered_map<std::string, std::shared_ptr<const Image>> ImageList;
+        typedef std::unordered_map<std::string, std::shared_ptr<const Texture>> TextureList;
+        typedef std::unordered_map<std::string, const SpriteDesc> SpriteList;
+        typedef std::unordered_map<std::string, const AnimationDesc> AnimationList;
+        typedef std::unordered_map<std::string, std::shared_ptr<File>> FileList;
+        typedef std::unordered_map<std::string, std::shared_ptr<SoundBuffer>> SoundList;
+        typedef std::unordered_map<std::string, std::shared_ptr<Music>> MusicList;
+        typedef std::unordered_map<std::string, std::shared_ptr<ParticleSystem>> ParticleSystemList;
+        typedef std::unordered_map<std::string, std::shared_ptr<DistortionMesh>> DistortionMeshList;
+        typedef std::unordered_map<std::string, std::shared_ptr<StringTable>> StringTableList;
+
+
+        /////////////////////////////////////////////////////////////////////
+        /// getXXXXXX - get list of resources
+        /// 
+        /// @param name - name path to resource
+        /////////////////////////////////////////////////////////////////////
+
+        const FontList& getFontList () const;
+
+        const ImageList& getImageList () const;
+
+        const TextureList& getTextureList () const;
+
+        const SpriteList& getSpriteList () const;
+
+        const AnimationList& getAnimationList () const;
+
+        const FileList& getFileList () const;
+
+        const SoundList& getSoundList () const;
+
+        const MusicList& getMusicList () const;
+
+        const ParticleSystemList& getParticleList () const;
+
+        const DistortionMeshList& getDistortionList () const;
+
+        const StringTableList& getStringTableList () const;
 
 
     protected:
@@ -247,17 +292,17 @@ namespace sfge
 
         std::list<std::string> m_scripts;
 
-        std::unordered_map<std::string, std::shared_ptr<const Font>>  m_fonts;
-        std::unordered_map<std::string, std::shared_ptr<const Image>> m_images;
-        std::unordered_map<std::string, std::shared_ptr<const Texture>> m_textures;
-        std::unordered_map<std::string, const SpriteDesc> m_sprites;
-        std::unordered_map<std::string, const AnimationDesc> m_animations;
-        std::unordered_map<std::string, std::shared_ptr<File>> m_files;
-        std::unordered_map<std::string, std::shared_ptr<SoundBuffer>> m_sounds;
-        std::unordered_map<std::string, std::shared_ptr<Music>> m_musics;
-        std::unordered_map<std::string, std::shared_ptr<ParticleSystem>> m_particles;
-        std::unordered_map<std::string, std::shared_ptr<DistortionMesh>> m_distortions;
-        std::unordered_map<std::string, std::shared_ptr<StringTable>> m_string_tables;
+        FontList           m_fonts;
+        ImageList          m_images;
+        TextureList        m_textures;
+        SpriteList         m_sprites;
+        AnimationList      m_animations;
+        FileList           m_files;
+        SoundList          m_sounds;
+        MusicList          m_musics;
+        ParticleSystemList m_particles;
+        DistortionMeshList m_distortions;
+        StringTableList    m_string_tables;
 
         bool m_use_default_font = true;
 
