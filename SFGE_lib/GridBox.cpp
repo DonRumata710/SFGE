@@ -60,6 +60,7 @@ void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsig
 
     m_widgets[row * m_columns + column] = widget;
     getStyle ().attach (widget.get ());
+    resizeWidgets ();
     add_frame (widget.get ());
 }
 
@@ -71,6 +72,7 @@ void GridBox::addWidget (std::shared_ptr<iWidget> widget, unsigned column, unsig
     m_widgets[row * m_columns + column] = widget;
     m_widgets[row * m_columns + column].size = ((column - sec_column) & 0xFFFF) | ((row - sec_row) << 16);
     getStyle ().attach (widget.get ());
+    resizeWidgets ();
     add_frame (widget.get ());
 }
 
