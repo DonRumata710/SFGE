@@ -97,18 +97,13 @@ namespace sfge
         virtual bool check_key (const Event::KeyEvent& e, const bool pressed) override;
         virtual void check_wheel (const Event::MouseWheelScrollEvent& e) override;
 
-        virtual void forEach (std::function<bool (iWidget*)> function) const = 0;
-        void resizeWidgets ();
+        virtual void forEach (std::function<bool (iWidget*)> function) const;
+
+        virtual void resizeWidgets () override;
 
     private:
         std::vector<std::shared_ptr<iWidget>> m_widgets;
-        WidgetStyle m_style = { Position::LEFT | Position::TOP };
-
-        Panel m_background;
-
-        unsigned m_space = 0;
-        unsigned m_border_offset = 0;
-
+        
         Orientation m_orientation = VERTICAL;
 
         size_t m_current_item = SIZE_MAX;

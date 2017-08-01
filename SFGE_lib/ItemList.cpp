@@ -43,6 +43,10 @@ void ItemList::addWidget (std::shared_ptr<iWidget> widget, size_t index)
 {
     if (index < m_widgets.size ()) m_widgets.insert (m_widgets.begin () + index, widget);
     else m_widgets.push_back (widget);
+
+    getStyle ().attach (widget.get ());
+    resizeWidgets ();
+    add_frame (widget.get ());
 }
 
 void ItemList::setOrientation (Orientation orientation)
@@ -101,10 +105,22 @@ void ItemList::check_wheel (const Event::MouseWheelScrollEvent& e)
     }
 }
 
+void ItemList::forEach (std::function<bool (iWidget*)> function) const
+{
+    for (auto widget : m_widgets)
+    {
+        if (!function (widget.get ()))
+            break;
+    }
+}
+
 void ItemList::resizeWidgets ()
 {
-    size_t width (m_background.getSize ().x - m_border_offset * 2);
-    size_t height (m_background.getSize ().y - m_border_offset * 2);
+    if (m_widgets.empty ())
+        return;
+
+    size_t width (Frame::getSize ().x - getBorederOffset () * 2);
+    size_t height (Frame::getSize ().y - getBorederOffset () * 2);
 
     if (m_orientation == VERTICAL)
         height /= m_widgets.size ();
@@ -116,18 +132,20 @@ void ItemList::resizeWidgets ()
         if (m_orientation == VERTICAL)
         {
             m_widgets[i]->setPosition (
-                m_space / 2 + m_background.getPosition ().x + m_border_offset + width,
-                m_space / 2 + m_background.getPosition ().y + m_border_offset + height * i
+                getSpace () / 2 + getBorederOffset (),
+                getSpace () / 2 + getBorederOffset () + height * i
             );
+
+            m_widgets[i]->setSize (width - getSpace (), m_widgets[i]->getSize ().y - getSpace ());
         }
         else
         {
             m_widgets[i]->setPosition (
-                m_space / 2 + m_background.getPosition ().x + m_border_offset + width * i,
-                m_space / 2 + m_background.getPosition ().y + m_border_offset + height
+                getSpace () / 2 + getBorederOffset () + width * i,
+                getSpace () / 2 + getBorederOffset ()
             );
-        }
 
-        m_widgets[i]->setSize (width - m_space, height - m_space);
+            m_widgets[i]->setSize (m_widgets[i]->getSize ().x - getSpace (), height - getSpace ());
+        }
     }
 }
