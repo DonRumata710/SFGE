@@ -62,6 +62,8 @@
     <ClInclude Include="..\include\SFGE\Widget.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResourceParser.h" />
+    <ClInclude Include="XmlDocument.h" />
+    <ClInclude Include="XmlNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
