@@ -34,16 +34,34 @@
 #include <SFGE/GEDevice.h>
 #include <SFGE/Button.h>
 
-#include <filesystem>
 #include <deque>
+
+
+#ifndef WIN32
+
+using namespace std::experimental::filesystem::v1::__cxx11;
+
+
+FSBrowserDialog::FSBrowserDialog (Application* parent) :
+    m_parent (parent)
+{}
+
+void FSBrowserDialog::dirBrowse (const std::string& dir)
+{
+}
+
+void FSBrowserDialog::handleChoise (const std::string& str)
+{
+    m_parent->setChoisedString (str);
+}
+
+#else
+
+#include <filesystem>
 
 
 using namespace sfge;
 using namespace std::experimental::filesystem::v1;
-
-#ifndef WIN32
-using namespace std::experimental::filesystem::v1::__cxx11;
-#endif
 
 
 FSBrowserDialog::FSBrowserDialog (Application* parent) :
@@ -81,3 +99,5 @@ void FSBrowserDialog::handleChoise (const std::string& str)
     else
         m_parent->setChoisedString (choised_path.string ());
 }
+
+#endif

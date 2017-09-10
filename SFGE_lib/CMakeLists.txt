@@ -34,6 +34,8 @@ set(CLASSES
     TextList
     TextParser
     Widget
+    WidgetCollection
+    WidgetStyle
 )
 
 set(PRIVATE_CLASSES
