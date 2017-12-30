@@ -35,11 +35,20 @@
 
 #include <SFGE/GEDevice.h>
 #include <SFGE/ResourceManager.h>
+#include <SFGE/ItemList.h>
 
 
 class Application
 {
 public:
+    enum Action
+    {
+        NONE,
+        OPEN_MAP,
+        SAVE_MAP,
+        ADD_RESOURCES
+    };
+
     Application ();
     ~Application ();
 
@@ -48,25 +57,20 @@ public:
     void setChoisedString (const std::string& str);
 
     void saveMap ();
-    void openFileDialog ();
+    void openFileDialog (Action);
     void saveFileDialog ();
 
 private:
     sfge::GEDevice m_device;
-    std::shared_ptr<sfge::ResourceManager> m_resource_manager;
+    std::shared_ptr<sfge::ResourceManager> m_default_resource_manager;
+    std::shared_ptr<sfge::ResourceManager> m_custom_resource_manager;
     
     std::shared_ptr<EditField> m_editor;
 
     std::unique_ptr<FSBrowserDialog> m_file_select_window;
     std::string m_string;
 
-    enum Action
-    {
-        NONE,
-        OPEN,
-        SAVE,
-        ADD_RESOURCES
-    };
+    std::shared_ptr<sfge::ItemList> m_tile_list;
 
     Action m_last_action = NONE;
 };

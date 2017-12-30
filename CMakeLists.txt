@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 project(SFGE)
 
@@ -23,7 +23,9 @@ if (WIN32)
     set(SFML_STATIC_LIBRARIES TRUE)
 else()
     set(SFML_STATIC_LIBRARIES FALSE)
+    set(CMAKE_CXX_STANDARD 11)
 endif()
+
 
 add_subdirectory(3rd_party/zlib_build)
 add_subdirectory(3rd_party/minizip_build)

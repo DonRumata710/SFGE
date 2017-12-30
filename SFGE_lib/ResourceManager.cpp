@@ -58,11 +58,6 @@ namespace sfge
         m_stream.swap (stream);
     }
 
-    void ResourceManager::useDefaultFont (bool use)
-    {
-        m_use_default_font = use;
-    }
-
     bool ResourceManager::loadScript (const std::string& path)
     {
         auto font_iter = std::find (m_scripts.begin (), m_scripts.end (), path);
@@ -77,6 +72,16 @@ namespace sfge
 
         ResourceParser rp (m_stream.get ());
         return rp.parse_script ((ResourceLoader*) this, path.c_str ());
+    }
+
+    void ResourceManager::setDefaultFont (std::shared_ptr<const sf::Font> font)
+    {
+        addFont (DEFAULT, font);
+    }
+
+    void ResourceManager::useDefaultFont (bool use)
+    {
+        m_use_default_font = use;
     }
 
     void ResourceManager::clear ()
@@ -467,11 +472,59 @@ namespace sfge
         m_string_tables[name] = string_table;
     }
 
-
-    void ResourceManager::setDefaultFont (std::shared_ptr<const sf::Font> font)
+    const ResourceManager::FontList& ResourceManager::getFontList () const
     {
-        addFont (DEFAULT, font);
+        return m_fonts;
     }
 
+    const ResourceManager::ImageList& ResourceManager::getImageList () const
+    {
+        return m_images;
+    }
+
+    const ResourceManager::TextureList& ResourceManager::getTextureList () const
+    {
+        return m_textures;
+    }
+
+    const ResourceManager::SpriteList& ResourceManager::getSpriteList () const
+    {
+        return m_sprites;
+    }
+
+    const ResourceManager::AnimationList& ResourceManager::getAnimationList () const
+    {
+        return m_animations;
+    }
+
+    const ResourceManager::FileList& ResourceManager::getFileList () const
+    {
+        return m_files;
+    }
+
+    const ResourceManager::SoundList& ResourceManager::getSoundList () const
+    {
+        return m_sounds;
+    }
+
+    const ResourceManager::MusicList& ResourceManager::getMusicList () const
+    {
+        return m_musics;
+    }
+
+    const ResourceManager::ParticleSystemList& ResourceManager::getParticleList () const
+    {
+        return m_particles;
+    }
+
+    const ResourceManager::DistortionMeshList& ResourceManager::getDistortionList () const
+    {
+        return m_distortions;
+    }
+
+    const ResourceManager::StringTableList& ResourceManager::getStringTableList () const
+    {
+        return m_string_tables;
+    }
 
 }

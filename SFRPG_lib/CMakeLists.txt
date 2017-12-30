@@ -22,7 +22,7 @@ set(CLASSES
 )
 
 set(PRIVATE_CLASSES
-	SectorLoader
+    SectorLoader
 )
 
 set(UTILITY_HEADERS

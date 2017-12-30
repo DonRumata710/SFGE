@@ -144,11 +144,11 @@ void MapSector::setTileTexture (Vector2u pos, const std::string& texture_name)
         {
             for (size_t j = 0; j < height; ++j)
             {
-                Uint32 pos (i + pos.x + (j + pos.y) * m_size.x);
-                if (pos < m_tiles.size ())
+                Uint32 tile_pos (i + pos.x + (j + pos.y) * m_size.x);
+                if (tile_pos < m_tiles.size ())
                 {
-                    m_tiles[pos].setTexture (tex);
-                    m_tiles[pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
+                    m_tiles[tile_pos].setTexture (tex);
+                    m_tiles[tile_pos].setTexCoord (IntRect (i * m_tile_size, j * m_tile_size, m_tile_size, m_tile_size));
                 }
             }
         }
@@ -235,7 +235,7 @@ bool MapSector::checkMovement (InteractiveObject* moved_object)
     )
     {
         if (!m_manager)
-            critical_error ("Map manager wasn't set");
+            critical_error ("Map manager wasn't set", std::runtime_error);
 
         removeObject (moved_object);
         moved_object->attachToSector (m_manager->getSector (moved_object->getPosition ()));

@@ -109,6 +109,8 @@ namespace sfge
         void setHoveredWidget (iWidget* widget);
         iWidget* getHoveredWidget ();
 
+        const Panel& getBackground () const;
+
     private:
 
         /////////////////////////////////////////////////////////////////////

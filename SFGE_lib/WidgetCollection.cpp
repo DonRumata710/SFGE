@@ -108,6 +108,11 @@ iWidget* iWidgetCollection::getHoveredWidget ()
     return m_hovered_widget;
 }
 
+const Panel& iWidgetCollection::getBackground () const
+{
+    return m_background;
+}
+
 void iWidgetCollection::setRect (const PositionDesc& desc)
 {
     set_position_desc (desc);

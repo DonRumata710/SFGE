@@ -48,12 +48,13 @@ const Color HOVER_COLOR (0x21, 0x27, 0x67);
 
 
 Application::Application () :
-    m_resource_manager (std::make_shared<ResourceManager> ())
+    m_default_resource_manager (std::make_shared<ResourceManager> ()),
+    m_custom_resource_manager (std::make_shared<ResourceManager> ())
 {
-    m_resource_manager->loadScript ("media\\resources\\resources.cfg");
-    m_resource_manager->setDefaultFont (m_resource_manager->getFont ("font.standart"));
+    m_default_resource_manager->loadScript ("media\\resources\\resources.cfg");
+    m_default_resource_manager->setDefaultFont (m_default_resource_manager->getFont ("font.standart"));
 
-    m_device.setResourceManager (m_resource_manager);
+    m_device.setResourceManager (m_default_resource_manager);
 
     /// File
 
@@ -63,7 +64,7 @@ Application::Application () :
 
     std::shared_ptr<MenuItem> file_open_item (std::make_shared<MenuItem> ());
     file_open_item->setText ("Open");
-    file_open_item->attachReaction ([this]() { openFileDialog (); }, Button::EventType::RELEASED);
+    file_open_item->attachReaction ([this]() { openFileDialog (Action::OPEN_MAP); }, Button::EventType::RELEASED);
     
     std::shared_ptr<MenuItem> file_save_item (std::make_shared<MenuItem> ());
     file_save_item->attachReaction ([this]() { saveMap (); }, Button::EventType::RELEASED);
@@ -94,16 +95,10 @@ Application::Application () :
 
     std::shared_ptr<MenuItem> resource_add_item (std::make_shared<MenuItem> ());
     resource_add_item->setText ("Add resource set");
-    resource_add_item->attachReaction ([this]() { openFileDialog (); }, Button::EventType::RELEASED);
+    resource_add_item->attachReaction ([this]() { openFileDialog (Action::ADD_RESOURCES); }, Button::EventType::RELEASED);
 
     std::shared_ptr<PullDownMenu> resource_control_menu (std::make_shared<PullDownMenu> ());
     resource_control_menu->addItem (resource_add_item);
-
-
-    /// Editing
-
-    //
-
 
     
     std::shared_ptr<MenuBar> menu_bar (std::make_shared<MenuBar> ());
@@ -111,7 +106,7 @@ Application::Application () :
     menu_bar->setSize (800, 30);
     menu_bar->addItem ("File", program_control_menu);
     menu_bar->addItem ("Resources", resource_control_menu);
-    menu_bar->setView (MAIN_COLOR);
+    menu_bar->setBackground (MAIN_COLOR);
 
     WidgetStyle style;
     style.setView (SECOND_COLOR, iWidget::View::RELEASED);
@@ -119,11 +114,23 @@ Application::Application () :
     style.setView (MAIN_COLOR, iWidget::View::PRESSED);
     menu_bar->setItemStyle (style);
 
+
+    /// Editing
+
+    m_tile_list = std::make_shared<ItemList> ();
+    m_tile_list->setPosition (iWidget::Position::RIGHT | iWidget::Position::TOP, 0, 30);
+    m_tile_list->setBackground (SECOND_COLOR);
+    m_tile_list->setSize (200, 770);
+
+
+    /// Map drawing
+
     m_editor = std::make_shared<EditField> ();
     m_editor->setSize (1000, 800);
 
     pGUIManager edit_window (std::make_unique<GUIManager> (&m_device));
     edit_window->addBackWidget (menu_bar);
+    edit_window->addBackWidget (m_tile_list);
     edit_window->addBackWidget (m_editor);
     edit_window->setBackground (BACKGROUND_COLOR);
 
@@ -144,12 +151,25 @@ void Application::setChoisedString (const std::string& str)
     m_string = str;
     m_file_select_window.reset ();
 
-    if (m_last_action == OPEN && !m_string.empty ())
+    if (m_last_action == OPEN_MAP && !m_string.empty ())
         m_editor->loadMap (m_string);
-    else if (m_last_action == SAVE && !m_string.empty ())
+    else if (m_last_action == SAVE_MAP && !m_string.empty ())
         m_editor->saveMap (m_string);
     else if (m_last_action == ADD_RESOURCES && !m_string.empty ())
-        m_resource_manager->loadScript (m_string);
+    {
+        m_custom_resource_manager->loadScript (m_string);
+        for (auto texture : m_custom_resource_manager->getTextureList ())
+        {
+            std::shared_ptr<Button> button (std::make_shared<Button>());
+            button->setView (texture.second, iWidget::View::HOVER);
+            button->setView (texture.second, iWidget::View::PRESSED);
+            button->setView (texture.second, iWidget::View::RELEASED);
+            button->setSize (200, 200);
+            button->attachReaction ([this, texture]() { m_editor->setTexture (texture.first); }, Button::EventType::PRESSED);
+
+            m_tile_list->addWidget (button, 0);
+        }
+    }
 
     m_file_select_window.reset ();
     m_last_action = NONE;
@@ -163,14 +183,14 @@ void Application::saveMap ()
     m_editor->saveMap (m_string);
 }
 
-void Application::openFileDialog ()
+void Application::openFileDialog (Action action)
 {
-    m_last_action = OPEN;
+    m_last_action = action;
     m_file_select_window = std::make_unique<OpenFileDialog> (this);
 }
 
 void Application::saveFileDialog ()
 {
-    m_last_action = SAVE;
+    m_last_action = SAVE_MAP;
     m_file_select_window = std::make_unique<SaveFileDialog> (this);
 }
