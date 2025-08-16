@@ -81,7 +81,9 @@ ExternalProject_Add(
     sfml_ext
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.1
+    INSTALL_DIR ${THIRD_PARTY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE}
     UPDATE_DISCONNECTED TRUE
 )
 
@@ -89,7 +91,9 @@ ExternalProject_Add(
     catch2_ext
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
     GIT_TAG v3.5.3
+    INSTALL_DIR ${THIRD_PARTY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE}
     UPDATE_DISCONNECTED TRUE
 )
 
@@ -97,19 +101,25 @@ ExternalProject_Add(
     minizip_ext
     GIT_REPOSITORY https://github.com/nmoinvaz/minizip.git
     GIT_TAG master
+    INSTALL_DIR ${THIRD_PARTY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE}
     UPDATE_DISCONNECTED TRUE
 )
 
 ExternalProject_Add(
     zlib_ext
     GIT_REPOSITORY https://github.com/madler/zlib.git
-    GIT_TAG v1.3
+    GIT_TAG develop
+    INSTALL_DIR ${THIRD_PARTY_DIR}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
     UPDATE_DISCONNECTED TRUE
 )
 
 list(APPEND CMAKE_PREFIX_PATH ${THIRD_PARTY_DIR})
+
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
 find_package(SFML COMPONENTS system window graphics audio)

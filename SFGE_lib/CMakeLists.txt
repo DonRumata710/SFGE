@@ -76,5 +76,5 @@ endforeach()
 sfge_add_library(${LIBRARY_NAME}
     SOURCES ${SOURCES}
     HEADERS ${HEADERS}
-    LINK_LIBS sfml-system sfml-window sfml-graphics sfml-audio minizip
+    LINK_LIBS sfml-system sfml-window sfml-graphics sfml-audio minizip ZLIB::ZLIB
 )
