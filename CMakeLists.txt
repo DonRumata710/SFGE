@@ -2,6 +2,10 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(SFGE)
+enable_testing()
+
+include(cmake/SFGEFunctions.cmake)
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules")
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/local.cmake")
     include ("local.cmake")
