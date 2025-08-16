@@ -70,8 +70,44 @@ endmacro()
 set(SFML_STATIC_LIBRARIES FALSE)
 set(CMAKE_CXX_STANDARD 20)
 
-get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
+include(ExternalProject)
+set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/3rd_party)
 
+ExternalProject_Add(
+    sfml_ext
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.1
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    UPDATE_DISCONNECTED TRUE
+)
+
+ExternalProject_Add(
+    catch2_ext
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG v3.5.3
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    UPDATE_DISCONNECTED TRUE
+)
+
+ExternalProject_Add(
+    minizip_ext
+    GIT_REPOSITORY https://github.com/nmoinvaz/minizip.git
+    GIT_TAG master
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    UPDATE_DISCONNECTED TRUE
+)
+
+ExternalProject_Add(
+    zlib_ext
+    GIT_REPOSITORY https://github.com/madler/zlib.git
+    GIT_TAG v1.3
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_DIR}
+    UPDATE_DISCONNECTED TRUE
+)
+
+list(APPEND CMAKE_PREFIX_PATH ${THIRD_PARTY_DIR})
+
+get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
 find_package(SFML COMPONENTS system window graphics audio)
 find_package(Catch2)
 
