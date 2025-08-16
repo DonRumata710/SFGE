@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Field.h"
-#include "Widget.h"
+#include <SFGE/Field.h>
+#include <SFGE/Widget.h>
 
 
 using namespace sfge;

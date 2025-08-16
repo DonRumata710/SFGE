@@ -27,16 +27,14 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Slider.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
-#include "Err.h"
+#include <SFGE/Slider.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/GuiManager.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
-
-#include "GuiManager.h"
-
 
 
 using namespace sfge;

@@ -27,11 +27,11 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "TextList.h"
-#include "GuiManager.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
-#include "Err.h"
+#include <SFGE/TextList.h>
+#include <SFGE/GuiManager.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Text.hpp>

@@ -30,13 +30,13 @@
 #pragma once
 
 
-#include "Config.h"
-#include "ResourceManager.h"
-#include "AnimationDesc.h"
-#include "SpriteDesc.h"
-#include "ParticleSystem.h"
-#include "DistortionMesh.h"
-#include "StringTable.h"
+#include <SFGE/Config.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/AnimationDesc.h>
+#include <SFGE/SpriteDesc.h>
+#include <SFGE/ParticleSystem.h>
+#include <SFGE/DistortionMesh.h>
+#include <SFGE/StringTable.h>
 
 #include <unordered_map>
 #include <list>

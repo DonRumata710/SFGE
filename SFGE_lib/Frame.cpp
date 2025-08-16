@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Frame.h"
-#include "Field.h"
+#include <SFGE/Frame.h>
+#include <SFGE/Field.h>
 
 
 using namespace sfge;

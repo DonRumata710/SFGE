@@ -27,13 +27,13 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "FileInputStream.h"
-#include "ResourceManager.h"
+#include <SFGE/FileInputStream.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Animation.h>
+#include <SFGE/File.h>
+#include <SFGE/Err.h>
 #include "ResourceParser.h"
 #include "ResourceLoader.h"
-#include "Animation.h"
-#include "File.h"
-#include "Err.h"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Audio/Music.hpp>
@@ -53,7 +53,7 @@ namespace sfge
     ResourceManager::ResourceManager () : m_stream (new FileInputStream ())
     {}
 
-    void ResourceManager::setResourceStream (std::unique_ptr<iResourceInputStream>& stream)
+    void ResourceManager::setResourceStream (std::unique_ptr<iResourceInputStream>&& stream)
     {
         m_stream.swap (stream);
     }

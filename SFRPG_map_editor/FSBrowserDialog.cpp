@@ -61,7 +61,7 @@ void FSBrowserDialog::handleChoise (const std::string& str)
 
 
 using namespace sfge;
-using namespace std::experimental::filesystem::v1;
+using namespace std::filesystem;
 
 
 FSBrowserDialog::FSBrowserDialog (Application* parent) :

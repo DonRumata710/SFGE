@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "FileOutputStream.h"
+#include <SFGE/FileOutputStream.h>
 
 
 using namespace sfge;

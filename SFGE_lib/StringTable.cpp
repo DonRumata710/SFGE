@@ -27,9 +27,9 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "StringTable.h"
-#include "TextParser.h"
-#include "Err.h"
+#include <SFGE/StringTable.h>
+#include <SFGE/TextParser.h>
+#include <SFGE/Err.h>
 
 #include <vector>
 
@@ -58,8 +58,10 @@ StringTable::StringTable (File& file)
         std::string name;
         std::string string;
 
-        if (tp.getToken () == STRING)
-            name = tp.tknString ();
+        if (tp.getToken() == STRING)
+        {
+            name = tp.tknString();
+        }
         else
         {
             runtime_message ("Illegal syntax in strings description file in line " + std::to_string (tp.getLine ()));
@@ -72,8 +74,10 @@ StringTable::StringTable (File& file)
             return;
         }
 
-        if (tp.getToken () == STRING)
-            string = tp.tknString ();
+        if (tp.getToken() == STRING)
+        {
+            string = tp.tknString();
+        }
         else
         {
             runtime_message ("Illegal syntax in strings description file in line " + std::to_string (tp.getLine ()));
@@ -85,7 +89,7 @@ StringTable::StringTable (File& file)
 }
 
 StringTable::StringTable (std::unordered_map<std::string, UString>&& string_table) :
-    m_string_table (string_table)
+    m_string_table (std::move(string_table))
 {}
 
 void StringTable::addString (const std::string& name, const UString& str)

@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "MemoryInputStream.h"
+#include <SFGE/MemoryInputStream.h>
 
 
 using namespace sfge;

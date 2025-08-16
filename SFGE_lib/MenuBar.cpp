@@ -27,10 +27,10 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "MenuBar.h"
-#include "PullDownMenu.h"
-#include "MenuItem.h"
-#include "Err.h"
+#include <SFGE/MenuBar.h>
+#include <SFGE/PullDownMenu.h>
+#include <SFGE/MenuItem.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 

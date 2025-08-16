@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "TextParser.h"
-#include "Err.h"
+#include <SFGE/TextParser.h>
+#include <SFGE/Err.h>
 
 #include <cstring>
 #include <cstdlib>

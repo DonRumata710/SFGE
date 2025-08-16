@@ -30,11 +30,11 @@
 #pragma once
 
 
-#include "Config.h"
-#include "Field.h"
-#include "Frame.h"
-#include "Widget.h"
-#include "Panel.h"
+#include <SFGE/Config.h>
+#include <SFGE/Field.h>
+#include <SFGE/Frame.h>
+#include <SFGE/Widget.h>
+#include <SFGE/Panel.h>
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>

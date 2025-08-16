@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "File.h"
-#include "Err.h"
+#include <SFGE/File.h>
+#include <SFGE/Err.h>
 
 #include <fstream>
 #include <sstream>

@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "GEDevice.h"
-#include "Err.h"
+#include <SFGE/GEDevice.h>
+#include <SFGE/Err.h>
 
 
 using namespace sfge;

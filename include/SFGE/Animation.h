@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include "Config.h"
+#include <SFGE/Config.h>
 #include "AnimationDesc.h"
 
 #include <SFML/Graphics/Sprite.hpp>

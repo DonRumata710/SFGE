@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Err.h"
+#include <SFGE/Err.h>
 
 #include <SFML/System/Err.hpp>
 

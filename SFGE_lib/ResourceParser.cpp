@@ -29,12 +29,12 @@
 
 #include "ResourceLoader.h"
 #include "ResourceParser.h"
-#include "TextParser.h"
-#include "Err.h"
+#include <SFGE/TextParser.h>
+#include <SFGE/Animation.h>
+#include <SFGE/File.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/Font.hpp>
-#include "Animation.h"
-#include "File.h"
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Music.hpp>
 
@@ -43,9 +43,6 @@
 #include <fstream>
 #include <sstream>
 #include <cstring>
-
-#include "Err.h"
-
 
 
 namespace sfge
@@ -184,7 +181,7 @@ namespace sfge
                 runtime_message ("End of block missed");
                 return false;
             }
-            // Åñëè äîïóñòèìî ðåêóðñèâíîå âêëþ÷åíèå ñòðóêòóð, òî ýòîò áëîê íóæíî ïåðåïèñàòü
+            // Ð•ÑÐ»Ð¸ Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð¾ Ñ€ÐµÐºÑƒÑ€ÑÐ¸Ð²Ð½Ð¾Ðµ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€, Ñ‚Ð¾ ÑÑ‚Ð¾Ñ‚ Ð±Ð»Ð¾Ðº Ð½ÑƒÐ¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ¿Ð¸ÑÐ°Ñ‚ÑŒ
             if ((tp->getTokentype () <= Token::TTPAR__FIRST && tp->getTokentype () >= Token::TTPAR__LAST) || bToBeIgnored)
             {
                 bToBeIgnored = false;

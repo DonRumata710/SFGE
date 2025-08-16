@@ -30,7 +30,7 @@
 #pragma once
 
 
-#include "Config.h"
+#include <SFGE/Config.h>
 
 #include <string>
 #include <exception>
@@ -72,7 +72,7 @@ namespace sfge
     ///
     /// @param message - description of error
     /////////////////////////////////////////////////////////////////////
-    #define runtime_message(msg) log::log(__FILE__, std::to_string ( __LINE__), msg);
+    #define runtime_message(msg) log::log(__FILE__, std::to_string (__LINE__), msg);
 
     /////////////////////////////////////////////////////////////////////
     /// debug_message inform about some event which can be importaint for debugging

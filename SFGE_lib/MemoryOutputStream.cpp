@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "MemoryOutputStream.h"
+#include <SFGE/MemoryOutputStream.h>
 
 #include <cstring>
 

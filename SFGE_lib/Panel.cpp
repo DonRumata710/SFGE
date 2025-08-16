@@ -27,10 +27,10 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Panel.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
-#include "Err.h"
+#include <SFGE/Panel.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Color.hpp>

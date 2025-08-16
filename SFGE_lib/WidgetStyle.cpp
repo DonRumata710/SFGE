@@ -27,9 +27,9 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "WidgetStyle.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
+#include <SFGE/WidgetStyle.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
 
 
 using namespace sfge;

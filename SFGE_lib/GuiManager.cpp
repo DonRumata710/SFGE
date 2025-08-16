@@ -27,16 +27,16 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "GuiManager.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
+#include <SFGE/GuiManager.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include <iostream>
 #include <cstring>
 
-#include "Err.h"
+#include <SFGE/Err.h>
 
 
 

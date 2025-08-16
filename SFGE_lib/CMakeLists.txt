@@ -73,11 +73,25 @@ foreach(header ${UTILITY_HEADERS})
     LIST(APPEND HEADERS ${SFGE_INCLUDE_DIR}${header}.h)
 endforeach()
 
-include_directories(${SFGE_INCLUDE_DIR} ${SFML_ROOT}/include ${ZLIB_ROOT} ${MINIZIP_ROOT})
+add_library(${LIBRARY_NAME} SHARED ${SOURCES} ${HEADERS})
 
-if (WIN32)
-    add_definitions(-DSFML_STATIC)
-    add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})
+target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+target_link_libraries(${LIBRARY_NAME} PUBLIC sfml-system sfml-window sfml-graphics sfml-audio minizip)
+
+if(BUILD_STATIC_LIB)
+    target_compile_definitions(${LIBRARY_NAME} PUBLIC
+        EXPORT_${LIBRARY_NAME}=
+    )
+elseif(WIN32)
+    target_compile_definitions(${LIBRARY_NAME} PRIVATE
+        EXPORT_${LIBRARY_NAME}=__declspec\(dllexport\)
+    )
+    target_compile_definitions(${LIBRARY_NAME} INTERFACE
+        EXPORT_${LIBRARY_NAME}=__declspec\(dllimport\)
+    )
 else()
-    add_library(${LIBRARY_NAME} SHARED ${SOURCES} ${HEADERS})
+    target_compile_definitions(${LIBRARY_NAME} PUBLIC
+        EXPORT_${LIBRARY_NAME}=__attribute__\(\(visibility\(\"default\"\)\)\)
+    )
 endif()

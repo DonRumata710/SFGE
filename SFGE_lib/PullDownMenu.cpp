@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "PullDownMenu.h"
-#include "MenuItem.h"
+#include <SFGE/PullDownMenu.h>
+#include <SFGE/MenuItem.h>
 
 
 using namespace sfge;

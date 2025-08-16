@@ -30,8 +30,8 @@
 #pragma once
 
 
-#include "Config.h"
-#include "ResourceInputStream.h"
+#include <SFGE/Config.h>
+#include <SFGE/ResourceInputStream.h>
 
 #include <string>
 #include <cstdint>

@@ -111,7 +111,7 @@ namespace sfge
         ///
         /// @param stream - stream of resources
         /////////////////////////////////////////////////////////////////////
-        void setResourceStream (std::unique_ptr<iResourceInputStream>& stream);
+        void setResourceStream (std::unique_ptr<iResourceInputStream>&& stream);
 
         /////////////////////////////////////////////////////////////////////
         /// loadScript - loading resources from script

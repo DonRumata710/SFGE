@@ -12,13 +12,8 @@ add_executable(${APPLICATION_NAME} ${SOURCES})
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules" ${CMAKE_MODULE_PATH})
 
-find_package(SFML 2 REQUIRED system window graphics audio)
-if(NOT SFML_FOUND)
-    message(FATAL_ERROR "SFML wasn't found")
-endif()
-
 include_directories(${SFML_INCLUDE_DIR})
-target_link_libraries(${APPLICATION_NAME} SFGE ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} minizip zlib)
+target_link_libraries(${APPLICATION_NAME} SFGE Catch2::Catch2)
 
 if(WIN32)
     configure_file(${CMAKE_SOURCE_DIR}/${APPLICATION_NAME}/OpenAL32.dll ${CMAKE_BINARY_DIR}/${APPLICATION_NAME}/OpenAL32.dll COPYONLY)

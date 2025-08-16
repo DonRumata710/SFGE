@@ -27,12 +27,12 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Button.h"
-#include "Animation.h"
-#include "GuiManager.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
-#include "Err.h"
+#include <SFGE/Button.h>
+#include <SFGE/Animation.h>
+#include <SFGE/GuiManager.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
+#include <SFGE/Err.h>
 
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>

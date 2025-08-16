@@ -27,10 +27,10 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "CheckBox.h"
-#include "GuiManager.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
+#include <SFGE/CheckBox.h>
+#include <SFGE/GuiManager.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 

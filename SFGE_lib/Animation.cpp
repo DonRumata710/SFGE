@@ -27,9 +27,9 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "Animation.h"
-#include "GEDevice.h"
-#include "ResourceManager.h"
+#include <SFGE/Animation.h>
+#include <SFGE/GEDevice.h>
+#include <SFGE/ResourceManager.h>
 
 #include <SFML/Graphics/Texture.hpp>
 

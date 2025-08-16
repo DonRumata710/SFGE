@@ -27,8 +27,8 @@
 /////////////////////////////////////////////////////////////////////
 
 
-#include "ArchiveManager.h"
-#include "Err.h"
+#include <SFGE/ArchiveManager.h>
+#include <SFGE/Err.h>
 
 #include <unzip.h>
 

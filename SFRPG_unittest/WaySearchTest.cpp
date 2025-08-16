@@ -32,7 +32,7 @@
 #include <SFRPG/Way.h>
 #include <SFRPG/StaticObject.h>
 
-#include <catch.hpp>
+#include <catch2/catch_all.hpp>
 
 
 using namespace sfge;

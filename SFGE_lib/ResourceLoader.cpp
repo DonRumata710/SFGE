@@ -28,14 +28,13 @@
 
 
 #include "ResourceLoader.h"
-#include "ResourceParser.h"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-#include "Animation.h"
-#include "File.h"
+#include <SFGE/Animation.h>
+#include <SFGE/File.h>
 
 #include <algorithm>
 
